@@ -1618,7 +1618,7 @@ function moveSort(i,j){ if(j<0||j>=st.sorts.length||i===j) return; const [o]=st.
   async function permState(){ try{ return (await navigator.permissions.query({name:"microphone"})).state; }catch(_){ return "unknown"; } }
   /* 1) poproś o mikrofon natywnym okienkiem przeglądarki, 2) słuchaj */
   async function go(){
-    if(rec){ rec.stop(); return; }
+    if(rec){ if(sess&&sess.finish) sess.finish(); else rec.stop(); return; }
     if(busy) return; busy=true;
     try{
       /* podgląd w ramce bez prawa do mikrofonu: przeglądarka nie pokaże tu pytania – od razu otwieramy zwykłą kartę, gdzie pytanie wyskoczy przy adresie */
@@ -1638,18 +1638,38 @@ function moveSort(i,j){ if(j<0||j>=st.sorts.length||i===j) return; const [o]=st.
       hideHelp(); listen();
     } finally { busy=false; }
   }
+  /* Dyktowanie trwa, dopóki nie zapadnie SILENCE ms ciszy (domyślnie przeglądarka kończy już po ok. 1 s pauzy) */
+  const SILENCE=5000;
+  let sess=null;
   function listen(){
     if(rec) return;
-    try{ rec=new SR(); }catch(_){ cmpMsg("Ta przeglądarka nie obsługuje dyktowania."); return; }
-    rec.lang="pl-PL"; rec.interimResults=true; rec.continuous=false; rec.maxAlternatives=1; got=false;
-    rec.onstart=()=>{ btn.classList.add("rec"); btn.setAttribute("aria-label","Zatrzymaj dyktowanie"); q.value=""; q.placeholder="Mów… np. „oled 77 cali do 10 tysięcy”"; };
-    rec.onresult=e=>{ let t=""; for(let i=0;i<e.results.length;i++) t+=e.results[i][0].transcript; t=t.trim(); if(!t) return; got=true;
-      q.value=t; q.dispatchEvent(new Event("input",{bubbles:true})); };
-    rec.onerror=e=>{
-      if(e.error==="not-allowed"||e.error==="service-not-allowed"){ showHelp(inFrame?"frame":"denied"); return; }
-      const m={"no-speech":"Nic nie usłyszałem – kliknij mikrofon i spróbuj jeszcze raz.","audio-capture":"Nie znaleziono mikrofonu.","network":"Dyktowanie wymaga połączenia z internetem."}[e.error]; if(m) cmpMsg(m); };
-    rec.onend=()=>{ btn.classList.remove("rec"); btn.setAttribute("aria-label","Podyktuj zapytanie"); q.placeholder=PH; rec=null; if(got) q.focus(); };
-    try{ rec.start(); }catch(_){ rec=null; }
+    sess={base:"", text:"", timer:null, done:false};
+    q.value=""; got=false;
+    const arm=()=>{ clearTimeout(sess.timer); sess.timer=setTimeout(()=>finish(),SILENCE); };
+    const finish=()=>{ if(!sess||sess.done) return; sess.done=true; clearTimeout(sess.timer); try{ rec&&rec.stop(); }catch(_){ } };
+    sess.finish=finish;
+    const startOne=()=>{
+      let r; try{ r=new SR(); }catch(_){ cmpMsg("Ta przeglądarka nie obsługuje dyktowania."); sess=null; return; }
+      rec=r; r.lang="pl-PL"; r.interimResults=true; r.continuous=true; r.maxAlternatives=1;
+      r.onstart=()=>{ btn.classList.add("rec"); btn.setAttribute("aria-label","Zakończ dyktowanie"); q.placeholder="Mów… (koniec po 5 s ciszy lub kliknij 🎤)"; };
+      r.onspeechstart=arm;
+      r.onresult=e=>{ let t=""; for(let i=0;i<e.results.length;i++) t+=e.results[i][0].transcript; sess.text=t.trim();
+        const all=(sess.base+" "+sess.text).replace(/\s+/g," ").trim(); arm(); if(!all) return; got=true;
+        q.value=all; q.dispatchEvent(new Event("input",{bubbles:true})); };
+      r.onerror=e=>{
+        if(e.error==="not-allowed"||e.error==="service-not-allowed"){ sess.done=true; showHelp(inFrame?"frame":"denied"); return; }
+        if(e.error==="no-speech"||e.error==="aborted") return;
+        const m={"audio-capture":"Nie znaleziono mikrofonu.","network":"Dyktowanie wymaga połączenia z internetem."}[e.error]; if(m){ sess.done=true; cmpMsg(m); } };
+      r.onend=()=>{
+        /* przeglądarka sama przerwała (np. limit czasu) – wznawiamy, dopóki nie minie 5 s ciszy */
+        if(sess&&!sess.done){ sess.base=(sess.base+" "+sess.text).trim(); sess.text=""; try{ startOne(); return; }catch(_){ } }
+        btn.classList.remove("rec"); btn.setAttribute("aria-label","Podyktuj zapytanie"); q.placeholder=PH; rec=null;
+        if(sess){ clearTimeout(sess.timer); } sess=null;
+        if(got){ q.focus(); } else cmpMsg("Nic nie usłyszałem – kliknij mikrofon i spróbuj jeszcze raz.");
+      };
+      try{ r.start(); }catch(_){ rec=null; sess=null; }
+    };
+    startOne(); if(sess) arm();
   }
   btn.addEventListener("click",go);
   /* otwarte z „Otwórz w nowej karcie i mów” – od razu prosimy o mikrofon */
