@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Porównywarka TV 65″+</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Plan: arkusz specyfikacji w duchu karty katalogowej – grafit + morski akcent, liczby w mono; układ: nagłówek → filtry → 3 typy → tabela → porównanie → metoda */
+:root{
+  --ai:#6d4aff; --ai-2:#d4479a;
+  --bg:#f3f5f7; --surface:#ffffff; --surface-2:#eef2f5; --ink:#15212c; --muted:#5a6976; --line:#d8dfe5;
+  --accent:#0b6e8a; --accent-ink:#ffffff; --accent-soft:#dff0f5;
+  --good:#1d7a4b; --good-soft:#e1f3e9; --warn:#9a5c00; --warn-soft:#fbf0dc; --bad:#b3261e; --bad-soft:#fbe6e4;
+  --font-display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ai:#a68cff; --ai-2:#f07ab8;
+    --bg:#0e141a; --surface:#151f28; --surface-2:#1b2732; --ink:#e5ecf1; --muted:#93a3b0; --line:#263442;
+    --accent:#52c3dc; --accent-ink:#04212a; --accent-soft:#123340;
+    --good:#5cc78f; --good-soft:#123425; --warn:#e6a43f; --warn-soft:#3a2a10; --bad:#f0736b; --bad-soft:#3d1b19;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ai:#a68cff; --ai-2:#f07ab8;
+  --bg:#0e141a; --surface:#151f28; --surface-2:#1b2732; --ink:#e5ecf1; --muted:#93a3b0; --line:#263442;
+  --accent:#52c3dc; --accent-ink:#04212a; --accent-soft:#123340;
+  --good:#5cc78f; --good-soft:#123425; --warn:#e6a43f; --warn-soft:#3a2a10; --bad:#f0736b; --bad-soft:#3d1b19;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5}
+.wrap{max-width:1440px;margin:0 auto;padding:24px clamp(16px,3vw,32px) 48px;display:grid;gap:20px}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(26px,3.2vw,36px);font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+.num,.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+header.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
+header.top p{margin:6px 0 0;max-width:72ch;color:var(--muted)}
+.presets{display:flex;gap:8px;flex-wrap:wrap}
+button,.chip{font:inherit;cursor:pointer}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;border-radius:8px;font-weight:500}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px}
+.controls{display:grid;gap:16px;grid-template-columns:minmax(220px,1.3fr) repeat(3,minmax(170px,1fr))}
+.ctl{display:grid;gap:8px;align-content:start;min-width:0}
+.ctl>*{min-width:0}
+.ctl label.lbl,.ctl .lbl{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+input[type="search"]{width:100%;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface-2);color:var(--ink);padding:5px 11px;border-radius:999px;font-size:13.5px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.toggles{display:grid;gap:6px}
+.toggles label{display:flex;gap:8px;align-items:center;font-size:14px;cursor:pointer}
+.toggles input{accent-color:var(--accent);width:16px;height:16px}
+input[type="range"]{width:100%;accent-color:var(--accent)}
+.dual{position:relative;height:28px;margin-top:2px}
+.dual .dtrack{position:absolute;left:8px;right:8px;top:12px;height:5px;border-radius:99px;background:var(--line)}
+.dual .dtrack i{position:absolute;top:0;bottom:0;background:var(--accent);border-radius:99px}
+.dual input[type=range]{position:absolute;left:0;top:0;width:100%;height:28px;margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none}
+.dual input[type=range]::-webkit-slider-runnable-track{background:transparent;height:28px}
+.dual input[type=range]::-moz-range-track{background:transparent}
+.dual input[type=range]::-webkit-slider-thumb{pointer-events:auto;-webkit-appearance:none;width:18px;height:18px;margin-top:5px;border-radius:50%;background:var(--accent);border:2px solid var(--surface);box-shadow:0 0 0 1px var(--accent);cursor:pointer}
+.dual input[type=range]::-moz-range-thumb{pointer-events:auto;width:16px;height:16px;border-radius:50%;background:var(--accent);border:2px solid var(--surface);cursor:pointer}
+.hrow{align-items:center;gap:6px;margin-bottom:6px}
+.hpre{margin-bottom:12px}
+.hrow input.pn{width:78px}
+.hrow input[type=number]{width:66px;padding:3px 5px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font:inherit;font-size:13px}
+.hpre{display:flex;gap:4px;flex-wrap:wrap}
+.chipb{font-size:12px;padding:2px 7px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chipb:hover{border-color:var(--accent)}
+.rangeRow{display:flex;justify-content:space-between;font-size:13px}
+.weights{display:grid;gap:6px}
+.weights .w{display:grid;grid-template-columns:96px 1fr 44px;gap:8px;align-items:center;font-size:13.5px}
+.weights .w output{text-align:right}
+.linkbtn{background:none;border:0;color:var(--accent);padding:0;font-size:13px;text-decoration:underline;justify-self:start}
+
+.msrow{display:grid;gap:8px;grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:560px){.msrow{grid-template-columns:1fr}}
+details.ms{position:relative}
+details.ms summary{list-style:none;cursor:pointer;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:6px 30px 6px 10px;display:grid;gap:1px;position:relative}
+details.ms summary::-webkit-details-marker{display:none}
+details.ms summary::after{content:"▾";position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted)}
+details.ms[open] summary{border-color:var(--accent)}
+details.ms .msv{font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msbox{position:absolute;z-index:5;left:0;top:calc(100% + 4px);min-width:100%;width:max-content;max-width:280px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px;display:grid;gap:2px;box-shadow:0 8px 24px rgb(0 0 0 / .15)}
+.msbox label{display:flex;gap:8px;align-items:center;padding:5px 6px;border-radius:6px;cursor:pointer;font-size:14px}
+.msbox label:hover{background:var(--surface-2)}
+.msbox input{accent-color:var(--accent);width:16px;height:16px}
+.msbox .cnt{margin-left:auto;color:var(--muted);font-family:var(--font-mono);font-size:12px}
+.msact{display:flex;gap:12px;padding:2px 6px 6px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.hiddenNote{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tests{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.tests li{font-size:13.5px;border-left:3px solid var(--accent);padding-left:10px}
+.tests a{color:var(--accent);font-weight:600}
+.ytl{display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px}
+.ytl a{color:var(--accent)}
+.extl{color:var(--accent);white-space:nowrap;text-decoration:none}.extl:hover{text-decoration:underline}
+.hdb{display:inline-block;font-size:12px;line-height:1.3;padding:2px 7px;border-radius:999px;text-decoration:none;white-space:nowrap}
+.hd-top{background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good);font-weight:600}
+.hd-test{background:var(--surface-2);color:var(--ink)}
+.tpills{display:flex;flex-wrap:wrap;gap:4px;max-width:230px}
+.tpill{font-size:12px;padding:2px 7px;border-radius:999px;border:1px solid var(--line);color:var(--accent);text-decoration:none;white-space:nowrap}
+.tpill:hover{border-color:var(--accent)}
+.tmore{font-size:12px;color:var(--muted);padding:2px 4px}
+.hbar{position:fixed;bottom:0;z-index:30;display:none;align-items:center;gap:6px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(6px);border-top:1px solid var(--line);box-shadow:0 -4px 14px rgb(0 0 0 / .12)}
+.hbar.on{display:flex}
+.htrack{position:relative;flex:1;height:14px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);touch-action:none;cursor:pointer}
+.hthumb{position:absolute;top:1px;bottom:1px;left:0;border-radius:999px;background:var(--accent);opacity:.75;cursor:grab;touch-action:none}
+.hthumb.drag,.hthumb:hover{opacity:1}.hthumb.drag{cursor:grabbing}
+.hbtn{flex:none;width:34px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:18px;line-height:1;cursor:pointer}
+td.gcon{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+thead th.gcon{background:color-mix(in srgb,var(--accent) 9%,var(--surface-2))}
+.wzbox{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:4px 0 12px;background:var(--surface)}
+.wzr{display:grid;grid-template-columns:150px 1fr 34px;gap:8px;align-items:center;font-size:13px;padding:2px 0}
+.wzb{height:7px;border-radius:99px;background:var(--surface-2);overflow:hidden}.wzb i{display:block;height:100%;border-radius:99px}
+.wzr b{text-align:right;font-weight:600}
+.mfr{font-size:11.5px;color:var(--muted);white-space:nowrap}
+.hmode{display:flex;gap:4px;margin:2px 0 4px}
+.hmode button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.datastamp{font-size:13.5px;margin:-4px 0 12px;color:var(--muted)}.datastamp b{color:var(--ink)}
+.sortrows{display:grid;gap:6px}
+.srow{display:flex;gap:6px;align-items:center;min-width:0}
+.srow select{flex:1;min-width:0}
+.snum{font-size:12px;color:var(--muted);width:16px}
+.sdir{width:32px;padding-left:0;padding-right:0;flex:none}
+.srow{gap:4px!important}
+.sgrip{flex:none;width:14px;color:var(--muted);cursor:grab;font-size:13px;letter-spacing:-3px;user-select:none;text-align:center}
+.sgrip.off{cursor:default}
+.smv{display:flex;flex:none}
+@media (pointer:fine){.smv{display:none}}
+.smb{width:26px;padding-left:0;padding-right:0;font-size:10px}
+.smb:disabled{opacity:.35;cursor:default}
+.sdel{width:28px;padding-left:0;padding-right:0;flex:none;font-size:17px;line-height:1;color:var(--muted)}
+.sdel:hover{color:#c0392b;border-color:#c0392b}
+.srow.sdrag{opacity:.45}
+.srow.sover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:2px;border-radius:8px}
+.sbadge{margin-left:3px;font-size:11px;color:var(--accent);font-weight:700}
+.aisearch{display:grid;gap:9px;padding:12px 12px 11px;border-radius:14px;border:2px solid transparent;
+  background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(120deg,var(--accent),var(--ai) 55%,var(--ai-2)) border-box;
+  box-shadow:0 10px 28px -14px color-mix(in srgb,var(--ai) 70%,transparent)}
+.aihead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ailbl{color:var(--ink)!important;font-size:13px!important}
+.aibadge{font:700 11px/1 var(--font-mono);letter-spacing:.08em;padding:5px 9px;border-radius:999px;color:#fff;
+  background:linear-gradient(120deg,var(--accent),var(--ai) 60%,var(--ai-2));box-shadow:0 0 0 3px color-mix(in srgb,var(--ai) 16%,transparent),0 2px 10px -2px color-mix(in srgb,var(--ai) 60%,transparent);
+  background-size:200% 100%;animation:aishine 6s ease-in-out infinite}
+@keyframes aishine{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+.aisub{font-size:12.5px;color:var(--muted)}
+.aifield{position:relative}
+.michelp{margin-top:10px;padding:12px 14px;border-radius:10px;border:1px solid color-mix(in srgb,var(--ai) 45%,var(--line));background:color-mix(in srgb,var(--ai) 8%,var(--surface));font-size:14px;line-height:1.45}
+.michelp p{margin:6px 0 10px}
+.mhb{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.mhb a.btn{text-decoration:none;display:inline-flex;align-items:center}
+kbd{font:600 12px/1 ui-monospace,monospace;padding:2px 6px;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;background:var(--surface)}
+.mhgo{background:var(--ai);border-color:var(--ai);color:#fff;font-weight:600}
+.micbtn.micpulse{box-shadow:0 0 0 6px color-mix(in srgb,var(--ai) 30%,transparent)}
+
+.aifield.hasmic #q{padding-right:52px}
+.micbtn{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ai);display:grid;place-items:center;cursor:pointer;padding:0;transition:background .15s,color .15s,box-shadow .15s}
+.micbtn svg{position:static!important;transform:none!important;width:20px!important;height:20px!important;color:inherit!important}
+.micbtn:hover{background:color-mix(in srgb,var(--ai) 12%,var(--surface))}
+.micbtn.rec{background:#d93025;border-color:#d93025;color:#fff;animation:micp 1.2s ease-in-out infinite}
+@keyframes micp{0%,100%{box-shadow:0 0 0 0 rgba(217,48,37,.45)}50%{box-shadow:0 0 0 8px rgba(217,48,37,0)}}
+@media (prefers-reduced-motion:reduce){.micbtn.rec{animation:none}}
+.aifield svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:19px;height:19px;color:var(--ai);pointer-events:none}
+.aisearch #q{width:100%;font:inherit;font-size:16px;padding:12px 12px 12px 40px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);transition:box-shadow .15s,border-color .15s,background .15s}
+.aisearch #q::placeholder{color:color-mix(in srgb,var(--muted) 85%,transparent)}
+.aisearch #q:focus{outline:none;border-color:var(--ai);background:var(--surface);box-shadow:0 0 0 4px color-mix(in srgb,var(--ai) 20%,transparent)}
+.aiex{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;color:var(--muted)}
+.aisearch.hasq .aiex{display:none}
+.nlzero{color:var(--warn);font-weight:600}
+.aiexl{margin-right:2px}
+.aichip{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px dashed color-mix(in srgb,var(--ai) 50%,var(--line));background:transparent;color:var(--ink);border-radius:999px;padding:3px 10px;font-size:12.5px}
+.aichip:hover,.aichip:focus-visible{border-style:solid;border-color:var(--ai);background:color-mix(in srgb,var(--ai) 8%,transparent);outline:none}
+#nlAI{border:0;color:#fff;background:linear-gradient(120deg,var(--accent),var(--ai));padding:3px 10px;font-weight:600}
+#nlAI:hover{filter:brightness(1.08)}
+.nlbox{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-size:12.5px;margin-top:2px}.nlbox:empty{display:none}
+.nlc{padding:2px 8px;border-radius:99px;background:color-mix(in srgb,var(--accent) 14%,var(--surface));border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));white-space:nowrap}
+.nlu{color:var(--muted);text-decoration:line-through}
+button.nlc{font:inherit;font-size:12.5px;color:var(--ink);cursor:pointer}button.nlc:hover{border-color:var(--accent)}.nloff{opacity:.55;text-decoration:line-through}
+.pricebox{display:grid;gap:4px;margin-top:14px}
+.hlbox{display:grid;gap:8px;padding:11px 12px;border-radius:14px;border:2px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(120deg,var(--accent),var(--ai) 55%,var(--ai-2)) border-box;box-shadow:0 10px 28px -16px color-mix(in srgb,var(--ai) 65%,transparent)}
+.aisearch+.nlbox+.hlbox,.nlbox+.hlbox{margin-top:4px}
+.plink{font-size:12px;color:var(--accent);white-space:nowrap}
+.pick .k,.legend .k{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+#perSize{gap:6px 18px}
+.picks{display:grid;gap:12px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.pick{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.pick .k{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.pick .n{font-family:var(--font-display);font-size:19px;font-weight:700}
+.pick .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px}
+.pick button{justify-self:start}
+
+thead th[draggable=true]{cursor:grab}
+thead th button{overflow:hidden;text-overflow:ellipsis}
+thead th.dragging{opacity:.45}
+thead th.dropL{box-shadow:inset 3px 0 0 var(--accent)}
+thead th.dropR{box-shadow:inset -3px 0 0 var(--accent)}
+.rz{position:absolute;top:0;right:0;width:8px;height:100%;cursor:col-resize;z-index:3;touch-action:none}
+.rz:hover,body.resizing .rz{background:color-mix(in srgb,var(--accent) 30%,transparent)}
+body.resizing{cursor:col-resize;user-select:none}
+.colsm{margin-left:auto}.colsm .msbox{left:auto;right:0;max-width:320px;max-height:70vh;overflow:auto}
+.colrow{display:flex;align-items:center;gap:4px}.colrow label{flex:1}.colrow .chipb:disabled{opacity:.35;cursor:default}
+.colhint{margin:6px 6px 0;font-size:12px;max-width:290px}
+.fhead{position:fixed;top:0;z-index:30;overflow:hidden;display:none;background:var(--surface-2);box-shadow:0 3px 8px rgb(0 0 0 / .14);border-bottom:1px solid var(--line)}
+.fhead table{border-collapse:separate;border-spacing:0;font-size:14px;min-width:0;table-layout:fixed}
+.fhead thead th{position:static}.fhead th.sticky{position:relative;z-index:2;background:var(--surface-2)}
+.fhead .rz{display:none}
+#tbody tr.row{cursor:pointer}
+body.panning,body.panning *{cursor:grabbing!important;user-select:none!important}
+.tablehead{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:1180px;font-size:14px}
+thead th{position:sticky;top:0;background:var(--surface-2);text-align:left;font-weight:600;font-size:12.5px;color:var(--muted);padding:0;border-bottom:1px solid var(--line);white-space:nowrap;z-index:1}
+thead th button{all:unset;cursor:pointer;display:block;padding:10px 10px;width:100%;box-sizing:border-box}
+thead th button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+thead th button[data-active="true"]{color:var(--ink)}
+thead th.r button{text-align:right}
+tbody td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr.row{cursor:pointer}
+tbody tr.row:hover td{background:var(--surface-2)}
+tbody tr.row[aria-expanded="true"] td{background:var(--accent-soft)}
+td.r,th.r{text-align:right}
+td.model{min-width:250px}
+.sticky{position:sticky;left:0;background:var(--surface);z-index:1}
+thead .sticky{background:var(--surface-2);z-index:2}
+.mname{font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:3px}
+.tag{font-size:11.5px;padding:1px 7px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.tag.size{background:var(--ink);color:var(--surface);border-color:var(--ink);font-weight:600}
+.tag.over{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+.tag.est{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.score{display:inline-block;min-width:48px;text-align:center;padding:3px 8px;border-radius:6px;font-family:var(--font-mono);font-weight:500}
+.s-na{color:var(--muted)}
+.s-hi{background:var(--good-soft);color:var(--good)}
+.s-mid{background:var(--warn-soft);color:var(--warn)}
+.s-lo{background:var(--bad-soft);color:var(--bad)}
+.nit{display:grid;gap:3px;min-width:96px}
+.bar{position:relative;height:6px;border-radius:3px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;border-radius:3px}
+.bar b{position:absolute;top:-1px;bottom:-1px;width:2px;background:var(--ink);opacity:.55}
+.ok{color:var(--good)} .ko{color:var(--warn)} .na{color:var(--muted)}
+.matte{display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.cmpbox{width:16px;height:16px;accent-color:var(--accent)}
+.rank{color:var(--muted);font-family:var(--font-mono)}
+.detail td{background:var(--surface-2);padding:16px}
+.dgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));position:sticky;left:16px;max-width:min(1340px,calc(100vw - 96px))}
+.dgrid dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px}
+.dgrid dt{color:var(--muted)}
+.dgrid dd{margin:0}
+.pc{display:grid;gap:8px;font-size:14px}
+.pc p{margin:0}
+.pc .plus{border-left:3px solid var(--good);padding-left:10px}
+.pc .minus{border-left:3px solid var(--bad);padding-left:10px}
+.pc .note{border-left:3px solid var(--warn);padding-left:10px;color:var(--muted)}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+
+.cmp{display:grid;gap:12px}
+.cmp table{min-width:640px}
+.cmp tbody th{text-align:left;font-weight:500;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface-2)}
+.cmp td{padding:8px 10px;border-bottom:1px solid var(--line)}
+.cmp td.best{color:var(--good);font-weight:600}
+#cmpToast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink,#222);color:var(--surface,#fff);padding:10px 16px;border-radius:10px;font-size:14px;box-shadow:0 6px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60;max-width:90vw;text-align:center}
+#cmpToast.on{opacity:1;transform:translate(-50%,0)}
+.method{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));font-size:14px}
+.method p,.method ul{margin:0 0 8px}
+.method ul{padding-left:18px}
+.method a{color:var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted)}
+
+@media (max-width: 1050px){
+  .controls{grid-template-columns:1fr 1fr}
+  .picks{grid-template-columns:1fr}
+}
+@media (max-width: 560px){
+  .controls{grid-template-columns:1fr}
+  header.top{align-items:flex-start}
+}
+@media (max-width: 640px){
+  td.model{min-width:0;width:132px;max-width:132px}
+  .mname{font-size:13.5px;line-height:1.25}
+  .model .tags .tag{font-size:10.5px;padding:1px 6px}
+  .model .tags .tag:not(.size):not(.over):not(.est){display:none}
+  td,th button{padding-left:8px!important;padding-right:8px!important}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+<style id="colW"></style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <h1>Porównywarka telewizorów 65″ i większych</h1>
+    <p>Mini LED, RGB Mini LED i OLED dostępne w Polsce. Ceny z Ceneo (najniższa oferta, przy cenie link do ofert), oceny i pomiary z polskiego laboratorium wybierz.tv (to samo co choose.tv), werdykty z testów HDTVPolska, w szczegółach linki do testów laboratoryjnych i recenzji. Kliknij wiersz, żeby zobaczyć pełną specyfikację.</p>
+  </div>
+  <div class="datastamp" id="dataStamp">Ceny i lista modeli z dnia <b id="stampDate">11.11.2026</b> · <button type="button" class="linkbtn" id="refreshData">Odśwież dane</button> <span class="muted" id="refreshMsg"></span></div>
+</header>
+
+<section class="panel controls" aria-label="Filtry i wagi">
+  <div class="ctl">
+    <div class="aisearch" id="aiBox">
+      <div class="aihead"><label class="lbl ailbl" for="q">Szukaj</label><span class="aibadge" title="Wyszukiwarka rozumie zwykłe zdania po polsku. Przycisk „Zapytaj AI” korzysta z Claude.">✦ AI</span><span class="aisub">inteligentne wyszukiwanie · pisz normalnie, jak do sprzedawcy</span></div>
+      <div class="aifield">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l1.8 5.6L19.5 9.5l-5.7 1.9L12 17l-1.8-5.6L4.5 9.5l5.7-1.9zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9zM5 15l.6 1.7 1.7.6-1.7.6L5 19.6l-.6-1.7-1.7-.6 1.7-.6z"/></svg>
+        <input id="q" type="search" placeholder="np. najtańsze do grania na konsoli oled do 8 tys" autocomplete="off">
+        <button type="button" id="micBtn" class="micbtn" hidden aria-label="Podyktuj zapytanie" title="Podyktuj zapytanie (mikrofon)"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11z"/></svg></button>
+      </div>
+      <div class="aiex" id="aiEx"></div>
+    </div>
+    <div class="nlbox" id="nlBox" aria-live="polite"></div>
+    <div class="hlbox">
+      <div class="aihead"><span class="lbl ailbl">Zawęź wybór</span><span class="aisub">przekątna, technologia, marka</span></div>
+      <div class="msrow">
+        <div id="ms_size"></div>
+        <div id="ms_tech"></div>
+        <div id="ms_brand"></div>
+      </div>
+    </div>
+  </div>
+  <div class="ctl">
+    <span class="lbl">Wymagania</span>
+    <div class="toggles">
+      <label><input type="checkbox" id="fMatte"> Ekran matowy lub półmat (≥ 7/10)</label>
+      <label><input type="checkbox" id="f4k144"> Gry: min. 144 Hz w 4K</label>
+      <label><input type="checkbox" id="fHdp"> „Bardzo polecamy” w HDTVPolska</label>
+    </div>
+    <span class="lbl" id="hdrLbl">Jasność HDR (nit)</span>
+    <div class="hmode"><button type="button" class="chipb" data-hm="pf" aria-pressed="true">w scenach filmowych</button><button type="button" class="chipb" data-hm="pp" aria-pressed="false">szczyt (pomiar lab.)</button></div>
+    <div class="dual" role="group" aria-labelledby="hdrLbl">
+      <div class="dtrack"><i id="dfill"></i></div>
+      <input id="hMin" type="range" min="0" max="2500" step="50" value="0" aria-label="Jasność HDR od">
+      <input id="hMax" type="range" min="0" max="2500" step="50" value="2500" aria-label="Jasność HDR do">
+    </div>
+    <div class="rangeRow hrow">
+      <label>od <input id="hMinN" class="num" type="number" min="0" max="2500" step="50" value="0"></label>
+      <label>do <input id="hMaxN" class="num" type="number" min="0" max="2500" step="50" value="2500"></label>
+    </div>
+    <div class="hpre" id="hpre"></div>
+  </div>
+  <div class="ctl">
+    <span class="lbl">Wagi wyniku (Twoje priorytety)</span>
+    <div class="weights" id="weights"></div>
+    <button class="linkbtn" id="resetW" type="button">Przywróć wagi 40 / 25 / 20 / 15</button>
+    <div class="pricebox">
+    <span class="lbl" id="prLbl">Cena (zł)</span>
+    <div class="dual" role="group" aria-labelledby="prLbl">
+      <div class="dtrack"><i id="pfill"></i></div>
+      <input id="pMin" type="range" min="2000" max="50000" step="250" value="2000" aria-label="Cena od">
+      <input id="pMax" type="range" min="2000" max="50000" step="250" value="50000" aria-label="Cena do">
+    </div>
+    <div class="rangeRow hrow">
+      <label>od <input id="pMinN" class="num pn" type="number" min="2000" max="50000" step="250" value="2000"></label>
+      <label>do <input id="pMaxN" class="num pn" type="number" min="2000" max="50000" step="250" value="50000"></label>
+    </div>
+    <div class="hpre"><button type="button" class="chipb" data-pp="8000">do 8 000</button><button type="button" class="chipb" data-pp="12000">do 12 000</button><button type="button" class="chipb" data-pp="15000">do 15 000</button><button type="button" class="chipb" data-pp="25000">do 25 000</button><button type="button" class="chipb" data-pp="50000">wszystkie</button></div>
+    </div>
+  </div>
+  <div class="ctl">
+    <span class="lbl">Sortowanie</span>
+    <div id="sortRows" class="sortrows"></div>
+    <p class="muted" style="margin:2px 0 0;font-size:12.5px">Kolejne kryterium decyduje tylko przy remisie w poprzednim. Kolejność zmienisz, przeciągając za <b>⋮⋮</b> (na telefonie strzałkami ▲▼); <b>×</b> usuwa kryterium. Najlepiej działa, gdy pierwsze to grupa (przekątna, technologia, marka, matowość, Hz). W tabeli: klik w nagłówek = sortuj tylko po nim, <b>Shift</b> / <b>Ctrl</b> + klik = dodaj jako kolejne kryterium.</p>
+    
+  </div>
+</section>
+
+<section aria-labelledby="picksH" style="display:grid;gap:10px">
+  <h2 id="picksH">Najlepsze propozycje w bieżących filtrach</h2>
+  <p class="muted" style="margin:0;font-size:13.5px">Karty przeliczają się po każdej zmianie filtrów, wag, marki i technologii.</p>
+  <div class="picks" id="picks"></div>
+  <div class="legend" id="perSize" style="font-size:14px;color:var(--ink)"></div>
+</section>
+
+<section style="display:grid;gap:10px" aria-labelledby="tblH">
+  <div class="tablehead">
+    <h2 id="tblH">Wszystkie modele</h2>
+    <span class="muted" id="count"></span>
+    <details class="ms colsm"><summary><span class="lbl">Kolumny</span><span class="msv" id="colsSum">wszystkie</span></summary><div class="msbox" id="colsList"></div></details>
+  </div>
+  <div class="legend">
+    <span id="thrLeg"></span>
+    <span>SDR: zielony ≥ 800 nit (bardzo jasny pokój)</span>
+    <span>Jasność wszędzie w nitach: <b>1 nit = 1 cd/m²</b> (to ta sama jednostka)</span>
+    <span><span class="tag est">oceny serii</span> pomiary z innej przekątnej tej samej serii</span>
+    <span>Hz: <b>4K natywnie</b> = matryca w 3840×2160; <b>PC</b> = maks. z komputera w 2560×1440 / 1920×1080 (* tryb DLG / Game Accelerator); <b>Konsola</b> = PS5, PS5 Pro, Xbox Series X – maks. 120 Hz, 4K 120 Hz tylko przez HDMI 2.1</span>
+    <span id="cmpLeg">Zaznacz „Porównaj” przy 2–5 modelach</span>
+  </div>
+  <div class="tablebox" id="tblBox">
+    <table id="tbl">
+      <thead><tr id="thead"></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel cmp" id="cmpSec" aria-labelledby="cmpH" hidden>
+  <div class="tablehead">
+    <h2 id="cmpH">Porównanie wybranych</h2>
+    <button class="linkbtn" id="cmpClear" type="button">Wyczyść porównanie</button>
+  </div>
+  <div class="tablebox"><table id="cmpTbl"></table></div>
+</section>
+
+<section class="panel" aria-labelledby="mH">
+  <h2 id="mH" style="margin-bottom:12px">Jak liczony jest wynik i skąd są dane</h2>
+  <div class="method">
+    <div>
+      <p><strong>Wynik ważony</strong> to średnia ocen 1–10: Filmy UHD (jakość obrazu), Jasny pokój, Matowość ekranu i Dźwięk. Domyślne wagi 40/25/20/15 odpowiadają kolejności priorytetów: obraz z jasnością, matowy ekran, dźwięk. Suwaki zmieniają wynik na żywo.</p>
+      <p><strong>Jakość za złotówkę</strong> to wynik ważony podzielony przez cenę w tysiącach złotych.</p>
+      <p><strong>Matowość</strong> to ocena własna na podstawie testów: 10 matowy Glare-Free, 9 matowy z utratą efektu pod kątem, 7 satynowy półmat, 5 błyszczący z dobrą warstwą AR, 4 błyszczący lub brak danych, 3 błyszczący ze słabym AR.</p>
+    </div>
+    <div>
+      <p><strong>Odświeżanie w grach.</strong> 4K to tryb natywny panelu. 1440p i 1080p to maksimum z PC; wyższe wartości (np. 288 lub 330 Hz) działają w trybie DLG/Game Accelerator z obniżoną rozdzielczością pionową. Konsole PS5 i Xbox Series X wysyłają maksymalnie 120 Hz, więc dla nich każdy model z HDMI 2.1 i 120 Hz wystarczy.</p>
+      <p><strong>Pomiary jasności</strong> to szczyt HDR w scenach filmowych (realne treści), a w szczegółach także szczyt na wzorcu testowym, który jest zwykle znacznie wyższy.</p>
+      <p><strong>Ceny</strong> to najniższe oferty z Ceneo z 11.11.2026; najniższa bywa w mniej znanym sklepie lub na Allegro, dlatego w szczegółach podaję też ceny dużych sieci. Oznaczenie „do sprawdzenia” to cena z listingu lub sprzed kilku tygodni. Przed Black Friday ceny zmieniają się codziennie.</p>
+    </div>
+    <div>
+      <p><strong>Źródła</strong></p>
+      <ul>
+        <li><a href="https://www.wybierz.tv/telewizory/testy" rel="noopener">wybierz.tv</a> (polska wersja choose.tv): oceny i pomiary, link przy każdym modelu</li>
+        <li><a href="https://hdtvpolska.com/category/testy/" rel="noopener">HDTVPolska</a>: werdykty z testów laboratoryjnych</li>
+        <li><a href="https://www.rtings.com/tv" rel="noopener">RTINGS</a>, <a href="https://hdtvpolska.com" rel="noopener">HDTVPolska</a>, Tom's Guide, TechRadar, What Hi-Fi?, Expert Reviews, netzwelt.de: testy laboratoryjne (linki w szczegółach modelu)</li>
+        <li><a href="https://www.ceneo.pl" rel="noopener">Ceneo</a> (ceny 11.11.2026), <a href="https://www.okazje.info.pl" rel="noopener">okazje.info.pl</a>, <a href="https://www.x-kom.pl" rel="noopener">x-kom</a>, <a href="https://www.euro.com.pl" rel="noopener">RTV Euro AGD</a>, <a href="https://mediamarkt.pl" rel="noopener">MediaMarkt</a>, <a href="https://www.neonet.pl" rel="noopener">Neonet</a>, <a href="https://www.pepper.pl" rel="noopener">Pepper</a>: ceny</li>
+        <li>Strony producentów (Hisense, TCL, Samsung, LG, Sony): odświeżanie, HDMI</li>
+      </ul>
+      <div class="muted" id="outNote"></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+// m: matowość 1–10, sd: dźwięk, mv: filmy UHD, br: jasny pokój, ov: ogólna (choose.tv)
+// pf: szczyt HDR w filmach (nit), pp: szczyt na wzorcu; h4/h14/h10: maks. Hz w 4K / 1440p / 1080p
+const TV = [
+{id:"h85ur8s",n:"Hisense 85UR8S",b:"Hisense",s:85,t:"RGB Mini LED",tl:"RGB Mini LED (2026)",p:12999.99,ps:"Media Expert 12 999,99 zł; Ceneo od 12 995 zł",pf:1452,pp:2200,ct:"Matowa Anti-Reflection & Glare-Free, tłumienie odbić bardzo dobre",m:10,ss:"2.1.2 Devialet, 50 W, subwoofer z tyłu",sd:7.8,mv:7.4,br:9.5,ov:8.2,pn:"VA",z:"936 (zmierzone na 65″; w 85″ więcej)",sdr:1468,bt:"93,9% / 74,2%",va:5.5,h4:180,h14:180,h10:330,hn:"330 Hz w 1080p (DLG, tylko PC)",hd:"4× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"VIDAA",pro:"Najlepszy matowy ekran w budżecie, bardzo jasny SDR (~1500 nit), 4× HDMI 2.1, 180 Hz.",con:"Małe jasne detale na ciemnym tle mocno przygaszane (~200 nit); część recenzji słabsza w realnych treściach; VIDAA ma mniej aplikacji."},
+{id:"s85b7",n:"Sony Bravia 7 II K-85XR75M2",b:"Sony",s:85,t:"RGB Mini LED",tl:"RGB Mini LED True RGB (2026)",p:13999,ps:"RTV Euro AGD / MediaMarkt 13 999 zł (07.11.2026)",pf:1715,pp:2000,ct:"Satynowa (półmat), tłumienie odbić dobre",m:7,ss:"Acoustic Multi-Audio, ok. 40 W",sd:7.8,mv:8.0,br:9.0,ov:8.4,pn:"VA",z:"432 (zmierzone na 65″)",sdr:1247,bt:"87,3% / 78,2%",va:5.7,h4:120,h14:120,h10:120,hn:"Bez trybów powyżej 120 Hz",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision, HDR10, HLG (bez HDR10+)",os:"Google TV",pro:"Najlepsza obróbka obrazu i upscaling, najbardziej filmowy i wierny obraz, bardzo niski input lag.",con:"Tylko 2× HDMI 2.1 (jedno z eARC), 120 Hz, mało stref, ekran nie w pełni matowy."},
+{id:"t85c8l",n:"TCL 85C8L",b:"TCL",s:85,t:"Mini LED",tl:"SQD Mini LED (2026)",p:10999,ps:"e-katalog od 10 999 zł; Media Expert 10 999–11 999 zł",pf:1728,pp:4500,ct:"Błyszcząca z warstwą AR, tłumienie przeciętne",m:5,ss:"Bang & Olufsen 2.1, 60 W, woofer",sd:8.1,mv:7.7,br:10,ov:8.3,pn:"VA (WHVA 2.0 Ultra)",z:"3200",sdr:1651,bt:"90% / 90%",va:4.5,h4:144,h14:288,h10:288,hn:"Game Accelerator 288 Hz w 1080p/1440p (HDMI 1–2, wg RTINGS dla bliźniaczego QM8K)",hd:"4× HDMI 2.1 (288 Hz na HDMI 1–2)",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"Google TV",pro:"Najwięcej stref, najwyższa jasność, najszersza paleta barw i najlepszy dźwięk w zestawieniu.",con:"Ekran błyszczący, wąskie kąty widzenia, domyślnie rozjaśnia obraz, lekkie halo."},
+{id:"s85qn92f",n:"Samsung QE85QN92F (= QN90F)",b:"Samsung",s:85,t:"Mini LED",tl:"Neo QLED Mini LED (2025)",p:13999,ps:"MediaMarkt 13 999 zł / Ole Ole! 13 998,99 zł",pf:1947,pp:null,ct:"Matowa Glare-Free 2.0, praktycznie brak odbić",m:10,ss:"2.2, 40 W, OTS+",sd:7.8,mv:7.8,br:7.2,ov:7.9,pn:"VA",z:"504",sdr:null,bt:"73,3% (film)",va:null,h4:165,h14:165,h10:165,hn:"Bez DLG",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Najlepsza powłoka matowa, szersze kąty widzenia, najjaśniejszy w filmach, 4× HDMI 2.1 165 Hz.",con:"Model 2025, ostatnie sztuki; brak Dolby Vision; węższa paleta barw; mniej stref."},
+{id:"h85u8q",n:"Hisense 85U8Q",b:"Hisense",s:85,t:"Mini LED",tl:"QD Mini LED (2025)",p:8999,ps:"x-kom 8 999 zł (chwilowo niedostępny)",pf:1652,pp:2195,ct:"Błyszcząca z AR, odbicia światła dziennego widoczne",m:4,ss:"Devialet, Dolby Atmos",sd:7.8,mv:7.8,br:8.2,ov:8.0,pn:"VA",z:"2048",sdr:null,bt:"81% (wzorzec)",va:null,h4:165,h14:165,h10:288,hn:"288 Hz w 1080p (dane sklepowe)",hd:"HDMI 2.1 (sprawdź liczbę w ofercie)",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"VIDAA",pro:"Bardzo dobry kontrast i HDR, dużo stref, niska cena.",con:"Model 2025 o ograniczonej dostępności; ekran nie matowy."},
+{id:"t85rm7l",n:"TCL 85RM7L",b:"TCL",s:85,t:"RGB Mini LED",tl:"RGB Mini LED (2026)",p:8999,ps:"e-katalog / Media Expert od 8 999 zł",pf:1413,pp:1600,ct:"Błyszcząca, tłumienie odbić słabe",m:3,ss:"Onkyo 2.1, 40 W",sd:7.8,mv:7.4,br:7.8,ov:7.8,pn:"VA (HVA Pro)",z:"720 rzeczywistych (2160 „stref kolorów”)",sdr:959,bt:"86,7% / 83,8%",va:4.5,h4:144,h14:144,h10:144,hn:"Tryb DLG niepotwierdzony",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"Google TV",pro:"Najtańszy RGB Mini LED 85″, bardzo dobry kontrast, wierne barwy.",con:"Mało stref, ekran błyszczący, tylko 2× HDMI 2.1, jasność tuż nad progiem 1300."},
+{id:"h85u7sp",n:"Hisense 85U7S Pro",b:"Hisense",s:85,t:"Mini LED",tl:"QD Mini LED (2026)",p:8399,ps:"Ole Ole! 8 399 zł",pf:1104,pp:2200,ct:"Matowa (jak w UR9S), słabnie przy patrzeniu z boku",m:9,ss:"2.1.2 Devialet",sd:7.8,mv:7.3,br:8.1,ov:7.8,pn:"VA",z:"1512",sdr:null,bt:"81,5% (wzorzec)",va:null,h4:165,h14:165,h10:330,hn:"330 Hz w 1080p (DLG, tylko PC)",hd:"4× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"VIDAA",pro:"Matowy ekran za najniższą cenę, 4× HDMI 2.1, 165 Hz.",con:"W scenach filmowych ok. 1100 nit; słabszy kontrast i kąty."},
+{id:"t85c7l",n:"TCL 85C7L",b:"TCL",s:85,t:"Mini LED",tl:"SQD Mini LED (2026)",p:8999,ps:"e-katalog od 8 999 zł",pf:1236,pp:2800,ct:"Błyszcząca, tłumienie odbić słabe",m:3,ss:"Bang & Olufsen 2.2",sd:7.7,mv:7.2,br:8.8,ov:7.8,pn:"VA (HVA 2.0 Pro)",z:"1624",sdr:1327,bt:"90,4% / 90,5%",va:3.7,h4:144,h14:288,h10:288,hn:"Game Accelerator 288 Hz w 1080p/1440p",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"Google TV",pro:"Szeroka paleta barw, bardzo jasny, tani.",con:"Ekran błyszczący, najsłabsze kąty widzenia, dźwięk traci dynamikę powyżej ~50% głośności."},
+{id:"h85ur9s",n:"Hisense 85UR9S",b:"Hisense",s:85,t:"RGB Mini LED",tl:"RGB Mini LED (2026)",p:16999.99,ps:"Media Expert ok. 16 999,99 zł; w innych krajach UE od ok. 2 939 € (Alza AT), więc polska cena może jeszcze spaść",pf:1719,pp:2600,ct:"Matowa Anti-Reflection & Glare-Free, tłumienie odbić bardzo dobre",m:10,ss:"4.1.2 Devialet, 90 W",sd:7.8,mv:7.9,br:9.9,ov:8.4,pn:"VA",z:"1056 (zmierzone na 65″)",sdr:1639,bt:"92,9% / 81,1%",va:5.6,h4:180,h14:180,h10:330,hn:"330 Hz w 1080p (DLG, tylko PC)",hd:"3× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"VIDAA",pro:"Najlepszy matowy RGB Mini LED, najwyższa ocena w jasnym pokoju, najmocniejszy dźwięk Hisense.",con:"W rozmiarze 85″ ponad budżet; drobne jasne detale w ciemnych scenach przygaszane."},
+{id:"s85r85h",n:"Samsung MRE85R85H Micro RGB",b:"Samsung",s:85,t:"RGB Mini LED",tl:"Micro RGB (2026)",p:16899,ps:"Ole Ole! / x-kom 16 899 zł",pf:758,pp:null,ct:"Antyrefleksyjna (brak oceny w teście)",m:4,ss:"Dolby Atmos, OTS",sd:7.1,mv:7.3,br:7.3,ov:7.7,pn:"VA",z:null,sdr:null,bt:null,va:null,h4:144,h14:144,h10:240,hn:"240 Hz w 1080p (DLG, tylko PC)",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Micro RGB, szeroka paleta barw.",con:"Ponad budżet; w filmach maks. ok. 760 nit."},
+{id:"s85qn85f",n:"Samsung QE85QN85F",b:"Samsung",s:85,t:"Mini LED",tl:"Neo QLED Mini LED (2025)",p:7190,ps:"Sferis od 7 190 zł; MediaMarkt 10 999 zł",pf:1248,pp:null,ct:"Błyszcząca (bez Glare-Free)",m:4,ss:"Dolby Atmos, OTS",sd:7.6,mv:7.3,br:6.9,ov:7.6,pn:"VA",z:"240",sdr:null,bt:"69,8% (film)",va:null,h4:144,h14:144,h10:144,hn:"Bez DLG",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Bardzo niska cena, dobry dźwięk, 4× HDMI 2.1.",con:"Mało stref, wąska paleta barw, poniżej 1300 nit."},
+{id:"s85qn80h",n:"Samsung QE85QN80H",b:"Samsung",s:85,t:"Mini LED",tl:"Neo QLED Mini LED (2026)",p:8999,ps:"Ole Ole! / x-kom 8 999 zł; MediaMarkt 12 599 zł",pf:703,pp:null,ct:"Błyszcząca",m:4,ss:"30 W, Dolby Atmos",sd:7.1,mv:7.0,br:5.8,ov:7.3,pn:"VA",z:"110",sdr:null,bt:null,va:null,h4:144,h14:144,h10:240,hn:"240 Hz w 1080p (DLG, tylko PC)",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Dobry do gier, 4× HDMI 2.1.",con:"Za ciemny (ok. 700 nit), tylko 110 stref."},
+{id:"x85smini",n:"Xiaomi TV S Mini LED 85 2026",b:"Xiaomi",s:85,t:"Mini LED",tl:"QD Mini LED (2026)",p:5899,ps:"Ole Ole! 5 899 zł; x-kom 6 299 zł",pf:1079,pp:null,ct:"Błyszcząca",m:3,ss:"Dolby Atmos, DTS:X",sd:5.0,mv:7.1,br:7.5,ov:7.1,pn:"VA",z:"640",sdr:null,bt:null,va:null,h4:144,h14:144,h10:144,hn:"Bez DLG",hd:"2× HDMI 2.1 + 1× HDMI 2.0",hdr:"Dolby Vision, HDR10+, HLG",os:"Google TV",pro:"Najtańszy 85″ w zestawieniu, dobry kontrast.",con:"Najsłabszy dźwięk, ok. 1000 nit, tylko 3 HDMI."},
+{id:"l86mrgb",n:"LG 86MRGB87B6B Mini RGB evo",b:"LG",s:86,t:"RGB Mini LED",tl:"Mini RGB evo (2026)",p:11999,ps:"MediaMarkt / RTV Euro AGD 11 999 zł",pf:null,pp:null,ct:"Brak danych o powłoce",m:4,ss:"Dolby Atmos",sd:6.4,mv:6.2,br:6.1,ov:6.9,pn:"VA",z:null,sdr:null,bt:null,va:null,h4:144,h14:144,h10:144,hn:"Matryca 144 Hz (wybierz.tv)",hd:"3× HDMI",hdr:"Dolby Vision, HDR10, HLG",os:"webOS",pro:"Duże 86″, szeroka paleta barw.",con:"Słaby kontrast i jasność.",dn:"Oceny dla bliźniaczego MRGB85B."},
+{id:"l86qned",n:"LG 86QNED86B6B",b:"LG",s:86,t:"Mini LED",tl:"QNED Mini LED (2026)",p:8999,ps:"Neonet 8 999 zł",pf:null,pp:null,ct:"Brak danych o powłoce",m:4,ss:"brak danych",sd:6.0,mv:6.4,br:5.8,ov:7.0,pn:"IPS",z:null,sdr:null,bt:null,va:null,h4:144,h14:144,h10:144,hn:"Brak danych o DLG",hd:"HDMI 2.1",hdr:"Dolby Vision, HDR10, HLG",os:"webOS",pro:"Szerokie kąty widzenia (IPS), cena.",con:"Słaby kontrast i jasność.",dn:"Oceny dla poprzednika QNED86A."},
+{id:"p85mled",n:"Philips 85MLED910",b:"Philips",s:85,t:"Mini LED",tl:"Mini LED (2025)",p:6999,ps:"x-kom 6 999 zł",pf:null,pp:null,ct:"Brak danych o powłoce",m:4,ss:"Dolby Atmos",sd:6.2,mv:6.4,br:5.5,ov:6.5,pn:"VA",z:null,sdr:null,bt:null,va:null,h4:120,h14:144,h10:144,hn:"144 Hz w trybie VRR",hd:"HDMI 2.1",hdr:"Dolby Vision, HDR10+",os:"Titan OS",pro:"Ambilight, cena.",con:"Słaba ocena ogólna i słaby w jasnym pokoju."},
+{id:"l83c5",n:"LG OLED83C5",b:"LG",s:83,t:"OLED",tl:"OLED WOLED (2025)",p:12090,ps:"e-katalog od 12 090 zł; Ceneo 14 995 zł",pf:1120,pp:null,ct:"Błyszcząca, tłumienie odbić przeciętne",m:5,ss:"2.2, 40 W",sd:7.2,mv:8.5,br:6.2,ov:8.2,pn:"OLED",z:"każdy piksel",sdr:null,bt:"73%",va:7.4,h4:144,h14:144,h10:144,hn:"Bez DLG",hd:"4× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10, HLG",os:"webOS",pro:"Idealna czerń, świetny obraz filmowy, szerokie kąty, 4× HDMI 2.1.",con:"Ok. 1100 nit, ekran błyszczący."},
+{id:"l83b6",n:"LG OLED83B65LA",b:"LG",s:83,t:"OLED",tl:"OLED WOLED (2026)",p:14999,ps:"x-kom / Media Expert 14 999 zł",pf:804,pp:null,ct:"Błyszcząca",m:4,ss:"2.0",sd:6.7,mv:8.0,br:4.8,ov:7.8,pn:"OLED",z:"każdy piksel",sdr:null,bt:null,va:null,h4:120,h14:120,h10:120,hn:"Bez trybów powyżej 120 Hz",hd:"4× HDMI 2.1",hdr:"Dolby Vision, HDR10, HLG",os:"webOS",pro:"Idealna czerń.",con:"Za ciemny do jasnego pokoju (ok. 800 nit)."},
+{id:"l83b5",n:"LG OLED83B5",b:"LG",s:83,t:"OLED",tl:"OLED WOLED (2025)",p:11499,ps:"Media Expert 11 499 zł (02.10.2026)",pf:null,pp:null,ct:"Błyszcząca",m:4,ss:"2.2",sd:7.0,mv:7.9,br:4.9,ov:7.8,pn:"OLED",z:"każdy piksel",sdr:null,bt:null,va:null,h4:120,h14:120,h10:120,hn:"Bez trybów powyżej 120 Hz",hd:"HDMI 2.1",hdr:"Dolby Vision, HDR10, HLG",os:"webOS",pro:"Najtańszy OLED 83″ LG.",con:"Najciemniejszy (ok. 600 nit wg testu B6)."},
+{id:"s83s90f",n:"Samsung QE83S90F (WOLED)",b:"Samsung",s:83,t:"OLED",tl:"OLED WOLED (2025)",p:15999,ps:"x-kom 15 999 zł (11.2026); w lipcu ok. 10 056 zł, warto czekać na promocję",pf:1252,pp:null,ct:"Błyszcząca, tłumienie odbić przeciętne",m:5,ss:"2.1, Dolby Atmos",sd:7.4,mv:8.3,br:6.1,ov:8.2,pn:"OLED",z:"każdy piksel",sdr:405,bt:"70,1%",va:7.4,h4:144,h14:144,h10:144,hn:"Bez DLG",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Dobry OLED 83″, ok. 1250 nit, 4× HDMI 2.1.",con:"Obecna cena ponad budżet; ekran błyszczący; brak Dolby Vision."},
+{id:"s83s85f",n:"Samsung QE83S85F",b:"Samsung",s:83,t:"OLED",tl:"OLED WOLED (2025)",p:13999,ps:"RTV Euro AGD 13 999 zł (02.10.2026)",pf:null,pp:null,ct:"Błyszcząca",m:4,ss:"Dolby Atmos",sd:7.2,mv:7.9,br:5.3,ov:7.9,pn:"OLED",z:"każdy piksel",sdr:null,bt:null,va:null,h4:120,h14:120,h10:120,hn:"Bez trybów powyżej 120 Hz",hd:"HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Idealna czerń.",con:"Ciemny i błyszczący."},
+{id:"y83b6",n:"Sony Bravia 6 A65",b:"Sony",s:83,t:"OLED",tl:"OLED WOLED (2026)",p:12999,ps:"Media Expert 12 999 zł (02.10.2026)",pf:null,pp:null,ct:"Błyszcząca",m:4,ss:"Dolby Atmos",sd:7.0,mv:7.5,br:4.6,ov:7.4,pn:"OLED",z:"każdy piksel",sdr:null,bt:null,va:null,h4:120,h14:120,h10:120,hn:"Bez trybów powyżej 120 Hz",hd:"HDMI 2.1",hdr:"Dolby Vision, HDR10, HLG",os:"Google TV",pro:"Obróbka obrazu Sony, Google TV.",con:"Najsłabszy w jasnym pokoju."},
+{id:"l77c6",n:"LG OLED77C64LA (C6 Tandem)",b:"LG",s:77,t:"OLED",tl:"OLED Tandem RGB (2026)",p:12999,ps:"RTV Euro AGD / MediaMarkt 12 999 zł; x-kom 11 749 zł w promocji",pf:2300,pp:null,ct:"Błyszcząca",m:5,ss:"2.2, Dolby Atmos",sd:7.0,mv:8.4,br:7.6,ov:8.4,pn:"OLED",z:"każdy piksel",sdr:null,bt:null,va:null,h4:165,h14:165,h10:165,hn:"Bez DLG",hd:"4× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10, HLG",os:"webOS",pro:"Najjaśniejszy OLED w budżecie (ok. 1650–2300 nit w filmach), idealna czerń, 165 Hz.",con:"Ekran błyszczący."},
+{id:"l77c5",n:"LG OLED77C5",b:"LG",s:77,t:"OLED",tl:"OLED WOLED (2025)",p:8799,ps:"e-katalog od 8 799 zł; Media Expert 10 499 zł",pf:1120,pp:null,ct:"Błyszcząca, tłumienie odbić przeciętne",m:5,ss:"2.2, 40 W",sd:7.2,mv:8.5,br:6.2,ov:8.2,pn:"OLED",z:"każdy piksel",sdr:null,bt:"73%",va:7.4,h4:144,h14:144,h10:144,hn:"Bez DLG",hd:"4× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10, HLG",os:"webOS",pro:"Świetny obraz filmowy za niską cenę.",con:"Ok. 1100 nit, błyszczący.",dn:"Pomiary z wersji 83″.",est:true},
+{id:"l77b6",n:"LG OLED77B6",b:"LG",s:77,t:"OLED",tl:"OLED WOLED (2026)",p:9999,ps:"Media Expert 9 999 zł (02.10.2026); x-kom 10 999 zł",pf:804,pp:null,ct:"Błyszcząca",m:4,ss:"2.0",sd:6.7,mv:8.0,br:4.8,ov:7.8,pn:"OLED",z:"każdy piksel",sdr:null,bt:null,va:null,h4:120,h14:120,h10:120,hn:"Bez trybów powyżej 120 Hz",hd:"4× HDMI 2.1",hdr:"Dolby Vision, HDR10, HLG",os:"webOS",pro:"Idealna czerń, cena.",con:"Za ciemny do jasnego pokoju (ok. 800 nit)."},
+{id:"l77b5",n:"LG OLED77B5",b:"LG",s:77,t:"OLED",tl:"OLED WOLED (2025)",p:9499,ps:"Media Expert 9 499 zł (02.10.2026)",pf:null,pp:null,ct:"Błyszcząca",m:4,ss:"2.2",sd:7.0,mv:7.9,br:4.9,ov:7.8,pn:"OLED",z:"każdy piksel",sdr:null,bt:null,va:null,h4:120,h14:120,h10:120,hn:"Bez trybów powyżej 120 Hz",hd:"HDMI 2.1",hdr:"Dolby Vision, HDR10, HLG",os:"webOS",pro:"Najtańszy OLED 77″ LG.",con:"Najciemniejszy."},
+{id:"s77s90h",n:"Samsung QE77S90H (QD-OLED)",b:"Samsung",s:77,t:"OLED",tl:"OLED QD-OLED (2026)",p:10499,ps:"Komputronik 10 499 zł (promocja); cena katalogowa 15 499 zł",pf:1470,pp:1650,ct:"Matowa Glare-Free, tłumienie odbić bardzo dobre; w mocnym świetle czerń może wpadać w wiśniowy odcień (cecha QD-OLED)",m:9,ss:"2.1.2, Dolby Atmos",sd:8.4,mv:9.0,br:6.4,ov:8.6,pn:"OLED",z:"każdy piksel",sdr:486,bt:null,va:null,h4:165,h14:165,h10:165,hn:"Bez DLG",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Jedyny matowy OLED w budżecie, ok. 1470 nit w filmach, świetny do gier, dobry dźwięk.",con:"Brak Dolby Vision i DTS:X; w bardzo jasnym pokoju czerń jaśnieje (jasny pokój 6,4).",dn:"Test choose.tv wersji 77″ QD-OLED; mniejsze rozmiary S90H mają panel WOLED."},
+{id:"s77s90f",n:"Samsung QE77S90F",b:"Samsung",s:77,t:"OLED",tl:"OLED (2025)",p:10479,ps:"x-kom 10 479 zł; w promocjach bywał ok. 6 700 zł",pf:null,pp:null,ct:"Błyszcząca",m:5,ss:"2.1, Dolby Atmos",sd:7.4,mv:8.3,br:6.1,ov:8.2,pn:"OLED",z:"każdy piksel",sdr:null,bt:null,va:null,h4:144,h14:144,h10:144,hn:"Bez DLG",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Dobra cena, 4× HDMI 2.1.",con:"Błyszczący.",dn:"Oceny z wersji 83″; panel 77″ może się różnić.",est:true},
+{id:"s77s85h",n:"Samsung QE77S85H",b:"Samsung",s:77,t:"OLED",tl:"OLED (2026)",p:12999,ps:"x-kom 12 999 zł",pf:null,pp:null,ct:"Błyszcząca",m:4,ss:"Dolby Atmos",sd:7.2,mv:8.0,br:5.1,ov:7.9,pn:"OLED",z:"każdy piksel",sdr:null,bt:null,va:null,h4:120,h14:120,h10:120,hn:"Matryca 120 Hz (wybierz.tv)",hd:"HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Idealna czerń, 165 Hz.",con:"Ciemny w jasnym pokoju."},
+{id:"y77b6",n:"Sony Bravia 6 A65",b:"Sony",s:77,t:"OLED",tl:"OLED WOLED (2026)",p:10999,ps:"Media Expert 10 999 zł (02.10.2026)",pf:null,pp:null,ct:"Błyszcząca",m:4,ss:"Dolby Atmos",sd:7.0,mv:7.5,br:4.6,ov:7.4,pn:"OLED",z:"każdy piksel",sdr:null,bt:null,va:null,h4:120,h14:120,h10:120,hn:"Bez trybów powyżej 120 Hz",hd:"HDMI 2.1",hdr:"Dolby Vision, HDR10, HLG",os:"Google TV",pro:"Obróbka obrazu Sony, Google TV.",con:"Najsłabszy w jasnym pokoju."},
+
+/* ---------- 75″ ---------- */
+{id:"h75ur9s",n:"Hisense 75UR9S",b:"Hisense",s:75,t:"RGB Mini LED",tl:"RGB Mini LED (2026)",p:11999,ps:"RTV Euro AGD / Komputronik / Neonet 11 999 zł; w październiku Ole Ole! 9 681 zł, Media Expert 9 999 zł",pf:1719,pp:2600,ct:"Matowa Anti-Reflection & Glare-Free, tłumienie odbić bardzo dobre",m:10,ss:"4.1.2 Devialet, 90 W",sd:7.8,mv:7.9,br:9.9,ov:8.4,pn:"VA",z:"ok. 1000+",sdr:1639,bt:"92,9% / 81,1%",va:5.6,h4:180,h14:180,h10:330,hn:"330 Hz w 1080p (DLG, tylko PC)",hd:"3× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"VIDAA",pro:"Flagowy matowy RGB Mini LED w budżecie; w 75″ tańszy o ok. 5 000 zł niż 85″.",con:"Cena wahała się od 9 681 do 11 999 zł; warto polować na promocję.",dn:"Oceny i pomiary serii UR9S (testowane 65″).",est:true},
+{id:"h75ur8s",n:"Hisense 75UR8S",b:"Hisense",s:75,t:"RGB Mini LED",tl:"RGB Mini LED (2026)",p:null,ps:"Media Expert: promocja „kino domowe za 1 zł” (Pepper, 11.2026); dokładna cena w PL do sprawdzenia. W UE ok. 2 059–2 109 €",pf:1452,pp:2200,ct:"Matowa Anti-Reflection & Glare-Free, tłumienie odbić bardzo dobre",m:10,ss:"2.1.2 Devialet, 50 W",sd:7.8,mv:7.4,br:9.5,ov:8.2,pn:"VA",z:"b.d. dla 75″",sdr:1468,bt:"93,9% / 74,2%",va:5.5,h4:180,h14:180,h10:330,hn:"330 Hz w 1080p (DLG, tylko PC)",hd:"4× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"VIDAA",pro:"Matowy RGB Mini LED, 180 Hz, 4× HDMI 2.1.",con:"Brak potwierdzonej ceny w PL; słabszy w drobnych detalach HDR niż UR9S.",dn:"Oceny i pomiary serii UR8S (testowane 65″).",est:true},
+{id:"s75b7",n:"Sony Bravia 7 II K-75XR75M2",b:"Sony",s:75,t:"RGB Mini LED",tl:"RGB Mini LED True RGB (2026)",p:11999,ps:"MediaMarkt 11 999 zł (−1 100 zł w koszyku)",pf:1715,pp:2000,ct:"Satynowa (półmat), tłumienie odbić dobre",m:7,ss:"Acoustic Multi-Audio",sd:7.8,mv:8.0,br:9.0,ov:8.4,pn:"VA",z:"b.d. dla 75″",sdr:1247,bt:"87,3% / 78,2%",va:5.7,h4:120,h14:120,h10:120,hn:"Bez trybów powyżej 120 Hz",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision, HDR10, HLG (bez HDR10+)",os:"Google TV",pro:"Najbardziej filmowy obraz i najlepsza obróbka w zestawieniu.",con:"Tylko 2× HDMI 2.1, 120 Hz.",dn:"Oceny i pomiary serii (testowane 65″).",est:true},
+{id:"t75c8l",n:"TCL 75C8L",b:"TCL",s:75,t:"Mini LED",tl:"SQD Mini LED (2026)",p:8499,ps:"Media Expert 8 499 zł",pf:1728,pp:4500,ct:"Błyszcząca z warstwą AR, tłumienie przeciętne",m:5,ss:"Bang & Olufsen 2.1, 60 W",sd:8.1,mv:7.7,br:10,ov:8.3,pn:"VA (WHVA 2.0 Ultra)",z:"2584",sdr:1651,bt:"90% / 90%",va:4.5,h4:144,h14:288,h10:288,hn:"Game Accelerator 288 Hz w 1080p/1440p (HDMI 1–2)",hd:"4× HDMI 2.1 (288 Hz na HDMI 1–2)",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"Google TV",pro:"Najjaśniejszy i najlepiej grający 75″, dużo stref, rozsądna cena.",con:"Ekran błyszczący, wąskie kąty widzenia.",dn:"Oceny i pomiary serii C8L.",est:true},
+{id:"s75qn90f",n:"Samsung QE75QN90F (≈ QN92F)",b:"Samsung",s:75,t:"Mini LED",tl:"Neo QLED Mini LED (2025)",p:7124,ps:"QE75QN90F od 7 124 zł; QE75QN92F x-kom 10 999 zł",pf:1947,pp:null,ct:"Matowa Glare-Free 2.0 (sprawdź oznaczenie w ofercie)",m:10,ss:"2.2, 40 W, OTS+",sd:7.8,mv:7.8,br:7.2,ov:7.9,pn:"VA",z:"b.d. dla 75″",sdr:null,bt:"73,3% (film)",va:null,h4:165,h14:165,h10:165,hn:"Bez DLG",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Matowy, bardzo jasny w filmach, 165 Hz na 4× HDMI 2.1, świetna cena.",con:"Model 2025; brak Dolby Vision; węższa paleta barw.",dn:"Oceny i pomiary QN92F 85″.",est:true},
+{id:"s75r86h",n:"Samsung MRE75R86H Micro RGB",b:"Samsung",s:75,t:"RGB Mini LED",tl:"Micro RGB (2026)",p:12339,ps:"x-kom 12 339 zł",pf:758,pp:null,ct:"Antyrefleksyjna (brak oceny w teście)",m:4,ss:"Dolby Atmos, OTS",sd:7.1,mv:7.3,br:7.3,ov:7.7,pn:"VA",z:null,sdr:null,bt:null,va:null,h4:144,h14:144,h10:240,hn:"240 Hz w 1080p (DLG, tylko PC)",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Micro RGB, szeroka paleta barw.",con:"Drogi jak na wyniki; w filmach ok. 760 nit.",dn:"Oceny R85H 85″ (bliźniacza seria).",est:true},
+{id:"h75u7sp",n:"Hisense 75U7S Pro",b:"Hisense",s:75,t:"Mini LED",tl:"QD Mini LED (2026)",p:6499,ps:"RTV Euro AGD / Ole Ole! 6 499 zł",pf:1104,pp:2200,ct:"Matowa, słabnie przy patrzeniu z boku",m:9,ss:"2.1.2 Devialet",sd:7.8,mv:7.3,br:8.1,ov:7.8,pn:"VA",z:"b.d. dla 75″",sdr:null,bt:"81,5% (wzorzec)",va:null,h4:165,h14:165,h10:330,hn:"330 Hz w 1080p (DLG, tylko PC)",hd:"4× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"VIDAA",pro:"Matowy ekran i 165 Hz za ok. 6,5 tys. zł.",con:"W filmach ok. 1100 nit; słabszy kontrast.",dn:"Oceny serii U7S Pro (85″).",est:true},
+{id:"t75c7l",n:"TCL 75C7L",b:"TCL",s:75,t:"Mini LED",tl:"SQD Mini LED (2026)",p:6999,ps:"ok. 6 999 zł",pf:1236,pp:2800,ct:"Błyszcząca, tłumienie odbić słabe",m:3,ss:"Bang & Olufsen 2.2",sd:7.7,mv:7.2,br:8.8,ov:7.8,pn:"VA (HVA 2.0 Pro)",z:"b.d. dla 75″",sdr:1327,bt:"90,4% / 90,5%",va:3.7,h4:144,h14:288,h10:288,hn:"Game Accelerator 288 Hz w 1080p/1440p",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"Google TV",pro:"Szeroka paleta barw, jasny.",con:"Ekran błyszczący, słabe kąty widzenia.",dn:"Oceny serii C7L (85″).",est:true},
+{id:"t75rm7l",n:"TCL 75RM7L",b:"TCL",s:75,t:"RGB Mini LED",tl:"RGB Mini LED (2026)",p:6999,ps:"ok. 6 999 zł",pf:1413,pp:1600,ct:"Błyszcząca, tłumienie odbić słabe",m:3,ss:"Onkyo 2.1, 40 W",sd:7.8,mv:7.4,br:7.8,ov:7.8,pn:"VA (HVA Pro)",z:"b.d. dla 75″",sdr:959,bt:"86,7% / 83,8%",va:4.5,h4:144,h14:144,h10:144,hn:"Tryb DLG niepotwierdzony",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"Google TV",pro:"Najtańszy RGB Mini LED 75″.",con:"Błyszczący, mało stref.",dn:"Oceny serii RM7L (85″).",est:true},
+{id:"s75qn85f",n:"Samsung QE75QN85F",b:"Samsung",s:75,t:"Mini LED",tl:"Neo QLED Mini LED (2025)",p:5666,ps:"ok. 5 666 zł (najtańsza oferta)",pf:1248,pp:null,ct:"Błyszcząca (bez Glare-Free)",m:4,ss:"Dolby Atmos, OTS",sd:7.6,mv:7.3,br:6.9,ov:7.6,pn:"VA",z:"b.d. dla 75″",sdr:null,bt:"69,8% (film)",va:null,h4:144,h14:144,h10:144,hn:"Bez DLG",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Tani, dobry dźwięk, 4× HDMI 2.1.",con:"Mało stref, poniżej 1300 nit.",dn:"Oceny QN85F 85″.",est:true},
+{id:"h75u8q",n:"Hisense 75U8Q",b:"Hisense",s:75,t:"Mini LED",tl:"QD Mini LED (2025)",p:3999,ps:"RTV Euro AGD 3 999 zł w Black Friday (Pepper, cena przed obniżką 7 599 zł; także stacjonarnie); x-kom / Neonet 7 999 zł",pf:1652,pp:2195,ct:"Błyszcząca z AR, odbicia światła dziennego widoczne",m:4,ss:"4.1.2, 80 W, Dolby Atmos",sd:7.8,mv:7.8,br:8.2,ov:8.0,pn:"VA",z:"ok. 2000+",sdr:null,bt:"81% (wzorzec)",va:null,h4:165,h14:165,h10:288,hn:"288 Hz w 1080p (dane sklepowe)",hd:"HDMI 2.1",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"Google TV",pro:"Hit cenowy: ponad 1600 nit w filmach, bardzo dobry HDR i dźwięk za mniej niż 4 tys. zł.",con:"Ekran błyszczący; promocja czasowa, sprawdź dostępność.",dn:"Oceny serii U8Q (85″).",est:true},
+{id:"s75qn80h",n:"Samsung QE75QN80H",b:"Samsung",s:75,t:"Mini LED",tl:"Neo QLED Mini LED (2026)",p:8499,ps:"MediaMarkt 8 499 zł (okazje.info); Allegro od 7 989 zł; Neonet 10 499 zł",pf:703,pp:null,ct:"Błyszcząca",m:4,ss:"Dolby Atmos",sd:7.1,mv:7.0,br:5.8,ov:7.3,pn:"VA",z:"b.d. dla 75″",sdr:null,bt:null,va:null,h4:144,h14:144,h10:240,hn:"240 Hz w 1080p (DLG, tylko PC)",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"4× HDMI 2.1 144 Hz.",con:"Za ciemny (ok. 700 nit).",dn:"Oceny QN80H 85″.",est:true},
+{id:"x75smini",n:"Xiaomi TV S Mini LED 75 2026",b:"Xiaomi",s:75,t:"Mini LED",tl:"QD Mini LED (2026)",p:4099,ps:"x-kom 4 099 zł (zestaw z projektorem HY300X-2)",pf:1079,pp:null,ct:"Błyszcząca",m:3,ss:"Dolby Atmos, DTS:X",sd:5.0,mv:6.2,br:6.3,ov:6.2,pn:"VA",z:"b.d. dla 75″",sdr:569,bt:null,va:null,h4:60,h14:60,h10:120,hn:"Panel 60 Hz (wersje 55–75″)",hd:"3× HDMI 2.0",hdr:"Dolby Vision, HDR10+, HLG",os:"Google TV",pro:"Bardzo tani.",con:"Wersja 55–75″ ma panel 60 Hz i tylko HDMI 2.0; słaby dźwięk i upscaling.",dn:"Oceny z osobnego testu wybierz.tv wersji 55–75″ (60 Hz).",est:true},
+{id:"l77g5",n:"LG OLED77G5 (G5 Tandem)",b:"LG",s:77,t:"OLED",tl:"OLED Primary RGB Tandem (2025)",p:13999,ps:"e-katalog: OLED77G5 od 13 999 zł (LG.com / Ceneo); w promocjach Media Expert bywał 3 000 zł taniej",pf:2350,pp:null,ct:"Błyszcząca z warstwą AR; tłumienie odbić przyzwoite, czerń w dzień bardzo dobra",m:5,ss:"Dolby Atmos",sd:8.7,mv:9.2,br:8.0,ov:8.9,pn:"OLED",z:"każdy piksel",sdr:null,bt:"99,6% DCI-P3 / 82,5% BT.2020",va:7.5,h4:165,h14:165,h10:165,hn:"Bez DLG; RTINGS: wyższy input lag przy 165 Hz",hd:"4× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10, HLG (bez HDR10+)",os:"webOS",pro:"Najjaśniejszy OLED w budżecie (ok. 2350 nit w filmach), najwyższa ocena ogólna w zestawieniu (8,9), bardzo dobry dźwięk.",con:"Ekran błyszczący; model 2025; brak DTS.",dn:"Test choose.tv wersji 77″."},
+{id:"y77b8",n:"Sony Bravia 8 K-77XR80 (2024)",b:"Sony",s:77,t:"OLED",tl:"OLED WOLED (2024)",p:9999,ps:"x-kom / Neonet 9 999 zł",pf:888,pp:null,ct:"Błyszcząca",m:4,ss:"Acoustic Surface Audio+",sd:7.5,mv:7.6,br:5.6,ov:7.8,pn:"OLED",z:"każdy piksel",sdr:330,bt:"99% DCI-P3 / 74% BT.2020",va:null,h4:120,h14:120,h10:120,hn:"Bez trybów powyżej 120 Hz",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision, HDR10, HLG",os:"Google TV",pro:"Naturalny, filmowy obraz Sony, dźwięk z całego ekranu, przystępna cena.",con:"Ciemny (ok. 880 nit HDR, 330 nit SDR), słaby w jasnym pokoju, tylko 120 Hz.",dn:"Test choose.tv wersji 77″."},
+{id:"x75spro",n:"Xiaomi TV S Pro Mini LED 75 2026",b:"Xiaomi",s:75,t:"Mini LED",tl:"QD Mini LED (2026)",p:4499,ps:"RTV Euro AGD / Komputronik / Allegro 4 499 zł (okazje.info); x-kom, Neonet, MediaMarkt 4 999 zł; w promocjach ok. 4 419 zł",pf:1033,pp:1400,ct:"Błyszcząca z warstwą o niskim odbiciu (Xiaomi deklaruje 1,8%); w teście tłumienie odbić przeciętne",m:4,ss:"2×15 W, Dolby Atmos, DTS:X",sd:7.1,mv:6.7,br:7.4,ov:7.1,pn:"VA",z:"532 (zmierzone na 65″)",sdr:771,bt:"93,6% DCI-P3 / 70,9% BT.2020",va:3.1,h4:144,h14:144,h10:288,hn:"288 Hz w 1080p (Game Boost); Dolby Vision w grach ok. 110 ms opóźnienia",hd:"2× HDMI 2.1 + 1× HDMI 2.0",hdr:"Dolby Vision, HDR10+, HLG",os:"Google TV",pro:"Bardzo tani 75″, jasny SDR (771 nit), input lag 8 ms, dobry do gier i jasnego pokoju.",con:"Local dimming słabo działa w HDR (szarawa czerń), słaba obróbka i kąty widzenia; odtwarzacz USB nie pokazuje polskich znaków w napisach.",dn:"Oceny z testu 65″ (choose.tv).",est:true}
+];
+// modele 85/86/83 bez flagi est mają oceny z testu tej przekątnej lub serii (opis w dn)
+/* Modele dodane 11.11.2026 (zakres cen 2–25 tys. zł) */
+TV.push(
+{id:"l77g6",n:"LG OLED77G64LW (G6 Tandem 2. gen.)",b:"LG",s:77,t:"OLED",tl:"OLED Tandem 2. gen. (2026)",p:14499,ps:"RTVmax 14 499 zł; Media Expert / LG.com 15 999 zł",pf:2000,pp:2500,ct:"Błyszcząca z bardzo skuteczną warstwą AR (tłumienie odbić dobre)",m:6,ss:"4.2, Dolby Atmos",sd:8.4,mv:8.6,br:8.2,ov:8.7,pn:"OLED",z:"każdy piksel",sdr:857,bt:"99,4% DCI-P3 / 81,9% BT.2020",va:7.2,h4:165,h14:165,h10:165,hn:"Bez DLG",hd:"4× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10, HLG",os:"webOS",pro:"Jeden z najjaśniejszych OLED-ów (ok. 2000 nit w filmach), bardzo dobra powłoka AR, świetny dźwięk.",con:"Ekran nadal błyszczący; drogi; testowany 55″.",dn:"Oceny wybierz.tv (test 55″).",est:true},
+{id:"s77s95h",n:"Samsung QE77S95H (QD-OLED)",b:"Samsung",s:77,t:"OLED",tl:"OLED QD-OLED (2026)",p:14999,ps:"RTVmax 14 999 zł; prestigeTV 17 995 zł",pf:2246,pp:2300,ct:"Matowa Glare-Free, tłumienie odbić bardzo dobre; czerń w mocnym świetle wpada w wiśniowy odcień",m:10,ss:"Dolby Atmos, OTS",sd:8.0,mv:9.3,br:7.3,ov:8.8,pn:"OLED",z:"każdy piksel",sdr:722,bt:"99,9% DCI-P3 / 89,5% BT.2020",va:9.9,h4:165,h14:165,h10:165,hn:"Bez DLG",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Matowy OLED z najwyższą oceną filmową (9,3) i świetnymi kątami; ok. 2250 nit.",con:"Brak Dolby Vision i DTS; czerń jaśnieje w bardzo jasnym pokoju; tuż poza budżetem 15 tys.",dn:"Oceny wybierz.tv (test 55″).",est:true},
+{id:"t75x11l",n:"TCL 75X11L",b:"TCL",s:75,t:"Mini LED",tl:"SQD Mini LED (2026)",p:24980,ps:"prestigeTV 24 980 zł; RTVmax 24 985 zł; Media Expert / avans 29 999 zł",pf:2800,pp:4000,ct:"Błyszcząca, słabo tłumi odbicia (rekompensuje to ogromna jasność)",m:3,ss:"Bang & Olufsen",sd:8.2,mv:8.5,br:10,ov:8.6,pn:"VA (WHVA 2.0)",z:"11 520",sdr:2000,bt:"97,4% DCI-P3 / 88,9% BT.2020",va:4.5,h4:144,h14:144,h10:240,hn:"240 Hz wg sklepów (tryb DLG)",hd:"HDMI 2.1",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"Google TV",pro:"Najlepsza czerń wśród Mini LED, 2000–3000 nit w filmach, ok. 2000 nit w SDR.",con:"Sztucznie rozjaśnia HDR nawet w Filmmaker; błyszczący; cena na granicy 25 tys. zł.",dn:"Test wybierz.tv wersji 75″."},
+{id:"s85r95h",n:"Samsung MRE85R95H Micro RGB",b:"Samsung",s:85,t:"RGB Mini LED",tl:"Micro RGB (2026)",p:24795,ps:"prestigeTV 24 795 zł; Media Expert / RTV Euro AGD 24 999 zł",pf:1400,pp:2400,ct:"Antyrefleksyjna (rodzaj powłoki – w teście)",m:6,ss:"Dolby Atmos, OTS",sd:7.5,mv:7.8,br:8.9,ov:8.2,pn:"VA",z:null,sdr:1172,bt:"93,9% / 86,8% BT.2020 (plansze / filmy)",va:null,h4:165,h14:165,h10:240,hn:"240 Hz w 1080p (DLG, tylko PC)",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Bardzo jasny SDR (ok. 1200 nit), szeroka paleta Micro RGB, 165 Hz.",con:"W filmach 1000–1400 nit, małe światła przygaszane; fabrycznie niedokładne kolory; drogi.",dn:"Oceny wybierz.tv (test 65″).",est:true},
+{id:"s75r95h",n:"Samsung MRE75R95H Micro RGB",b:"Samsung",s:75,t:"RGB Mini LED",tl:"Micro RGB (2026)",p:14867.5,ps:"Allegro 14 867,50 zł; prestigeTV 16 990 zł; Media Expert 17 999 zł",pf:1400,pp:2400,ct:"Antyrefleksyjna (rodzaj powłoki – w teście)",m:6,ss:"Dolby Atmos, OTS",sd:7.5,mv:7.8,br:8.9,ov:8.2,pn:"VA",z:null,sdr:1172,bt:"93,9% / 86,8% BT.2020 (plansze / filmy)",va:null,h4:165,h14:165,h10:240,hn:"240 Hz w 1080p (DLG, tylko PC)",hd:"4× HDMI 2.1",hdr:"HDR10+, HLG (brak Dolby Vision)",os:"Tizen",pro:"Bardzo jasny SDR, Micro RGB, 165 Hz.",con:"W filmach 1000–1400 nit; brak Dolby Vision.",dn:"Oceny wybierz.tv (test 65″).",est:true},
+{id:"h85u7s",n:"Hisense 85U7S",b:"Hisense",s:85,t:"Mini LED",tl:"Mini LED (2026)",p:6500,ps:"Ceneo od ok. 6 500 zł (z listingu)",pf:745,pp:1100,ct:"Satynowa, tłumienie odbić przyzwoite",m:6,ss:"2.1, 40 W",sd:7.2,mv:6.9,br:7.0,ov:7.3,pn:"VA",z:"192 (55″)",sdr:664,bt:"91% DCI-P3 / 71% BT.2020",va:3.1,h4:144,h14:144,h10:240,hn:"240 Hz w 1080p (DLG, tylko PC)",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"VIDAA",pro:"Tani 85″ z lokalnym wygaszaniem i 144 Hz.",con:"Tylko ok. 700 nit w filmach, podbity HDR, mocne smużenie, słabe kąty.",dn:"Oceny wybierz.tv (test 55″).",est:true},
+{id:"h75u7s",n:"Hisense 75U7S",b:"Hisense",s:75,t:"Mini LED",tl:"Mini LED (2026)",p:null,ps:"Cena do sprawdzenia w Ceneo",pf:745,pp:1100,ct:"Satynowa, tłumienie odbić przyzwoite",m:6,ss:"2.1, 40 W",sd:7.2,mv:6.9,br:7.0,ov:7.3,pn:"VA",z:"192 (55″)",sdr:664,bt:"91% DCI-P3 / 71% BT.2020",va:3.1,h4:144,h14:144,h10:240,hn:"240 Hz w 1080p (DLG, tylko PC)",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision IQ, HDR10+, HLG",os:"VIDAA",pro:"Budżetowy Mini LED 75″.",con:"Tylko ok. 700 nit w filmach, podbity HDR.",dn:"Oceny wybierz.tv (test 55″).",est:true}
+);
+/* Inne przekątne tych samych serii: dane techniczne i oceny z testu serii, ceny z Ceneo 11.11.2026.
+   [id, źródło, przekątna, nazwa, cena, sklepy, link, status, oceny z innej przekątnej, dopisek do wad] */
+const VAR=[
+ ["h65ur9s","h75ur9s",65,"Hisense 65UR9S",7124.05,"Ceneo od 7 124,05 zł; taketronic 7 999 zł; MediaMarkt / Komputronik 8 499 zł","https://www.ceneo.pl/196003737","ok",false],
+ ["h65ur8s","h75ur8s",65,"Hisense 65UR8S",6495,"Ceneo od ok. 6 495 zł (z listingu)",null,"part",false],
+ ["h65u8q","h75u8q",65,"Hisense 65U8Q",5489,"panekAGD 5 489 zł","https://www.ceneo.pl/184074395","ok",false],
+ ["h65u7sp","h75u7sp",65,"Hisense 65U7S Pro",5019.99,"Ceneo od ok. 5 020 zł (z listingu)",null,"part",true],
+ ["t65c8l","t75c8l",65,"TCL 65C8L",5795,"Ceneo od ok. 5 795 zł (z listingu)",null,"part",false],
+ ["t65c7l","t75c7l",65,"TCL 65C7L",4999,"taketronic 4 999 zł; electro / avans / Komputronik 5 399 zł; Media Expert 5 799,99 zł","https://www.ceneo.pl/195662969","ok",false],
+ ["t65rm7l","t75rm7l",65,"TCL 65RM7L",5199,"rtvmax 5 199 zł; Topcena24 5 257 zł; avans 5 798,98 zł","https://www.ceneo.pl/196436769","ok",false],
+ ["s65b7","s75b7",65,"Sony Bravia 7 II K-65XR75M2",7895,"prestigeTV 7 895 zł; MediaMarkt / Media Expert / RTV Euro AGD 7 899 zł","https://www.ceneo.pl/196440068","ok",false],
+ ["s65qn80h","s75qn80h",65,"Samsung QE65QN80H",3640,"Allegro 3 640 zł; kajt24 3 780 zł; Media Expert / RTV Euro AGD 5 499 zł","https://www.ceneo.pl/195777110","ok",true],
+ ["s65qn85f","s75qn85f",65,"Samsung QE65QN85F",3429,"Ceneo od ok. 3 429 zł; LUM 3 499 zł; prestigeTV 4 995 zł",null,"part",true],
+ ["s65qn90f","s75qn90f",65,"Samsung QE65QN90F",10881,"Ceneo od 10 881 zł (z listingu) – wyraźnie drożej niż 75″, szukaj promocji",null,"part",false],
+ ["s65r85h","s85r85h",65,"Samsung MRE65R85H Micro RGB",5400,"Sferis 5 400 zł; prestigeTV 7 495 zł","https://www.ceneo.pl/200298273","ok",true],
+ ["s65s95h","s77s95h",65,"Samsung QE65S95H (QD-OLED)",9070,"Ceneo od ok. 9 070 zł (QE65S95HFTXXH, z listingu)",null,"part",true],
+ ["s65s85h","s77s85h",65,"Samsung QE65S85H",5055.45,"Ceneo od ok. 5 055 zł (z listingu)",null,"part",true],
+ ["l65c5","l77c5",65,"LG OLED65C54LA (C5)",5999,"Ceneo od ok. 5 999 zł (z listingu)",null,"part",true],
+ ["l65b6","l77b6",65,"LG OLED65B65LA (B6)",5999,"Media Expert / MediaMarkt / RTV Euro AGD / LG.com 5 999 zł","https://www.ceneo.pl/196743531","ok",true],
+ ["l65g5","l77g5",65,"LG OLED65G54LW (G5 Tandem)",8999,"Ceneo od 8 999 zł (z listingu)",null,"part",true],
+ ["y65b8","y77b8",65,"Sony Bravia 8 K-65XR80 (2024)",7399,"Allegro 7 399 zł; MediaMarkt 7 999 zł; prestigeTV 8 695 zł","https://www.ceneo.pl/169644745","ok",true],
+ ["y65b6","y77b6",65,"Sony Bravia 6 K-65A65",6499,"Ceneo od ok. 6 499 zł (z listingu)",null,"part",true],
+ ["t98c8l","t85c8l",98,"TCL 98C8L",15985,"rtvmax 15 985 zł; prestigeTV 15 989 zł; avans 15 997,97 zł","https://www.ceneo.pl/196008186","ok",true],
+ ["t98c7l","t85c7l",98,"TCL 98C7L",13799,"rtvmax 13 799 zł; prestigeTV 13 995 zł; Media Expert 13 997,98 zł","https://www.ceneo.pl/195665081","ok",true],
+ ["h100u8q","h85u8q",100,"Hisense 100U8Q",13799,"Allegro 13 799 zł; audiocolor 13 899 zł; Media Expert 13 999,99 zł","https://www.ceneo.pl/185077929","ok",true],
+ ["h100u7sp","h85u7sp",100,"Hisense 100U7S Pro",14995,"prestigeTV / audiocolor / studiohifi 14 995 zł",null,"part",true],
+ ["h100ur8s","h85ur8s",100,"Hisense 100UR8S",18995,"prestigeTV 18 995 zł; Media Expert 18 999 zł","https://www.ceneo.pl/198105863","ok",true],
+ ["s98b7","s85b7",98,"Sony Bravia 7 II K-98XR75M2",26995,"Ceneo od 26 995 zł (wariant 98″ na karcie serii)",null,"part",true],
+ ["s98qn90f","s85qn92f",98,"Samsung QE98QN90F",17799,"taketronic 17 799 zł; prestigeTV 22 995 zł",null,"part",true],
+ ["t98x11l","t75x11l",98,"TCL 98X11L",41989,"Ceneo od 41 989 zł (z listingu)",null,"part",true],
+ ["t85x11l","t75x11l",85,"TCL 85X11L",37994.99,"Ceneo ok. 37 995 zł (z listingu)",null,"part",true],
+ ["s65s85f","s83s85f",65,"Samsung QE65S85F (WOLED)",5199.99,"Ceneo od ok. 5 200 zł (z listingu)",null,"part",false],
+ ["s77s85f","s83s85f",77,"Samsung QE77S85F",6599,"Ceneo od ok. 6 599 zł (z listingu)",null,"part",true],
+ ["l83g6","l77g6",83,"LG OLED83G64LW (G6)",19699,"Ceneo od 19 699 zł (z listingu)",null,"part",true],
+ ["p65mled","p85mled",65,"Philips 65MLED920",4499,"Ceneo od ok. 4 499 zł (z listingu)",null,"part",true]
+];
+const ALIAS={};
+VAR.forEach(([id,src,s,n,p,ps,pu,pv,est,note])=>{ const b=TV.find(d=>d.id===src); if(!b||TV.some(d=>d.id===id)) return;
+  const r=Object.assign({},b,{id,s,n,p,ps,pu,pv,est}); if(note) r.con=note+" "+(b.con||""); TV.push(r); ALIAS[id]=src; });
+
+/* Kolejne serie z testami wybierz.tv (pełny zakres cen w każdej technologii). Dane z testu serii; ceny z Ceneo 11.11.2026.
+   v: [przekątna, id, nazwa, cena, sklepy, link, status, oceny z innej przekątnej] */
+const SERWZ={};
+const SER=[
+ {b:"Sony",t:"RGB Mini LED",tl:"RGB Mini LED True RGB (2026)",wz:"sony/sony-bravia-9-ii_AIV",pf:2500,pp:4000,ct:"Głęboko matowa, tłumienie odbić bardzo dobre",m:10,ss:"Dolby Atmos, DTS:X, do 93 dBC",sd:9.0,mv:8.9,br:10,ov:8.9,pn:"VA",z:"1500 (65″)",sdr:1980,bt:"95,7% / 82,7%",va:6,h4:120,h14:60,h10:120,hn:"1440p 120 Hz nieobsługiwane",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision, HDR10, HLG (bez HDR10+)",os:"Google TV",pro:"Bardzo wysoka jasność HDR (2500–3000 nit w filmach) i SDR, najlepsza obróbka obrazu, matowy ekran, świetny dźwięk.",con:"Tylko 2× HDMI 2.1; brak 120 Hz w 1440p; skromne ustawienia kalibracji.",
+  v:[[65,"s65b9","Sony Bravia 9 II K-65XR95M2",13999,"Ceneo od ok. 13 999 zł (z listingu); Media Expert / RTV Euro AGD 13 999 zł",null,"part",false],[75,"s75b9","Sony Bravia 9 II K-75XR95M2",16995,"prestigeTV 16 995 zł; RTV Euro AGD / scentre 16 999 zł","https://www.ceneo.pl/196440072","ok",true]]},
+ {b:"Samsung",t:"OLED",tl:"OLED QD-OLED (2026)",wz:"samsung/samsung-s99h-qd-oled_AJH",pf:2500,pp:null,ct:"Matowa Glare-Free, tłumienie odbić bardzo dobre",m:10,ss:"Dolby Atmos, Q-Symphony, do 95 dBC",sd:8.7,mv:9.7,br:8.0,ov:9.0,pn:"QD-OLED",z:null,sdr:851,bt:"99,9% / 89,1%",va:9.9,h4:165,h14:120,h10:120,hn:"165 Hz w 4K z PC",hd:"4× HDMI 2.1",hdr:"HDR10, HDR10+, HLG (bez Dolby Vision)",os:"Tizen",pro:"Najwyżej oceniany OLED w teście (9,0): 2300–2800 nit w filmach, matowy ekran, 4× HDMI 2.1, 165 Hz.",con:"Brak Dolby Vision; w komplecie nie ma uchwytu ściennego.",
+  v:[[65,"s65s99h","Samsung QE65S99H (QD-OLED)",9349,"Allegro 9 349 zł; taketronic 10 989 zł; prestigeTV 10 995 zł; Media Expert 15 599 zł","https://www.ceneo.pl/195775115","ok",true],[77,"s77s99h","Samsung QE77S99H (QD-OLED)",14799,"rtvmax 14 799 zł; Allegro 14 999 zł; audiocolor 15 199 zł","https://www.ceneo.pl/195775051","ok",true]]},
+ {b:"Samsung",t:"OLED",tl:"OLED QD-OLED (2025)",wz:"samsung/samsung-oled-s95f-qd-oled_AFX",pf:2180,pp:null,ct:"Matowa Glare-Free, tłumienie odbić bardzo dobre",m:10,ss:"Dolby Atmos, do 82 dBC",sd:8.0,mv:9.3,br:7.1,ov:8.8,pn:"QD-OLED",z:null,sdr:671,bt:"99,3% / 87,1%",va:9.8,h4:165,h14:120,h10:120,hn:"165 Hz w 4K z PC",hd:"4× HDMI 2.1",hdr:"HDR10, HDR10+, HLG (bez Dolby Vision)",os:"Tizen",pro:"Matowy QD-OLED, prawie idealna czerń, 165 Hz, wyraźnie tańszy od S99H.",con:"Czerń w bardzo jasnym pokoju wpada w wiśniowy odcień; brak Dolby Vision.",
+  v:[[65,"s65s95f","Samsung QE65S95F (QD-OLED)",7399,"taketronic 7 399 zł; kajt24 7 449 zł; prestigeTV 9 895 zł",null,"part",true],[77,"s77s95f","Samsung QE77S95F (QD-OLED)",10970,"Allegro 10 970 zł; kajt24 11 699 zł; prestigeTV 17 495 zł",null,"part",true]]},
+ {b:"Samsung",t:"OLED",tl:"OLED QD-OLED (2025)",wz:"samsung/samsung-oled-s90f-qd-oled_AGY",pf:1500,pp:1700,ct:"Błyszcząca, tłumienie odbić dobre",m:5,ss:"Dolby Atmos, do 84 dBC",sd:7.4,mv:9.0,br:5.7,ov:8.4,pn:"QD-OLED",z:null,sdr:431,bt:"99,6% / 88,2%",va:9.8,h4:144,h14:120,h10:120,hn:"Panel 144 Hz",hd:"4× HDMI 2.1",hdr:"HDR10, HDR10+, HLG (bez Dolby Vision)",os:"Tizen",pro:"Tani QD-OLED 65″ z szeroką paletą barw i 4× HDMI 2.1.",con:"Tylko 65″ ma panel QD-OLED; czerń w świetle dziennym granatowa; niska jasność SDR.",
+  v:[[65,"s65s90fq","Samsung QE65S90F (QD-OLED)",7299,"x-kom / Media Expert 7 299 zł; Morele 8 998 zł",null,"part",false]]},
+ {b:"Samsung",t:"OLED",tl:"OLED WOLED (2026)",wz:"samsung/samsung-s90h-woled_AJI",pf:1570,pp:null,ct:"Matowa, tłumienie odbić bardzo dobre",m:10,ss:"2.1, 40 W",sd:8.4,mv:8.6,br:6.5,ov:8.4,pn:"WOLED",z:null,sdr:473,bt:"98,7% / 74,7%",va:7.6,h4:165,h14:120,h10:120,hn:"165 Hz w 4K z PC",hd:"4× HDMI 2.1",hdr:"HDR10, HDR10+, HLG (bez Dolby Vision)",os:"Tizen",pro:"Matowy OLED z bardzo dobrym tłumieniem odbić, 4× HDMI 2.1, 165 Hz.",con:"Panel WOLED (nie QD-OLED, jak w 77″); kolory bledną w mocnym świetle.",
+  v:[[65,"s65s90h","Samsung QE65S90H (WOLED)",6098,"taketronic 6 098 zł; kajt24 6 099 zł; Sferis 6 195 zł; Neonet 8 699 zł","https://www.ceneo.pl/195775530","ok",true]]},
+ {b:"LG",t:"OLED",tl:"OLED WOLED (2026)",wz:"lg/lg-oled-c6-woled_AJK",pf:1400,pp:null,ct:"Błyszcząca, tłumienie odbić przyzwoite",m:5,ss:"2.2, 40 W",sd:7.0,mv:8.4,br:6.6,ov:8.3,pn:"WOLED",z:null,sdr:469,bt:"99,2% / 74,9%",va:7.4,h4:165,h14:120,h10:120,hn:"165 Hz w 4K z PC",hd:"4× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10, HLG",os:"webOS",pro:"Uniwersalny OLED: 4× HDMI 2.1, 165 Hz, Dolby Vision, dobra cena.",con:"Widoczne ziarno w prawie czarnych partiach z bliska; 77″ i 83″ mają inny panel (Tandem).",
+  v:[[65,"l65c6","LG OLED65C64LA (C6)",6449,"Allegro 6 449 zł; kajt24 6 840 zł; Media Expert / RTV Euro AGD / MediaMarkt 7 499 zł","https://www.ceneo.pl/196251468","ok",true]]},
+ {b:"Sony",t:"OLED",tl:"OLED QD-OLED (2025)",wz:"sony/sony-bravia-8-ii_AFU",pf:2000,pp:null,ct:"Błyszcząca, tłumienie odbić dobre",m:5,ss:"Acoustic Surface Audio+",sd:8.5,mv:9.1,br:5.6,ov:8.5,pn:"QD-OLED",z:null,sdr:419,bt:"99,9% / 89,3%",va:9.8,h4:120,h14:60,h10:120,hn:"1440p 120 Hz nieobsługiwane",hd:"2× HDMI 2.1 (jedno z eARC)",hdr:"Dolby Vision, HDR10, HLG",os:"Google TV",pro:"Bardzo filmowy obraz, świetna obróbka Sony i dźwięk z ekranu.",con:"Tylko 2× HDMI 2.1, jedno zajmuje soundbar; słaby w jasnym pokoju.",
+  v:[[65,"y65b8ii","Sony Bravia 8 II K-65XR8M2",9999,"Ceneo od ok. 9 999 zł (z listingu); MediaMarkt / scentre / Media Expert 10 499 zł","https://www.ceneo.pl/183977709","part",true]]},
+ {b:"Panasonic",t:"OLED",tl:"OLED Primary RGB Tandem (2025)",wz:"panasonic/panasonic-z95b_AGR",pf:2100,pp:2131,ct:"Błyszcząca, tłumienie odbić przyzwoite",m:5,ss:"Wbudowany soundbar, Dolby Atmos, do 91 dBC",sd:8.9,mv:9.0,br:7.4,ov:8.5,pn:"WOLED Tandem",z:null,sdr:623,bt:"99,8% / 81,3%",va:8,h4:144,h14:120,h10:120,hn:"144 Hz w 4K z PC",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision IQ, HDR10+, HDR10, HLG",os:"Fire TV",pro:"Jasny Tandem OLED, wszystkie formaty HDR, bardzo dobry dźwięk z wbudowanego soundbara.",con:"Fire TV: braki aplikacji i błędy; tylko 2× HDMI 2.1.",
+  v:[[65,"p65z95b","Panasonic TV-65Z95B",12799,"Ceneo od 12 799 zł (z listingu)",null,"part",true],[77,"p77z95b","Panasonic TV-77Z95B",18299,"Allegro / taniprojektor 18 299 zł","https://www.ceneo.pl/183977608","ok",true]]},
+ {b:"Philips",t:"OLED",tl:"OLED Primary RGB Tandem 2.0 (2026)",wz:"philips/philips-oled911_AKO",pf:2400,pp:2607,ct:"Błyszcząca, tłumienie odbić dobre",m:5,ss:"Bowers & Wilkins, do 92 dBC",sd:9.2,mv:8.6,br:7.8,ov:8.5,pn:"WOLED Tandem",z:null,sdr:732,bt:"99,6% / 81,2%",va:7.2,h4:165,h14:120,h10:120,hn:"165 Hz w 4K z PC",hd:"4× HDMI 2.1",hdr:"Dolby Vision, HDR10+, HDR10, HLG",os:"Titan OS",pro:"Jasny OLED (2250–2600 nit w filmach), dźwięk B&W 9,2, Ambilight, 4× HDMI 2.1.",con:"Migotanie i ziarno w najciemniejszych szarościach; Titan OS ma mniej aplikacji.",
+  v:[[65,"p65oled911","Philips 65OLED911",10490,"Ceneo od ok. 10 490 zł (z listingu); Media Expert 10 499 zł",null,"part",true],[77,"p77oled911","Philips 77OLED911",15799,"Ceneo od ok. 15 799 zł (z listingu)",null,"part",true]]},
+ {b:"Philips",t:"OLED",tl:"OLED Primary RGB Tandem (2025)",wz:"philips/philips-oled910_AGD",pf:2214,pp:null,ct:"Błyszcząca, tłumienie odbić przyzwoite",m:5,ss:"Bowers & Wilkins z subwooferami, wyjście na subwoofer",sd:9.5,mv:8.8,br:7.3,ov:8.5,pn:"WOLED Tandem",z:null,sdr:614,bt:"99,6% / 82,5%",va:7.6,h4:144,h14:120,h10:120,hn:"144 Hz w 4K z PC",hd:"2× HDMI 2.1",hdr:"Dolby Vision, HDR10+, HDR10, HLG",os:"Google TV",pro:"Najlepszy dźwięk wśród testowanych (9,5), jasny Tandem OLED, Ambilight.",con:"Tylko 2× HDMI 2.1.",
+  v:[[65,"p65oled910","Philips 65OLED910",9199,"rtvmax 9 199 zł; Allegro 9 499 zł; prestigeTV 9 495 zł; MediaMarkt 9 999 zł",null,"part",true],[77,"p77oled910","Philips 77OLED910",15995,"Ceneo ok. 15 995 zł (karta bez aktualnych ofert)",null,"part",true]]},
+ {b:"Philips",t:"OLED",tl:"OLED Primary RGB Tandem (2025)",wz:"philips/philips-oled950_AIA",pf:2194,pp:null,ct:"Błyszcząca, tłumienie odbić przyzwoite",m:5,ss:"2.1, 70 W",sd:8.2,mv:8.8,br:7.3,ov:8.4,pn:"WOLED Tandem",z:null,sdr:615,bt:"99,7% / 82,4%",va:7.6,h4:144,h14:120,h10:120,hn:"144 Hz w 4K z PC",hd:"4× HDMI 2.1",hdr:"Dolby Vision, HDR10+, HDR10, HLG",os:"Google TV",pro:"Jasny Tandem OLED z kompletem formatów HDR i 4× HDMI 2.1.",con:"Dźwięk wyraźnie słabszy niż w tańszym OLED910.",
+  v:[[77,"p77oled950","Philips 77OLED950",19995,"Ceneo od 19 995 zł (z listingu)",null,"part",true]]},
+ {b:"Philips",t:"OLED",tl:"OLED WOLED (2025)",wz:"philips/philips-oled820_AGJ",pf:1356,pp:null,ct:"Błyszcząca, tłumienie odbić przyzwoite",m:5,ss:"4.1, 70 W",sd:7.7,mv:8.3,br:5.7,ov:8.0,pn:"WOLED",z:null,sdr:345,bt:"99,3% / 76,4%",va:7.4,h4:144,h14:120,h10:120,hn:"144 Hz w 4K z PC",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision, HDR10+, HDR10, HLG",os:"Google TV",pro:"Tani OLED z Ambilight i kompletem formatów HDR.",con:"Tylko 2× HDMI 2.1; niska jasność SDR.",
+  v:[[65,"p65oled820","Philips 65OLED820",5997,"Allegro 5 997 zł; prestigeTV 7 295 zł; Media Expert / x-kom 7 299 zł","https://www.ceneo.pl/185478309","part",true]]},
+ {b:"Philips",t:"OLED",tl:"OLED WOLED (2026)",wz:"philips/philips-oled761_AKB",pf:784,pp:800,ct:"Satynowa, tłumienie odbić średnie",m:7,ss:"do 90 dBC",sd:7.0,mv:8.0,br:4.5,ov:7.7,pn:"WOLED",z:null,sdr:284,bt:"96,9% / 71,2%",va:7.5,h4:120,h14:120,h10:120,hn:"Bez trybów powyżej 120 Hz",hd:"4× HDMI 2.1",hdr:"Dolby Vision, HDR10+, HDR10, HLG",os:"Titan OS",pro:"Najtańszy OLED w zestawieniu, 4× HDMI 2.1.",con:"Niska jasność (ok. 800 nit HDR, 280 nit SDR) – tylko do ciemniejszego pokoju; mało aplikacji.",
+  v:[[65,"p65oled761","Philips 65OLED761",5893.99,"Ceneo od ok. 5 894 zł (z listingu)",null,"part",true]]},
+ {b:"TCL",t:"Mini LED",tl:"QD Mini LED (2026)",wz:"tcl/tcl-a400u_AJZ",pf:1300,pp:2000,ct:"Błyszcząca, tłumienie odbić słabe",m:3,ss:"2.0, 20 W",sd:6.7,mv:7.5,br:8.5,ov:7.8,pn:"VA",z:"576",sdr:1227,bt:"94% / 74%",va:3.6,h4:144,h14:120,h10:288,hn:"288 Hz w 1080p (PC)",hd:"2× HDMI 2.1 (jedno z eARC)",hdr:"Dolby Vision IQ, HDR10+, HDR10, HLG",os:"Google TV",pro:"Bardzo jasny SDR (ok. 1230 nit) za niską cenę, dobra czerń.",con:"Słabszy procesor obrazu; błyszczący ekran; słabe kąty i dźwięk.",
+  v:[[65,"t65a400u","TCL 65A400U",4499.99,"Media Expert 4 499,99 zł","https://www.ceneo.pl/196436765","ok",true],[75,"t75a400u","TCL 75A400U",5799.99,"Media Expert / avans / electro 5 799,99 zł","https://www.ceneo.pl/197906969","ok",true],[85,"t85a400u","TCL 85A400U",7997.98,"Media Expert / avans / electro 7 997,98 zł","https://www.ceneo.pl/197906968","ok",true],[98,"t98a400u","TCL 98A400U",11998.98,"Media Expert 11 998,98 zł; rtvmax 11 999 zł","https://www.ceneo.pl/196008192","ok",true]]},
+ {b:"TCL",t:"Mini LED",tl:"QD Mini LED (2025)",wz:"tcl/tcl-c9k_AGC",pf:1425,pp:4000,ct:"Błyszcząca, tłumienie odbić przyzwoite",m:4,ss:"Bang & Olufsen 4.2.2, 90 W",sd:7.9,mv:7.5,br:7.0,ov:7.7,pn:"VA",z:"3024 (65″)",sdr:642,bt:"96,5% / 80,5%",va:4,h4:144,h14:120,h10:288,hn:"288 Hz w 1080p (PC)",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision IQ, HDR10+, HDR10, HLG",os:"Google TV",pro:"Bardzo dużo stref, wysoka jasność, rozbudowany dźwięk B&O.",con:"Wygaszanie gubi detale w cieniach i małe jasne punkty.",
+  v:[[65,"t65c9k","TCL 65C9K",7299,"eukasa 7 299 zł; Media Expert ok. 5 299 zł w teście wybierz.tv","https://www.ceneo.pl/184366059","ok",false],[75,"t75c9k","TCL 75C9K",4498,"Ceneo: oferty od ok. 4 498 zł (karta bez aktualnych ofert)",null,"part",true],[85,"t85c9k","TCL 85C9K",9999.99,"Media Expert / avans / electro 9 999,99 zł","https://www.ceneo.pl/183952098","ok",true]]},
+ {b:"TCL",t:"Mini LED",tl:"QD Mini LED (2025)",wz:"tcl/tcl-c8k-qm8k_AEX",pf:1421,pp:3500,ct:"Błyszcząca, tłumienie odbić przyzwoite",m:4,ss:"Bang & Olufsen, do 77 dBC",sd:7.9,mv:7.5,br:6.9,ov:7.7,pn:"VA",z:"1680",sdr:613,bt:"96,7% / 80,8%",va:4,h4:144,h14:120,h10:288,hn:"288 Hz w 1080p (PC)",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision IQ, HDR10+, HDR10, HLG",os:"Google TV",pro:"Bardzo dobry kontrast i czerń, poprzednik C8L w niższej cenie.",con:"Halo i nierówna jasność w HDR; słabe kąty.",
+  v:[[65,"t65c8k","TCL 65C8K",4849,"Ceneo ok. 4 849 zł (z listingu); Media Expert 4 997 zł w teście",null,"part",false],[75,"t75c8k","TCL 75C8K",6999,"Allegro 6 999 zł","https://www.ceneo.pl/183151410","ok",true],[85,"t85c8k","TCL 85C8K",5990,"rtvmax 5 990 zł; avans / electro 5 997 zł (karta bez ofert)",null,"part",true]]},
+ {b:"TCL",t:"Mini LED",tl:"QD Mini LED (2025)",wz:"tcl/tcl-c7k-qm7k-55-85_AGF",pf:1108,pp:1200,ct:"Satynowa, tłumienie odbić dobre",m:7,ss:"Bang & Olufsen 6.2.2",sd:7.7,mv:7.2,br:6.4,ov:7.4,pn:"VA",z:"1008 (65″)",sdr:529,bt:"94% / 73,5%",va:3.2,h4:144,h14:120,h10:120,hn:"144 Hz w 4K z PC",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision IQ, HDR10+, HDR10, HLG",os:"Google TV",pro:"Bardzo dobra czerń i satynowy ekran za niską cenę.",con:"Słabe kąty widzenia; brak nagrywania USB i PiP.",
+  v:[[75,"t75c7k","TCL 75C7K",5099,"rtvmax 5 099 zł; Media Expert 5 499,99 zł",null,"part",false],[85,"t85c7k","TCL 85C7K",5675,"Allegro ok. 5 675 zł; RTV Euro AGD 5 998 zł",null,"part",false]]},
+ {b:"Hisense",t:"Mini LED",tl:"Mini LED (2025)",wz:"hisense/hisense-u7q-pro_AFR",pf:1129,pp:1500,ct:"Satynowa, tłumienie odbić dobre",m:7,ss:"do 85 dB",sd:7.8,mv:7.2,br:6.2,ov:7.4,pn:"VA",z:"560 (65″)",sdr:472,bt:"94,3% / 73,3%",va:3,h4:165,h14:120,h10:288,hn:"288 Hz w 1080p (PC)",hd:"4× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10+, HDR10, HLG",os:"VIDAA",pro:"4× HDMI 2.1 i 165 Hz w niskiej cenie, dobra czerń.",con:"Brak HGiG; słabe kąty widzenia.",
+  v:[[65,"h65u7qp","Hisense 65U7Q Pro",3999,"Allegro 3 999 zł; Media Expert 4 497,98 zł (65U78Q Pro)",null,"part",true],[75,"h75u7qp","Hisense 75U7Q Pro",5998.99,"Media Expert 5 998,99 zł; avans 5 999,98 zł",null,"part",true]]},
+ {b:"Hisense",t:"Mini LED",tl:"Mini LED (2025)",wz:"hisense/hisense-u7q_AFQ",pf:674,pp:800,ct:"Satynowa, tłumienie odbić dobre",m:7,ss:"do 82 dB",sd:7.2,mv:6.7,br:6.2,ov:7.1,pn:"VA",z:"220",sdr:519,bt:"93,5% / 70,5%",va:3,h4:144,h14:120,h10:240,hn:"240 Hz w 1080p (PC)",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision IQ, HDR10+, HDR10, HLG",os:"VIDAA",pro:"Bardzo niski input lag (ok. 9 ms), tani.",con:"Niska jasność HDR (mediana ok. 350 nit); brak HGiG.",
+  v:[[65,"h65u7q","Hisense 65U7Q",3399,"Ceneo od ok. 3 399 zł (z listingu)",null,"part",true],[75,"h75u7q","Hisense 75U7Q",5198,"panekAGD 5 198 zł; 5 995 zł","https://www.ceneo.pl/184551036","ok",true],[85,"h85u7q","Hisense 85U7Q",6990,"Ceneo od ok. 6 990 zł (z listingu)",null,"part",true]]},
+ {b:"Hisense",t:"Mini LED",tl:"Mini LED (2025)",wz:"hisense/hisense-e8q_AFT",pf:625,pp:800,ct:"Satynowa, tłumienie odbić dobre",m:7,ss:"do 85 dB",sd:7.2,mv:6.7,br:6.2,ov:7.1,pn:"VA",z:"220",sdr:504,bt:"93,3% / 71,9%",va:3,h4:144,h14:120,h10:240,hn:"240 Hz w 1080p (PC)",hd:"2× HDMI 2.1",hdr:"Dolby Vision IQ, HDR10+, HDR10, HLG",os:"VIDAA",pro:"Najtańszy Mini LED 65–75″ z HDMI 2.1 i 144 Hz.",con:"Niska jasność HDR (mediana ok. 320 nit); słabe kąty.",
+  v:[[65,"h65e8q","Hisense 65E8Q",3999.9,"Ceneo od ok. 4 000 zł (z listingu)",null,"part",true],[75,"h75e8q","Hisense 75E8Q",3899,"Ceneo od ok. 3 899 zł (z listingu)",null,"part",true]]},
+ {b:"Samsung",t:"Mini LED",tl:"Neo QLED Mini LED (2025)",wz:"samsung/samsung-qn80f_AFI",pf:700,pp:1000,ct:"Satynowa, tłumienie odbić dobre",m:7,ss:"Dolby Atmos, do 87 dBC",sd:6.7,mv:6.9,br:6.6,ov:7.4,pn:"VA",z:"88 (65″)",sdr:543,bt:"93,1% / 72,3%",va:3.1,h4:120,h14:120,h10:120,hn:"Panel 144 Hz, w teście 120 Hz",hd:"4× HDMI 2.1",hdr:"HDR10, HDR10+, HLG (bez Dolby Vision)",os:"Tizen",pro:"Tani Samsung z 4× HDMI 2.1 i rozbudowanymi funkcjami dla graczy.",con:"Mało stref (88), niska jasność HDR; brak Dolby Vision i DTS.",
+  v:[[65,"s65qn80f","Samsung QE65QN80F",3990,"Allegro 3 990 zł; prestigeTV 4 095 zł; MediaMarkt / Neonet 4 099 zł","https://www.ceneo.pl/183662145","ok",true],[75,"s75qn80f","Samsung QE75QN80F",4430,"kajt24 4 430 zł; Allegro 4 435 zł; MediaMarkt 4 789 zł","https://www.ceneo.pl/183662454","ok",true],[85,"s85qn80f","Samsung QE85QN80F",7177.04,"Allegro 7 177 zł; Samsung 8 799 zł","https://www.ceneo.pl/183661063","ok",true]]},
+ {b:"Samsung",t:"Mini LED",tl:"Neo QLED 8K Mini LED (2025)",wz:"samsung/samsung-qn900f_AFK",pf:1415,pp:2000,ct:"Matowa, tłumienie odbić bardzo dobre",m:10,ss:"Dolby Atmos",sd:8.2,mv:7.3,br:7.1,ov:7.8,pn:"VA",z:"1056 (65″)",sdr:723,bt:"90,6% / 66%",va:5,h4:165,h14:120,h10:120,hn:"8K 120 Hz / 4K 165 Hz",hd:"4× HDMI 2.1",hdr:"HDR10, HDR10+, HLG (bez Dolby Vision)",os:"Tizen",pro:"Matowy ekran 8K z dobrą jasnością, 4× HDMI 2.1, 165 Hz – mocno przeceniony.",con:"Wygaszanie przygasza małe jasne detale i tworzy halo.",
+  v:[[65,"s65qn900f","Samsung QE65QN900F (8K)",6199,"audiocolor / Allegro 6 199 zł; prestigeTV 6 995 zł","https://www.ceneo.pl/183662226","ok",false],[75,"s75qn900f","Samsung QE75QN900F (8K)",8800,"Vobis 8 800 zł; Allegro 9 499 zł; rtvmax 9 695 zł","https://www.ceneo.pl/183662456","ok",true]]},
+ {b:"LG",t:"Mini LED",tl:"QNED Mini LED (2025)",wz:"lg/lg-qned93a-qned90a_AGN",pf:1330,pp:1500,ct:"Satynowa, tłumienie odbić przyzwoite",m:7,ss:"Dolby Atmos, do 81 dB",sd:6.9,mv:6.8,br:6.2,ov:7.3,pn:"VA",z:"308",sdr:546,bt:"95,1% / 77,1%",va:2.9,h4:144,h14:120,h10:120,hn:"144 Hz w 4K z PC",hd:"4× HDMI 2.1",hdr:"Dolby Vision, HDR10, HLG",os:"webOS",pro:"Komplet funkcji HDMI 2.1 (144 Hz, VRR, G-Sync) i input lag ok. 7 ms.",con:"Agresywne wygaszanie zjada detale w cieniach i małe światła.",
+  v:[[65,"l65qned93","LG 65QNED93A",4277,"Allegro 4 277 zł; prestigeTV 4 699 zł","https://www.ceneo.pl/183977498","ok",true],[75,"l75qned93","LG 75QNED93A",5540,"Allegro 5 540 zł; studiohifi 6 699 zł","https://www.ceneo.pl/183916529","ok",true],[85,"l85qned93","LG 85QNED93A",8499,"Ceneo od ok. 8 499 zł (z listingu)",null,"part",true]]},
+ {b:"Haier",t:"Mini LED",tl:"QD Mini LED (2025)",wz:"haier/haier-m95e_AHE",pf:1147,pp:null,mfr:1700,ct:"Satynowa, tłumienie odbić przyzwoite",m:7,ss:"Harman Kardon, soundbar + 2 woofery",sd:9.2,mv:6.9,br:8.5,ov:7.3,pn:"VA",z:"576",sdr:1039,bt:"95,9% / 80,4%",va:3.1,h4:144,h14:60,h10:120,hn:"1440p 120 Hz nieobsługiwane",hd:"2× HDMI 2.1 + 2× HDMI 2.0",hdr:"Dolby Vision IQ, HDR10+, HDR10, HLG",os:"Google TV",pro:"Bardzo dobry dźwięk (9,2) i jasny SDR (ok. 1040 nit) za mniej niż 4 tys. zł.",con:"Halo i migotanie przy wygaszaniu w HDR; słabe kąty.",
+  v:[[65,"x65m95e","Haier H65M95EUX",3998.99,"Ceneo od ok. 3 999 zł (z listingu); Media Expert 3 997 zł w teście",null,"part",false]]}
+];
+SER.forEach(sr=>{ const {v,wz,...base}=sr; v.forEach(([s,id,n,p,ps,pu,pv,est])=>{ if(TV.some(d=>d.id===id)) return;
+  TV.push(Object.assign({},base,{id,s,n,p,ps,pu,pv,est,pps:base.pp?"wybierz.tv":null,mfr:base.mfr??null})); SERWZ[id]=wz; }); });
+
+
+TV.push(
+ Object.assign({},TV.find(d=>d.id==="s75b9"),{id:"s85b9",s:85,n:"Sony Bravia 9 II K-85XR95M2",p:22995,ps:"prestigeTV 22 995 zł; scentre / MediaMarkt 22 999 zł",pu:null,pv:"part",est:true}),
+ {id:"s65qn990f",n:"Samsung QE65QN990F (8K)",b:"Samsung",s:65,t:"Mini LED",tl:"Neo QLED 8K Mini LED (2025)",p:10399,ps:"rtvmax 10 399 zł; Sferis 10 400 zł; Allegro 10 770 zł; Euro / morele 10 777 zł","pu":"https://www.ceneo.pl/183245642",pv:"ok",pf:1076,pp:1300,pps:"wybierz.tv",ct:"Matowa, tłumienie odbić bardzo dobre",m:10,ss:"Dolby Atmos (bez DTS:X)",sd:7.9,mv:7.7,br:5.2,ov:7.6,pn:"VA",z:"1344",sdr:363,bt:"91,1% / 67%",va:6.5,h4:240,h14:120,h10:120,hn:"4K 240 Hz; bezprzewodowy One Connect podnosi input lag do ok. 40 ms",hd:"5× HDMI 2.1 (w tym micro HDMI)",hdr:"HDR10, HDR10+, HLG (bez Dolby Vision)",os:"Tizen",pro:"Matowy ekran 8K, 240 Hz w 4K, 5× HDMI 2.1.",con:"Niska jasność SDR (ok. 360 nit) i HDR jak na tę cenę; bez Dolby Vision.",est:false},
+ {id:"s75qn990f",n:"Samsung QE75QN990F (8K)",b:"Samsung",s:75,t:"Mini LED",tl:"Neo QLED 8K Mini LED (2025)",p:13890,ps:"Ceneo od ok. 13 890 zł (z listingu); prestigeTV 15 480 zł",pu:null,pv:"part",pf:1076,pp:1300,pps:"wybierz.tv, 65″",ct:"Matowa, tłumienie odbić bardzo dobre",m:10,ss:"Dolby Atmos (bez DTS:X)",sd:7.9,mv:7.7,br:5.2,ov:7.6,pn:"VA",z:"1344 (65″)",sdr:363,bt:"91,1% / 67%",va:6.5,h4:240,h14:120,h10:120,hn:"4K 240 Hz; bezprzewodowy One Connect podnosi input lag do ok. 40 ms",hd:"5× HDMI 2.1 (w tym micro HDMI)",hdr:"HDR10, HDR10+, HLG (bez Dolby Vision)",os:"Tizen",pro:"Matowy ekran 8K, 240 Hz w 4K, 5× HDMI 2.1.",con:"Niska jasność SDR i HDR jak na tę cenę; bez Dolby Vision.",est:true},
+ {id:"p85mled981",n:"Philips 85MLED981 (RGB Mini LED)",b:"Philips",s:85,t:"RGB Mini LED",tl:"RGB Mini LED (2026)",p:null,ps:"Dostępny w Media Expert – cena do sprawdzenia",pu:"https://www.mediaexpert.pl/telewizory-i-rtv/telewizory/seria_mled981",pv:"part",pf:null,pp:null,mfr:2500,pps:null,ct:"Brak danych o powłoce",m:4,ss:"4.1, Dolby Atmos",sd:null,mv:null,br:null,ov:null,pn:"VA",z:"11 520 „stref kolorów” (ok. 3 840 rzeczywistych)",sdr:null,bt:"producent: 100% BT.2020 (objętość koloru)",va:null,h4:165,h14:165,h10:330,hn:"Do 330 Hz w trybie DLG (dane producenta)",hd:"4× HDMI 2.1",hdr:"Dolby Vision, HDR10+, HDR10, HLG",os:"Titan OS",pro:"Pierwszy RGB Mini LED Philipsa: ok. 3 840 stref, deklarowane 2500 nit, Ambilight z 3 stron, 165 Hz.",con:"Brak testu laboratoryjnego – parametry tylko od producenta; Titan OS ma mniej aplikacji.",est:false,dn:"Dane techniczne od producenta i z Media Expert; brak pomiarów laboratoryjnych."}
+);
+SERWZ.s85b9=SERWZ.s75b9; SERWZ.s65qn990f=SERWZ.s75qn990f="samsung/samsung-qn990f_AFL";
+const al=o=>{ Object.entries(ALIAS).forEach(([n,src])=>{ if(o[src]!=null&&o[n]==null) o[n]=o[src]; }); return o; };
+TV.forEach(d=>{ if(d.s>=83 && d.dn && !d.est && d.mv!=null) d.est=true; });
+
+/* Ceny sprawdzone w Ceneo 11.11.2026: [najniższa, sklepy, link do oferty, status] ; status: ok | promo | part (z listingu Ceneo) */
+const PR={
+ h85ur8s:[12995,"prestigeTV 12 995 zł; Media Expert / avans 12 999,99 zł","https://www.ceneo.pl/197495161","ok"],
+ h75ur8s:[8995,"prestigeTV 8 995 zł; Media Expert / avans 8 998,99 zł","https://www.ceneo.pl/197495163","ok"],
+ h75ur9s:[11390,"prestigeTV 11 390 zł; MediaMarkt 11 399 zł; RTV Euro AGD 11 399,99 zł","https://www.ceneo.pl/196003735","ok"],
+ h85ur9s:[13995,"prestigeTV 13 995 zł; avans / electro 13 998,99 zł; Media Expert 16 999,99 zł","https://www.ceneo.pl/195409919","ok"],
+ t85c8l:[10499,"rtvmax 10 499 zł; prestigeTV 10 995 zł; avans 10 997,97 zł","https://www.ceneo.pl/196008206","ok"],
+ t75c8l:[8495,"Ceneo od 8 495 zł","https://www.ceneo.pl/196008207","ok"],
+ s85b7:[13995,"prestigeTV 13 995 zł; RTV Euro AGD / Media Expert / MediaMarkt 13 999 zł","https://www.ceneo.pl/196440067","ok"],
+ s75b7:[11995,"Ceneo od 11 995 zł; MediaMarkt / RTV Euro AGD / scentre 11 999 zł","https://www.ceneo.pl/196440076","ok"],
+ h85u7sp:[7720,"kajt24 7 720 zł (Kup teraz); Ole Ole! 8 549 zł; audiocolor / Allegro 8 699 zł","https://www.ceneo.pl/195914825","ok"],
+ h75u7sp:[6380,"kajt24 6 380 zł; prestigeTV 6 495 zł; MediaMarkt / RTV Euro AGD 6 499 zł","https://www.ceneo.pl/196436773","ok"],
+ h85u8q:[8394,"deluxury 8 394 zł; studiohifi 8 395 zł; salony 10 999 zł","https://www.ceneo.pl/184944226","ok"],
+ h75u8q:[3999,"RTV Euro AGD 3 999 zł w promocji Black Friday (Pepper, także stacjonarnie); poza promocją ok. 7 599 zł","https://www.ceneo.pl/185077927","promo"],
+ t85c7l:[7899,"Allegro 7 899 zł; panekAGD 7 998 zł; rtvmax 8 499 zł; avans 8 997,98 zł","https://www.ceneo.pl/195662948","ok"],
+ t75c7l:[6995,"prestigeTV 6 995 zł; Media Expert / avans 6 997,97 zł","https://www.ceneo.pl/195662966","ok"],
+ t85rm7l:[8699,"panekAGD 8 699 zł; Media Expert / avans 8 998,98 zł; rtvmax 8 999 zł","https://www.ceneo.pl/196436750","ok"],
+ t75rm7l:[5995,"Ceneo od 5 995 zł; Allegro 6 445,99 zł; avans 6 997,98 zł","https://www.ceneo.pl/196436758","ok"],
+ s85qn92f:[14995,"prestigeTV 14 995 zł; Allegro 14 999 zł; RTV Euro AGD / Ole Ole! 16 999 zł","https://www.ceneo.pl/183661169","ok"],
+ s75qn90f:[7989,"prestigeTV 7 989 zł; morele ok. 7 661 zł; karta Ceneo chwilowo bez ofert (ostatnio 7 991,90 zł)","https://www.ceneo.pl/185325675","part"],
+ s85qn85f:[7997,"Allegro 7 997 zł; prestigeTV 8 480 zł; avans / Ole Ole! 8 499 zł; Media Expert 9 999 zł","https://www.ceneo.pl/184073830","ok"],
+ s85qn80h:[6251,"Allegro 6 251 zł; kajt24 6 860 zł; prestigeTV 7 495 zł; RTV Euro AGD / MediaMarkt 8 999 zł","https://www.ceneo.pl/195777099","ok"],
+ s77s90h:[10336,"Ceneo od 10 336,19 zł; Sferis 10 750 zł; Allegro 10 761 zł; Media Expert / MediaMarkt 12 999 zł","https://www.ceneo.pl/195775320","ok"],
+ l77g5:[12290,"OLED77G51LW: Sferis / Allegro / morele 12 290 zł; OLED77G54LW w LG.com 12 499 zł","https://www.ceneo.pl/184639653","ok"],
+ s77s90f:[10479,"Neonet 10 479 zł; prestigeTV 11 995 zł","https://www.ceneo.pl/183662464","part"],
+ l77c6:[9999,"Allegro 9 999 zł (Black Weeks); taketronic 10 888 zł; rtvmax 10 895 zł; RTV Euro AGD / Media Expert / MediaMarkt 12 999 zł","https://www.ceneo.pl/196251461","ok"],
+ x75spro:[4419,"Allegro 4 419 zł; avans / electro / Komputronik 4 499 zł","https://www.ceneo.pl/188732081","ok"],
+ x75smini:[3499,"Ceneo od 3 499 zł; Neonet / Media Expert 4 099 zł","https://www.ceneo.pl/195219824","ok"],
+ s85r85h:[16895,"Ceneo: MRE85R85HAUXXH od 16 895 zł (z listingu)",null,"part"],
+ l77b6:[8999,"Ceneo: OLED77B65LA od 8 999 zł (z listingu)",null,"part"],
+ l77b5:[9499,"Ceneo: 77B56LA od 9 499 zł (z listingu)",null,"part"],
+ y77b6:[10999,"Ceneo: Bravia 6 K-77A65 od 10 999 zł (z listingu)",null,"part"],
+ l77g6:[14499,"RTVmax 14 499 zł; Media Expert / LG.com 15 999 zł","https://www.ceneo.pl/195602518","ok"],
+ s77s95h:[14999,"RTVmax 14 999 zł; prestigeTV 17 995 zł","https://www.ceneo.pl/199735985","ok"],
+ t75x11l:[24980,"prestigeTV 24 980 zł; RTVmax 24 985 zł; Media Expert / avans 29 999 zł","https://www.ceneo.pl/195662945","ok"],
+ s85r95h:[24795,"prestigeTV 24 795 zł; Media Expert / RTV Euro AGD 24 999 zł","https://www.ceneo.pl/195774632","ok"],
+ s75r95h:[14867.5,"Allegro 14 867,50 zł; prestigeTV 16 990 zł; Media Expert 17 999 zł","https://www.ceneo.pl/195774697","ok"],
+ h85u7s:[6500,"Ceneo od ok. 6 500 zł (z listingu – sprawdź model U7S, nie U7S Pro)",null,"part"]
+};
+Object.entries(PR).forEach(([id,v])=>{const d=TV.find(x=>x.id===id); if(!d) return; d.p=v[0]; d.ps=v[1]; d.pu=v[2]; d.pv=v[3];});
+TV.forEach(d=>{ if(!d.pv) d.pv="old"; });
+{const u=TV.find(d=>d.id==="h85ur9s"); u.con="Drobne jasne detale w ciemnych scenach bywają przygaszane; VIDAA ma mniej aplikacji niż Google TV."; u.pro="Najlepszy matowy RGB Mini LED w tym rozmiarze; w Ceneo już od ok. 14 tys. zł.";}
+{const u=TV.find(d=>d.id==="h75ur8s"); u.con="Słabszy w drobnych detalach HDR niż UR9S."; }
+
+const qq=d=>d.n.replace(/\(.*?\)/g,"").replace(/[≈=].*$/,"").replace(/Mini RGB evo|Micro RGB/,"").trim();
+const ceneoQ=d=>"https://www.ceneo.pl/Telewizory;szukaj-"+encodeURIComponent(qq(d)).replace(/%20/g,"+");
+const skapiecQ=d=>"https://www.skapiec.pl/szukaj?query="+encodeURIComponent(qq(d)).replace(/%20/g,"+");
+const allegroQ=d=>"https://allegro.pl/listing?string="+encodeURIComponent(qq(d));
+/* Porównywarki i sklepy – wyszukiwanie modelu */
+const SHOPS=[
+ ["Ceneo",d=>ceneoQ(d),"cmp"],["Skąpiec",d=>skapiecQ(d),"cmp"],["Allegro",d=>allegroQ(d),"cmp"],
+ ["Google Zakupy",d=>"https://www.google.com/search?tbm=shop&hl=pl&gl=pl&q="+encodeURIComponent(qq(d)),"cmp"],
+ ["Pepper (promocje)",d=>"https://www.pepper.pl/search?q="+encodeURIComponent(qq(d)),"cmp"],
+ ["Media Expert",d=>"https://www.mediaexpert.pl/search?query%5Bmenu_item%5D=&query%5Bquerystring%5D="+encodeURIComponent(qq(d)),"shop"],
+ ["RTV Euro AGD",d=>"https://www.euro.com.pl/search.bhtml?keyword="+encodeURIComponent(qq(d)),"shop"],
+ ["MediaMarkt",d=>"https://mediamarkt.pl/pl/search.html?query="+encodeURIComponent(qq(d)),"shop"],
+ ["x-kom",d=>"https://www.x-kom.pl/szukaj?q="+encodeURIComponent(qq(d)),"shop"],
+ ["Komputronik",d=>"https://www.komputronik.pl/search/category/1?query="+encodeURIComponent(qq(d)),"shop"],
+ ["morele",d=>"https://www.morele.net/wyszukiwarka/?q="+encodeURIComponent(qq(d)),"shop"],
+ ["Ole Ole!",d=>"https://www.oleole.pl/search.bhtml?keyword="+encodeURIComponent(qq(d)),"shop"],
+ ["Sferis",d=>"https://www.google.com/search?q="+encodeURIComponent("site:sferis.pl "+qq(d)),"shop"],
+ ["Neonet",d=>"https://www.google.com/search?q="+encodeURIComponent("site:neonet.pl "+qq(d)),"shop"],
+ ["Amazon.pl",d=>"https://www.amazon.pl/s?k="+encodeURIComponent(qq(d)),"shop"]
+];
+const shopLinks=d=>`<span class="ytl">${d.pu?`<a href="${d.pu}" target="_blank" rel="noopener"><b>Ceneo – ta oferta ↗</b></a>`:""}${SHOPS.map(s=>`<a href="${s[1](d)}" target="_blank" rel="noopener">${s[0]} ↗</a>`).join("")}</span>`;
+const PV={ok:"cena sprawdzona w Ceneo 11.11.2026",promo:"cena promocyjna – sprawdź dostępność",part:"cena z listingu Ceneo – sprawdź w ofercie",old:"cena sprzed kilku tygodni – sprawdź aktualną"};
+
+/* Testy i recenzje: klucz serii */
+const TK=al({l77g6:"g6",s77s95h:"s95h",t75x11l:"x11l",s85r95h:"r95h",s75r95h:"r95h",h85u7s:"u7s",h75u7s:"u7s",h85ur9s:"ur9s",h75ur9s:"ur9s",h85ur8s:"ur8s",h75ur8s:"ur8s",t85c8l:"c8l",t75c8l:"c8l",t85c7l:"c7l",t75c7l:"c7l",s85qn92f:"qn90f",s75qn90f:"qn90f",s85b7:"b7",s75b7:"b7",h85u8q:"u8q",h75u8q:"u8q",l77c6:"c6h",s77s90h:"s90h",l77g5:"g5",x75spro:"xspro",y77b8:"b8"});
+const YT={g6:"LG G6",s95h:"Samsung S95H",x11l:"TCL X11L",r95h:"Samsung R95H",u7s:"Hisense U7S",ur9s:"Hisense UR9S",ur8s:"Hisense UR8S",c8l:"TCL C8L",c7l:"TCL C7L",qn90f:"Samsung QN90F",b7:"Sony Bravia 7 II",u8q:"Hisense U8Q",c6h:"LG C6 77",s90h:"Samsung S90H",g5:"LG G5",xspro:"Xiaomi TV S Pro Mini LED 2026",b8:"Sony Bravia 8"};
+const TESTS={
+ ur9s:[["HDTVPolska (PL, laboratorium)","https://hdtvpolska.com/hisense-ur9s-rgb-miniled-test/","Pierwszy pełny test RGB Mini LED (65″) z pomiarami w redakcyjnym laboratorium."],
+  ["HDTVPolska – wideotest (PL)","https://hdtvpolska.com/hisense-ur9s-test-czy-rgb-miniled-to-przyszlosc-telewizorow-wideo/","Materiał wideo z tabelą wyników pomiarów."],
+  ["choose.tv / wybierz.tv","https://www.choose.tv/us/tv/reviews/hisense/hisense-ur9s_AIH/85","W zbalansowanych scenach filmowych ok. 1500 nit; wyniki laboratoryjne są znacznie wyższe."],
+  ["RTINGS (UR9SG)","https://www.rtings.com/tv/reviews/hisense/ur9sg","Fantastyczna jasność HDR i SDR, świetna czerń; powłoka Obsidian ogranicza odbicia."],
+  ["Tom's Guide","https://www.tomsguide.com/tvs/qled-tvs/hisense-ur9-rgb-mini-led-tv-review","4370 nit (okno 10%), 93% BT.2020, lag 12 ms; zdaniem redakcji balans barw i funkcje dla graczy słabsze niż TCL QM8L i LG C6."],
+  ["What Hi-Fi?","https://www.whathifi.com/tv-home-cinema/televisions/hisense-ur9-65ur9stuk","Test 65″ (980 stref, 170 Hz w tym rozmiarze)."],
+  ["Expert Reviews","https://www.expertreviews.co.uk/technology/tvs-home-cinema/hisense-ur9s-review","Tryb Filmmaker bardzo zachowawczy w SDR."]],
+ ur8s:[["HDTVPolska (PL, laboratorium)","https://hdtvpolska.com/hisense-ur8s-rgb-mini-led-test/","„Bardzo polecamy”: bardzo jasny, dobrze tłumi odbicia; najmniejsze jasne detale na czarnym tle bywają przygaszane."],
+  ["RTINGS (UR8SG)","https://www.rtings.com/tv/reviews/hisense/ur8sg","Niesamowita jasność, bardzo jasny SDR łatwo pokonuje odblaski; powłoka Obsidian."],
+  ["RTINGS: UR8 vs UR9","https://www.rtings.com/tv/tools/compare/hisense-ur8sg-vs-hisense-ur9sg/131548/131549","UR9 ma głębszą czerń, mniej halo i jest trochę jaśniejszy."],
+  ["Tom's Guide (75″)","https://www.tomsguide.com/tvs/4k-tvs/hisense-75ur8sg-review","Test wersji 75″, chwalony obraz i dźwięk."]],
+ c8l:[["HDTVPolska (PL, laboratorium)","https://hdtvpolska.com/tcl-c8l-test-opinia/","Test 65C8L: 97% DCI-P3 i 90% BT.2020, fabrycznie ΔE ok. 2,3; znakomita czerń przy lekkim świetle."],
+  ["videotesty.pl (PL)","https://www.videotesty.pl/recenzja/2820/test-telewizora-mini-led-tcl-c8l-65-calowy-kombajn-kinowy-do-jasnego-salonu-filmow-sportu-i-gier/","Testy w warunkach domowych; 288 Hz tylko przy obniżonej rozdzielczości."],
+  ["netzwelt.de","https://www.netzwelt.de/news/254655-uns-test-neuen-tcl-c8l-wirklich-ueberrascht.html","Test 85″: do 3350 nit, bardzo energooszczędny w relacji do jasności."],
+  ["RTINGS (QM8L, wersja US)","https://www.rtings.com/tv/reviews/tcl/qm8l","4K 144 Hz lub 1080p 288 Hz; w trybie Game Master ruch bywa rozmyty."]],
+ c7l:[["HDTVPolska (PL, laboratorium)","https://hdtvpolska.com/tcl-c7l-test-opinia-czy-warto-kupic-mini-led/?showfull=1","Test 65C7L: 2700 nit na planszy L20; „Bardzo polecamy”."]],
+ qn90f:[["RTINGS","https://rtings.com/tv/reviews/samsung/qn90f","Bardzo jasny SDR, znakomicie tłumi odbicia lamp i okien."],
+  ["RTINGS – pomiary","https://www.rtings.com/tv/tools/compare/samsung-qn80f-samsung-qn90f/92240/92241","Real scene 1162 nit, okno 10% ok. 2100 nit."],
+  ["TechRadar","https://www.techradar.com/televisions/samsung-qn90f-review","2086 nit (okno 10%); Glare-Free skutecznie eliminuje odbicia; brak Dolby Vision."],
+  ["Expert Reviews","https://www.expertreviews.co.uk/technology/tvs-home-cinema/samsung-qn90f-review","Odbicia prawie całkowicie wyeliminowane, świetne sterowanie podświetleniem."]],
+ b7:[["RTINGS","https://www.rtings.com/tv/reviews/sony/bravia-7-ii","Doskonały do jasnego pokoju: fantastyczna jasność i świetna czerń."],
+  ["TechRadar","https://techradar.com/televisions/sony-bravia-7-ii-review","65″: ok. 1100 nit w trybie Professional, ok. 1300 nit w Standard."],
+  ["Tom's Guide – pomiary","https://www.inkl.com/news/we-just-tested-the-bravia-7-ii-heres-why-i-think-it-could-be-the-sony-tv-to-buy-in-2026","Ok. 2078 nit (okno 10%), 87% BT.2020."],
+  ["What Hi-Fi?","https://www.whathifi.com/tv-home-cinema/televisions/sony-bravia-7-ii-k55xr75m2","W 55″ naliczono 340 stref; ocena: nieidealny, ale wiele robi dobrze."]],
+ u8q:[["HDTVPolska (PL, laboratorium)","https://hdtvpolska.com/hisense-u8q-test-mini-led-2025/","Nagroda EISA: najlepszy Mini LED Premium 2025–2026; 4K 165 Hz, 1080p 288 Hz."],
+  ["What Hi-Fi?","https://www.whathifi.com/tv-home-cinema/televisions/hisense-u8q-65u8qtuk","Uwaga: amerykański U8QG różni się od europejskiego U8Q."],
+  ["RTINGS (U8QG, wersja US)","https://rtings.com/tv/reviews/hisense/u8qg","Jeden z najlepszych testowanych Hisense (wersja US z Google TV)."]],
+ c6h:[["RTINGS (C6H 77/83″)","https://rtings.com/tv/reviews/lg/c6h-oled","Panel Tandem: doskonała jasność SDR i HDR, idealna czerń; odbicia przeciętne."],
+  ["Expert Reviews","https://www.expertreviews.co.uk/technology/tvs-home-cinema/lg-c6-oled-primary-rgb-tandem-review","Panel Primary RGB Tandem daje 400–700 nit więcej niż mniejsze C6."],
+  ["TechRadar","https://www.techradar.com/televisions/lg-c6-review","C6 65″: 1438 nit (okno 10%); 77″ ma mocniejszy panel."]],
+ s90h:[["choose.tv (77″ QD-OLED)","https://www.choose.tv/de/fernseher/tests/samsung/samsung-s90h-qd-oled_AIT","Ocena 8,6; w filmach ok. 1470 nit; matowa powłoka bardzo skuteczna."],
+  ["RTINGS (77S90H)","https://www.rtings.com/tv/reviews/samsung/77s90h-oled","Małe jasne detale świetnie widoczne, ale mocno przyciemnia bardzo jasne sceny."],
+  ["android.com.pl (PL)","https://android.com.pl/tech/1078961-recenzja-samsung-s90h-55-oled-telewizor-ktoremu-slonce-niestraszne/","Fenomenalna matowa powłoka Glare Free, bardzo wysoka jasność jak na OLED (55″)."],
+  ["netzwelt.de","https://www.netzwelt.de/fernseher/samsung-s90h-gq65s90h-testbericht.html","Test 65″: ponad 1500 nit."],
+  ["The Shortcut","https://www.theshortcut.com/p/samsung-s90h-oled-tv-review","Glare-Free blokuje odbicia; ok. 1600 nit; część rozmiarów ma panel WOLED."]],
+ g5:[["choose.tv (77″)","https://www.choose.tv/us/tv/reviews/lg/lg-oled-g5_AER/77","Ocena 8,9; ok. 2350 nit w filmach; ekran błyszczący, odbicia przyzwoite."],
+  ["RTINGS (test 77″)","https://www.rtings.com/tv/reviews/lg/g5-oled","Doskonały do jasnego pokoju, dobre tłumienie odbić; wyższy input lag przy 165 Hz."],
+  ["What Hi-Fi?","https://www.whathifi.com/reviews/lg-g5","Pierwszy OLED Primary RGB Tandem, duży skok jakości."]],
+ xspro:[["choose.tv","https://www.choose.tv/us/tv/reviews/xiaomi/xiaomi-s-pro-2026_AHI","Ocena 7,1; w filmach 470–1030 nit; wygaszanie słabo działa w HDR; Dolby Vision w grach ok. 110 ms."],
+  ["netzwelt.de (test 75″)","https://www.netzwelt.de/fernseher/xiaomi-s-pro-mini-led-2026/testbericht.html","Bardzo jasny i kolorowy za uczciwą cenę; czasem migotanie jasności przy przejściach scen."],
+  ["videotesty.pl (PL)","https://www.videotesty.pl/recenzja/2797/xiaomi-tv-s-pro-mini-led-2026/","Pozytywna recenzja 65″; materiał przy współpracy z Xiaomi."],
+  ["M3.se","https://www.m3.se/article/2937645/xiaomi-tv-s-pro-mini-led-2026.html","Deklaracje o tłumieniu odbić przesadzone; głośniki rozczarowują."]],
+ b8:[["choose.tv (77″)","https://www.choose.tv/us/tv/reviews/sony/sony-bravia-8-xr80_ACO/77","Ocena 7,8; ok. 880 nit HDR, SDR 330 nit – słaby w jasnym pokoju."]]
+};
+const BRANDS=[...new Set(TV.map(d=>d.b))].sort();
+/* Szczyt HDR zmierzony w laboratorium (mały jasny punkt / okno) i deklaracja producenta */
+const PK=al({
+ h85ur9s:[3200,"HDTVPolska, 65″",5000],h75ur9s:[3200,"HDTVPolska, 65″",5000],
+ h85ur8s:[2200,"wybierz.tv, 65″",null],h75ur8s:[2200,"wybierz.tv, 65″",null],
+ t85c8l:[4500,"HDTVPolska, 65″",6000],t75c8l:[4500,"HDTVPolska, 65″",5500],
+ t85c7l:[2700,"HDTVPolska, plansza L20, 65″",null],t75c7l:[2700,"HDTVPolska, plansza L20, 65″",null],
+ h85u8q:[3600,"HDTVPolska, plansza L20, 65″",5000],h75u8q:[3600,"HDTVPolska, plansza L20, 65″",5000],
+ h85u7sp:[3720,"HDTVPolska, 85″",3000],h75u7sp:[2200,"wybierz.tv, 55″",3000],
+ s85b7:[2000,"HDTVPolska / wybierz.tv, 65″",null],s75b7:[2000,"HDTVPolska / wybierz.tv, 65″",null],
+ s85qn92f:[2250,"HDTVPolska, 65″",null],s75qn90f:[2250,"HDTVPolska, 65″ QN92F",null],
+ t85rm7l:[1600,"wybierz.tv, 65″",null],t75rm7l:[1600,"wybierz.tv, 65″",null],
+ l77g5:[2500,"HDTVTest, okno 10%",null],l77g6:[2500,"wybierz.tv, 55″",null],s77s95h:[2300,"wybierz.tv, 55″",null],
+ t75x11l:[4000,"wybierz.tv, 75″",10000],s85r95h:[2400,"wybierz.tv, 65″",null],s75r95h:[2400,"wybierz.tv, 65″",null],h85u7s:[1100,"wybierz.tv, 55″",null],h75u7s:[1100,"wybierz.tv, 55″",null],s77s90h:[1650,"choose.tv, 77″",null],x75spro:[1400,"choose.tv, 65″",null]
+});
+TV.forEach(d=>{ const k=PK[d.id]; if(k){ d.pp=k[0]; d.pps=k[1]; d.mfr=k[2]; } else { d.pps=d.pps||(d.pp?"choose.tv":null); d.mfr=d.mfr??null; } });
+
+/* wybierz.tv – polska wersja choose.tv; jej ogólna ocena (ov) jest podstawą wyniku */
+const WZB="https://www.wybierz.tv/telewizory/testy/";
+const WZ=al({h85ur9s:"hisense/hisense-ur9s_AIH",h75ur9s:"hisense/hisense-ur9s_AIH",h85ur8s:"hisense/hisense-ur8s_AJN",h75ur8s:"hisense/hisense-ur8s_AJN",
+ s85b7:"sony/sony-bravia-7-ii_AJL",s75b7:"sony/sony-bravia-7-ii_AJL",t85c8l:"tcl/tcl-c8l_AIO",t75c8l:"tcl/tcl-c8l_AIO",
+ s85qn92f:"samsung/samsung-qn92f-qn90f_AGQ",s75qn90f:"samsung/samsung-qn92f-qn90f_AGQ",h85u8q:"hisense/hisense-u8q_AGB",h75u8q:"hisense/hisense-u8q_AGB",
+ t85rm7l:"tcl/tcl-rm7l_AIZ",t75rm7l:"tcl/tcl-rm7l_AIZ",h85u7sp:"hisense/hisense-u7s-pro_AIJ",h75u7sp:"hisense/hisense-u7s-pro_AIJ",
+ t85c7l:"tcl/tcl-c7l_AIM",t75c7l:"tcl/tcl-c7l_AIM",s85r85h:"samsung/samsung-r85h-r86h_AJP",s75r86h:"samsung/samsung-r85h-r86h_AJP",
+ s85qn85f:"samsung/samsung-qn85f_AGI",s75qn85f:"samsung/samsung-qn85f_AGI",s85qn80h:"samsung/samsung-qn80h_AIW",s75qn80h:"samsung/samsung-qn80h_AIW",
+ x85smini:"xiaomi/xiaomi-s-mini-2026-85-98-144hz_AIY",x75smini:"xiaomi/xiaomi-s-mini-2026-55-75-60hz_AJA",
+ l86mrgb:"lg/lg-mrgb85b_AJG",l86qned:"lg/lg-qned86a-qned85a-qned87a_AGH",p85mled:"philips/philips-mled920-mled910_AGO",
+ l83c5:"lg/lg-oled-c5_AFE",l77c5:"lg/lg-oled-c5_AFE",l83b6:"lg/lg-oled-b6_AJE",l77b6:"lg/lg-oled-b6_AJE",l83b5:"lg/lg-oled-b5_AFG",l77b5:"lg/lg-oled-b5_AFG",
+ s83s90f:"samsung/samsung-oled-s90f-woled_AFF",s77s90f:"samsung/samsung-oled-s90f-woled_AFF",s83s85f:"samsung/samsung-oled-s85f-woled_AHG",
+ y83b6:"sony/sony-bravia-6-a65_AKE",y77b6:"sony/sony-bravia-6-a65_AKE",l77c6:"lg/lg-oled-c6h-tandem-woled_AJJ",s77s90h:"samsung/samsung-s90h-qd-oled_AIT",
+ s77s85h:"samsung/samsung-s85h_AJM",l77g6:"lg/lg-oled-g6_AIN",s77s95h:"samsung/samsung-s95h_AKN",t75x11l:"tcl/tcl-x11l_AIU",s85r95h:"samsung/samsung-r95h_AIS",s75r95h:"samsung/samsung-r95h_AIS",h85u7s:"hisense/hisense-u7s-u77se_AJO",h75u7s:"hisense/hisense-u7s-u77se_AJO",l77g5:"lg/lg-oled-g5_AER",y77b8:"sony/sony-bravia-8-xr80_ACO",x75spro:"xiaomi/xiaomi-tv-s-pro-2026_AHI"});
+Object.assign(WZ,SERWZ);
+TV.forEach(d=>{ d.wz=WZ[d.id]?WZB+WZ[d.id]:null; });
+/* wybierz.tv: 9 kategorii [Filmy UHD, TV/YouTube, Sport, Konsola, PC, Mocne światło, Funkcje, Aplikacje, Dźwięk] + [powłoka, tłumienie odbić, jasność SDR nit] */
+const WZK=["Filmy i seriale UHD","Klasyczna TV, YouTube","Sport","Granie na konsoli","Monitor do PC","Mocne światło","Funkcje użytkowe","Aplikacje","Dźwięk"];
+const WZS={
+ AIH:[[7.9,7.9,7.6,8.4,8.4,9.9,9.4,null,null],["matowa","bardzo dobre",1639]],
+ AJN:[[null,null,null,null,null,9.5,9.4,8.3,7.8],["matowa","bardzo dobre",1468]],
+ AGB:[[7.8,7.6,7.1,8.5,8.4,8.2,9.4,7.7,7.8],["błyszcząca","przyzwoite",914]],
+ AIJ:[[7.3,7.1,6.8,8.3,8.4,8.1,9.4,8.3,7.8],["matowa","dobre",903]],
+ AIO:[[7.7,7.5,7.2,8.9,8.6,10.0,8.3,9.6,8.1],["błyszcząca","przyzwoite",1651]],
+ AIM:[[7.2,6.8,6.7,8.8,8.4,8.8,7.8,9.6,7.7],["błyszcząca","słabe",1327]],
+ AIZ:[[7.4,7.1,6.9,8.8,8.4,7.8,7.8,9.6,7.8],["błyszcząca","słabe",959]],
+ AJP:[[7.3,7.6,7.2,8.9,8.0,7.3,7.3,9.3,7.1],["satynowa","dobre",null]],
+ AIW:[[7.0,6.8,6.8,9.0,8.9,5.8,7.3,9.3,7.1],["satynowa","przyzwoite",460]],
+ AGI:[[7.3,7.1,6.7,9.0,8.4,6.9,7.3,9.3,7.6],["satynowa","dobre",690]],
+ AGQ:[[7.8,7.6,7.1,9.1,8.8,7.2,7.7,9.3,7.8],["matowa","bardzo dobre",665]],
+ AJL:[[8.0,8.0,7.7,8.9,7.8,9.0,9.4,9.6,7.8],["satynowa","dobre",1247]],
+ AKE:[[7.5,8.1,8.1,8.5,7.6,4.6,6.6,9.6,7.0],["satynowa","średnie",266]],
+ AJM:[[8.0,8.6,8.5,9.6,7.6,5.1,7.3,9.3,7.2],[null,null,350]],
+ AJJ:[[8.4,8.6,8.6,9.5,8.6,7.6,8.4,9.1,7.0],["błyszcząca","przyzwoite",null]],
+ AJE:[[8.0,8.8,8.6,9.2,7.6,4.8,8.0,9.1,6.7],[null,null,313]],
+ AFG:[[7.9,8.6,8.5,9.2,7.6,4.9,7.9,9.1,7.0],[null,null,279]],
+ AER:[[9.2,9.2,8.8,9.5,8.8,8.0,8.5,9.1,8.7],["błyszcząca","przyzwoite",810]],
+ AFE:[[8.5,8.9,8.6,9.4,8.6,6.2,7.9,9.1,7.2],["błyszcząca","przyzwoite",435]],
+ AJG:[[6.2,6.0,6.4,8.3,8.4,6.1,7.7,9.1,6.4],[null,"przeciętne",null]],
+ AGH:[[6.4,6.1,7.1,8.3,8.0,5.8,8.4,9.1,6.0],[null,null,462]],
+ AIT:[[9.0,9.3,9.0,9.8,8.6,6.4,null,null,null],["matowa","bardzo dobre",null]],
+ AIY:[[7.1,6.6,6.4,8.3,7.0,7.5,7.0,9.6,5.0],[null,"przeciętne",805]],
+ AJA:[[6.2,6.0,5.0,6.9,5.6,6.3,6.7,9.6,5.0],[null,"słabe",569]],
+ AHG:[[null,null,null,null,null,5.3,7.3,null,null],[null,null,305]],
+ AIN:[[8.6,8.7,8.6,9.5,8.7,8.2,8.5,9.1,8.4],["błyszcząca","dobre",857]],
+ AKN:[[9.3,9.4,9.0,9.9,8.8,7.3,7.9,9.3,8.0],["matowa","bardzo dobre",722]],
+ AIU:[[8.5,7.9,7.3,9.1,8.6,10.0,8.3,9.6,8.2],["błyszcząca","słabe",2000]],
+ AIS:[[7.8,7.9,7.5,9.3,8.4,8.9,7.8,9.3,7.5],[null,null,1172]],
+ AJO:[[6.9,6.9,6.4,8.2,8.2,7.0,8.9,8.3,7.2],["satynowa","przyzwoite",664]]
+};
+Object.assign(WZS,{
+ AIV:[[8.9,8.4,8.0,9.2,7.8,10.0,8.8,9.6,9.0],["matowa","bardzo dobre",1980]],
+ AJH:[[9.7,9.5,9.0,9.9,8.8,8.0,7.8,9.3,8.7],["matowa","bardzo dobre",851]],
+ AFX:[[9.3,9.3,8.9,9.9,8.8,7.1,7.9,9.3,8.0],["matowa","bardzo dobre",671]],
+ AJK:[[8.4,8.8,8.6,9.4,8.6,6.6,8.4,9.1,7.0],["błyszcząca","przyzwoite",469]],
+ AFU:[[9.1,9.4,9.0,9.3,7.6,5.6,8.9,9.6,8.5],["błyszcząca","dobre",419]],
+ AGR:[[9.0,8.8,8.5,9.6,8.6,7.4,6.8,7.2,8.9],["błyszcząca","przyzwoite",623]],
+ AKO:[[8.6,8.5,8.4,9.6,8.7,7.8,7.9,7.7,9.2],["błyszcząca","dobre",732]],
+ AGD:[[8.8,8.7,8.5,9.5,6.5,7.3,6.4,9.6,9.5],["błyszcząca","przyzwoite",614]],
+ AIA:[[8.8,8.8,8.5,9.5,6.5,7.3,6.5,9.6,8.2],["błyszcząca","przyzwoite",615]],
+ AGJ:[[8.3,8.6,8.4,9.4,6.5,5.7,6.8,9.6,7.7],["błyszcząca","przyzwoite",345]],
+ AKB:[[8.0,8.7,8.5,9.0,7.6,4.5,7.9,7.7,7.0],["satynowa","średnie",284]],
+ AGY:[[9.0,9.3,8.9,9.8,8.6,5.7,7.7,9.3,7.4],["błyszcząca","dobre",431]],
+ AJI:[[8.6,8.8,8.5,9.7,8.6,6.5,7.3,9.3,8.4],["matowa","bardzo dobre",473]],
+ AJZ:[[7.5,7.3,7.0,8.8,8.5,8.5,7.8,9.6,6.7],["błyszcząca","słabe",1227]],
+ AGC:[[7.5,7.0,6.7,8.8,8.6,7.0,7.7,9.6,7.9],["błyszcząca","przyzwoite",642]],
+ AEX:[[7.5,7.1,6.7,8.8,8.6,6.9,7.7,9.6,7.9],["błyszcząca","przyzwoite",613]],
+ AGF:[[7.2,6.9,6.8,8.7,8.4,6.4,7.3,9.6,7.7],["satynowa","dobre",529]],
+ AFR:[[7.2,7.2,6.7,8.2,8.2,6.2,9.4,7.7,7.8],["satynowa","dobre",472]],
+ AFQ:[[6.7,6.8,6.3,8.0,8.6,6.2,8.9,7.7,7.2],["satynowa","dobre",519]],
+ AFT:[[6.7,6.8,6.4,8.0,8.6,6.2,8.9,7.7,7.2],["satynowa","dobre",504]],
+ AFI:[[6.9,6.8,6.7,8.9,8.8,6.6,7.7,9.3,6.7],["satynowa","dobre",543]],
+ AFK:[[7.3,7.3,7.4,9.1,8.4,7.1,7.2,9.3,8.2],["matowa","bardzo dobre",723]],
+ AGN:[[6.8,6.9,6.8,8.5,8.6,6.2,8.2,9.1,6.9],["satynowa","przyzwoite",546]],
+ AHE:[[6.9,6.1,5.6,8.0,6.6,8.5,6.3,9.6,9.2],["satynowa","przyzwoite",1039]],
+ AFL:[[7.7,7.7,7.6,9.2,7.9,5.2,7.5,9.3,7.9],["matowa","bardzo dobre",363]]
+});
+TV.forEach(d=>{ const c=d.wz&&(d.wz.match(/_([A-Z0-9]{3})$/)||[])[1]; const w=c&&WZS[c]; d.wc=w?w[0]:null; d.wm=w?w[1]:null; if(d.sdr==null&&d.wm&&d.wm[2]) d.sdr=d.wm[2]; });
+
+/* HDTVPolska – hv: 3 = Bardzo polecamy + EISA, 2 = Bardzo polecamy, 1 = test bez odznaki w źródle, 0 = brak testu */
+const HDP={
+ ur9s:[2,"Bardzo polecamy","https://hdtvpolska.com/hisense-ur9s-rgb-miniled-test/","Test 65″: ponad 3200 nit HDR i ok. 800 nit SDR, bardzo skuteczna matowa powłoka, dobry dźwięk Devialet."],
+ ur8s:[2,"Bardzo polecamy","https://hdtvpolska.com/hisense-ur8s-rgb-mini-led-test/","Bardzo jasny i dobrze tłumi odbicia; najmniejsze jasne detale bywają przygaszane."],
+ c8l:[2,"Bardzo polecamy","https://hdtvpolska.com/tcl-c8l-test-opinia/","Test 65″: ok. 4500 nit szczytowo, średnio 1109 nit w scenach HDR, 97% DCI-P3, 90% BT.2020, lag 8 ms."],
+ c7l:[2,"Bardzo polecamy","https://hdtvpolska.com/tcl-c7l-test-opinia-czy-warto-kupic-mini-led/?showfull=1","Test 65″: 2700 nit na L20; tylko 2× HDMI 2.1, słabsze kąty widzenia i tłumienie odbić."],
+ b7:[2,"Bardzo polecamy","https://hdtvpolska.com/sony-bravia-7-ii-test-opinia-true-rgb/","Test 65″: ok. 2000 nit, 97% DCI-P3, 88,5% BT.2020; ekran wyraźnie pokazuje bezpośrednie odbicia, 120 Hz, 2× HDMI 2.1."],
+ qn90f:[2,"Bardzo polecamy","https://hdtvpolska.com/test-samsung-qn92f-matowa-matryca-glare-free/","Test QN92F 65″: 2250 nit, matowa powłoka Glare Free, 165 Hz; według redakcji jeden z najlepszych Mini LED do jasnego pokoju."],
+ u8q:[3,"Bardzo polecamy + EISA","https://hdtvpolska.com/hisense-u8q-test-mini-led-2025/","Test 65″: 3600 nit (L20), średnio 1300 nit w HDR; brak HGiG."],
+ u7sp:[1,"Test 85″, ocena pozytywna","https://hdtvpolska.com/hisense-u77s-pro-85-test/","Test 85″: 1512 stref, ponad 3700 nit, średnio 1540 nit w scenach HDR, 4× HDMI 2.1, lag 7,8 ms."],
+ s85f:[2,"Bardzo polecamy","https://hdtvpolska.com/samsung-s85f-test-oled-2025-qd-oled-55/","Test 55″ QD-OLED; wersja 83″ ma panel WOLED, więc wyniki nie przenoszą się 1:1."],
+ s90f:[1,"Test 65″ QD-OLED","https://hdtvpolska.com/test-samsung-oled-s90f-2025-qd-oled-recenzja-opinie-pomiary/","Test wersji 65″ QD-OLED; większe rozmiary mogą mieć inny panel."]
+};
+const HK=al({...TK,h85u7sp:"u7sp",h75u7sp:"u7sp",s83s85f:"s85f",s83s90f:"s90f",s77s90f:"s90f"});
+TV.forEach(d=>{ const h=HDP[HK[d.id]]; d.hv=h?h[0]:0; d.hl=h?h[1]:null; d.hu=h?h[2]:null; d.hn2=h?h[3]:null; });
+
+const NIT=1300;
+const W_DEF={mv:40,br:25,m:20,sd:15};
+const W_LABEL={mv:"Obraz (filmy)",br:"Jasny pokój",m:"Matowość",sd:"Dźwięk"};
+const SIZES=[{k:65,l:"65″"},{k:75,l:"75″"},{k:77,l:"77″"},{k:83,l:"83″"},{k:85,l:"85–86″"},{k:98,l:"98–100″"},{k:110,l:"110″ i więcej"}];
+const ALLS=SIZES.map(x=>x.k);
+const SLB=k=>(SIZES.find(x=>x.k===k)||{l:k+"″"}).l;
+const TECHS=["Mini LED","RGB Mini LED","OLED"];
+const sg=s=>s>=110?110:s>=98?98:s>=85?85:s;
+
+const st={q:"",nl:null,nlKey:"",sortsBefore:null,aiSpec:null,aiFor:null,sizes:new Set(ALLS),techs:new Set(TECHS),brands:null,budget:false,pmin:2000,hmode:"pf",hmin:0,hmax:2500,matte:false,g144:false,hdp:false,max:50000,sorts:[{k:"score",dir:-1}],w:{...W_DEF},open:null,cmp:new Set()};
+try{const sv=JSON.parse(localStorage.getItem("tvw")||"null"); if(sv&&typeof sv.mv==="number") st.w=sv;}catch(e){}
+
+const $=id=>document.getElementById(id);
+st.brands=new Set(BRANDS);
+const grp=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,"\u00a0");
+const fmtP=p=>{if(p==null) return "—"; const i=Math.floor(p), c=Math.round((p-i)*100); return grp(i)+(c?","+String(c).padStart(2,"0"):"")+"\u00a0zł";};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function score(d){if(d.mv==null||d.br==null||d.sd==null) return null; const w=st.w,S=w.mv+w.br+w.m+w.sd; if(!S) return 0; return Math.round(((w.mv*d.mv+w.br*d.br+w.m*d.m+w.sd*d.sd)/S)*100)/100;}
+function val(d){const s=score(d); return d.p&&s!=null?Math.round(s/(d.p/1000)*100)/100:null;}
+function vmv(d){return d.p&&d.mv!=null?Math.round(d.mv/(d.p/1000)*100)/100:null;}
+const f1=v=>v==null?"—":v.toFixed(1), f2=v=>v==null?"—":v.toFixed(2), sc0=d=>score(d)??-1;
+function sClass(v){return v==null?"s-na":v>=7.8?"s-hi":v>=7?"s-mid":"s-lo";}
+function matteLbl(m){return m>=9?"matowy":m>=7?"półmat":"błyszczący";}
+function matteColor(m){return m>=9?"var(--good)":m>=7?"var(--accent)":m>=5?"var(--warn)":"var(--bad)";}
+
+function filtered(ignoreBudget){
+  const N=st.nl;
+  return TV.filter(d=>{
+    if(!(N&&N.ovS) && !st.sizes.has(sg(d.s))) return false;
+    if(!(N&&N.ovT) && !st.techs.has(d.t)) return false;
+    if(!(N&&N.ovB) && !st.brands.has(d.b)) return false;
+    if(!ignoreBudget && !(N&&N.ovP) && d.p!=null && (d.p>st.max||d.p<st.pmin)) return false;
+    if(st.hmin>0||st.hmax<HM()){ const v=d[st.hmode]; if(v==null) return false; if(v<st.hmin||v>st.hmax) return false; }
+    if(st.matte && d.m<7) return false;
+    if(st.g144 && d.h4<144) return false;
+    if(st.hdp && d.hv<2) return false;
+    if(N){
+      if(!N.f.every(fn=>fn(d))) return false;
+      if(N.words.length){ const hay=hayOf(d); if(!N.words.every(w=>hay.includes(w))) return false; }
+    }
+    return true;
+  });
+}
+const H21=d=>/HDMI 2\.1/.test(d.hd);
+const con=(d,v,res)=>v==null?null:(res===4&&!H21(d)?Math.min(v,60):Math.min(v,120));
+function keyVal(d,k){
+  if(k==="c4") return con(d,d.h4,4); if(k==="c14") return con(d,d.h14); if(k==="c10") return con(d,d.h10);
+  switch(k){case "score":return score(d);case "value":return val(d);case "vmv":return vmv(d);case "name":return d.n;case "wz":return d.wz?d.ov:null;case "wsp":return d.wc?d.wc[2]:null;case "wgr":return d.wc?d.wc[3]:null;case "hv":return d.hv||null;default:return d[k];}
+}
+const SORTOPTS=[["score","Wynik ważony"],["value","Jakość za złotówkę"],["vmv","Obraz za złotówkę"],["p","Cena"],["s","Przekątna"],["t","Technologia"],["b","Marka"],["name","Nazwa modelu"],
+ ["m","Matowość ekranu"],["pf","Jasność HDR w filmach"],["pp","Szczyt HDR (pomiar lab.)"],["sdr","Jasność SDR"],["mv","Filmy UHD"],["br","Jasny pokój"],["sd","Dźwięk"],
+ ["wz","Ocena wybierz.tv"],["wsp","Sport (wybierz.tv)"],["wgr","Granie na konsoli (wybierz.tv)"],["hv","Werdykt HDTVPolska"],
+ ["h4","4K natywnie"],["h14","PC 1440p"],["h10","PC 1080p"],["c4","Konsola 4K"],["c14","Konsola 1440p"],["c10","Konsola 1080p"]];
+const SL=Object.fromEntries(SORTOPTS);
+const defDir=k=>["p","name","t","b"].includes(k)?1:-1;
+function cmpKey(a,b,k,dir){
+  const x=keyVal(a,k),y=keyVal(b,k);
+  if(x==null&&y==null) return 0; if(x==null) return 1; if(y==null) return -1;
+  if(typeof x==="string") return dir*x.localeCompare(y,"pl");
+  return x===y?0:dir*(x-y);
+}
+function sorted(list){
+  return list.slice().sort((a,b)=>{
+    for(const o of st.sorts){ const r=cmpKey(a,b,o.k,o.dir); if(r) return r; }
+    return sc0(b)-sc0(a);
+  });
+}
+function renderSortRows(){
+  const rows=[];
+  for(let i=0;i<3;i++){
+    const o=st.sorts[i]; if(i>0&&!st.sorts[i-1]) break;
+    const opts=(i>0?`<option value="">— brak —</option>`:"")+SORTOPTS.map(([k,l])=>{const used=st.sorts.some((x,j)=>j!==i&&x.k===k); return `<option value="${k}"${o&&o.k===k?" selected":""}${used?" disabled":""}>${l}</option>`;}).join("");
+    const n=st.sorts.length;
+    rows.push(`<div class="srow" data-si="${i}">${o&&n>1?`<span class="sgrip" draggable="true" title="Przeciągnij, by zmienić kolejność" aria-hidden="true">⋮⋮</span>`:`<span class="sgrip off" aria-hidden="true"></span>`}<span class="snum">${i+1}.</span><select class="btn" data-srow="${i}" aria-label="Kryterium sortowania ${i+1}">${opts}</select>${o?`<button type="button" class="btn sdir" data-sdir="${i}" aria-label="Kierunek kryterium ${i+1}">${o.dir<0?"↓":"↑"}</button>`:""}${o&&n>1?`<span class="smv"><button type="button" class="btn smb" data-smv="${i}" data-d="-1" ${i===0?"disabled":""} aria-label="Przesuń kryterium ${i+1} wyżej">▲</button><button type="button" class="btn smb" data-smv="${i}" data-d="1" ${i===n-1?"disabled":""} aria-label="Przesuń kryterium ${i+1} niżej">▼</button></span>`:""}${o&&!(n===1&&o.k==="score")?`<button type="button" class="btn sdel" data-sdel="${i}" title="Usuń kryterium" aria-label="Usuń kryterium ${i+1}">×</button>`:""}</div>`);
+  }
+  $("sortRows").innerHTML=rows.join("");
+}
+/* ===== Wyszukiwanie zwykłym językiem (lokalnie, bez AI i bez kosztów) ===== */
+const nrm=s=>String(s??"").toLowerCase().replace(/ł/g,"l").normalize("NFD").replace(/[̀-ͯ]/g,"");
+const hayOf=d=>d._hay||(d._hay=nrm([d.n,d.b,d.tl,d.t,d.os,d.ct,matteLbl(d.m),d.hd,d.hdr,d.h4+" hz",d.s+"″",d.s+'"',d.pro,d.ss].join(" ")));
+const STOP=new Set("ceny cen jakosc jakosci jakoscia najlepszy najlepsza najlepsze lub albo ewentualnie mniej wiecej okolo jakis jakies cos czegos to po mi ma jak sa ze na do od za ich jej jego tez wiec czy bo posortuj sortuj sortowanie sortowac posortowane uporzadkuj kolejnosc kolejnosci wedlug wg pierwsze pierwszy pierwsza drugi druga drugie trzeci trzecia trzecie parametr parametrem parametry kryterium kryteria nastepnie potem rosnaco malejaco najpierw rowniez takze oraz prosze pokaz znajdz daj chce telewizor telewizory telewizora telewizorow telewizorze tv tele do na z ze i w we dla o a jaki jakie jakis jakas ktory ktore ktora pokaz pokazac szukam szukaj chce chcialbym chcialabym potrzebuje poszukuje model modele modelu najlepiej oraz lub albo sie mi mam jest by zeby ale bardzo dobry dobre dobra dobrym dobrej cos ok nowy nowe nowa co przy pod nad po mozliwie jak najbardziej raczej typu ten te tez tylko wszystkie zl pln tys tysiecy cena cenie cenowo okolo ekran ekranem cali cale cal calowy calowe sprzet salonu salon pokoju pokoj mieszkania kupic kupie polecisz polecasz jakby rozsadny rozsadne fajny fajne super".split(" "));
+const numPL=(v,u)=>{ let n=parseFloat(String(v).replace(",",".")); if(isNaN(n)) return null; if(u&&/^(t|k)/.test(u)) n*=1000; else if(n<200) n*=1000; return Math.round(n); };
+const VOC=[...new Set("konsoli konsola konsole konsolowy grania granie gracza gier matowy matowe matowa matowym polmatowy oled qled mini filmow filmy filmu filmowy kina sport sportu sportowy meczy dzwiek dzwiekiem glosniki najtanszy najtansze najtansza najtanszego tanie tani tanio najlepszy najlepsze najlepsza najlepiej jasnego jasny jasnym pokoju pomieszczenia slonecznego telewizor telewizory telewizorow telewizora komputera komputer monitor playstation xbox oplacalny oplacalne ogromny najwiekszy najwieksze najjasniejszy najjasniejsze polecany polecane dolby vision".split(" ").concat(BRANDS.map(nrm)))];
+function lev(a,b){ if(Math.abs(a.length-b.length)>2) return 9; const d=Array.from({length:a.length+1},(_,i)=>[i]); for(let j=1;j<=b.length;j++) d[0][j]=j;
+  for(let i=1;i<=a.length;i++) for(let j=1;j<=b.length;j++){ d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1)); if(i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1]) d[i][j]=Math.min(d[i][j],d[i-2][j-2]+1); }
+  return d[a.length][b.length]; }
+function fixTypos(t){ return t.split(" ").map(w=>{ if(w.length<4||STOP.has(w)||VOC.includes(w)||/\d/.test(w)) return w; let best=null,bd=9; for(const v of VOC){ const x=lev(w,v); if(x<bd){bd=x;best=v;} } return bd<=(w.length>=7?2:1)?best:w; }).join(" "); }
+function parseNL(raw){
+  let s=" "+fixTypos(nrm(raw).replace(/[;!?()]/g," ").replace(/\s+/g," ").trim())+" ";
+  const sp={sort:[],unk:[],words:[]}; let cheap=0,best=false,asp=[];
+  /* jawna kolejność sortowania: kryteria po słowie „sortuj/posortuj/uporządkuj” w kolejności wystąpienia */
+  let xsort=null;
+  { const m=s.match(/\b(po)?sortuj\w*|\bsortowani\w*|\buporzadkuj\w*|\bwedlug\b|\bwg\b/);
+    if(m){ const tail=s.slice(m.index); const KW=[[/\b(cen\w*|tani\w*|drozsz\w*)/,"p"],[/\b(jasnosc\w*\s+sdr|sdr)\b/,"sdr"],[/\b(jasnosc\w*|jasn\w*|nit\w*|hdr)\b/,"pf"],[/\b(dzwiek\w*)/,"sd"],[/\b(matow\w*)/,"m"],[/\b(przekatn\w*|rozmiar\w*|cal\w*)/,"s"],[/\b(wynik\w*|ocen\w*)/,"score"],[/\b(hz|odswiezani\w*)/,"h4"],[/\b(obraz\w* za|obraz\w* do cen\w*)/,"vmv"],[/\b(film\w*|obraz\w*)(?!\w* za| do cen)/,"mv"],[/\b(oplacaln\w*|jakosc\w* za|stosun\w*)/,"value"]];
+      const found=[]; KW.forEach(([re,k])=>{ const g=new RegExp(re.source,"g"); let x; while((x=g.exec(tail))){ if(k==="pf"&&found.some(f=>f.k==="sdr"&&f.i===x.index)) continue; found.push({k,i:x.index}); } });
+      found.sort((a,b)=>a.i-b.i); const ks=[]; found.forEach(f=>{ if(!ks.includes(f.k)) ks.push(f.k); });
+      if(ks.length){ const dirOf=k=>{ const f=found.find(x=>x.k===k), w=tail.slice(f.i,f.i+40).split(/\b(?:potem|nastepnie|a drug\w*|a trzec\w*|,)\b/)[0]; if(/malejac|od najdrozsz|od najwieksz|od najjasniejsz|od najlepsz/.test(w)) return -1; if(/rosnac|od najtansz|od najmniejsz/.test(w)) return 1; return k==="p"||k==="s"&&false?1:-1; }; xsort=ks.slice(0,3).map(k=>({k,dir:dirOf(k)})); s=s.slice(0,m.index)+tail.replace(/\b(jasnosc\w*|sdr|hdr|nit\w*|dzwiek\w*|odswiezani\w*|wynik\w*|ocen\w*|przekatn\w*|rozmiar\w*)\b/g," "); } } }
+  const take=(re,fn)=>{ s=s.replace(re,(...m)=>{ const r=fn(m); return r===false?m[0]:" "; }); };
+  /* życzenia miękkie: „najlepiej matowy” = preferencja w sortowaniu, nie twardy filtr */
+  take(/\b(najlepiej|raczej|preferowan\w*|mile widzian\w*|w miare mozliwosci|jesli sie da|o ile to mozliwe|moze byc)\s+(matow\w*|polmat\w*)\b/g,()=>{sp.matteSoft=true;});
+  const IN='(?:cali|cale|cal|calowy|calowe|calowych|"|″|\'\'|in\\b)';
+  /* przekątna */
+  take(new RegExp("\\b(\\d{2,3})\\s*(?:-|do|–)\\s*(\\d{2,3})\\s*"+IN,"g"),m=>{sp.smin=+m[1]; sp.smax=+m[2];});
+  take(new RegExp("\\b(?:od|min\\w*|powyzej|ponad|co najmniej|wiecej niz|minimum)\\s*(\\d{2,3})\\s*"+IN,"g"),m=>{sp.smin=+m[1];});
+  take(new RegExp("\\b(?:do|max\\w*|maks\\w*|ponizej|najwyzej)\\s*(\\d{2,3})\\s*"+IN,"g"),m=>{sp.smax=+m[1];});
+  take(new RegExp("\\b(\\d{2,3})\\s*"+IN,"g"),m=>{(sp.sizeSet=sp.sizeSet||[]).push(+m[1]);});
+  take(/\b(ogromn\w*|gigant\w*)\b/g,()=>{sp.smin=98;});
+  take(/\b(\d{2,3})\s*(?:\+|(?:lub|i|albo)?\s*(?:wieksz\w*|wiecej|wzwyz|w gore))(?=\s|$)/g,m=>{const n=+m[1]; if(n<40||n>120) return false; sp.smin=n;});
+  take(/\b(?:od|min\w*|co najmniej|powyzej|ponad)\s*(\d{2,3})\b(?!\s*(?:tys|k\b|zl|pln|\d))/g,m=>{const n=+m[1]; if(n<40||n>120) return false; sp.smin=n;});
+  take(/\b(\d{2,3})\s*(?:lub|i|albo)?\s*(?:mniejsz\w*|w dol)(?=\s|$)/g,m=>{const n=+m[1]; if(n<40||n>120) return false; sp.smax=n;});
+  take(/(?:^|\s)(65|75|77|83|85|86|98|100|115)(?=\s|$)(?!\s*(?:tys|k\b|zl|pln))/g,m=>{ const off=m[m.length-2], str=m[m.length-1]; if(/(?:do|ponizej|za|max\w*|maks\w*|budzet\w*|cena\w*|cenie)\s*$/.test(str.slice(0,off))) return false; (sp.sizeSet=sp.sizeSet||[]).push(+m[1]);});
+  take(/\bnajwieksz\w*\b/g,()=>{sp.sort.push({k:"s",dir:-1});});
+  /* Hz, nit, złącza */
+  take(/\b(\d{2,3})\s*hz\b/g,m=>{sp.hz=+m[1];});
+  take(/\b(\d{3,4})\s*(?:nit\w*|cd)\b/g,m=>{sp.nit=+m[1];});
+  take(/\bhdmi\s*2[.,]1\b/g,()=>{sp.h21=true;});
+  take(/\b(dolby\s*vision|dv)\b/g,()=>{sp.dv=true;});
+  /* cena */
+  const U='(tys\\w*|k\\b|zl\\w*|pln)?';
+  take(new RegExp("\\b(?:od|miedzy)?\\s*(\\d+(?:[.,]\\d+)?)\\s*"+U+"\\s*(?:-|–|do|a)\\s*(\\d+(?:[.,]\\d+)?)\\s*(tys\\w*|k\\b|zl\\w*|pln)","g"),m=>{const a=numPL(m[1],m[2]||m[4]),b=numPL(m[3],m[4]); if(a==null||b==null) return false; sp.pmin=Math.min(a,b); sp.pmax=Math.max(a,b);});
+  take(new RegExp("\\b(?:do|ponizej|max\\w*|maks\\w*|mniej niz|nie drozej niz|nie wiecej niz|budzet\\w*|za|najwyzej)\\s*(\\d+(?:[.,]\\d+)?)\\s*"+U,"g"),m=>{const v=numPL(m[1],m[2]); if(v==null) return false; sp.pmax=v;});
+  take(new RegExp("\\b(?:od|powyzej|ponad|min\\w*|wiecej niz|co najmniej)\\s*(\\d+(?:[.,]\\d+)?)\\s*"+U,"g"),m=>{const v=numPL(m[1],m[2]); if(v==null) return false; sp.pmin=v;});
+  take(/\b(\d+(?:[.,]\d+)?)\s*(tys\w*|k\b|zl\w*|pln)/g,m=>{const v=numPL(m[1],m[2]); if(v==null) return false; sp.pmax=v;});
+  /* technologia */
+  const T=(k,neg)=>{ (neg?(sp.techNot=sp.techNot||[]):(sp.techIn=sp.techIn||[])).push(...[].concat(k)); };
+  take(/\b(?:bez|nie|oprocz|poza)\s+(qd-?oled|woled|oled\w*)/g,()=>T("OLED",1));
+  take(/\b(?:bez|nie|oprocz|poza)\s+(mini\s*-?led\w*|miniled\w*|lcd|led)\b/g,()=>T(["Mini LED","RGB Mini LED"],1));
+  take(/\b(true\s*rgb|micro\s*rgb|mini\s*rgb|rgb\s*(?:mini\s*-?)?led\w*|rgb\w*)\b/g,()=>T("RGB Mini LED"));
+  take(/\b(qd-?oled|woled|oled\w*)\b/g,()=>T("OLED"));
+  take(/\b(s?qd-?mini\s*-?led\w*|mini\s*-?led\w*|miniled\w*|neo\s*qled|qled|lcd|led)\b/g,()=>T(["Mini LED","RGB Mini LED"]));
+  /* marki */
+  BRANDS.forEach(b=>{ const nb=nrm(b);
+    take(new RegExp("\\b(?:bez|nie|oprocz|poza)\\s+"+nb+"\\w*","g"),()=>{(sp.brandNot=sp.brandNot||[]).push(b);});
+    take(new RegExp("\\b"+nb+"\\w*","g"),()=>{(sp.brandIn=sp.brandIn||[]).push(b);}); });
+  take(/\bbravia\b/g,()=>{ if(BRANDS.includes("Sony")) (sp.brandIn=sp.brandIn||[]).push("Sony"); });
+  /* system */
+  take(/\b(google\s*tv|android\w*)\b/g,()=>{sp.os="Google TV";});
+  take(/\btizen\b/g,()=>{sp.os="Tizen";}); take(/\bweb\s*os\b/g,()=>{sp.os="webOS";}); take(/\bvidaa\b/g,()=>{sp.os="VIDAA";});
+  /* ekran i pokój */
+  take(/\b(polmat\w*|satyn\w*|antyrefleks\w*|antyodblask\w*|bez odbic|nie odbija\w*|malo odbic\w*)\b/g,()=>{sp.matte=Math.max(sp.matte||0,7);});
+  take(/\bmatow\w*\b/g,()=>{sp.matte=9;});
+  take(/\b(bardzo\s+jasn\w*(?:\s+(?:pokoj\w*|pomieszcz\w*|salon\w*|wnetrz\w*))?|slonecz\w*|naslonecz\w*|duzo\s+(?:swiatla|okien|slonca)|okna?\s+na\s+poludnie|pelne\w* slonc\w*)\b/g,()=>{sp.bright=Math.max(+sp.bright||0,8); asp.push("br");});
+  take(/\b(jasn\w*\s+(?:pokoj\w*|pomieszcz\w*|salon\w*|wnetrz\w*)|w dzien|za dnia|okn\w*)\b/g,()=>{sp.bright=Math.max(+sp.bright||0,6); asp.push("br");});
+  /* przeznaczenie */
+  const PC=/\b(pc|komputer\w*|monitor\w*|1440p?|steam)\b/g;
+  const pc=PC.test(s); PC.lastIndex=0;
+  if(pc){ take(PC,()=>{}); sp.pc=true; asp.push("h14"); }
+  take(/\b(konsol\w*|ps\s*5\w*|playstation\w*|xbox\w*|gra(?:nia|nie|c|ch|m)?|gier|gry|grach|gaming\w*|gamer\w*|graczy|gracza|gracz)\b/g,()=>{ if(!pc) sp.console=true; asp.push(pc?"h14":"wgr"); });
+  take(/\b(film\w*|kin\w*|serial\w*|netflix\w*|ciemn\w*|wieczor\w*)\b/g,()=>{asp.push("mv");});
+  take(/\b(sport\w*|mecz\w*|pilk\w*|f1|formul\w*|skoki)\b/g,()=>{asp.push("wsp");});
+  take(/\b(dzwiek\w*|glosnik\w*|audio|muzyk\w*|brzmien\w*|basy?)\b/g,()=>{asp.push("sd");});
+  take(/\b(najjasniejsz\w*|jasn\w*|hdr\w*)\b/g,()=>{asp.push("pf");});
+  take(/\b(polecan\w*|hdtv\w*|rekomend\w*)\b/g,()=>{sp.rec=true;});
+  /* jakość obrazu (przed rankingiem, żeby „cena jakość obrazu” nie zgubiło „obrazu”) */
+  let pic=false;
+  take(/\b(jakosc\w*\s+obraz\w*|obraz\w*)\b/g,()=>{pic=true;});
+  /* ranking */
+  take(/\b(oplacaln\w*|stosun\w*|cen\w*\s*[-\/]?\s*jakosc\w*|jakosc\w*\s*(?:[-\/]|do)?\s*cen\w*|jakosc\w* za (?:zlotowke|pieniadze|cene)|za zlotowke|wart\w* swojej ceny|best buy|value)\b/g,()=>{cheap=2;});
+  take(/\b(najtansz\w*|tani\w*|tanio|tansz\w*|budzetow\w*|niedrog\w*|ekonomiczn\w*|okazj\w*)\b/g,()=>{cheap=1;});
+  take(/\bnajdrozsz\w*\b/g,()=>{cheap=-1;});
+  take(/\b(najlepsz\w*|top|najwyzej\s*ocenian\w*|premium|flagow\w*|najmocniejsz\w*)\b/g,()=>{best=true;});
+  /* reszta słów: szukane w nazwie i opisie */
+  s.split(/[\s,.:\/]+/).filter(w=>w&&w.length>2&&!STOP.has(w)&&!/^\d+$/.test(w)).forEach(w=>{ if(TV.some(d=>hayOf(d).includes(w))) sp.words.push(w); else sp.unk.push(w); });
+  /* sortowanie */
+  asp=[...new Set(asp)];
+  const so=[];
+  if(cheap===1) so.push({k:"p",dir:1}); else if(cheap===-1) so.push({k:"p",dir:-1}); else if(cheap===2) so.push({k:pic?"vmv":"value",dir:-1});
+  if(pic && cheap!==2) asp.unshift("mv");
+  asp.forEach(k=>so.push({k,dir:-1}));
+  if(!so.length && best) so.push({k:"score",dir:-1});
+  sp.sort=xsort?xsort.slice():[...sp.sort,...so];
+  if(sp.matteSoft && !sp.sort.some(o=>o.k==="m")) sp.sort.push({k:"m",dir:-1});
+  sp.sort=sp.sort.slice(0,3);
+  return sp;
+}
+const SORTK=new Set(SORTOPTS.map(x=>x[0]));
+function buildNL(sp,ai){
+  const drop=st.nlDrop||new Set(), F=[], ch=[];
+  const f={push:fn=>{F.push(fn);}};
+  const o0={f,chips:ch,words:(Array.isArray(sp.words)?sp.words:[]).map(nrm),unk:Array.isArray(sp.unk)?sp.unk:[],ovS:false,ovT:false,ovB:false,ovP:false,sort:null,ai:!!ai};
+  const o=Object.assign(o0,{f:[],chips:ch});
+  /* każdy warunek = chip; kliknięty chip znika z zapytania */
+  const _push=ch.push.bind(ch); let pend=[], kind=null; o.kf={size:[],tech:[],brand:[],price:[]}; o.pr=null;
+  ch.push=lbl=>{ const fns=F.splice(0); const ov=pend, kd=kind; pend=[]; kind=null; if(drop.has(lbl)){ ov.forEach(k=>o[k]=false); _push({l:lbl,off:true}); return; } o.f.push(...fns); if(kd) o.kf[kd].push(...fns); _push({l:lbl}); };
+  const OV=k=>{ o[k]=true; pend.push(k); };
+  const okS=k=>+k>=60&&ALLS.includes(sg(+k));
+  if(Array.isArray(sp.sizeSet)&&sp.sizeSet.some(okS)){ const S=new Set(sp.sizeSet.filter(okS).map(k=>sg(+k))); OV("ovS"); kind="size"; f.push(d=>S.has(sg(d.s))); ch.push([...S].map(SLB).join(" / ")); }
+  if(+sp.smin||+sp.smax){ const a=+sp.smin||0,b0=+sp.smax||999, b=b0>=85&&b0<98?Math.max(b0,86):b0>=98&&b0<110?Math.max(b0,100):b0; OV("ovS"); kind="size"; f.push(d=>d.s>=a&&d.s<=b); ch.push(+sp.smin&&+sp.smax?`${a}–${b}″`:+sp.smin?`od ${a}″`:`do ${b}″`); }
+  const arr=v=>Array.isArray(v)?v:[];
+  const tIn=arr(sp.techIn).filter(t=>TECHS.includes(t)), tNot=arr(sp.techNot).filter(t=>TECHS.includes(t));
+  if(tIn.length){ const S=new Set(tIn); OV("ovT"); kind="tech"; f.push(d=>S.has(d.t)); ch.push([...S].join(" / ")); }
+  if(tNot.length){ const S=new Set(tNot); kind="tech"; f.push(d=>!S.has(d.t)); ch.push("bez: "+[...S].join(", ")); }
+  const bIn=arr(sp.brandIn).filter(b=>BRANDS.includes(b)), bNot=arr(sp.brandNot).filter(b=>BRANDS.includes(b));
+  if(bIn.length){ const S=new Set(bIn); OV("ovB"); kind="brand"; f.push(d=>S.has(d.b)); ch.push([...S].join(" / ")); }
+  if(bNot.length){ const S=new Set(bNot); kind="brand"; f.push(d=>!S.has(d.b)); ch.push("bez: "+[...S].join(", ")); }
+  const pmin=+sp.pmin||null, pmax=+sp.pmax||null;
+  if(pmin||pmax){ OV("ovP"); kind="price"; o.pr=[pmin||2000,pmax||50000]; f.push(d=>d.p!=null&&(!pmin||d.p>=pmin)&&(!pmax||d.p<=pmax)); ch.push(pmin&&pmax?`${grp(pmin)}–${grp(pmax)} zł`:pmax?`do ${grp(pmax)} zł`:`od ${grp(pmin)} zł`); }
+  if(+sp.matte){ const m=+sp.matte>=9?9:7; f.push(d=>d.m>=m); ch.push(m>=9?"ekran matowy":"matowy lub półmat"); }
+  if(sp.bright){ const t=sp.bright===true?7:+sp.bright; f.push(d=>d.br!=null&&d.br>=t); ch.push(`do jasnego pokoju (ocena ≥ ${String(t).replace(".",",")})`); }
+  if(sp.matteSoft) ch.push("najlepiej matowy (w sortowaniu)");
+  if(sp.console===true){ f.push(d=>H21(d)&&d.h4>=120); ch.push("konsola: 4K 120 Hz, HDMI 2.1"); }
+  if(sp.pc===true){ f.push(d=>(d.h14||0)>=144); ch.push("PC: ≥ 144 Hz w 1440p"); }
+  if(+sp.hz){ const h=+sp.hz; f.push(d=>d.h4>=h); ch.push(`≥ ${h} Hz w 4K`); }
+  if(+sp.nit){ const n=+sp.nit; f.push(d=>(d.pf||0)>=n); ch.push(`HDR ≥ ${grp(n)} nit`); }
+  if(sp.h21===true){ f.push(H21); ch.push("HDMI 2.1"); }
+  if(sp.dv===true){ f.push(d=>/Dolby Vision/.test(d.hdr)); ch.push("Dolby Vision"); }
+  if(typeof sp.os==="string"&&sp.os){ const os=nrm(sp.os); f.push(d=>nrm(d.os).includes(os)); ch.push(sp.os); }
+  if(sp.rec===true){ f.push(d=>d.hv>=2); ch.push("polecany przez HDTVPolska"); }
+  o.words.forEach(w=>{ F.length=0; if(drop.has(`„${w}”`)) { o.words=o.words.filter(x=>x!==w); _push({l:`„${w}”`,off:true}); } else _push({l:`„${w}”`}); });
+  if(o.words.some(w=>drop.has(`„${w}”`))) o.words=o.words.filter(w=>!drop.has(`„${w}”`));
+  const so=arr(sp.sort).filter(x=>x&&SORTK.has(x.k)).map(x=>({k:x.k,dir:+x.dir===1?1:-1}));
+  const seen=new Set(); o.sort=so.filter(x=>!seen.has(x.k)&&seen.add(x.k)).slice(0,3);
+  if(!o.sort.length) o.sort=null;
+  return o;
+}
+function sortTxt(a){ return a.map(x=>`${(SL[x.k]||x.k).replace(/ \(.*\)/,"").toLowerCase()} ${x.dir<0?"↓":"↑"}`).join(", potem "); }
+function renderNL(){
+  const N=st.nl, el=$("nlBox"); if(!el) return;
+  if(!N){ el.innerHTML=""; return; }
+  const parts=[`<span class="muted">${N.ai?"AI rozumie:":"Rozumiem:"}</span>`];
+  N.chips.forEach(c=>parts.push(c.off?`<button type="button" class="nlc nloff" data-nlx="${esc(c.l)}" title="Przywróć warunek">${esc(c.l)}</button>`:`<button type="button" class="nlc" data-nlx="${esc(c.l)}" title="Kliknij, aby usunąć ten warunek">${esc(c.l)} ×</button>`));
+  if(N.sort) parts.push(`<span class="nlc">sortuj: ${esc(sortTxt(N.sort))}</span>`);
+  if(st.nl&&!filtered().length){ const h=relaxHints(); parts.push(`<span class="nlzero">0 wyników${h.length?" – wystarczy zdjąć jeden warunek:":" – zdejmij któryś warunek (kliknij go)"}</span>`+h.join(" ")); }
+  else if(st.nl) { const n=filtered().length; parts.push(`<span class="muted">${n} ${plW(n)}</span>`); }
+  if(!N.chips.length&&!N.sort) parts.push(`<span class="muted">nic konkretnego</span>`);
+  if(N.unk.length) parts.push(`<span class="muted">pominięto: <span class="nlu">${esc(N.unk.join(", "))}</span></span>`);
+  parts.push(`<button type="button" class="linkbtn" id="nlClear">wyczyść</button>`);
+  if(SAMPLE && st.q.trim().length>2 && !N.ai) parts.push(`<button type="button" class="chipb" id="nlAI" title="Wysyła do Claude tylko treść zapytania (ok. 500 tokenów); liczy się do limitu konta osoby, która pyta">Nie to? Zapytaj AI</button>`);
+  parts.push(`<span class="muted" id="nlMsg"></span>`);
+  el.innerHTML=parts.join(" ");
+}
+const plW=n=>n===1?"wynik":(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?"wyniki":"wyników";
+function nlBuild(){ const q=st.q.trim(); return !q?null:(st.aiSpec&&st.aiFor===q?buildNL(st.aiSpec,true):buildNL(parseNL(q))); }
+/* Gdy nic nie pasuje: policz, ile modeli dałoby zdjęcie pojedynczego warunku (z zapytania albo z filtrów na stronie) */
+function relaxHints(){
+  const out=[], N=st.nl, keep=st.nlDrop;
+  if(N) N.chips.filter(c=>!c.off).forEach(c=>{ st.nlDrop=new Set([...(keep||[]),c.l]); st.nl=nlBuild(); const n=filtered().length; if(n) out.push(`<button type="button" class="chipb" data-nlx="${esc(c.l)}">bez „${esc(c.l)}” → ${n}</button>`); });
+  st.nlDrop=keep; st.nl=nlBuild();
+  const tryUI=(lbl,key,mut,undo)=>{ mut(); const n=filtered().length; undo(); if(n) out.push(`<button type="button" class="chipb" data-relax="${key}">${lbl} → ${n}</button>`); };
+  const M=HM();
+  if(st.hmin>0||st.hmax<M){ const a=st.hmin,b=st.hmax; tryUI("wyłącz suwak jasności HDR","hdr",()=>{st.hmin=0;st.hmax=M;},()=>{st.hmin=a;st.hmax=b;}); }
+  if(st.matte) tryUI("wyłącz „ekran matowy”","matte",()=>st.matte=false,()=>st.matte=true);
+  if(st.g144) tryUI("wyłącz „144 Hz w 4K”","g144",()=>st.g144=false,()=>st.g144=true);
+  if(st.hdp) tryUI("wyłącz „Bardzo polecamy”","hdp",()=>st.hdp=false,()=>st.hdp=true);
+  if(!(N&&N.ovS)&&st.sizes.size<ALLS.length){ const k=st.sizes; tryUI("wszystkie przekątne","sizes",()=>st.sizes=new Set(ALLS),()=>st.sizes=k); }
+  if(!(N&&N.ovT)&&st.techs.size<TECHS.length){ const k=st.techs; tryUI("wszystkie technologie","techs",()=>st.techs=new Set(TECHS),()=>st.techs=k); }
+  if(!(N&&N.ovB)&&st.brands.size<BRANDS.length){ const k=st.brands; tryUI("wszystkie marki","brands",()=>st.brands=new Set(BRANDS),()=>st.brands=k); }
+  if(!(N&&N.ovP)&&(st.pmin>2000||st.max<50000)){ const a=st.pmin,b=st.max; tryUI("pełny zakres ceny","price",()=>{st.pmin=2000;st.max=50000;},()=>{st.pmin=a;st.max=b;}); }
+  return out;
+}
+/* Warunki z wyszukiwarki pokazujemy też w filtrach strony (przekątna, technologia, marka, cena); po wyczyszczeniu wracają poprzednie ustawienia */
+function syncUI(){
+  const N=st.nl, K=N&&N.kf, on=K&&(K.size.length||K.tech.length||K.brand.length||(K.price.length&&N.pr));
+  if(on){
+    if(!st.uiSaved) st.uiSaved={sizes:new Set(st.sizes),techs:new Set(st.techs),brands:new Set(st.brands),pmin:st.pmin,max:st.max};
+    const B=st.uiSaved, ok=fs=>d=>fs.every(fn=>fn(d));
+    st.sizes=K.size.length?new Set(ALLS.filter(g=>TV.some(d=>sg(d.s)===g&&ok(K.size)(d)))):new Set(B.sizes);
+    st.techs=K.tech.length?new Set(TECHS.filter(t=>TV.some(d=>d.t===t&&ok(K.tech)(d)))):new Set(B.techs);
+    st.brands=K.brand.length?new Set(BRANDS.filter(b=>TV.some(d=>d.b===b&&ok(K.brand)(d)))):new Set(B.brands);
+    if(K.price.length&&N.pr){ st.pmin=N.pr[0]; st.max=N.pr[1]; } else { st.pmin=B.pmin; st.max=B.max; }
+  } else if(st.uiSaved){ const B=st.uiSaved; st.sizes=B.sizes; st.techs=B.techs; st.brands=B.brands; st.pmin=B.pmin; st.max=B.max; st.uiSaved=null; }
+}
+function applyQ(){
+  const q=st.q.trim(); $("aiBox").classList.toggle("hasq",!!q);
+  st.nl=nlBuild();
+  const key=st.nl&&st.nl.sort?JSON.stringify(st.nl.sort):"";
+  if(key!==st.nlKey){
+    if(key){ if(!st.nlKey) st.sortsBefore=st.sorts.map(o=>({...o})); st.sorts=st.nl.sort.map(o=>({...o})); }
+    else if(st.sortsBefore){ st.sorts=st.sortsBefore; st.sortsBefore=null; }
+    st.nlKey=key;
+  }
+  syncUI(); renderAll(); renderNL(); rememberQ();
+}
+/* Podpowiedzi pod polem: ostatnie wyszukiwania wszystkich odwiedzających (wspólna baza strony) + własne z tej przeglądarki */
+const EXQ=["najtańsze do grania na konsoli oled","matowy do jasnego salonu 75 cali","najlepszy dźwięk do 10 tys","ogromny tani"];
+let RECENT=[], DBS=null, dbWrite=true; const savedQ=new Set();
+function ownRecent(){ try{ return JSON.parse(localStorage.getItem("tvq")||"[]"); }catch(e){ return []; } }
+function renderEx(){
+  const el=$("aiEx"); if(!el) return;
+  const seen=new Set(), list=[];
+  [...RECENT,...ownRecent()].forEach(q=>{ const k=nrm(q).trim(); if(k&&!seen.has(k)&&list.length<6){ seen.add(k); list.push(q); } });
+  const chip=q=>`<button type="button" class="aichip" data-ex="${esc(q)}" title="${esc(q)}">${esc(q.length>42?q.slice(0,40)+"…":q)}</button>`;
+  const pad=EXQ.filter(q=>!seen.has(nrm(q))).slice(0,Math.max(0,4-list.length));
+  el.innerHTML=(list.length?`<span class="aiexl">Ostatnio szukano:</span>${list.map(chip).join("")}`:"")+(pad.length?`<span class="aiexl">${list.length?"oraz np.":"np."}</span>${pad.map(chip).join("")}`:"");
+}
+function qid(q){ let h=2166136261; for(const c of nrm(q).trim()) { h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return "q"+(h>>>0).toString(36); }
+let saveT=null;
+function rememberQ(){
+  clearTimeout(saveT);
+  const q=st.q.trim().replace(/\s+/g," ").slice(0,90);
+  if(q.length<6||!st.nl||!filtered().length) return;
+  saveT=setTimeout(async()=>{
+    if(st.q.trim().replace(/\s+/g," ").slice(0,90)!==q||savedQ.has(qid(q))) return;
+    savedQ.add(qid(q));
+    try{ const o=ownRecent().filter(x=>nrm(x)!==nrm(q)); o.unshift(q); localStorage.setItem("tvq",JSON.stringify(o.slice(0,10))); }catch(e){}
+    renderEx();
+    if(DBS&&dbWrite){ try{ await DBS.doc("searches/"+qid(q)).set({q,t:Date.now()}); }catch(e){ if(e&&(e.code==="invalid_argument"||e.code==="not_granted"||e.code==="revoked")) dbWrite=false; } }
+  },2500);
+}
+(async()=>{ try{ if(!(window.claude&&claude.use)) return; DBS=await claude.use("db"); if(!DBS) return;
+  DBS.collection("searches").orderBy("t","desc").limit(20).onSnapshot(snap=>{
+    RECENT=snap.docs.map(d=>{ const v=d.data(); return v&&typeof v.q==="string"?v.q.slice(0,90):null; }).filter(Boolean); renderEx(); },()=>{});
+  }catch(e){ DBS=null; } })();
+function resetNL(){ st.nlDrop=null; st.q=""; $("q").value=""; st.aiSpec=null; st.aiFor=null; applyQ(); }
+/* Opcjonalnie: Claude tłumaczy trudne zapytanie na filtry. Tylko na kliknięcie, ok. 500 tokenów, z limitu konta osoby, która pyta. */
+let SAMPLE=null;
+(async()=>{ try{ if(window.claude&&claude.use){ SAMPLE=await claude.use("sample"); if(SAMPLE) renderNL(); } }catch(e){ SAMPLE=null; } })();
+async function askAI(){
+  const q=st.q.trim(); if(!q||!SAMPLE) return;
+  const b=$("nlAI"), msg=$("nlMsg"); if(b) b.disabled=true; if(msg) msg.textContent="AI analizuje…";
+  const prompt=`Zamień zapytanie o telewizor na filtry. Odpowiedz WYŁĄCZNIE obiektem JSON, bez komentarza. Pomiń pola, których zapytanie nie dotyczy, i nie dodawaj warunków, o których użytkownik nie pisze. „77 lub większy” = smin:77.
+Pola: sizeSet:[liczby z 65,75,77,83,85,98,110] | smin,smax (cale) | techIn,techNot:[z "Mini LED","RGB Mini LED","OLED"] | brandIn,brandNot:[z ${BRANDS.map(x=>'"'+x+'"').join(",")}] | pmin,pmax (zł) | matte:7 (półmat lub mat) albo 9 (tylko mat) | bright:6 (jasny pokój) albo 8 (bardzo jasny/słoneczny) – tylko gdy mowa o pomieszczeniu; samo „jasny” = sort pf | console:true (PS5/Xbox) | pc:true (komputer) | hz (min Hz w 4K) | nit (min jasność HDR) | h21:true | dv:true (Dolby Vision) | os:"Google TV"|"Tizen"|"webOS"|"VIDAA" | rec:true (polecany przez recenzentów) | sort:[{"k":..,"dir":1|-1}] maks 3, k z: p cena, score ogólnie, value jakość/cena, vmv jakość obrazu/cena, mv filmy (jakość obrazu), br jasny pokój, sd dźwięk, wsp sport, wgr konsola, pf jasność HDR, m matowość, s przekątna, h4 Hz 4K, h14 Hz PC; dir 1 rosnąco, -1 malejąco.
+Zapytanie: ${JSON.stringify(q)}`;
+  try{
+    const sp=await SAMPLE.json(prompt,{modelTier:"quick"});
+    if(!sp||typeof sp!=="object") throw {message:"pusta odpowiedź"};
+    sp.words=[]; sp.unk=[]; st.aiSpec=sp; st.aiFor=q; applyQ();
+    const m2=$("nlMsg"); if(m2) m2.textContent=`AI: ${filtered().length} ${plW(filtered().length)}`;
+  }catch(e){
+    if(e&&e.code==="not_granted"){ SAMPLE=null; renderNL(); return; }
+    const m=$("nlMsg"); if(m) m.textContent=e&&e.code==="rate_limited"?"Limit zapytań AI – spróbuj za chwilę.":"AI nie odpowiedziało ("+((e&&(e.code||e.message))||"błąd")+"), zostaje wynik lokalny."; const bb=$("nlAI"); if(bb) bb.disabled=false;
+  }
+}
+
+
+const COLS=[
+  {k:"cmp",l:"Porównaj",ns:true},
+  {k:"rank",l:"#",ns:true,r:true},
+  {k:"name",l:"Model",sticky:true},
+  {k:"p",l:"Cena",r:true},
+  {k:"score",l:"Wynik",r:true},
+  {k:"wz",l:"wybierz.tv",r:true},
+  {k:"hv",l:"HDTVPolska"},
+  {k:"ot",l:"Inne testy",ns:true},
+  {k:"wsp",l:"Sport (wybierz)",r:true},
+  {k:"wgr",l:"Gry (wybierz)",r:true},
+  {k:"value",l:"Pkt / 1000 zł",r:true},
+  {k:"vmv",l:"Obraz / 1000 zł",r:true},
+  {k:"pf",l:"Jasność HDR (filmy)",r:false},
+  {k:"pp",l:"Szczyt HDR (lab.)",r:true},
+  {k:"sdr",l:"Jasność SDR",r:false},
+  {k:"m",l:"Ekran"},
+  {k:"mv",l:"Filmy",r:true},
+  {k:"br",l:"Jasny pokój",r:true},
+  {k:"sd",l:"Dźwięk",r:true},
+  {k:"h4",l:"4K natywnie",r:true,g:"pc"},
+  {k:"h14",l:"PC 1440p",r:true,g:"pc"},
+  {k:"h10",l:"PC 1080p",r:true,g:"pc"},
+  {k:"c4",l:"Konsola 4K",r:true,g:"con"},
+  {k:"c14",l:"Konsola 1440p",r:true,g:"con"},
+  {k:"c10",l:"Konsola 1080p",r:true,g:"con"},
+  {k:"hd",l:"HDMI",ns:true}
+];
+
+/* Układ kolumn: kolejność, widoczność, szerokość – zapamiętywane w tej przeglądarce */
+const COLK=COLS.map(c=>c.k), CM=Object.fromEntries(COLS.map(c=>[c.k,c]));
+let ORD=null,HID=null,CW=null;
+try{const v=JSON.parse(localStorage.getItem("tvcols")||"null"); if(v){ORD=v.o;HID=new Set(v.h||[]);CW=v.w||{};}}catch(e){}
+if(!Array.isArray(ORD)) ORD=COLK.slice();
+ORD=ORD.filter(k=>COLK.includes(k)); COLK.forEach((k,i)=>{ if(!ORD.includes(k)) ORD.splice(Math.min(i,ORD.length),0,k); });
+HID=HID||new Set(); HID.delete("name"); CW=CW&&typeof CW==="object"?CW:{};
+function saveCols(){ try{localStorage.setItem("tvcols",JSON.stringify({o:ORD,h:[...HID],w:CW}));}catch(e){} }
+const VIS=()=>ORD.filter(k=>!HID.has(k));
+function applyW(){ const el=$("colW"); if(!el) return; el.textContent=VIS().map((k,i)=>CW[k]?`#tbl thead th:nth-child(${i+1}),#tbl tr.row>td:nth-child(${i+1}){width:${CW[k]}px;min-width:${CW[k]}px!important;max-width:${CW[k]}px;overflow:hidden}`:"").join("\n"); }
+function renderCols(){
+  const el=$("colsList"); if(!el) return;
+  $("colsSum").textContent=(HID.size?`ukryte: ${HID.size}`:"wszystkie")+(Object.keys(CW).length?" · zmienione szerokości":"");
+  el.innerHTML=`<div class="msact"><button type="button" class="linkbtn" id="colsReset">Przywróć domyślny układ</button></div>`+
+    ORD.map((k,i)=>`<div class="colrow"><label><input type="checkbox" data-colvis="${k}" ${HID.has(k)?"":"checked"} ${k==="name"?"disabled":""}> ${esc(CM[k].l)}</label><button type="button" class="chipb" data-colmv="${k}" data-d="-1" ${i===0?"disabled":""} aria-label="Przesuń ${esc(CM[k].l)} w lewo">◀</button><button type="button" class="chipb" data-colmv="${k}" data-d="1" ${i===ORD.length-1?"disabled":""} aria-label="Przesuń ${esc(CM[k].l)} w prawo">▶</button></div>`).join("")+
+    `<p class="muted colhint">W tabeli: przeciągnij nagłówek, żeby przenieść kolumnę; przeciągnij prawą krawędź nagłówka, żeby zwęzić lub poszerzyć (dwuklik = domyślna szerokość).</p>`;
+}
+function colsChanged(){ saveCols(); renderHead(); renderBody(); renderCols(); }
+function renderHead(){
+  $("thead").innerHTML=VIS().map(k=>{ const c=CM[k];
+    const cls=[c.r?"r":"",c.sticky?"sticky":"",c.g==="con"?"gcon":""].join(" ").trim();
+    const rz=`<span class="rz" data-rz="${k}" title="Przeciągnij: szerokość · dwuklik: domyślna"></span>`;
+    if(c.ns) return `<th class="${cls}" scope="col" draggable="true" data-col="${k}"><button type="button" tabindex="-1" style="cursor:inherit" title="Przeciągnij, żeby przenieść kolumnę">${c.l}</button>${rz}</th>`;
+    const pos=st.sorts.findIndex(o=>o.k===c.k), o=st.sorts[pos], act=pos>=0;
+    const arrow=act?`<span class="sbadge">${o.dir<0?"↓":"↑"}${st.sorts.length>1?pos+1:""}</span>`:"";
+    return `<th class="${cls}" scope="col" draggable="true" data-col="${k}" aria-sort="${pos===0?(o.dir<0?"descending":"ascending"):"none"}"><button type="button" data-sort="${c.k}" data-active="${act}" title="Klik: sortuj po tej kolumnie · Shift/Ctrl+klik: dodaj jako kolejne kryterium (maks. 3) · przeciągnij: przenieś kolumnę">${c.l}${arrow}</button>${rz}</th>`;
+  }).join("");
+  applyW(); if(typeof FH==="function") FH();
+}
+
+/* próg jasności HDR = zakres z suwaka „Jasność HDR” (tryb: filmy albo szczyt) */
+function thr(){ const M=HM(); return {k:st.hmode,lo:st.hmin,hi:st.hmax,M,on:st.hmin>0||st.hmax<M}; }
+function hdrBar(v,k,scale){
+  const T=thr(), act=T.on&&T.k===k, ok=act&&v>=T.lo&&v<=T.hi, col=!act?"var(--accent)":ok?"var(--good)":"var(--warn)";
+  const pct=Math.min(100,v/scale*100);
+  const mk=act?(T.lo>0?`<b style="left:${Math.min(100,T.lo/scale*100)}%"></b>`:"")+(T.hi<T.M?`<b style="left:${Math.min(100,T.hi/scale*100)}%"></b>`:""):"";
+  return `<span class="num ${act?(ok?"ok":"ko"):""}">${grp(v)} nit</span><span class="bar"><i style="width:${pct}%;background:${col}"></i>${mk}</span>`;
+}
+function thrLegend(){
+  const T=thr(), nm=T.k==="pf"?"HDR w filmach":"Szczyt HDR (lab.)";
+  if(!T.on) return `HDR: kolory i kreski pojawią się po ustawieniu suwaka <b>Jasność HDR</b> (np. „≥ 1 300”)`;
+  const rng=T.lo>0&&T.hi<T.M?`od <b>${grp(T.lo)}</b> do <b>${grp(T.hi)}</b>`:T.lo>0?`co najmniej <b>${grp(T.lo)}</b>`:`najwyżej <b>${grp(T.hi)}</b>`;
+  return `<span class="dot" style="background:var(--good)"></span> ${nm}: ${rng} nit (kreska na pasku), <span class="dot" style="background:var(--warn)"></span> poza zakresem · wartości z suwaka „Jasność HDR”`;
+}
+function nitCell(d){
+  if(d.pf==null) return `<span class="na">brak pomiaru</span>`;
+  return `<div class="nit">${hdrBar(d.pf,"pf",2500)}</div>`;
+}
+function ppCell(d){
+  if(d.pp==null) return d.mfr?`<span class="na">brak pomiaru</span><div class="mfr">producent: ${grp(d.mfr)}</div>`:`<span class="na">brak pomiaru</span>`;
+  return `<div class="nit" title="${esc(d.pps||"")}">${hdrBar(d.pp,"pp",5000)}</div>${d.mfr?`<div class="mfr">producent: ${grp(d.mfr)}</div>`:""}`;
+}
+function sdrCell(d){
+  if(d.sdr==null) return `<span class="na">brak pomiaru</span>`;
+  const pct=Math.min(100,d.sdr/1700*100), c=d.sdr>=800?"var(--good)":d.sdr>=450?"var(--accent)":"var(--warn)";
+  return `<div class="nit"><span class="num">${grp(d.sdr)} nit</span><span class="bar"><i style="width:${pct}%;background:${c}"></i></span></div>`;
+}
+function hzCell(v,base){
+  if(v==null) return `<span class="na">—</span>`;
+  const boosted=base&&v>base;
+  return `<span class="num"${boosted?' title="Tryb DLG / Game Accelerator"':""}>${v}${boosted?"*":""}</span>`;
+}
+
+function wzCell(d){
+  if(!d.wz) return d.mv==null?`<span class="na">brak testu</span>`:`<span class="na">—</span>`;
+  return `<a class="extl" href="${d.wz}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Test na wybierz.tv"><span class="num">${d.ov.toFixed(1)}</span> ↗</a>`;
+}
+function hdCell(d){
+  if(!d.hu) return `<span class="na">brak testu</span>`;
+  return `<a class="hdb ${d.hv>=2?"hd-top":"hd-test"}" href="${d.hu}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="${esc(d.hn2)}">${esc(d.hl)} ↗</a>`;
+}
+/* Modele poza bieżącym widokiem + świadomie pominięte (wyliczane z danych) */
+const EXCL=[
+ ["Panasonic W95C","brak ofert w polskich sklepach"],
+ ["Samsung QN990F 98″, Sony Bravia 9 II 115″","cena powyżej 50 000 zł"],
+ ["Panasonic W95B, Sony Bravia 5, Samsung The Frame Pro, LG QNED86/QNED80","podświetlenie bez Mini LED albo telewizor typu „obraz” – poza zakresem technologii"],
+ ["Iffalcon U85X1, Dreame S100, Sharp JP7765E","najtańsze Mini LED z oceną poniżej 7,0 i słabą jasnością HDR"]
+];
+function renderOut(){
+  const el=$("outNote"); if(!el) return;
+  const vis=new Set(filtered().map(d=>d.id)), N=st.nl;
+  const priceOut=filtered(true).filter(d=>!vis.has(d.id)&&d.p!=null).sort((a,b)=>a.p-b.p);
+  const noPrice=TV.filter(d=>d.p==null);
+  const lim=a=>a.slice(0,14).map(d=>`${esc(d.n)} <span class="num">(${fmtP(d.p)})</span>`).join(", ")+(a.length>14?` i ${a.length-14} innych`:"");
+  const rng=N&&N.ovP?"z zapytania":`${grp(st.pmin)}–${grp(st.max)} zł`;
+  el.innerHTML=
+    `<p><b>Liczba modeli w bazie:</b> ${TV.length} (${TECHS.map(t=>`${t} ${TV.filter(d=>d.t===t).length}`).join(", ")}). Ukryte przez bieżące filtry: ${TV.length-vis.size}.</p>`+
+    (priceOut.length?`<p><b>Poza zakresem ceny (${rng}):</b> ${lim(priceOut)}. <button class="linkbtn" type="button" id="showOver">pokaż wszystkie</button></p>`:"")+
+    (noPrice.length?`<p><b>Bez aktualnej ceny:</b> ${noPrice.map(d=>esc(d.n)).join(", ")}.</p>`:"")+
+    `<p><b>Świadomie pominięte:</b> ${EXCL.map(([n,r])=>`${esc(n)} – ${esc(r)}`).join("; ")}.</p>`;
+}
+function renderBody(){
+  renderOut(); if(typeof FH==="function") setTimeout(FH,0);
+  const list=sorted(filtered());
+  const ranked=filtered().slice().sort((a,b)=>sc0(b)-sc0(a));
+  const rankOf=new Map(ranked.map((d,i)=>[d.id,i+1]));
+  {const hid=filtered(true).length-list.length; $("count").innerHTML=`${list.length} z ${TV.length} modeli pasuje do filtrów`+(hid>0?` · <span class="hiddenNote">${hid} ${hid===1?"model poza":"modeli poza"} zakresem ceny ukryte <button class="linkbtn" type="button" id="showOver">pokaż</button></span>`:"");}
+  renderPicks(list);
+  $("thrLeg").innerHTML=thrLegend();
+  if(!list.length){$("tbody").innerHTML=`<tr><td colspan="${VIS().length}" class="empty">Żaden model nie spełnia wszystkich warunków. Odznacz któryś filtr albo zwiększ cenę maksymalną.</td></tr>`;return;}
+  $("tbody").innerHTML=list.map(d=>{
+    const sc=score(d),v=val(d),open=st.open===d.id;
+    const tags=[`<span class="tag size">${d.s}″</span>`,`<span class="tag">${esc(d.tl)}</span>`];
+    if(d.p==null) tags.push(`<span class="tag over">cena do sprawdzenia</span>`);
+    if(d.est) tags.push(`<span class="tag est">oceny serii</span>`);
+    if(d.mv==null) tags.push(`<span class="tag est" title="Brak testu laboratoryjnego – dane techniczne producenta">bez testu</span>`);
+    const hdmi21=(d.hd.match(/(\d)× HDMI 2\.1/)||[])[1];
+    const C={
+      cmp:`<td onclick="event.stopPropagation()"><input class="cmpbox" type="checkbox" id="c_${d.id}" data-cmp="${d.id}" ${st.cmp.has(d.id)?"checked":""} aria-label="Porównaj ${esc(d.n)}"></td>`,
+      rank:`<td class="r rank">${rankOf.get(d.id)}</td>`,
+      name:`<td class="model sticky"><div class="mname">${esc(d.n)}</div><div class="tags">${tags.join("")}</div></td>`,
+      p:`<td class="r">${priceCell(d)}</td>`,
+      score:`<td class="r"><span class="score ${sClass(sc)}">${f2(sc)}</span></td>`,
+      wz:`<td class="r">${wzCell(d)}</td>`,
+      hv:`<td>${hdCell(d)}</td>`,
+      ot:`<td>${otherCell(d)}</td>`,
+      wsp:`<td class="r num">${d.wc&&d.wc[2]!=null?d.wc[2].toFixed(1):"—"}</td>`,
+      wgr:`<td class="r num">${d.wc&&d.wc[3]!=null?d.wc[3].toFixed(1):"—"}</td>`,
+      value:`<td class="r num">${v==null?"—":v.toFixed(2)}</td>`,
+      vmv:`<td class="r num">${vmv(d)==null?"—":vmv(d).toFixed(2)}</td>`,
+      pf:`<td>${nitCell(d)}</td>`,
+      pp:`<td class="r">${ppCell(d)}</td>`,
+      sdr:`<td>${sdrCell(d)}</td>`,
+      m:`<td><span class="matte"><span class="dot" style="background:${matteColor(d.m)}"></span>${matteLbl(d.m)} <span class="num muted">${d.m}</span></span></td>`,
+      mv:`<td class="r num">${f1(d.mv)}</td>`,
+      br:`<td class="r num">${f1(d.br)}</td>`,
+      sd:`<td class="r num">${f1(d.sd)}</td>`,
+      h4:`<td class="r">${hzCell(d.h4)}</td>`,
+      h14:`<td class="r">${hzCell(d.h14,d.h4)}</td>`,
+      h10:`<td class="r">${hzCell(d.h10,d.h4)}</td>`,
+      c4:`<td class="r gcon">${hzCell(con(d,d.h4,4))}</td>`,
+      c14:`<td class="r gcon">${hzCell(con(d,d.h14))}</td>`,
+      c10:`<td class="r gcon">${hzCell(con(d,d.h10))}</td>`,
+      hd:`<td class="num" style="white-space:nowrap">${hdmi21?hdmi21+"× 2.1":esc(d.hd.replace("HDMI ",""))}</td>`
+    };
+    let r=`<tr class="row" data-id="${d.id}" aria-expanded="${open}" tabindex="0">
+      ${VIS().map(k=>C[k]).join("")}
+    </tr>`;
+    if(open) r+=detailRow(d);
+    return r;
+  }).join("");
+}
+
+function otherTests(d){
+  const k=TK[d.id]; return (k&&TESTS[k]?TESTS[k]:[]).filter(x=>!x[1].includes("hdtvpolska.com")&&!x[1].includes("wybierz.tv"));
+}
+const shortSrc=l=>l.replace(/\s*[(–].*$/,"").replace(/^choose\.tv.*$/,"choose.tv").trim();
+function otherCell(d){
+  const o=otherTests(d);
+  if(!o.length) return `<span class="na">—</span>`;
+  const seen=new Set(), pills=[];
+  o.forEach(x=>{const n=shortSrc(x[0]); if(seen.has(n)) return; seen.add(n); pills.push(`<a class="tpill" href="${x[1]}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="${esc(x[2])}">${esc(n)} ↗</a>`);});
+  const shown=pills.slice(0,3).join(""), more=pills.length-3;
+  return `<div class="tpills">${shown}${more>0?`<span class="tmore" title="Pozostałe w szczegółach modelu">+${more}</span>`:""}</div>`;
+}
+function testsHTML(d){
+  const k=TK[d.id], t=k?TESTS[k]:null, yq=(k?YT[k]:qq(d));
+  const extra=[];
+  if(d.wz) extra.push(["wybierz.tv (PL, laboratorium) – ocena "+d.ov.toFixed(1)+"/10",d.wz,"Polska wersja choose.tv; jej ocena ogólna i oceny cząstkowe są podstawą wyniku w tej tabeli."+(d.dn?" "+d.dn:"")]);
+  if(d.hu && !(t||[]).some(x=>x[1].includes("hdtvpolska.com"))) extra.push(["HDTVPolska (PL, laboratorium) – "+d.hl,d.hu,d.hn2]);
+  const all=[...extra,...(t||[])];
+  const yt=`<span class="ytl"><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(yq+" test recenzja")}" target="_blank" rel="noopener">YouTube PL ↗</a><a href="https://www.youtube.com/results?search_query=${encodeURIComponent(yq+" review HDTVTest")}" target="_blank" rel="noopener">YouTube EN / HDTVTest ↗</a></span>`;
+  return `<h3 style="margin-top:4px">Testy i recenzje</h3>`+(all.length?`<ul class="tests">${all.map(x=>`<li><a href="${x[1]}" target="_blank" rel="noopener">${esc(x[0])} ↗</a><br><span class="muted">${esc(x[2])}</span></li>`).join("")}</ul>`:`<p class="muted" style="margin:0">Brak zebranych testów tej serii.</p>`)+yt;
+}
+function priceCell(d){
+  const link=d.pu||ceneoQ(d);
+  const flag=d.pv==="ok"?"":`<div><span class="tag est" title="${PV[d.pv]}">${d.pv==="promo"?"promocja":"do sprawdzenia"}</span></div>`;
+  return `<span class="num">${fmtP(d.p)}</span><div><a class="plink" href="${link}" target="_blank" rel="noopener" title="${PV[d.pv]}">${d.pu?"oferty w Ceneo":"szukaj w Ceneo"} ↗</a></div>${flag}`;
+}
+function wzBlock(d){
+  if(!d.wz) return "";
+  const bars=d.wc?WZK.map((l,i)=>{const v=d.wc[i]; return `<div class="wzr"><span>${l}</span><span class="wzb"><i style="width:${v==null?0:v*10}%;background:${v==null?"transparent":v>=8.5?"var(--good)":v>=7?"var(--accent)":"var(--warn)"}"></i></span><b class="num">${v==null?"—":v.toFixed(1)}</b></div>`;}).join(""):`<p class="muted" style="margin:0">Ocen cząstkowych nie udało się pobrać – są w teście.</p>`;
+  const m=d.wm||[];
+  const meas=[m[0]?"powłoka "+m[0]:null,m[1]?"tłumienie odbić: "+m[1]:null,m[2]?"jasność SDR "+grp(m[2])+" nit":null].filter(Boolean).join(" · ");
+  return `<div class="wzbox"><h3 style="margin:0 0 6px">wybierz.tv – ocena ${d.ov.toFixed(1)}/10 <a class="extl" href="${d.wz}" target="_blank" rel="noopener" style="font-size:13px;font-weight:500">pełny test ↗</a></h3>${bars}${meas?`<p class="muted" style="margin:6px 0 0;font-size:13px">Pomiary w dzień: ${esc(meas)}</p>`:""}${d.dn?`<p class="muted" style="margin:4px 0 0;font-size:12.5px">${esc(d.dn)}</p>`:""}</div>`;
+}
+function detailRow(d){
+  const dl=(pairs)=>`<dl>${pairs.filter(p=>p[1]!=null&&p[1]!=="").map(p=>`<dt>${p[0]}</dt><dd>${p[1]}</dd>`).join("")}</dl>`;
+  return `<tr class="detail"><td colspan="${VIS().length}"><div class="dgrid">
+    <div><h3 style="margin-bottom:8px">Obraz</h3>${dl([
+      ["Technologia",esc(d.tl)],["Panel",esc(d.pn)],["Strefy wygaszania",esc(d.z??"brak danych")],
+      ["Szczyt HDR, filmy",d.pf?grp(d.pf)+"\u00a0nit":"brak pomiaru"],
+      ["Szczyt HDR, pomiar lab.",d.pp?grp(d.pp)+" nit"+(d.pps?` <span class="muted">(${esc(d.pps)})</span>`:""):"brak pomiaru"],["Deklaracja producenta",d.mfr?"do "+grp(d.mfr)+" nit":null],
+      ["Jasność SDR",d.sdr?grp(d.sdr)+" nit":null],
+      ["BT.2020 (wzorzec / film)",esc(d.bt)],["Kąty widzenia",d.va?d.va+" / 10":null],
+      ["Powłoka ekranu",esc(d.ct)],["HDR",esc(d.hdr)],["Ocena ogólna",d.ov==null?"brak testu":d.ov.toFixed(1)+" / 10"]])}</div>
+    <div><h3 style="margin-bottom:8px">Gry, dźwięk, system</h3>${dl([
+      ["Odświeżanie 4K",d.h4+" Hz"],["1440p",d.h14?d.h14+" Hz":"—"],["1080p",d.h10?d.h10+" Hz":"—"],
+      ["Uwagi",esc(d.hn)],["HDMI",esc(d.hd)],["Dźwięk",esc(d.ss)+(d.sd==null?"":" · ocena "+d.sd.toFixed(1))],["System",esc(d.os)],
+      ["Cena",fmtP(d.p)+` <span class="muted">(${PV[d.pv]})</span>`],["Sklepy",esc(d.ps)],
+      ["Porównaj ceny",shopLinks(d)]])}</div>
+    <div class="pc"><h3>Ocena</h3><p class="plus">${esc(d.pro)}</p><p class="minus">${esc(d.con)}</p>${d.dn?`<p class="note">${esc(d.dn)}</p>`:""}
+      ${wzBlock(d)}
+      ${testsHTML(d)}
+      ${score(d)==null?`<p class="muted" style="font-size:13px">Model bez testu laboratoryjnego – dane techniczne od producenta i ze sklepów; wynik ważony nie jest liczony, a w sortowaniu po wyniku trafia na koniec.</p>`:`<p class="muted" style="font-size:13px">Wynik ważony ${f2(score(d))} = filmy ${d.mv} · jasny pokój ${d.br} · mat ${d.m} · dźwięk ${d.sd}, przy wagach ${st.w.mv}/${st.w.br}/${st.w.m}/${st.w.sd}.</p>`}</div>
+  </div></td></tr>`;
+}
+
+function renderPicks(list){
+  list=list||filtered();
+  const best=arr=>arr.filter(d=>score(d)!=null).sort((a,b)=>sc0(b)-sc0(a))[0];
+  const priced=list.filter(d=>d.p!=null);
+  const top=best(list);
+  const strong=priced.filter(d=>score(d)>=7);
+  const bv=strong.slice().sort((a,b)=>val(b)-val(a))[0];
+  const cheap=priced.filter(d=>score(d)>=7.5).sort((a,b)=>a.p-b.p)[0];
+  const card=(k,d,why)=>d?`<article class="pick"><span class="k">${k}</span><span class="n">${esc(d.n)}</span>
+    <span class="meta"><span class="num">${fmtP(d.p)}</span><span>wynik <b class="num">${f2(score(d))}</b></span><span class="num">${d.pf?d.pf+" nit":"brak pomiaru"}</span><span>${matteLbl(d.m)}</span><span class="num">${d.h4} Hz</span></span>
+    <span class="meta">${d.wz?`<a class="extl" href="${d.wz}" target="_blank" rel="noopener">wybierz.tv ${d.ov.toFixed(1)} ↗</a>`:""}${d.hu?`<a class="hdb ${d.hv>=2?"hd-top":"hd-test"}" href="${d.hu}" target="_blank" rel="noopener">HDTVPolska: ${esc(d.hl)} ↗</a>`:`<span class="muted">HDTVPolska: brak testu</span>`}</span>
+    <span class="muted" style="font-size:13.5px">${why}</span>
+    <button class="linkbtn" type="button" data-goto="${d.id}">Pokaż w tabeli</button></article>`:`<article class="pick"><span class="k">${k}</span><span class="muted">Brak modelu spełniającego filtry.</span></article>`;
+  const sizesIn=ALLS.filter(s=>list.some(d=>sg(d.s)===s));
+  const perSize=sizesIn.map(s=>{const b=best(list.filter(d=>sg(d.s)===s)); return b?`<span><b>${SLB(s)}:</b> <button class="linkbtn" type="button" data-goto="${b.id}">${esc(b.n)}</button> <span class="num muted">${fmtP(b.p)} · ${f2(score(b))}</span></span>`:"";}).join("");
+  $("picks").innerHTML=
+    card("Najwyższy wynik",top,top?esc(top.pro):"")+
+    card("Najwięcej jakości za złotówkę",bv,bv?`${val(bv).toFixed(2)} pkt na każde 1000 zł (wśród modeli z wynikiem ≥ 7,0).`:"")+
+    card("Najtańszy z wynikiem ≥ 7,5",cheap,cheap?esc(cheap.pro):"");
+  $("perSize").innerHTML=perSize?`<span class="k">Najlepszy w każdym rozmiarze:</span> ${perSize}`:"";
+}
+
+function cmpMax(){ const w=Math.min(innerWidth,screen.width||innerWidth), touch=matchMedia("(pointer:coarse)").matches; return w<700?3:(w<1100||touch)?4:5; }
+function cmpMsg(t){ let el=$("cmpToast"); if(!el){ el=document.createElement("div"); el.id="cmpToast"; el.setAttribute("role","status"); document.body.appendChild(el);} el.textContent=t; el.classList.add("on"); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove("on"),2600); }
+function renderCmp(){
+  const lg=$("cmpLeg"); if(lg) lg.textContent=`Zaznacz „Porównaj” przy 2–${cmpMax()} modelach`;
+  const ids=[...st.cmp].slice(0,cmpMax()), sec=$("cmpSec");
+  if(ids.length<2){sec.hidden=true;return;}
+  sec.hidden=false;
+  const ds=ids.map(id=>TV.find(d=>d.id===id));
+  const rows=[
+    ["Cena",d=>d.p,v=>fmtP(v),"min"],["Wynik ważony",d=>score(d),v=>f2(v),"max"],["Pkt / 1000 zł",d=>val(d),v=>v==null?"—":v.toFixed(2),"max"],
+    ["HDR w filmach",d=>d.pf,v=>v?v+" nit":"brak","max"],["HDR wzorzec",d=>d.pp,v=>v?v+" nit":"brak","max"],
+    ["Matowość",d=>d.m,v=>v+" / 10","max"],["Filmy UHD",d=>d.mv,v=>f1(v),"max"],["Jasny pokój",d=>d.br,v=>f1(v),"max"],
+    ["Dźwięk",d=>d.sd,v=>f1(v),"max"],["Odświeżanie 4K",d=>d.h4,v=>v+" Hz","max"],["1440p",d=>d.h14,v=>v?v+" Hz":"—","max"],["1080p",d=>d.h10,v=>v?v+" Hz":"—","max"],
+    ["HDMI",d=>d.hd,v=>esc(v),null],["HDR",d=>d.hdr,v=>esc(v),null],["System",d=>d.os,v=>esc(v),null],["Strefy",d=>d.z,v=>esc(v??"—"),null],["Powłoka",d=>d.ct,v=>esc(v),null]
+  ];
+  $("cmpTbl").innerHTML=`<thead><tr><th scope="col" style="padding:10px">Parametr</th>${ds.map(d=>`<th scope="col" style="padding:10px;color:var(--ink)">${esc(d.n)} <span class="tag size">${d.s}″</span></th>`).join("")}</tr></thead><tbody>`+
+    rows.map(([l,g,f,mode])=>{
+      const vals=ds.map(g); let bestV=null;
+      if(mode){const nums=vals.filter(v=>v!=null); if(nums.length) bestV=mode==="max"?Math.max(...nums):Math.min(...nums);}
+      return `<tr><th scope="row">${l}</th>${vals.map(v=>`<td class="${mode&&v!=null&&v===bestV&&ds.length>1?"best":""} ${typeof v==="number"?"num":""}">${f(v)}</td>`).join("")}</tr>`;
+    }).join("")+`</tbody>`;
+}
+
+function renderWeights(){
+  $("weights").innerHTML=Object.keys(W_DEF).map(k=>`<div class="w"><label for="w_${k}">${W_LABEL[k]}</label><input type="range" id="w_${k}" data-w="${k}" min="0" max="100" step="5" value="${st.w[k]}"><output class="num" for="w_${k}" id="wo_${k}">${st.w[k]}</output></div>`).join("");
+}
+const MS={
+  size:{label:"Przekątna",opts:()=>SIZES.map(x=>({k:String(x.k),l:x.l,c:TV.filter(d=>sg(d.s)===x.k).length})).filter(x=>x.c>0),set:()=>st.sizes,conv:v=>+v},
+  tech:{label:"Technologia",opts:()=>TECHS.map(t=>({k:t,l:t,c:TV.filter(d=>d.t===t).length})),set:()=>st.techs,conv:v=>v},
+  brand:{label:"Marka",opts:()=>BRANDS.map(b=>({k:b,l:b,c:TV.filter(d=>d.b===b).length})),set:()=>st.brands,conv:v=>v}
+};
+function msSummary(key){const m=MS[key],o=m.opts(),set=m.set(); const sel=o.filter(x=>set.has(m.conv(x.k))); const fromQ=st.nl&&st.nl.kf&&st.nl.kf[{size:"size",tech:"tech",brand:"brand"}[key]].length; return (sel.length===o.length?"wszystkie":sel.length?sel.map(x=>x.l).join(", "):"żadna")+(fromQ?" ✦":"");}
+function renderMS(key){
+  const el=$("ms_"+key), wasOpen=el.querySelector("details")?.open, m=MS[key], set=m.set();
+  el.innerHTML=`<details class="ms"${wasOpen?" open":""}><summary><span class="lbl">${m.label}</span><span class="msv" id="msv_${key}">${msSummary(key)}</span></summary><div class="msbox">
+    <div class="msact"><button type="button" class="linkbtn" data-msall="${key}">Zaznacz wszystkie</button><button type="button" class="linkbtn" data-msnone="${key}">Odznacz</button></div>
+    ${m.opts().map(o=>`<label><input type="checkbox" data-ms="${key}" value="${o.k}" ${set.has(m.conv(o.k))?"checked":""}> ${esc(o.l)} <span class="cnt">${o.c}</span></label>`).join("")}</div></details>`;
+}
+function renderChips(){["size","tech","brand"].forEach(renderMS);}
+/* Pływające nagłówki: kopia wiersza nagłówka przyklejona do góry okna, przewija się poziomo razem z tabelą */
+var FH=(()=>{
+  const box=$("tblBox"), tbl=$("tbl"), fh=document.createElement("div");
+  fh.id="fhead"; fh.className="fhead"; fh.innerHTML='<table><thead><tr></tr></thead></table>'; document.body.appendChild(fh);
+  const ft=fh.querySelector("table"), ftr=fh.querySelector("tr"); let sig="", raf=0;
+  function sync(){ raf=0;
+    const th=$("thead"), r=box.getBoundingClientRect(), hh=th.getBoundingClientRect().height;
+    const show=r.top<0 && r.bottom>hh+30 && !!th.children.length;
+    fh.style.display=show?"block":"none"; if(!show) return;
+    if(th.innerHTML!==sig){ sig=th.innerHTML; ftr.innerHTML=sig; ftr.querySelectorAll("[draggable]").forEach(e=>e.removeAttribute("draggable")); ftr.querySelectorAll("[id]").forEach(e=>e.removeAttribute("id")); }
+    const a=th.children, b=ftr.children;
+    for(let i=0;i<a.length&&i<b.length;i++){ const w=a[i].getBoundingClientRect().width+"px"; b[i].style.width=b[i].style.minWidth=b[i].style.maxWidth=w; }
+    fh.style.left=Math.max(r.left,0)+"px"; fh.style.width=box.clientWidth+"px";
+    ft.style.width=tbl.getBoundingClientRect().width+"px"; ft.style.transform=`translateX(${-box.scrollLeft}px)`;
+    const si=[...a].findIndex(x=>x.classList.contains("sticky"));
+    if(si>=0&&b[si]){ let ol=0; for(let j=0;j<si;j++) ol+=a[j].getBoundingClientRect().width; b[si].style.transform=`translateX(${Math.max(0,box.scrollLeft-ol)}px)`; }
+  }
+  const q=()=>{ if(!raf) raf=requestAnimationFrame(sync); };
+  addEventListener("scroll",q,{passive:true}); addEventListener("resize",q); box.addEventListener("scroll",q,{passive:true});
+  return q;
+})();
+function renderAll(){renderChips();renderHead();renderBody();renderPicks();renderCmp();
+  renderSortRows();
+  syncP();}
+
+/* zdarzenia */
+let qT=null; $("q").addEventListener("input",e=>{st.q=e.target.value; st.nlDrop=null; if(st.aiFor&&st.aiFor!==st.q.trim()){st.aiSpec=null; st.aiFor=null;} clearTimeout(qT); qT=setTimeout(applyQ,180);});
+document.addEventListener("click",e=>{
+  const ma=e.target.closest("[data-msall]"); if(ma){const m=MS[ma.dataset.msall]; m.opts().forEach(o=>m.set().add(m.conv(o.k))); renderMS(ma.dataset.msall); renderBody(); return;}
+  const mn=e.target.closest("[data-msnone]"); if(mn){MS[mn.dataset.msnone].set().clear(); renderMS(mn.dataset.msnone); renderBody(); return;}
+  if(e.target.id==="showOver"){setP(2000,50000); return;}
+  if(e.target.id==="nlClear"){resetNL(); return;}
+  const ex=e.target.closest("[data-ex]"); if(ex){ $("q").value=ex.dataset.ex; st.q=ex.dataset.ex; st.nlDrop=null; st.aiSpec=null; st.aiFor=null; applyQ(); $("q").focus(); return; }
+  const rx=e.target.closest("[data-relax]"); if(rx){ const k=rx.dataset.relax;
+    if(k==="hdr") setH(0,HM()); if(k==="matte"){st.matte=false;$("fMatte").checked=false;} if(k==="g144"){st.g144=false;$("f4k144").checked=false;} if(k==="hdp"){st.hdp=false;$("fHdp").checked=false;}
+    if(k==="sizes") st.sizes=new Set(ALLS); if(k==="techs") st.techs=new Set(TECHS); if(k==="brands") st.brands=new Set(BRANDS); if(k==="price"){st.pmin=2000;st.max=50000;}
+    renderAll(); renderNL(); return; }
+  const nx=e.target.closest("[data-nlx]"); if(nx){ const l=nx.dataset.nlx; st.nlDrop=st.nlDrop||new Set(); st.nlDrop.has(l)?st.nlDrop.delete(l):st.nlDrop.add(l); applyQ(); return; }
+  if(e.target.id==="nlAI"){askAI(); return;}
+  document.querySelectorAll("details.ms[open]").forEach(dt=>{ if(!dt.contains(e.target)) dt.open=false; });
+  const so=e.target.closest("[data-sort]"); if(so){const k=so.dataset.sort, pos=st.sorts.findIndex(o=>o.k===k), multi=e.shiftKey||e.ctrlKey||e.metaKey;
+    if(multi){ if(pos>=0) st.sorts[pos].dir*=-1; else if(st.sorts.length<3) st.sorts.push({k,dir:defDir(k)}); else st.sorts[2]={k,dir:defDir(k)}; }
+    else { if(pos===0&&st.sorts.length===1) st.sorts[0].dir*=-1; else st.sorts=[{k,dir:pos>=0?st.sorts[pos].dir:defDir(k)}]; }
+    renderAll(); return;}
+  const sd=e.target.closest("[data-sdir]"); if(sd){const o=st.sorts[+sd.dataset.sdir]; if(o){o.dir*=-1; renderAll();} return;}
+  const sx=e.target.closest("[data-sdel]"); if(sx){ st.sorts.splice(+sx.dataset.sdel,1); if(!st.sorts.length) st.sorts=[{k:"score",dir:-1}]; renderAll(); return;}
+  const sm=e.target.closest("[data-smv]"); if(sm){ moveSort(+sm.dataset.smv, +sm.dataset.smv + +sm.dataset.d); return;}
+  const pr=e.target.closest("[data-preset]"); if(pr){applyPreset(pr.dataset.preset,true); return;}
+  const gt=e.target.closest("[data-goto]"); if(gt){const d=TV.find(x=>x.id===gt.dataset.goto); st.sizes.add(sg(d.s)); st.techs.add(d.t); st.brands.add(d.b); if(d.p!=null&&(d.p>st.max||d.p<st.pmin)){st.pmin=Math.min(st.pmin,Math.floor(d.p/250)*250); st.max=Math.max(st.max,Math.ceil(d.p/250)*250);} st.open=d.id; if(st.q){ resetNL(); } else renderAll();
+    const row=document.querySelector(`tr[data-id="${d.id}"]`); if(row) row.scrollIntoView({block:"center",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}); return;}
+  const row=e.target.closest("tr.row"); if(row){st.open=st.open===row.dataset.id?null:row.dataset.id; renderBody(); return;}
+});
+document.addEventListener("keydown",e=>{const row=e.target.closest&&e.target.closest("tr.row"); if(row&&(e.key==="Enter"||e.key===" ")){e.preventDefault(); st.open=st.open===row.dataset.id?null:row.dataset.id; renderBody(); const r=document.querySelector(`tr[data-id="${row.dataset.id}"]`); r&&r.focus();}});
+document.addEventListener("change",e=>{
+  const ms=e.target.closest("[data-ms]"); if(ms){const m=MS[ms.dataset.ms], v=m.conv(ms.value); ms.checked?m.set().add(v):m.set().delete(v); $("msv_"+ms.dataset.ms).textContent=msSummary(ms.dataset.ms); renderBody(); return;}
+  const c=e.target.closest("[data-cmp]"); if(c){const id=c.dataset.cmp; if(c.checked){ const mx=cmpMax(); if(st.cmp.size>=mx){c.checked=false; cmpMsg(`Na raz porównasz najwyżej ${mx} ${mx<5?"modele na tym ekranie":"modeli"}. Odznacz któryś, by dodać kolejny.`); return;} st.cmp.add(id);} else st.cmp.delete(id); renderCmp(); return;}
+});
+document.addEventListener("input",e=>{
+  const w=e.target.closest("[data-w]"); if(w){st.w[w.dataset.w]=+w.value; $("wo_"+w.dataset.w).textContent=w.value; try{localStorage.setItem("tvw",JSON.stringify(st.w));}catch(err){} renderBody();renderPicks();renderCmp();}
+});
+$("resetW").addEventListener("click",()=>{st.w={...W_DEF}; try{localStorage.removeItem("tvw");}catch(e){} renderWeights(); renderAll();});
+function setH(a,b,src){
+  const M=HM(); a=Math.max(0,Math.min(M,+a||0)); b=Math.max(0,Math.min(M,isNaN(+b)?M:+b));
+  if(a>b){ if(src==="min") b=a; else a=b; }
+  st.hmin=a; st.hmax=b;
+  $("hMin").value=a; $("hMax").value=b; if(document.activeElement!==$("hMinN")) $("hMinN").value=a; if(document.activeElement!==$("hMaxN")) $("hMaxN").value=b;
+  $("dfill").style.left=(a/M*100)+"%"; $("dfill").style.width=((b-a)/M*100)+"%";
+  renderBody();
+}
+$("hMin").addEventListener("input",e=>setH(e.target.value,st.hmax,"min"));
+$("hMax").addEventListener("input",e=>setH(st.hmin,e.target.value,"max"));
+$("hMinN").addEventListener("change",e=>setH(e.target.value,st.hmax,"min"));
+$("hMaxN").addEventListener("change",e=>setH(st.hmin,e.target.value,"max"));
+function HM(){return st.hmode==="pp"?5000:2500;}
+const HPRE={pf:[1000,1300,1500,2000],pp:[2000,3000,3500,4000]};
+function renderHPre(){ $("hpre").innerHTML=HPRE[st.hmode].map(v=>`<button type="button" class="chipb" data-hp="${v}">≥ ${grp(v)}</button>`).join("")+`<button type="button" class="chipb" data-hp="0">wszystkie</button>`; }
+document.addEventListener("click",e=>{
+  const hp=e.target.closest("[data-hp]"); if(hp){const v=+hp.dataset.hp,M=HM(); $("hMinN").blur(); $("hMaxN").blur(); setH(v,M,"min"); return;}
+  const hm=e.target.closest("[data-hm]"); if(hm){ st.hmode=hm.dataset.hm; document.querySelectorAll("[data-hm]").forEach(b=>b.setAttribute("aria-pressed",b===hm)); const M=HM();
+    ["hMin","hMax","hMinN","hMaxN"].forEach(id=>$(id).max=M); st.hmin=0; st.hmax=M; renderHPre(); setH(0,M); }
+});
+renderHPre();
+setH(0,HM());
+$("fMatte").addEventListener("change",e=>{st.matte=e.target.checked;renderBody();});
+$("f4k144").addEventListener("change",e=>{st.g144=e.target.checked;renderBody();});
+$("fHdp").addEventListener("change",e=>{st.hdp=e.target.checked;renderBody();});
+function syncP(){
+  const a=st.pmin,b=st.max; $("pMin").value=a; $("pMax").value=b;
+  if(document.activeElement!==$("pMinN")) $("pMinN").value=a; if(document.activeElement!==$("pMaxN")) $("pMaxN").value=b;
+  $("pfill").style.left=((a-2000)/480)+"%"; $("pfill").style.width=((b-a)/480)+"%";
+}
+function setP(a,b,src){
+  a=Math.max(2000,Math.min(50000,+a||2000)); b=Math.max(2000,Math.min(50000,+b||50000));
+  if(a>b){ if(src==="min") b=a; else a=b; }
+  st.pmin=a; st.max=b; syncP(); renderBody();
+}
+$("pMin").addEventListener("input",e=>setP(e.target.value,st.max,"min"));
+$("pMax").addEventListener("input",e=>setP(st.pmin,e.target.value,"max"));
+$("pMinN").addEventListener("change",e=>setP(e.target.value,st.max,"min"));
+$("pMaxN").addEventListener("change",e=>setP(st.pmin,e.target.value,"max"));
+document.querySelectorAll("[data-pp]").forEach(b=>b.addEventListener("click",()=>{ $("pMinN").blur(); $("pMaxN").blur(); setP(2000,+b.dataset.pp); }));
+syncP();
+$("sortRows").addEventListener("change",e=>{const sel=e.target.closest("[data-srow]"); if(!sel) return; const i=+sel.dataset.srow, k=sel.value;
+  if(!k){ st.sorts=st.sorts.slice(0,i); } else { st.sorts[i]={k,dir:defDir(k)}; st.sorts=st.sorts.filter((o,j)=>j<=i||o.k!==k); }
+  if(!st.sorts.length) st.sorts=[{k:"score",dir:-1}];
+  renderAll();});
+function moveSort(i,j){ if(j<0||j>=st.sorts.length||i===j) return; const [o]=st.sorts.splice(i,1); st.sorts.splice(j,0,o); renderAll(); }
+(function(){
+  const box=$("sortRows"); let from=null;
+  box.addEventListener("dragstart",e=>{ const g=e.target.closest&&e.target.closest(".sgrip[draggable]"); if(!g) return; const r=g.closest(".srow"); from=+r.dataset.si; r.classList.add("sdrag"); e.dataTransfer.effectAllowed="move"; try{e.dataTransfer.setDragImage(r,10,14);}catch(_){} try{e.dataTransfer.setData("text/plain",String(from));}catch(_){} });
+  box.addEventListener("dragover",e=>{ if(from==null) return; const r=e.target.closest(".srow"); if(!r||r.dataset.si==null||+r.dataset.si>=st.sorts.length) return; e.preventDefault(); box.querySelectorAll(".sover").forEach(x=>x.classList.remove("sover")); if(+r.dataset.si!==from) r.classList.add("sover"); });
+  box.addEventListener("drop",e=>{ if(from==null) return; e.preventDefault(); const r=e.target.closest(".srow"); const f=from; from=null; if(r&&r.dataset.si!=null) moveSort(f,+r.dataset.si); });
+  box.addEventListener("dragend",()=>{ from=null; box.querySelectorAll(".sdrag,.sover").forEach(x=>x.classList.remove("sdrag","sover")); });
+})();
+/* Dyktowanie zapytania (Web Speech API: Chrome, Edge, Safari) + prośba o mikrofon jednym kliknięciem */
+(function(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition, btn=$("micBtn"), q=$("q");
+  if(!SR||!btn) return;
+  btn.hidden=false; btn.parentElement.classList.add("hasmic");
+  const PH=q.placeholder;
+  let rec=null, got=false, busy=false;
+  const inFrame=(()=>{ try{ return window.top!==window.self; }catch(_){ return true; } })();
+  const fp=document.permissionsPolicy||document.featurePolicy;
+  const frameBlocks=()=>{ try{ return !!(fp&&fp.allowsFeature&&!fp.allowsFeature("microphone")); }catch(_){ return false; } };
+  const ua=navigator.userAgent, isEdge=/Edg\//.test(ua), isSafari=/Safari/.test(ua)&&!/Chrome|Chromium|Edg\//.test(ua), mobile=/Android|iPhone|iPad|Mobile/.test(ua);
+  /* okienko pod polem wyszukiwania */
+  const box=document.createElement("div"); box.id="micHelp"; box.className="michelp"; box.hidden=true; box.setAttribute("role","alertdialog"); box.setAttribute("aria-live","assertive");
+  btn.closest(".aisearch").appendChild(box);
+  const NEWTAB=()=>location.href.split("#")[0]+"#mic";
+  const hideHelp=()=>{ box.hidden=true; box.innerHTML=""; };
+  function showHelp(kind){
+    let h="";
+    if(kind==="frame"){
+      const mac=/Macintosh|Mac OS X/.test(ua)&&!mobile, win=/Windows/.test(ua);
+      const how=mobile?`Dotknij pola wyszukiwania i naciśnij <b>🎤 na klawiaturze</b> telefonu.`
+        :win?`Kursor jest już w polu – naciśnij <kbd>Win</kbd> + <kbd>H</kbd> i mów. To dyktowanie wbudowane w Windows.`
+        :mac?`Kursor jest już w polu – naciśnij dwa razy klawisz <kbd>Fn</kbd> (lub <kbd>🎤</kbd>) i mów. To dyktowanie wbudowane w macOS.`
+        :`Użyj dyktowania wbudowanego w system lub klawiaturę.`;
+      h=`<b>🎤 Podyktuj przez system</b><p>W oknie claude.ai przeglądarka nie daje stronie dostępu do mikrofonu. ${how}</p>
+         <div class="mhb"><button type="button" class="linkbtn" data-mic="close">OK</button></div>`;
+    }else{
+      const steps=isSafari
+        ? (mobile?`Otwórz <b>Ustawienia → Safari → Mikrofon</b> i wybierz <b>Pytaj</b> albo <b>Pozwalaj</b>, potem wróć tutaj.`
+                 :`W menu <b>Safari → Ustawienia dla tej witryny…</b> ustaw <b>Mikrofon: Pozwalaj</b>.`)
+        : mobile?`Dotknij ikony <b>kłódki / ustawień</b> obok adresu strony → <b>Uprawnienia</b> → <b>Mikrofon</b> → <b>Zezwalaj</b>.`
+        : `Kliknij ikonę <b>${isEdge?"kłódki":"ustawień (suwaki)"}</b> po lewej stronie adresu strony, przy <b>Mikrofon</b> wybierz <b>Zezwalaj</b>.`;
+      h=`<b>🎤 Mikrofon jest zablokowany dla tej strony</b><p>Wcześniej odmówiono dostępu, więc przeglądarka nie zapyta sama. ${steps} Dyktowanie ruszy automatycznie, gdy tylko zezwolisz.</p>
+         <div class="mhb"><button type="button" class="btn mhgo" data-mic="retry">Spróbuj ponownie</button><button type="button" class="linkbtn" data-mic="close">Zamknij</button></div>`;
+    }
+    box.innerHTML=h; box.hidden=false; const g=box.querySelector(".mhgo"); g&&g.focus();
+  }
+  box.addEventListener("click",e=>{ const a=e.target.closest("[data-mic]"); if(!a) return; const k=a.dataset.mic;
+    if(k==="close") hideHelp();
+    else if(k==="retry"){ hideHelp(); go(); }
+    else if(k==="open"){ setTimeout(hideHelp,300); } });
+  /* gdy użytkownik odblokuje mikrofon w ustawieniach – startujemy sami */
+  if(navigator.permissions&&navigator.permissions.query){
+    navigator.permissions.query({name:"microphone"}).then(p=>{ p.onchange=()=>{ if(p.state==="granted"&&!box.hidden){ hideHelp(); listen(); } }; }).catch(()=>{});
+  }
+  async function permState(){ try{ return (await navigator.permissions.query({name:"microphone"})).state; }catch(_){ return "unknown"; } }
+  /* 1) poproś o mikrofon natywnym okienkiem przeglądarki, 2) słuchaj */
+  async function go(){
+    if(rec){ rec.stop(); return; }
+    if(busy) return; busy=true;
+    try{
+      /* podgląd w ramce bez prawa do mikrofonu: przeglądarka nie pokaże tu pytania – od razu otwieramy zwykłą kartę, gdzie pytanie wyskoczy przy adresie */
+      if(inFrame&&frameBlocks()){
+        q.focus(); showHelp("frame"); return;
+      }
+      /* pytanie przeglądarki „Ta strona chce używać mikrofonu” (Zezwól / Blokuj) */
+      if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+        try{ const s=await navigator.mediaDevices.getUserMedia({audio:true}); s.getTracks().forEach(t=>t.stop()); }
+        catch(err){
+          const n=err&&err.name;
+          if(n==="NotFoundError"||n==="OverconstrainedError"){ cmpMsg("Nie znaleziono mikrofonu – podłącz go i spróbuj ponownie."); return; }
+          if(n==="NotReadableError"){ cmpMsg("Mikrofon jest zajęty przez inny program."); return; }
+          showHelp(inFrame&&(await permState())!=="denied"?"frame":"denied"); return;
+        }
+      }
+      hideHelp(); listen();
+    } finally { busy=false; }
+  }
+  function listen(){
+    if(rec) return;
+    try{ rec=new SR(); }catch(_){ cmpMsg("Ta przeglądarka nie obsługuje dyktowania."); return; }
+    rec.lang="pl-PL"; rec.interimResults=true; rec.continuous=false; rec.maxAlternatives=1; got=false;
+    rec.onstart=()=>{ btn.classList.add("rec"); btn.setAttribute("aria-label","Zatrzymaj dyktowanie"); q.value=""; q.placeholder="Mów… np. „oled 77 cali do 10 tysięcy”"; };
+    rec.onresult=e=>{ let t=""; for(let i=0;i<e.results.length;i++) t+=e.results[i][0].transcript; t=t.trim(); if(!t) return; got=true;
+      q.value=t; q.dispatchEvent(new Event("input",{bubbles:true})); };
+    rec.onerror=e=>{
+      if(e.error==="not-allowed"||e.error==="service-not-allowed"){ showHelp(inFrame?"frame":"denied"); return; }
+      const m={"no-speech":"Nic nie usłyszałem – kliknij mikrofon i spróbuj jeszcze raz.","audio-capture":"Nie znaleziono mikrofonu.","network":"Dyktowanie wymaga połączenia z internetem."}[e.error]; if(m) cmpMsg(m); };
+    rec.onend=()=>{ btn.classList.remove("rec"); btn.setAttribute("aria-label","Podyktuj zapytanie"); q.placeholder=PH; rec=null; if(got) q.focus(); };
+    try{ rec.start(); }catch(_){ rec=null; }
+  }
+  btn.addEventListener("click",go);
+  /* otwarte z „Otwórz w nowej karcie i mów” – od razu prosimy o mikrofon */
+  if(location.hash==="#mic"){ try{ history.replaceState(null,"",location.pathname+location.search); }catch(_){}
+    btn.classList.add("micpulse"); setTimeout(()=>{ go(); btn.classList.remove("micpulse"); },400); }
+})();
+/* Przeciąganie tabeli myszą: przytrzymaj lewy przycisk na wierszu i przesuń – tabela przewija się w poziomie, strona w pionie; krótkie kliknięcie działa jak dotąd */
+(function(){
+  const box=$("tblBox"); let d=null, moved=false;
+  box.addEventListener("pointerdown",e=>{
+    if(e.pointerType!=="mouse"||e.button!==0) return;
+    if(!e.target.closest("#tbody")||e.target.closest("a,button,input,select,label,textarea,summary,.rz")) return;
+    d={x:e.clientX,y:e.clientY,l:box.scrollLeft,t:window.scrollY,id:e.pointerId}; moved=false;
+  });
+  addEventListener("pointermove",e=>{
+    if(!d||e.pointerId!==d.id) return;
+    const dx=e.clientX-d.x, dy=e.clientY-d.y;
+    if(!moved){ if(Math.abs(dx)<6&&Math.abs(dy)<6) return; moved=true; document.body.classList.add("panning"); try{box.setPointerCapture(d.id);}catch(_){} const sel=getSelection&&getSelection(); if(sel) sel.removeAllRanges(); }
+    box.scrollLeft=d.l-dx; window.scrollTo(window.scrollX,d.t-dy); e.preventDefault();
+  });
+  const end=()=>{ if(!d) return; d=null; document.body.classList.remove("panning"); if(moved) setTimeout(()=>{moved=false;},0); };
+  addEventListener("pointerup",end); addEventListener("pointercancel",end);
+  box.addEventListener("click",e=>{ if(moved){ e.stopPropagation(); e.preventDefault(); moved=false; } },true);
+})();
+/* przenoszenie i zmiana szerokości kolumn */
+let dragK=null;
+const clrDrop=()=>document.querySelectorAll("#thead th").forEach(t=>t.classList.remove("dropL","dropR","dragging"));
+$("thead").addEventListener("dragstart",e=>{ const th=e.target.closest&&e.target.closest("th[data-col]"); if(!th||document.body.classList.contains("resizing")){ e.preventDefault(); return; } dragK=th.dataset.col; th.classList.add("dragging"); e.dataTransfer.effectAllowed="move"; try{e.dataTransfer.setData("text/plain",dragK);}catch(_){} });
+$("thead").addEventListener("dragover",e=>{ if(!dragK) return; const th=e.target.closest("th[data-col]"); if(!th) return; e.preventDefault(); const r=th.getBoundingClientRect(), right=e.clientX>r.left+r.width/2;
+  document.querySelectorAll("#thead th").forEach(t=>{ if(t!==th) t.classList.remove("dropL","dropR"); }); th.classList.toggle("dropR",right); th.classList.toggle("dropL",!right); });
+$("thead").addEventListener("drop",e=>{ if(!dragK) return; const th=e.target.closest("th[data-col]"); e.preventDefault(); const k=dragK; dragK=null; clrDrop(); if(!th||th.dataset.col===k) return;
+  const r=th.getBoundingClientRect(), right=e.clientX>r.left+r.width/2; ORD.splice(ORD.indexOf(k),1); ORD.splice(ORD.indexOf(th.dataset.col)+(right?1:0),0,k); colsChanged(); });
+$("thead").addEventListener("dragend",()=>{ dragK=null; clrDrop(); });
+$("thead").addEventListener("pointerdown",e=>{ const h=e.target.closest(".rz"); if(!h) return; e.preventDefault(); e.stopPropagation();
+  const k=h.dataset.rz, th=h.closest("th"), x0=e.clientX, w0=th.getBoundingClientRect().width; document.body.classList.add("resizing");
+  try{h.setPointerCapture(e.pointerId);}catch(_){}
+  const mv=ev=>{ CW[k]=Math.max(36,Math.round(w0+ev.clientX-x0)); applyW(); };
+  const up=()=>{ h.removeEventListener("pointermove",mv); h.removeEventListener("pointerup",up); h.removeEventListener("pointercancel",up); document.body.classList.remove("resizing"); saveCols(); renderCols(); };
+  h.addEventListener("pointermove",mv); h.addEventListener("pointerup",up); h.addEventListener("pointercancel",up); });
+$("thead").addEventListener("dblclick",e=>{ const h=e.target.closest(".rz"); if(!h) return; delete CW[h.dataset.rz]; saveCols(); applyW(); renderCols(); });
+$("thead").addEventListener("click",e=>{ if(e.target.closest(".rz")) e.stopPropagation(); },true);
+$("colsList").addEventListener("change",e=>{ const c=e.target.closest("[data-colvis]"); if(!c) return; const k=c.dataset.colvis; c.checked?HID.delete(k):HID.add(k); colsChanged(); });
+$("colsList").addEventListener("click",e=>{
+  if(e.target.id==="colsReset"){ ORD=COLK.slice(); HID=new Set(); CW={}; colsChanged(); return; }
+  const b=e.target.closest("[data-colmv]"); if(!b) return; const k=b.dataset.colmv, i=ORD.indexOf(k), j=i+(+b.dataset.d); if(j<0||j>=ORD.length) return; [ORD[i],ORD[j]]=[ORD[j],ORD[i]]; colsChanged();
+  const nb=document.querySelector(`[data-colmv="${k}"][data-d="${b.dataset.d}"]`); nb&&!nb.disabled&&nb.focus(); });
+$("cmpClear").addEventListener("click",()=>{st.cmp.clear();renderBody();renderCmp();});
+
+/* Dane aktualizowane codziennie: prices.json (ceny = zawsze z pliku; dane techniczne = tylko poprawki z pliku; nowe modele = dopisywane) */
+const SPEC_KEYS=["pf","pp","pps","mfr","sdr","ct","m","ss","sd","mv","br","ov","pn","z","bt","va","h4","h14","h10","hn","hd","hdr","os","pro","con","dn","est","tl","wz"];
+async function loadData(manual){
+  const msg=$("refreshMsg"); if(manual) msg.textContent="sprawdzam…";
+  try{
+    const r=await fetch("prices.json?t="+Date.now(),{cache:"no-store"}); if(!r.ok) throw 0;
+    const j=await r.json(); let changed=0;
+    (j.add||[]).forEach(rec=>{ if(rec&&rec.id&&!TV.some(d=>d.id===rec.id)){ TV.push(Object.assign({pv:"ok",hv:0,wc:null,wm:null},rec)); if(!BRANDS.includes(rec.b)){BRANDS.push(rec.b); BRANDS.sort(); st.brands.add(rec.b);} changed++; } });
+    Object.entries(j.specs||{}).forEach(([id,o])=>{ const d=TV.find(x=>x.id===id); if(!d) return; SPEC_KEYS.forEach(k=>{ if(k in o && o[k]!==d[k]){ d[k]=o[k]; changed++; } }); });
+    Object.entries(j.prices||{}).forEach(([id,v])=>{ const d=TV.find(x=>x.id===id); if(!d||!v) return; if(d.p!==v[0]) changed++; d.p=v[0]; if(v[1]) d.ps=v[1]; if(v[2]) d.pu=v[2]; d.pv=v[3]||"ok"; });
+    if(j.updated) $("stampDate").textContent=j.updated;
+    if(manual) msg.textContent=changed?"zaktualizowano ("+changed+" zmian)":"dane są aktualne";
+    renderAll();
+  }catch(e){ if(manual) msg.textContent="nie udało się pobrać pliku z danymi – pokazuję dane zapisane w stronie"; }
+}
+$("refreshData").addEventListener("click",()=>loadData(true));
+loadData(false);
+function applyPreset(p,setHash){
+  if(p==="tv75") st.sizes=new Set([65,75]);
+  else if(p==="tv85") st.sizes=new Set([85]);
+  else if(p==="tv98") st.sizes=new Set([98,110]);
+  else st.sizes=new Set(ALLS);
+  if(setHash){ try{ history.replaceState(null,"","#"+p);}catch(e){ location.hash=p; } }
+  renderAll();
+}
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1); if(["tv75","tv85","tv98","wszystkie"].includes(h)) applyPreset(h,false);});
+
+renderWeights(); renderChips(); renderCols(); renderEx();
+{const h=location.hash.slice(1); if(["tv75","tv85","tv98","wszystkie"].includes(h)) applyPreset(h,false); else renderAll();}
+</script>
+<div class="hbar" id="hbar" aria-hidden="true">
+  <button type="button" class="hbtn" id="hbL" tabindex="-1" aria-label="Przewiń w lewo">‹</button>
+  <div class="htrack" id="htrack"><div class="hthumb" id="hthumb"></div></div>
+  <button type="button" class="hbtn" id="hbR" tabindex="-1" aria-label="Przewiń w prawo">›</button>
+</div>
+<script>
+(function(){
+  const box=document.getElementById("tblBox"), bar=document.getElementById("hbar"), track=document.getElementById("htrack"), thumb=document.getElementById("hthumb");
+  let drag=null;
+  function geom(){const max=box.scrollWidth-box.clientWidth, tw=track.clientWidth, w=Math.max(36,tw*box.clientWidth/box.scrollWidth); return {max,tw,w};}
+  function sync(){
+    const r=box.getBoundingClientRect(), vh=window.innerHeight;
+    const need=box.scrollWidth>box.clientWidth+2 && r.top<vh-60 && r.bottom>vh;
+    bar.classList.toggle("on",need);
+    if(!need) return;
+    bar.style.left=Math.max(0,r.left)+"px"; bar.style.width=Math.min(r.width,window.innerWidth)+"px";
+    const g=geom(); thumb.style.width=g.w+"px";
+    thumb.style.transform="translateX("+(g.max?box.scrollLeft/g.max*(g.tw-g.w):0)+"px)";
+  }
+  function toX(clientX,off){const g=geom(), rr=track.getBoundingClientRect(); const x=Math.min(Math.max(clientX-rr.left-off,0),g.tw-g.w); box.scrollLeft=g.tw>g.w?x/(g.tw-g.w)*g.max:0;}
+  thumb.addEventListener("pointerdown",e=>{e.preventDefault(); const tr=thumb.getBoundingClientRect(); drag=e.clientX-tr.left; thumb.setPointerCapture(e.pointerId); thumb.classList.add("drag");});
+  thumb.addEventListener("pointermove",e=>{ if(drag!=null) toX(e.clientX,drag); });
+  const end=()=>{drag=null; thumb.classList.remove("drag");};
+  thumb.addEventListener("pointerup",end); thumb.addEventListener("pointercancel",end);
+  track.addEventListener("pointerdown",e=>{ if(e.target===thumb) return; toX(e.clientX,geom().w/2); });
+  const step=d=>box.scrollBy({left:d*box.clientWidth*0.6,behavior:"smooth"});
+  document.getElementById("hbL").addEventListener("click",()=>step(-1));
+  document.getElementById("hbR").addEventListener("click",()=>step(1));
+  box.addEventListener("scroll",sync,{passive:true});
+  window.addEventListener("scroll",sync,{passive:true});
+  window.addEventListener("resize",sync);
+  if(window.ResizeObserver) new ResizeObserver(sync).observe(document.getElementById("tbl"));
+  sync();
+})();
+</script>
+</body>
+</html>

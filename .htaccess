@@ -1,0 +1,16 @@
+# Zawsze HTTPS (wymagane przez mikrofon)
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+<IfModule mod_headers.c>
+  Header always set Permissions-Policy "microphone=(self)"
+  <FilesMatch "\.(html|json)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+# Nie pokazuj plików repozytorium
+RedirectMatch 404 /\.git
+RedirectMatch 404 /README\.md$
