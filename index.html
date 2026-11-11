@@ -923,7 +923,7 @@ function renderSortRows(){
 /* ===== Wyszukiwanie zwykłym językiem (lokalnie, bez AI i bez kosztów) ===== */
 const nrm=s=>String(s??"").toLowerCase().replace(/ł/g,"l").normalize("NFD").replace(/[̀-ͯ]/g,"");
 const hayOf=d=>d._hay||(d._hay=nrm([d.n,d.b,d.tl,d.t,d.os,d.ct,matteLbl(d.m),d.hd,d.hdr,d.h4+" hz",d.s+"″",d.s+'"',d.pro,d.ss].join(" ")));
-const STOP=new Set("ceny cen jakosc jakosci jakoscia najlepszy najlepsza najlepsze lub albo ewentualnie mniej wiecej okolo jakis jakies cos czegos to po mi ma jak sa ze na do od za ich jej jego tez wiec czy bo posortuj sortuj sortowanie sortowac posortowane uporzadkuj kolejnosc kolejnosci wedlug wg pierwsze pierwszy pierwsza drugi druga drugie trzeci trzecia trzecie parametr parametrem parametry kryterium kryteria nastepnie potem rosnaco malejaco najpierw rowniez takze oraz prosze pokaz znajdz daj chce telewizor telewizory telewizora telewizorow telewizorze tv tele do na z ze i w we dla o a jaki jakie jakis jakas ktory ktore ktora pokaz pokazac szukam szukaj chce chcialbym chcialabym potrzebuje poszukuje model modele modelu najlepiej oraz lub albo sie mi mam jest by zeby ale bardzo dobry dobre dobra dobrym dobrej cos ok nowy nowe nowa co przy pod nad po mozliwie jak najbardziej raczej typu ten te tez tylko wszystkie zl pln tys tysiecy cena cenie cenowo okolo ekran ekranem cali cale cal calowy calowe sprzet salonu salon pokoju pokoj mieszkania kupic kupie polecisz polecasz jakby rozsadny rozsadne fajny fajne super".split(" "));
+const STOP=new Set("mnie interesuja interesuje interesujace interesuja no inne inny inna pozostale reszta ceny cen jakosc jakosci jakoscia najlepszy najlepsza najlepsze lub albo ewentualnie mniej wiecej okolo jakis jakies cos czegos to po mi ma jak sa ze na do od za ich jej jego tez wiec czy bo posortuj sortuj sortowanie sortowac posortowane uporzadkuj kolejnosc kolejnosci wedlug wg pierwsze pierwszy pierwsza drugi druga drugie trzeci trzecia trzecie parametr parametrem parametry kryterium kryteria nastepnie potem rosnaco malejaco najpierw rowniez takze oraz prosze pokaz znajdz daj chce telewizor telewizory telewizora telewizorow telewizorze tv tele do na z ze i w we dla o a jaki jakie jakis jakas ktory ktore ktora pokaz pokazac szukam szukaj chce chcialbym chcialabym potrzebuje poszukuje model modele modelu najlepiej oraz lub albo sie mi mam jest by zeby ale bardzo dobry dobre dobra dobrym dobrej cos ok nowy nowe nowa co przy pod nad po mozliwie jak najbardziej raczej typu ten te tez tylko wszystkie zl pln tys tysiecy cena cenie cenowo okolo ekran ekranem cali cale cal calowy calowe sprzet salonu salon pokoju pokoj mieszkania kupic kupie polecisz polecasz jakby rozsadny rozsadne fajny fajne super".split(" "));
 const numPL=(v,u)=>{ let n=parseFloat(String(v).replace(",",".")); if(isNaN(n)) return null; if(u&&/^(t|k)/.test(u)) n*=1000; else if(n<200) n*=1000; return Math.round(n); };
 const VOC=[...new Set("konsoli konsola konsole konsolowy grania granie gracza gier matowy matowe matowa matowym polmatowy oled qled mini filmow filmy filmu filmowy kina sport sportu sportowy meczy dzwiek dzwiekiem glosniki najtanszy najtansze najtansza najtanszego tanie tani tanio najlepszy najlepsze najlepsza najlepiej jasnego jasny jasnym pokoju pomieszczenia slonecznego telewizor telewizory telewizorow telewizora komputera komputer monitor playstation xbox oplacalny oplacalne ogromny najwiekszy najwieksze najjasniejszy najjasniejsze polecany polecane dolby vision".split(" ").concat(BRANDS.map(nrm)))];
 function lev(a,b){ if(Math.abs(a.length-b.length)>2) return 9; const d=Array.from({length:a.length+1},(_,i)=>[i]); for(let j=1;j<=b.length;j++) d[0][j]=j;
@@ -933,6 +933,18 @@ function fixTypos(t){ return t.split(" ").map(w=>{ if(w.length<4||STOP.has(w)||V
 function parseNL(raw){
   let s=" "+fixTypos(nrm(raw).replace(/[;!?()]/g," ").replace(/\s+/g," ").trim())+" ";
   const sp={sort:[],unk:[],words:[]}; let cheap=0,best=false,asp=[];
+  /* dyktowanie często rozbija słowa: „o ledy” → „oledy”, „q led” → „qled”, „mini ledy” zostaje */
+  s=s.replace(/\bo\s+led(\w*)/g," oled$1").replace(/\bq\s+led(\w*)/g," qled$1").replace(/\bmini\s+-?\s*led/g,"mini led");
+  /* pary „przekątna + technologia”: „77 cali oledy i 85 cali inne” = 77″ tylko OLED, 85″ pozostałe technologie */
+  { const TT='(qd-?oled\\w*|woled\\w*|oled\\w*|true\\s*rgb|rgb\\w*(?:\\s*mini\\s*led\\w*)?|mini\\s*led\\w*|miniled\\w*|neo\\s*qled|qled\\w*|lcd|led\\w*|inne\\w*|inny|inna|pozostal\\w*|reszt\\w*|dowoln\\w*|kazd\\w*|wszystk\\w*|obojetnie)';
+    const RE=new RegExp("\\b(\\d{2,3})\\s*(?:cali|cale|cal\\w*|\"|″)?\\s+(?:w\\s+|tylko\\s+|to\\s+)?"+TT+"\\b","g");
+    const pr=[]; let x; while((x=RE.exec(s))){ const n=+x[1]; if(n<60||n>120) continue; pr.push({n,w:x[2],i:x.index,len:x[0].length}); }
+    if(new Set(pr.map(p=>p.n)).size>=2){
+      const tOf=w=>/oled/.test(w)?["OLED"]:/rgb/.test(w)?["RGB Mini LED"]:/(mini|qled|lcd|led)/.test(w)?["Mini LED","RGB Mini LED"]:null;
+      const used=new Set(); pr.forEach(p=>{ const t=tOf(p.w); if(t) t.forEach(v=>used.add(v)); });
+      sp.sizeTech=pr.map(p=>{ let t=tOf(p.w); if(!t) t=/^(inn|pozostal|reszt|inny|inna)/.test(p.w)?TECHS.filter(v=>!used.has(v)):TECHS.slice(); return {s:p.n,t}; });
+      for(let k=pr.length-1;k>=0;k--){ const p=pr[k]; s=s.slice(0,p.i)+" "+s.slice(p.i+p.len); }
+    } }
   /* jawna kolejność sortowania: kryteria po słowie „sortuj/posortuj/uporządkuj” w kolejności wystąpienia */
   let xsort=null;
   { const m=s.match(/\b(po)?sortuj\w*|\bsortowani\w*|\buporzadkuj\w*|\bwedlug\b|\bwg\b/);
@@ -943,6 +955,7 @@ function parseNL(raw){
   const take=(re,fn)=>{ s=s.replace(re,(...m)=>{ const r=fn(m); return r===false?m[0]:" "; }); };
   /* życzenia miękkie: „najlepiej matowy” = preferencja w sortowaniu, nie twardy filtr */
   take(/\b(najlepiej|raczej|preferowan\w*|mile widzian\w*|w miare mozliwosci|jesli sie da|o ile to mozliwe|moze byc)\s+(matow\w*|polmat\w*)\b/g,()=>{sp.matteSoft=true;});
+  take(/\b(matow\w*|polmat\w*)\s+(najlepiej|raczej|jesli sie da|w miare mozliwosci|o ile to mozliwe|mile widzian\w*)\b/g,()=>{sp.matteSoft=true;});
   const IN='(?:cali|cale|cal|calowy|calowe|calowych|"|″|\'\'|in\\b)';
   /* przekątna */
   take(new RegExp("\\b(\\d{2,3})\\s*(?:-|do|–)\\s*(\\d{2,3})\\s*"+IN,"g"),m=>{sp.smin=+m[1]; sp.smax=+m[2];});
@@ -1029,6 +1042,9 @@ function buildNL(sp,ai){
   ch.push=lbl=>{ const fns=F.splice(0); const ov=pend, kd=kind; pend=[]; kind=null; if(drop.has(lbl)){ ov.forEach(k=>o[k]=false); _push({l:lbl,off:true}); return; } o.f.push(...fns); if(kd) o.kf[kd].push(...fns); _push({l:lbl}); };
   const OV=k=>{ o[k]=true; pend.push(k); };
   const okS=k=>+k>=60&&ALLS.includes(sg(+k));
+  if(Array.isArray(sp.sizeTech)&&sp.sizeTech.length){ const P=sp.sizeTech.filter(p=>okS(p.s)&&Array.isArray(p.t)).map(p=>({g:sg(+p.s),t:new Set(p.t)}));
+    if(P.length){ OV("ovS"); kind="size"; f.push(d=>P.some(p=>p.g===sg(d.s)&&p.t.has(d.t)));
+      ch.push(P.map(p=>`${SLB(p.g)} ${p.t.size===TECHS.length?"wszystkie":[...p.t].join("/")}`).join(" + ")); } }
   if(Array.isArray(sp.sizeSet)&&sp.sizeSet.some(okS)){ const S=new Set(sp.sizeSet.filter(okS).map(k=>sg(+k))); OV("ovS"); kind="size"; f.push(d=>S.has(sg(d.s))); ch.push([...S].map(SLB).join(" / ")); }
   if(+sp.smin||+sp.smax){ const a=+sp.smin||0,b0=+sp.smax||999, b=b0>=85&&b0<98?Math.max(b0,86):b0>=98&&b0<110?Math.max(b0,100):b0; OV("ovS"); kind="size"; f.push(d=>d.s>=a&&d.s<=b); ch.push(+sp.smin&&+sp.smax?`${a}–${b}″`:+sp.smin?`od ${a}″`:`do ${b}″`); }
   const arr=v=>Array.isArray(v)?v:[];
@@ -1154,7 +1170,7 @@ async function askAI(){
   const q=st.q.trim(); if(!q||!SAMPLE) return;
   const b=$("nlAI"), msg=$("nlMsg"); if(b) b.disabled=true; if(msg) msg.textContent="AI analizuje…";
   const prompt=`Zamień zapytanie o telewizor na filtry. Odpowiedz WYŁĄCZNIE obiektem JSON, bez komentarza. Pomiń pola, których zapytanie nie dotyczy, i nie dodawaj warunków, o których użytkownik nie pisze. „77 lub większy” = smin:77.
-Pola: sizeSet:[liczby z 65,75,77,83,85,98,110] | smin,smax (cale) | techIn,techNot:[z "Mini LED","RGB Mini LED","OLED"] | brandIn,brandNot:[z ${BRANDS.map(x=>'"'+x+'"').join(",")}] | pmin,pmax (zł) | matte:7 (półmat lub mat) albo 9 (tylko mat) | bright:6 (jasny pokój) albo 8 (bardzo jasny/słoneczny) – tylko gdy mowa o pomieszczeniu; samo „jasny” = sort pf | console:true (PS5/Xbox) | pc:true (komputer) | hz (min Hz w 4K) | nit (min jasność HDR) | h21:true | dv:true (Dolby Vision) | os:"Google TV"|"Tizen"|"webOS"|"VIDAA" | rec:true (polecany przez recenzentów) | sort:[{"k":..,"dir":1|-1}] maks 3, k z: p cena, score ogólnie, value jakość/cena, vmv jakość obrazu/cena, mv filmy (jakość obrazu), br jasny pokój, sd dźwięk, wsp sport, wgr konsola, pf jasność HDR, m matowość, s przekątna, h4 Hz 4K, h14 Hz PC; dir 1 rosnąco, -1 malejąco.
+Pola: sizeSet:[liczby z 65,75,77,83,85,98,110] | sizeTech:[{"s":77,"t":["OLED"]},{"s":85,"t":["Mini LED","RGB Mini LED"]}] gdy dla różnych przekątnych chodzi o różne technologie (wtedy bez sizeSet i techIn) | smin,smax (cale) | techIn,techNot:[z "Mini LED","RGB Mini LED","OLED"] | brandIn,brandNot:[z ${BRANDS.map(x=>'"'+x+'"').join(",")}] | pmin,pmax (zł) | matte:7 (półmat lub mat) albo 9 (tylko mat) | bright:6 (jasny pokój) albo 8 (bardzo jasny/słoneczny) – tylko gdy mowa o pomieszczeniu; samo „jasny” = sort pf | console:true (PS5/Xbox) | pc:true (komputer) | hz (min Hz w 4K) | nit (min jasność HDR) | h21:true | dv:true (Dolby Vision) | os:"Google TV"|"Tizen"|"webOS"|"VIDAA" | rec:true (polecany przez recenzentów) | sort:[{"k":..,"dir":1|-1}] maks 3, k z: p cena, score ogólnie, value jakość/cena, vmv jakość obrazu/cena, mv filmy (jakość obrazu), br jasny pokój, sd dźwięk, wsp sport, wgr konsola, pf jasność HDR, m matowość, s przekątna, h4 Hz 4K, h14 Hz PC; dir 1 rosnąco, -1 malejąco.
 Zapytanie: ${JSON.stringify(q)}`;
   try{
     const sp=await SAMPLE.json(prompt,{modelTier:"quick"});
