@@ -40,3 +40,9 @@ Zrzut obejmuje wszystkie modele po załadowaniu, widok szczegółów każdego mo
 
 - `tools/migracja_001_wydziel_dane.js` – wydzielenie danych z `index.html` do `data/` (Etap 1).
 - Wycofanie: `git checkout 024eded -- index.html` (ostatni commit przed Etapem 1) (wersja z danymi w kodzie strony działa bez `data/` i `data.js`).
+
+## Wiarygodność danych (Etap 2)
+
+- `data/tests_wz.json` – testy wybierz.tv: przekątne objęte testem, przekątne z inną matrycą, rozmiar testowanego egzemplarza (null = test go nie podaje), input lag SDR/HDR/Dolby Vision 60/120 Hz.
+- `specs/build_specs.py` buduje `specs.json` z `specs/wz_data.py`, `data/tests_wz.json`, `specs/me_data.json`, `specs/ce_data.py`; pole `fs` = źródło każdej wartości, `konf` = rozbieżności sklepów.
+- Poziomy na stronie: A pomiar tego rozmiaru · B producent / wyposażenie z testu · C pomiar z innego rozmiaru tej samej matrycy · D sklep lub deklaracja · X test innej matrycy. Brak danych nigdy nie jest liczony jako zero.
