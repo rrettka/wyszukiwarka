@@ -14,4 +14,4 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # Nie pokazuj plików repozytorium
 RedirectMatch 404 /\.git
 RedirectMatch 404 /README\.md$
-RedirectMatch 404 /(tools|tests)/
+RedirectMatch 404 /(tools|tests|specs)/
