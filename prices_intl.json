@@ -1,6 +1,6 @@
 {
  "updated": "12.11.2026",
- "note": "Oferty z innych rynków. m = kod rynku z markets.json, price = cena w walucie rynku (UE/Schengen: brutto z lokalnym VAT; Kanada: bez podatku sprzedaży), code = oznaczenie modelu na tym rynku, ship = wysyłka do PL (tak / nie / nieznana), src = skąd cena, date = kiedy sprawdzona.",
+ "note": "Oferty z innych rynków. m = kod rynku z markets.json, price = cena w walucie rynku (UE/Schengen: brutto z lokalnym VAT; Kanada i USA: bez podatku sprzedaży; Wielka Brytania: z VAT 20%), code = oznaczenie modelu na tym rynku, ship = wysyłka do PL (tak / nie / nieznana), src = skąd cena, date = kiedy sprawdzona.",
  "offers": {
   "s85qn92f": [
    {
@@ -190,6 +190,266 @@
     "ship": "nieznana",
     "src": "mediamarkt.nl",
     "date": "2026-11-12"
+   }
+  ],
+  "l77g5": [
+   {
+    "m": "DE",
+    "price": 2540.94,
+    "code": "OLED77G58LW",
+    "shop": "Galaxus.de",
+    "url": "https://www.galaxus.de/en/s1/product/lg-oled77g58lw-77-g5-oled-4k-2025-eu-tv-57577212",
+    "ship": "nie (tylko DE)",
+    "src": "sklep (potwierdzone w geizhals.de)",
+    "date": "2026-11-12",
+    "note": "Wersja EU, >10 szt. w magazynie, darmowa dostawa (spedycja), najwcześniej 20.11. G58LW to ten sam G5 77\" co G54LW (inny kod regionalny). Według geizhals.de z 26.10 najtaniej było w expert.de za 2499 EUR (tylko DE), tego nie sprawdziłem na dziś."
+   },
+   {
+    "m": "GB",
+    "price": 2899,
+    "code": "OLED77G54LW",
+    "shop": "Richer Sounds",
+    "url": "https://www.richersounds.com/lg-oled77g54lw/",
+    "ship": "—",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "Z kodem BLACK200 2699 GBP + gratis LG US70TY; ceny ważne do końca dnia 12.11.2026; stanu magazynu nie potwierdzono."
+   }
+  ],
+  "s77s90f": [
+   {
+    "m": "CH",
+    "price": 1749,
+    "code": "QE77S90F",
+    "shop": "Galaxus.ch",
+    "url": "https://www.galaxus.ch/de/s1/product/samsung-qe77s90f-77-s90f-oled-4k-2025-tv-57490671",
+    "ship": "nieznana",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "CHF; >10 szt. w magazynie, darmowa dostawa, najwcześniej 16.11. 77\" S90F w UE to WOLED."
+   }
+  ],
+  "s77s95h": [
+   {
+    "m": "DE",
+    "price": 2749,
+    "code": "GQ77S95H",
+    "shop": "Alternate.de",
+    "url": "https://www.alternate.de/Samsung/GQ-77S95H-Vision-AI-Smart-OLED-Fernseher/html/product/100211335",
+    "ship": "nieznana",
+    "src": "sklep + geizhals.de",
+    "date": "2026-11-12",
+    "note": "Dostępny od ręki, wysyłka od 69,99 EUR (do krawężnika). Ta sama cena 2749 EUR w Amazon.de, computeruniverse, Cyberport, MediaMarkt.de i Saturn.de (MediaMarkt/Saturn tylko DE)."
+   },
+   {
+    "m": "GB",
+    "price": 3499,
+    "code": "QE77S95H",
+    "shop": "Richer Sounds",
+    "url": "https://www.richersounds.com/samsung-qe77s95h/",
+    "ship": "—",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "Z kodem BLACK250 3249 GBP; ceny ważne do końca dnia 12.11.2026; stanu magazynu nie potwierdzono."
+   }
+  ],
+  "h85ur8s": [
+   {
+    "m": "EE",
+    "price": 2159,
+    "code": "85UR8S",
+    "shop": "Euronics.ee",
+    "url": "https://www.euronics.ee/en/tv/tvs/over-69/85ur8s/hisense-ur8s-85-4k-uhd-rgb-mini-led-black-tv",
+    "ship": "nieznana",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "Cena regularna; dla członków programu lojalnościowego (Friends) 2049 EUR. W magazynie (Tallinn); dostawa 13–16.11, wniesienie 64,99 EUR."
+   },
+   {
+    "m": "FR",
+    "price": 2290,
+    "code": "85UR8S",
+    "shop": "LDLC",
+    "url": "https://www.ldlc.com/en/product/PB00751935.html",
+    "ship": "nie (tylko FR, BE, LU, ES, IT, MC)",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "Promocja do 30.11 (wcześniej 2490 EUR), plus 15,17 EUR opłaty recyklingowej; w magazynie."
+   },
+   {
+    "m": "AT",
+    "price": 2469,
+    "code": "85UR8S",
+    "shop": "MediaMarkt.at (przez geizhals.at)",
+    "url": "https://geizhals.at/hisense-85ur8s-a3772415.html",
+    "ship": "nieznana",
+    "src": "geizhals.at",
+    "date": "2026-11-12",
+    "note": "Darmowa wysyłka, 3–4 dni. Ta sama cena w alza.at (tylko AT, +29,90 EUR)."
+   }
+  ],
+  "s85b7": [
+   {
+    "m": "DE",
+    "price": 3499,
+    "code": "K-85XR75M2 (K85XR75M2PB)",
+    "shop": "EP: (ep.de)",
+    "url": "https://www.ep.de/p/1519797/k85xr75m2pb",
+    "ship": "nieznana",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "Bravia 7 II 85\"; w UE wariant XR75M2 (to samo co XR70M2). Do ceny dochodzi wysyłka; dostawa/odbiór 5–30 dni roboczych, dostawa regionalna."
+   },
+   {
+    "m": "DK",
+    "price": 29999,
+    "code": "K-85XR75M2 (K85XR75M2PB)",
+    "shop": "Lyd og Billede (przez pricerunner.dk)",
+    "url": "https://www.pricerunner.dk/pl/2-3529112183/TV/Sony-Bravia-7-II-85-inch-4K-HDR-Smart-TV-Sammenlign-Priser",
+    "ship": "nieznana",
+    "src": "pricerunner.dk",
+    "date": "2026-11-12",
+    "note": "DKK; darmowa wysyłka, 1 dzień. Ta sama cena w HiFi Klubben (+499 DKK), Sony DK i El-Salg (na zamówienie)."
+   },
+   {
+    "m": "US",
+    "price": 3499.99,
+    "code": "K85XR70M2",
+    "shop": "Best Buy",
+    "url": "https://www.bestbuy.com/product/sony-85-class-bravia-7-ii-true-rgb-4k-hdr-google-tv-with-gemini/J7XSRH54TQ",
+    "ship": "—",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "\"Holiday Deal\", -500 USD (bez promocji 3999,99 USD); dostępności nie podano."
+   }
+  ],
+  "t85rm7l": [
+   {
+    "m": "DE",
+    "price": 1449,
+    "code": "85RM7L",
+    "shop": "Amazon.de (przez geizhals.de)",
+    "url": "https://geizhals.de/tcl-rgb-mini-led-85rm7l-a3843851.html",
+    "ship": "nieznana",
+    "src": "geizhals.de",
+    "date": "2026-11-12",
+    "note": "Darmowa wysyłka. Ta sama cena w electronic4you.de; Boomstore.de 1499 EUR (tylko DE)."
+   },
+   {
+    "m": "GB",
+    "price": 1999,
+    "code": "85RM7L-UK",
+    "shop": "Richer Sounds",
+    "url": "https://www.richersounds.com/tcl-85rm7l-uk/",
+    "ship": "—",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "Z kodem BLACK100 1899 GBP; \"last few available\"; ceny ważne do końca dnia 12.11.2026."
+   },
+   {
+    "m": "DK",
+    "price": 18906,
+    "code": "85RM7L",
+    "shop": "CS Megastore / ComputerSalg (przez pricerunner.dk)",
+    "url": "https://www.pricerunner.dk/pl/2-3464690612/TV/TCL-85RM7L-85-RGB-Mini-LED-Sammenlign-Priser",
+    "ship": "nieznana",
+    "src": "pricerunner.dk",
+    "date": "2026-11-12",
+    "note": "DKK; wysyłka 199 DKK, 4–5 dni."
+   }
+  ],
+  "l77c6": [
+   {
+    "m": "AT",
+    "price": 1999,
+    "code": "OLED77C6ELB",
+    "shop": "Cyberport.at (przez geizhals.at)",
+    "url": "https://geizhals.at/lg-oled-evo-ai-c6-oled77c6elb-a3774764.html",
+    "ship": "nie (tylko AT)",
+    "src": "geizhals.at",
+    "date": "2026-11-12",
+    "note": "Wysyłka 79,99 EUR, dostępny ok. 14.12.2026. C6ELB to wariant C6 w DE/AT; C64LA w UK."
+   },
+   {
+    "m": "DE",
+    "price": 2199,
+    "code": "OLED77C6ELB",
+    "shop": "Alternate.de",
+    "url": "https://www.alternate.de/LG/OLED77C6ELB-AEUD-OLED-Fernseher/html/product/100198051",
+    "ship": "nieznana",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "Dostępny od ręki, wysyłka od 69,99 EUR (do krawężnika)."
+   },
+   {
+    "m": "GB",
+    "price": 2399,
+    "code": "OLED77C64LA",
+    "shop": "Richer Sounds",
+    "url": "https://www.richersounds.com/lg-oled77c64la/",
+    "ship": "—",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "Wcześniej 2799 GBP; ceny ważne do końca dnia 12.11.2026."
+   },
+   {
+    "m": "CA",
+    "price": 2999.99,
+    "code": "OLED77C6HUP",
+    "shop": "Best Buy Canada",
+    "url": "https://www.bestbuy.ca/en-ca/product/lg-77-c6-4k-uhd-hdr-oled-webos-smart-tv-oled77c6hup-acc-2026/19803233",
+    "ship": "—",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "Promocja do 19.11.2026; w Ameryce Płn. 77\" to seria C6H (\"Hyper Radiant\"), panel może się różnić od europejskiego C6."
+   }
+  ],
+  "l77b5": [
+   {
+    "m": "DE",
+    "price": 1719,
+    "code": "OLED77B59LA",
+    "shop": "Galaxus.de",
+    "url": "https://www.galaxus.de/en/s1/product/lg-oled77b59la-77-b5-oled-4k-2025-tv-58627965",
+    "ship": "nieznana",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "Cena aktualna, ale chwilowo brak w magazynie."
+   }
+  ],
+  "s77s90h": [
+   {
+    "m": "DE",
+    "price": 2097,
+    "code": "GQ77S90H",
+    "shop": "Alternate.de",
+    "url": "https://www.alternate.de/Samsung/GQ-77S90H-Vision-AI-Smart-OLED-Fernseher/html/product/100211466",
+    "ship": "nieznana",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "Dostępny od ręki, wysyłka od 69,99 EUR (do krawężnika). Nie sprawdzono tego w porównywarce."
+   },
+   {
+    "m": "CH",
+    "price": 2244.1,
+    "code": "QE77S90HATXZU",
+    "shop": "Galaxus.ch (sprzedawca: orderflow.ch)",
+    "url": "https://www.galaxus.ch/en/s1/product/samsung-qe77s90hatxzu-77-s90h-oled-4k-2026-tv-68955209",
+    "ship": "nieznana",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "CHF; >10 szt. u zewnętrznego dostawcy, dostawa 16–17.11, darmowa."
+   },
+   {
+    "m": "GB",
+    "price": 2499,
+    "code": "QE77S90HATXXU",
+    "shop": "Richer Sounds",
+    "url": "https://www.richersounds.com/samsung-qe77s90h/",
+    "ship": "—",
+    "src": "sklep",
+    "date": "2026-11-12",
+    "note": "Z kodem BLACK200 2299 GBP; dodatkowo cashback VAT od Samsunga (kwoty nie podano); ceny ważne do końca dnia 12.11.2026."
    }
   ]
  }

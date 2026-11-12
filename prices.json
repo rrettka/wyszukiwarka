@@ -4,25 +4,25 @@
  "prices": {
   "h85ur8s": [
    12995,
-   "prestigeTV 12 995 zł (potw. 12.11); Media Expert / avans 12 999,99 zł – niezweryfikowane (strony zablokowane)",
+   "prestigeTV 12 995 zł (potw. 12.11; karta pokazuje też komunikat „wyprzedane – powiadom”, dostępność do potwierdzenia telefonicznie); Media Expert / avans 12 999,99 zł – niezweryfikowane (strony zablokowane)",
    "https://www.ceneo.pl/197495161",
    "ok"
   ],
   "s85b7": [
    13995,
-   "prestigeTV 13 995 zł; RTV Euro AGD 13 999 zł (listing; karta: \"powiadom o dostępności\"); Media Expert / MediaMarkt – niezweryfikowane",
+   "prestigeTV 13 995 zł (potw. 12.11); MediaMarkt 13 999 zł (dostępny online, dostawa 16–17.11); RTV Euro AGD 13 999 zł (karta: zapowiedź, „premiera wkrótce”); x-kom 13 999 zł (produkt wycofany)",
    "https://www.ceneo.pl/196440067",
    "ok"
   ],
   "t85c8l": [
    10499,
-   "prestigeTV 10 995 zł; rtvmax 10 499 zł i avans 10 997,97 zł – niezweryfikowane (strony zablokowane)",
+   "prestigeTV 10 995 zł (potw. 12.11); rtvmax 10 499 zł i avans 10 997,97 zł – niezweryfikowane (strony zablokowane); Morele 14 803,49 zł",
    "https://www.ceneo.pl/196008206",
    "part"
   ],
   "s85qn92f": [
    13999,
-   "RTV Euro AGD 13 999 zł na listingu (PROMOCJA), ale karta produktu pokazuje 16 999 zł; prestigeTV – brak w ofercie; Allegro 14 999 zł – niezweryfikowane",
+   "RTV Euro AGD 13 999 zł na listingu (PROMOCJA -3 000 zł), ale karta produktu pokazuje 16 999 zł; x-kom 14 599 zł (produkt wycofany); Allegro 14 999 zł – niezweryfikowane; (MediaMarkt 12 999 zł – produkt po ekspozycji, pominięty)",
    "https://www.ceneo.pl/183661169",
    "part"
   ],
@@ -30,17 +30,17 @@
    8394,
    "deluxury 8 394 zł; studiohifi 8 395 zł; salony 10 999 zł",
    "https://www.ceneo.pl/184944226",
-   "ok"
+   "old"
   ],
   "t85rm7l": [
    8699,
    "panekAGD 8 699 zł; Media Expert / avans 8 998,98 zł; rtvmax 8 999 zł",
    "https://www.ceneo.pl/196436750",
-   "ok"
+   "old"
   ],
   "h85u7sp": [
    7720,
-   "Ole Ole! 8 399 zł (okazje.info); RTV Euro AGD 8 999 zł; MediaMarkt 8 999 zł (bez dostawy, odbiór w sklepie); kajt24 7 720 zł – niezweryfikowane",
+   "Ole Ole! ok. 8 349 zł (12.11, cena odczytana z rat 20×417,45 zł; wcześniej 8 399 zł); RTV Euro AGD 8 999 zł; MediaMarkt 8 999 zł (bez dostawy, odbiór w sklepie); kajt24 7 720 zł – niezweryfikowane",
    "https://www.ceneo.pl/195914825",
    "part"
   ],
@@ -48,35 +48,35 @@
    7899,
    "Allegro 7 899 zł; panekAGD 7 998 zł; rtvmax 8 499 zł; avans 8 997,98 zł",
    "https://www.ceneo.pl/195662948",
-   "ok"
+   "old"
   ],
   "h85ur9s": [
    13995,
-   "prestigeTV 13 995 zł; avans / electro 13 998,99 zł i Media Expert 16 999,99 zł – niezweryfikowane",
+   "prestigeTV 13 995 zł (potw. 12.11); avans / electro 13 998,99 zł i Media Expert 16 999,99 zł – niezweryfikowane",
    "https://www.ceneo.pl/195409919",
    "ok"
   ],
   "s85r85h": [
    16895,
-   "prestigeTV 16 895 zł; x-kom 16 899 zł (najniższa z 30 dni 18 899 zł); RTV Euro AGD 16 899 zł; (ddw24.online 10 984,99 zł na okazje.info – nieznany sklep, podejrzanie tanio)",
+   "prestigeTV 16 895 zł (potw. 12.11); RTV Euro AGD 16 899 zł (promocja do 12.11.2026, wcześniej 18 899 zł, najniższa z 30 dni 16 999 zł); x-kom 16 899 zł – niezweryfikowane dziś; (ddw24.online 10 984,99 zł na okazje.info – nieznany sklep, podejrzanie tanio)",
    null,
    "ok"
   ],
   "s85qn85f": [
    7997,
-   "prestigeTV 8 995 zł; RTV Euro AGD 10 999 zł (tylko wybrane salony); Allegro 7 997 zł – niezweryfikowane",
+   "prestigeTV 8 995 zł (potw. 12.11); RTV Euro AGD 10 999 zł; Allegro 7 997 zł – niezweryfikowane; (RTV Euro AGD outlet 7 200 zł – stan „dobry”, pominięty)",
    "https://www.ceneo.pl/184073830",
    "part"
   ],
   "s85qn80h": [
    6251,
-   "prestigeTV 7 495 zł; Ole Ole! 8 998,97 zł; RTV Euro AGD / x-kom / MediaMarkt 8 999 zł (Euro: -2 000 zł do 06.12.2026); Allegro 6 251 zł / kajt24 6 860 zł – niezweryfikowane",
+   "prestigeTV 7 495 zł (potw. 12.11); RTV Euro AGD 8 999 zł (-2 000 zł do 06.12.2026); MediaMarkt 8 999 zł; Ole Ole! 8 998,97 zł; Allegro 6 251 zł / kajt24 6 860 zł – niezweryfikowane",
    "https://www.ceneo.pl/195777099",
    "part"
   ],
   "x85smini": [
    5899,
-   "MediaMarkt 5 999 zł; RTV Euro AGD 5 999 zł (+ kod -300 zł, treść kodu niewidoczna); x-kom 6 299 zł; Ole Ole! 5 899 zł – niezweryfikowane",
+   "MediaMarkt 5 999 zł (potw. 12.11, dostawa następnego dnia); RTV Euro AGD 5 999 zł (+ kod -300 zł, treść kodu niewidoczna); x-kom 6 299 zł; Ole Ole! 5 899 zł – niezweryfikowane",
    null,
    "part"
   ],
@@ -84,17 +84,17 @@
    11999,
    "RTV Euro AGD 11 999 zł; MediaMarkt 11 999 zł (wcześniej 13 799 zł); Allegro 11 999 zł (okazje.info)",
    null,
-   "ok"
+   "old"
   ],
   "l86qned": [
    8999,
    "x-kom 8 999 zł; RTV Euro AGD 8 999 zł",
    null,
-   "ok"
+   "old"
   ],
   "p85mled": [
-   7499,
-   "x-kom 7 499 zł (produkt wycofany, „zapytaj o dostępność”); wcześniej x-kom 6 999 zł",
+   7658.05,
+   "Morele 7 658,05 zł (listing, sprzedawca zewnętrzny; inne oferty od 7 833,99 zł); x-kom 7 499 zł (produkt wycofany, „zapytaj o dostępność” – nie do kupienia)",
    null,
    "part"
   ],
@@ -108,7 +108,7 @@
    14999,
    "x-kom 14 999 zł (najniższa z 30 dni 15 999 zł); Media Expert – niezweryfikowane",
    null,
-   "ok"
+   "old"
   ],
   "l83b5": [
    11499,
@@ -120,7 +120,7 @@
    11999,
    "RTV Euro AGD 11 999 zł (-4 000 zł, cena 04.11–30.11.2026, tylko wybrane salony, bez dostawy); x-kom 15 999 zł (11.2026)",
    null,
-   "promo"
+   "old"
   ],
   "s83s85f": [
    13999,
@@ -129,14 +129,14 @@
    "old"
   ],
   "y83b6": [
-   12999,
-   "Media Expert 12 999 zł (02.10.2026)",
-   null,
-   "old"
+   11995,
+   "prestigeTV 11 995 zł (listing sklepu); MediaMarkt 12 999 zł (dostępny online); wcześniej Media Expert 12 999 zł",
+   "https://mediamarkt.pl/pl/product/_telewizor-oled-sony-k83a65-83-4k-120hz-dolby-vision-triluminos-pro-czarny-1507338.html",
+   "ok"
   ],
   "l77c6": [
    9999,
-   "RTV Euro AGD 11 999 zł (-1 000 zł, 09.11–22.11.2026; listing pokazuje 12 999 zł); x-kom 12 999 zł (+2 000 zł zwrotu od LG); Allegro 9 999 zł – niezweryfikowane",
+   "Allegro 9 999 zł (najtańszy nowy, sprzedawca nieznany – niezweryfikowane); Allegro TSBohemia 10 748,53 zł; RTV Euro AGD 11 999 zł (-1 000 zł, 09.11–22.11.2026; PriceSpy potwierdza 11 999 zł); x-kom 12 999 zł (+2 000 zł zwrotu od LG, wydłużony czas dostawy)",
    "https://www.ceneo.pl/196251461",
    "part"
   ],
@@ -144,19 +144,19 @@
    8799,
    "RTV Euro AGD 9 999 zł (OLED77C54LA); e-katalog 8 799 zł / Media Expert 10 499 zł – niezweryfikowane",
    null,
-   "part"
+   "old"
   ],
   "l77b6": [
-   8999,
-   "x-kom 9 999 zł (było 10 999 zł, ostatnie sztuki, +1 500 zł zwrotu od LG); RTV Euro AGD 9 999 zł (OLED77B65LA)",
-   null,
-   "part"
+   9999,
+   "x-kom 9 999 zł (było 10 999 zł, ostatnie sztuki, +1 500 zł zwrotu od LG); MediaMarkt 9 999 zł (dostępny online); RTV Euro AGD / Allegro 9 999 zł (okazje.info) – OLED77B65LA (Allegro APOLLOSSS 7 414 zł z CZ + 499 zł wysyłki – pominięte)",
+   "https://www.x-kom.pl/p/1510637-telewizor-75-lg-oled77b65la-77-oled-4k-120hz-webos.html",
+   "ok"
   ],
   "l77b5": [
    9499,
    "Ceneo: 77B56LA od 9 499 zł (z listingu)",
    null,
-   "part"
+   "old"
   ],
   "s77s90h": [
    10336,
@@ -166,19 +166,19 @@
   ],
   "s77s90f": [
    4999,
-   "RTV Euro AGD 4 999 zł (-1 000 zł, cena 04.11–30.11.2026, tylko wybrane salony, bez dostawy – anomalnie nisko, sprawdzić dostępność w salonie); x-kom 10 479 zł (dostępny); prestigeTV 11 995 zł – niezweryfikowane",
-   "https://www.ceneo.pl/183662464",
+   "RTV Euro AGD 4 999 zł (-1 000 zł, cena 04.11–30.11.2026, tylko wybrane salony, brak dostawy – potwierdzone 12.11; sprawdzić dostępność w salonie); x-kom 10 479 zł (dostępny); prestigeTV 11 995 zł – niezweryfikowane",
+   "https://www.euro.com.pl/telewizory-led-lcd-plazmowe/samsung-telewizor-qe77s90faexxh.bhtml",
    "promo"
   ],
   "s77s85h": [
    7999,
-   "Samsung.com 7 999 zł z kodem BLACK (Pepper, listopad 2026, termin nieznany; z cashbackiem i Samsung Pay ok. 6 699 zł); x-kom 12 999 zł (dostępny)",
-   "https://www.x-kom.pl/p/1526897-telewizor-75-samsung-qe77s85h-77-oled-4k-165-hz-tizen-tv-hdmi-21.html",
+   "Samsung.com 7 999 zł z kodem BLACK (05.11–01.12.2026 lub do wyczerpania limitu; 12.11 karta pokazuje 'Produkt niedostępny'); x-kom 12 999 zł (dostępny, dostawa jutro) Pepper: Samsung.com 6 699,05 zł z kodem BLACK + cashback/Samsung Pay (cashback nie od razu; produkt chwilowo niedostępny) – nie wliczone.",
+   "https://www.samsung.com/pl/tvs/oled-tv/s85h-77-inch-4k-smart-tv-qe77s85haexxh/",
    "promo"
   ],
   "y77b6": [
    9995,
-   "prestigeTV 9 995 zł; RTV Euro AGD 9 999 zł (promocja -1 000 zł)",
+   "prestigeTV 9 995 zł; RTV Euro AGD 9 999 zł (promocja -1 000 zł); Neonet 11 999 zł (ostatnie sztuki)",
    "https://prestigetv.pl/collections/telewizory-samsung-kopia-1",
    "ok"
   ],
@@ -190,7 +190,7 @@
   ],
   "h75ur8s": [
    8995,
-   "prestigeTV 8 995 zł (karta pokazuje też 'wyprzedane' – sprawdzić stan); Media Expert 8 998,98 zł + kino domowe za 1 zł (Pepper)",
+   "prestigeTV 8 995 zł (12.11 bez oznaczenia 'wyprzedane', przycisk 'Dodaj do koszyka'); Media Expert 8 998,98 zł + kino domowe za 1 zł (Pepper)",
    "https://www.ceneo.pl/197495163",
    "ok"
   ],
@@ -202,27 +202,27 @@
   ],
   "t75c8l": [
    8495,
-   "morele 9 314,37 zł (druga oferta od 10 835,33 zł); Ceneo niedostępne – wcześniej od 8 495 zł (niepotwierdzone)",
+   "prestigeTV 8 495 zł (listing sklepu, 12.11); morele 9 314,37 zł (druga oferta od 10 835,33 zł)",
    "https://www.ceneo.pl/196008207",
-   "part"
+   "ok"
   ],
   "s75qn90f": [
    7989,
    "prestigeTV 7 989 zł; morele ok. 7 661 zł; karta Ceneo chwilowo bez ofert (ostatnio 7 991,90 zł)",
    "https://www.ceneo.pl/185325675",
-   "part"
-  ],
-  "s75r86h": [
-   12339,
-   "x-kom 12 339 zł",
-   null,
    "old"
   ],
-  "h75u7sp": [
-   6380,
-   "prestigeTV 6 495 zł; RTV Euro AGD / MediaMarkt 6 499 zł (promocja do 23.11.2026, wcześniej 7 299 zł); Ceneo niedostępne – wcześniej kajt24 6 380 zł (niepotwierdzone)",
-   "https://www.ceneo.pl/196436773",
+  "s75r86h": [
+   10995,
+   "prestigeTV 10 995 zł (karta pokazuje omyłkowo 85\"/MicroLED – potwierdzić u sprzedawcy); x-kom 12 339 zł (wcześniej)",
+   "https://prestigetv.pl/search?q=R86H",
    "part"
+  ],
+  "h75u7sp": [
+   6495,
+   "prestigeTV 6 495 zł; RTV Euro AGD 6 499 zł (promocja do 23.11.2026, wcześniej 7 299 zł) / MediaMarkt 6 499 zł; Ceneo wcześniej kajt24 6 380 zł (niepotwierdzone)",
+   "https://www.ceneo.pl/196436773",
+   "ok"
   ],
   "t75c7l": [
    6995,
@@ -231,14 +231,14 @@
    "ok"
   ],
   "t75rm7l": [
-   5995,
-   "morele 6 995 zł (druga oferta 8 509,20 zł); Ceneo niedostępne – wcześniej od 5 995 zł (niepotwierdzone)",
+   6995,
+   "prestigeTV 6 995 zł; morele 6 995 zł (druga oferta 8 509,20 zł); Ceneo wcześniej od 5 995 zł (niepotwierdzone)",
    "https://www.ceneo.pl/196436758",
-   "part"
+   "ok"
   ],
   "s75qn85f": [
    5603.19,
-   "morele 5 617 zł (3 oferty od 5 603,19 zł) – QE75QN85FAU",
+   "morele 5 617 zł (3 oferty od 5 603,19 zł) – QE75QN85FAU (ddw24.online 5 476,99 zł – nieznany sklep, pominięte)",
    "https://www.morele.net/kategoria/telewizory-412/,,,,,,,,0,,,,23160O937907/1/",
    "part"
   ],
@@ -246,101 +246,101 @@
    3999,
    "RTV Euro AGD 3 999 zł z kodem RBF021106122026C (-5 000 zł z 8 999 zł), ważny do 06.12.2026 22:45, tylko w sklepie stacjonarnym",
    "https://www.ceneo.pl/185077927",
-   "promo"
+   "old"
   ],
   "s75qn80h": [
    5548,
-   "morele 5 548 zł (z listingu); wcześniej MediaMarkt 8 499 zł",
+   "morele 5 548 zł (z listingu; inne oferty od 6 023,25 zł); prestigeTV 6 995 zł; MediaMarkt 8 499 zł (QE75QN80HAU, okazje.info) (ddw24.online 6 811 zł – nieznany sklep, pominięte)",
    "https://www.morele.net/kategoria/telewizory-412/,,,,,,,,0,,,,23160O937907/1/",
    "part"
   ],
   "x75smini": [
    3499,
-   "MediaMarkt 3 499 zł; morele 5 312 zł",
+   "MediaMarkt 3 499 zł (dostępny online, potw. 12.11); morele 5 312 zł",
    "https://www.ceneo.pl/195219824",
    "ok"
   ],
   "l77g5": [
    12290,
-   "OLED77G51LW: Sferis / Allegro / morele 12 290 zł; OLED77G54LW w LG.com 12 499 zł",
+   "OLED77G51LW: wcześniej Sferis / Allegro 12 290 zł (dziś niepotwierdzone); morele 14 995 zł (niedostępny); Komputronik 11 890 zł (produkt archiwalny – nie do kupienia); OLED77G54LW w LG.com 12 499 zł",
    "https://www.ceneo.pl/184639653",
-   "ok"
+   "part"
   ],
   "y77b8": [
    9999,
-   "RTV Euro AGD 9 999 zł; x-kom 9 999 zł (produkt wycofany)",
-   "https://www.euro.com.pl/telewizory-led-lcd-plazmowe,przekatna-ekranu-relacje!powyzej-70-cali,technologia-producenta!sony.bhtml",
+   "x-kom 9 999 zł (produkt wycofany – zapytaj o dostępność); RTV Euro AGD 9 999 zł (wcześniej); okazje.info: 0 aktualnych ofert; Media Expert tylko outlet (pominięty)",
+   "https://www.ceneo.pl/170103006",
    "ok"
   ],
   "x75spro": [
-   4419,
-   "morele 4 644,99 zł (3 oferty od 4 669,74 zł); Neonet zestaw z soundbarem 4 399 zł (Pepper, Black Weeks); Ceneo niedostępne – wcześniej Allegro 4 419 zł (niepotwierdzone)",
+   4499,
+   "Komputronik 4 499 zł; Allegro 4 499 zł (okazje.info, 10–12.11.2026); morele 4 644,99 zł; Neonet zestaw z soundbarem 4 399 zł (Pepper, Black Weeks)",
    "https://www.ceneo.pl/188732081",
-   "part"
+   "ok"
   ],
   "l77g6": [
    14499,
-   "x-kom 15 999 zł (dostępny); Ceneo niedostępne – wcześniej RTVmax 14 499 zł (niepotwierdzone)",
+   "x-kom 15 999 zł (dostępny, potw. 12.11); prestigeTV 15 995 zł (strona niejednoznaczna – „wyprzedane”); wcześniej RTVmax 14 499 zł (niepotwierdzone)",
    "https://www.ceneo.pl/195602518",
    "part"
   ],
   "s77s95h": [
    14999,
-   "prestigeTV 15 995 zł; x-kom 18 799 zł; Ceneo niedostępne – wcześniej RTVmax 14 999 zł (niepotwierdzone)",
+   "prestigeTV 15 995 zł (strona niejednoznaczna – „wyprzedane”); x-kom 18 799 zł; wcześniej RTVmax 14 999 zł (niepotwierdzone)",
    "https://www.ceneo.pl/199735985",
    "part"
   ],
   "t75x11l": [
    17999,
-   "RTV Euro AGD 17 999 zł (promocja -12 000 zł z 29 999 zł, 05.11–06.12.2026, bez kodu, dostawa online); wcześniej prestigeTV 24 980 zł",
+   "RTV Euro AGD 17 999 zł (promocja -12 000 zł z 29 999 zł, 05.11–06.12.2026, potw. 12.11); Media Expert 29 999 zł; wcześniej prestigeTV 24 980 zł",
    "https://www.ceneo.pl/195662945",
    "promo"
   ],
   "s85r95h": [
    23329,
-   "prestigeTV 23 329 zł; wcześniej Media Expert / RTV Euro AGD 24 999 zł",
+   "prestigeTV 23 329 zł; x-kom 23 999 zł (dostępny, -4 300 zł); wcześniej Media Expert / RTV Euro AGD 24 999 zł",
    "https://www.ceneo.pl/195774632",
    "ok"
   ],
   "s75r95h": [
    14867.5,
-   "Allegro 14 867,50 zł; prestigeTV 16 990 zł; Media Expert 17 999 zł",
+   "Allegro 14 867,50 zł (sprawdzone wcześniej, dziś niezweryfikowane); prestigeTV 15 549 zł; x-kom 17 999 zł; MediaMarkt 21 099 zł",
    "https://www.ceneo.pl/195774697",
    "ok"
   ],
   "h85u7s": [
    6500,
-   "Ceneo od ok. 6 500 zł (z listingu – sprawdź model U7S, nie U7S Pro)",
+   "Ceneo od ok. 6 500 zł (z listingu – sprawdź model). Uwaga: w PL brak „gołego” 85U7S – są warianty 85U7SE (MediaMarkt, brak ceny/dostawy), 85U77SE (Media Expert 7 499 zł) i 85U7S Pro",
    null,
    "part"
   ],
   "h75u7s": [
-   null,
-   "Cena do sprawdzenia w Ceneo",
-   null,
-   "old"
+   5266.4,
+   "75U7SE (polski wariant U7S, 144 Hz): morele 5 266,40 zł (dostępność niepotwierdzona); alternatywnie 75U77SE w Media Expert (cena nieznana)",
+   "https://www.morele.net/telewizor-hisense-75u7se-600596569/",
+   "part"
   ],
   "h65ur9s": [
-   7124.05,
-   "RTV Euro AGD 7 999 zł z kodem (-500 zł); prestigeTV 8 489 zł; Ceneo niedostępne – wcześniej od 7 124,05 zł (niepotwierdzone)",
+   7999,
+   "MediaMarkt 7 999 zł (dostępny online); RTV Euro AGD 7 999 zł; x-kom 7 999 zł (chwilowo niedostępny); TechINN 7 838,99 zł (sklep zagraniczny); Allegro 7 499 zł (oferta jako „65UR9DS” – niezweryfikowane)",
    "https://www.ceneo.pl/196003737",
-   "part"
+   "ok"
   ],
   "h65ur8s": [
    6495,
-   "prestigeTV 6 495 zł",
+   "prestigeTV 6 495 zł (strona niejednoznaczna co do dostępności)",
    null,
    "ok"
   ],
   "h65u8q": [
    4499,
-   "RTV Euro AGD 4 499 zł (tylko w sklepach stacjonarnych); wcześniej panekAGD 5 489 zł",
+   "RTV Euro AGD 4 499 zł (tylko w wybranych sklepach stacjonarnych, potw. 12.11); Neonet 3 990 zł (produkt wycofany – nie do kupienia); MediaMarkt tylko egzemplarz po ekspozycji (pominięty)",
    "https://www.ceneo.pl/184074395",
    "ok"
   ],
   "h65u7sp": [
    5019.99,
-   "Ole Ole! 5 449 zł; Allegro 5 549 zł; MediaMarkt / RTV Euro AGD 5 799 zł (okazje.info; Ceneo wcześniej od ok. 5 020 zł z listingu)",
+   "MediaMarkt 5 799 zł (dostępny online, potw. 12.11); Ole Ole! 5 449 zł; Allegro 5 549 zł; RTV Euro AGD 5 399 zł (z listingu, możliwie nieaktualne); Ceneo wcześniej od ok. 5 020 zł (z listingu)",
    "https://www.ceneo.pl/196356510",
    "part"
   ],
@@ -348,145 +348,145 @@
    5699,
    "Allegro 5 699 zł (promo z Pepper, listopad 2026, termin końca nieznany); Ceneo wcześniej od ok. 5 795 zł",
    "https://www.ceneo.pl/196008190",
-   "promo"
+   "old"
   ],
   "t65c7l": [
    4999,
    "taketronic 4 999 zł; electro / avans / Komputronik 5 399 zł; Media Expert 5 799,99 zł",
    "https://www.ceneo.pl/195662969",
-   "ok"
+   "old"
   ],
   "t65rm7l": [
    5199,
    "rtvmax 5 199 zł; Topcena24 5 257 zł; avans 5 798,98 zł",
    "https://www.ceneo.pl/196436769",
-   "ok"
+   "old"
   ],
   "s65b7": [
    7895,
-   "prestigeTV 7 895 zł; MediaMarkt / Media Expert / RTV Euro AGD 7 899 zł",
+   "prestigeTV 7 895 zł; MediaMarkt / Media Expert / RTV Euro AGD 7 899 zł Pepper: MediaMarkt 7 009,97 zł przy zakupie drugiego produktu (wpis sprzed 2–3 tyg., aktualność niepewna) – nie wliczone.",
    "https://www.ceneo.pl/196440068",
-   "ok"
+   "old"
   ],
   "s65qn80h": [
    3640,
    "Allegro 3 640 zł; kajt24 3 780 zł; Media Expert / RTV Euro AGD 5 499 zł",
    "https://www.ceneo.pl/195777110",
-   "ok"
+   "old"
   ],
   "s65qn85f": [
    3429,
    "Ceneo od ok. 3 429 zł; LUM 3 499 zł; prestigeTV 4 995 zł",
    null,
-   "part"
+   "old"
   ],
   "s65qn90f": [
    7609.12,
    "morele.net 7 609,12 zł (QE65QN90FAT, ostatnia sztuka)",
    "https://www.morele.net/telewizor-samsung-qe65qn90fat-qled-65-4k-ultra-hd-tizen-15248397/",
-   "ok"
+   "old"
   ],
   "s65r85h": [
    5400,
-   "Sferis 5 400 zł; prestigeTV 7 495 zł",
+   "Sferis 5 400 zł (MRE65R85HAU); prestigeTV 6 995 zł",
    "https://www.ceneo.pl/200298273",
    "ok"
   ],
   "s65s95h": [
    9070,
-   "Ceneo od ok. 9 070 zł (QE65S95HFTXXH, z listingu)",
+   "Ceneo od ok. 9 070 zł (QE65S95HFTXXH, z listingu); Allegro (krystecki) 9 449 zł – nowy; x-kom 13 999 zł (chwilowo niedostępny); MediaMarkt 15 099 zł",
    null,
    "part"
   ],
   "s65s85h": [
    5055.45,
-   "Ceneo od ok. 5 055 zł (z listingu)",
+   "Ceneo od ok. 5 055 zł (z listingu); Allegro ok. 4 995–5 099 zł (listing, możliwie nieaktualny – niezweryfikowane); x-kom / RTV Euro AGD 7 999 zł",
    null,
    "part"
   ],
   "l65c5": [
-   5999,
-   "Ceneo od ok. 5 999 zł (z listingu)",
-   null,
-   "part"
-  ],
-  "l65b6": [
-   5999,
-   "Media Expert / MediaMarkt / RTV Euro AGD 5 999 zł",
-   "https://www.ceneo.pl/196743531",
+   5699,
+   "RTV Euro AGD 5 699 zł (tylko w wybranych sklepach stacjonarnych, bez dostawy); Allegro 6 399 zł (najtaniej nowy); x-kom 6 499 zł (wycofany) (MediaMarkt 6 499 zł – powystawowy; Allegro x-kom 5 799 zł – po zwrocie)",
+   "https://www.ceneo.pl/183767369",
    "ok"
   ],
+  "l65b6": [
+   5178.99,
+   "MediaMarkt 5 178,99 zł w akcji „70 zł za każde 500 zł” – wymaga dorzucenia drugiego produktu do koszyka (Pepper, data końca nie podana); bez akcji: MediaMarkt 5 999 zł; x-kom / RTV Euro AGD 6 999 zł",
+   "https://www.pepper.pl/promocje/telewizor-oled-lg-oled65b65la-65-w-promce-70za500-at-media-markt-1386458",
+   "promo"
+  ],
   "l65g5": [
-   8999,
-   "Ceneo od 8 999 zł (z listingu)",
-   null,
-   "part"
+   7699,
+   "Allegro 7systems 7 699 zł (nowy; odbiór osobisty lub dowóz do 100 km od 42-600); Allegro 7 999 zł; RTV Euro AGD 8 149,99 zł (tylko wybrane sklepy stacjonarne)",
+   "https://allegro.pl/oferta/telewizor-oled-evo-ai-lg-oled65g54lw-65-4k-165hz-webos-color-czarny-17622490823",
+   "ok"
   ],
   "y65b8": [
    7399,
    "Allegro 7 399 zł; MediaMarkt 7 999 zł; prestigeTV 8 695 zł",
    "https://www.ceneo.pl/169644745",
-   "ok"
+   "old"
   ],
   "y65b6": [
    6499,
-   "Ole Ole! 6 979 zł; MediaMarkt / RTV Euro AGD 6 999 zł (okazje.info; Ceneo wcześniej od ok. 6 499 zł z listingu)",
-   null,
-   "part"
+   "RTV Euro AGD 6 499 zł (promocja 2–14.11.2026, potem 6 999–7 999 zł); Ole Ole! 6 979 zł; MediaMarkt ok. 6 999 zł (wcześniejsze dane)",
+   "https://www.euro.com.pl/telewizory-led-lcd-plazmowe/sony-telewizor-k65a65pb.bhtml",
+   "promo"
   ],
   "t98c8l": [
    15985,
    "rtvmax 15 985 zł; prestigeTV 15 989 zł; avans 15 997,97 zł",
    "https://www.ceneo.pl/196008186",
-   "ok"
+   "old"
   ],
   "t98c7l": [
    13799,
    "rtvmax 13 799 zł; prestigeTV 13 995 zł; Media Expert 13 997,98 zł",
    "https://www.ceneo.pl/195665081",
-   "ok"
+   "old"
   ],
   "h100u8q": [
    13799,
    "Allegro 13 799 zł; audiocolor 13 899 zł; Media Expert 13 999,99 zł",
    "https://www.ceneo.pl/185077929",
-   "ok"
+   "old"
   ],
   "h100u7sp": [
    14995,
    "prestigeTV / audiocolor / studiohifi 14 995 zł",
    null,
-   "part"
+   "old"
   ],
   "h100ur8s": [
    18995,
    "prestigeTV 18 995 zł; Media Expert 18 999 zł",
    "https://www.ceneo.pl/198105863",
-   "ok"
+   "old"
   ],
   "s98b7": [
    26995,
    "Ceneo od 26 995 zł (wariant 98″ na karcie serii)",
    null,
-   "part"
+   "old"
   ],
   "s98qn90f": [
    17799,
    "taketronic 17 799 zł; prestigeTV 22 995 zł",
    null,
-   "part"
+   "old"
   ],
   "t98x11l": [
    41989,
    "Ceneo od 41 989 zł (z listingu)",
    null,
-   "part"
+   "old"
   ],
   "t85x11l": [
    37994.99,
    "Ceneo ok. 37 995 zł (z listingu)",
    null,
-   "part"
+   "old"
   ],
   "s65s85f": [
    5149,
@@ -496,7 +496,7 @@
   ],
   "s77s85f": [
    6579.99,
-   "Allegro 6 579,99 zł (okazje.info, QE77S85FAE)",
+   "Allegro 6 579,99 zł (okazje.info, QE77S85FAE – jedyna aktualna oferta)",
    "https://www.okazje.info.pl/szukaj/samsung-qe77s85fae-77-oled-4k-120hz-vision-ai-tizen-dolby-atmos-hdmi-2-1-dvb-t2-telewizor-oled/ceny.html",
    "part"
   ],
@@ -504,71 +504,71 @@
    19699,
    "Ceneo od 19 699 zł (z listingu)",
    null,
-   "part"
+   "old"
   ],
   "p65mled": [
-   4499,
-   "MediaMarkt (marketplace Philips PL) 4 499 zł, dostępny",
-   "https://mediamarkt.pl/pl/product/_telewizor-philips-65mled92012-czarny-165074969.html",
+   4125.26,
+   "Morele 4 125,26 zł (dostępny, „ostatnie sztuki”; 3 inne oferty od 4 125,26 zł); MediaMarkt (marketplace Philips PL) 4 499 zł, dostępny",
+   "https://www.ceneo.pl/184627638",
    "ok"
   ],
   "s65b9": [
    13999,
-   "RTV Euro AGD 13 999 zł (3 raty gratis); MediaMarkt 13 999 zł",
-   "https://www.euro.com.pl/telewizory-led-lcd-plazmowe/sony-telewizor-bravia-9-ii-k65xr95m2pb.bhtml",
+   "RTV Euro AGD 13 999 zł (dostępny, raty 0%); Media Expert 13 999 zł; prestigeTV 13 995 zł (oznaczony „wyprzedane”)",
+   "https://www.ceneo.pl/196440074",
    "ok"
   ],
   "s75b9": [
-   16995,
-   "RTV Euro AGD 16 999 zł; MediaMarkt 16 999 zł (chwilowo niedostępny); prestigeTV 16 995 zł - dziś niezweryfikowane",
+   16999,
+   "RTV Euro AGD 16 999 zł (3 raty gratis, dostawa jutro); Media Expert 16 999 zł (dostępny); prestigeTV 16 995 zł (oznaczony „wyprzedane” – nie brane)",
    "https://www.ceneo.pl/196440072",
    "ok"
   ],
   "s65s99h": [
-   9349,
-   "Allegro 13 999 zł (okazje.info); Komputronik 11 099 zł (chwilowo niedostępny); MediaMarkt / RTV Euro AGD 15 599 zł; wcześniejsze Allegro 9 349 zł niezweryfikowane",
+   15599,
+   "x-kom 15 599 zł (dostępny); RTV Euro AGD 15 599 zł; Ole Ole! – chwilowo niedostępny (wcześniejsze: Allegro 13 999 zł, Komputronik 11 099 zł niedostępny, Allegro 9 349 zł – niezweryfikowane)",
    "https://www.ceneo.pl/195775115",
-   "part"
+   "ok"
   ],
   "s77s99h": [
-   14799,
-   "Ole Ole! 15 199 zł (dostępny); MediaMarkt 19 899 zł; wcześniejsze rtvmax 14 799 zł niezweryfikowane",
+   18499,
+   "Ole Ole! 18 499 zł (dostępny, dostawa jutro); RTV Euro AGD 19 899 zł; x-kom 19 899 zł (wydłużony czas dostawy); prestigeTV 15 195 zł (z listingu, niezweryfikowane); wcześniejsze rtvmax 14 799 zł niezweryfikowane",
    "https://www.ceneo.pl/195775051",
-   "part"
+   "ok"
   ],
   "s65s95f": [
    7399,
-   "taketronic 7 399 zł; kajt24 7 449 zł; prestigeTV 9 895 zł",
+   "taketronic 7 399 zł; kajt24 7 449 zł; prestigeTV 9 895 zł (listing); x-kom 11 499 zł – produkt wycofany (RTV Euro AGD 6 199–6 499 zł tylko w wybranych salonach, bez dostawy – dane niespójne, nie brane)",
    null,
    "part"
   ],
   "s77s95f": [
    10970,
-   "Allegro 10 970 zł; kajt24 11 699 zł; prestigeTV 17 495 zł",
+   "Allegro 10 970 zł; kajt24 11 699 zł; RTV Euro AGD 15 799 zł (listing); prestigeTV 17 495 zł; x-kom / Neonet 13 999 zł – produkt wycofany",
    null,
    "part"
   ],
   "s65s90fq": [
-   7299,
-   "x-kom / Media Expert 7 299 zł; Morele 8 998 zł",
-   null,
-   "part"
+   4499,
+   "RTV Euro AGD 4 499 zł (QE65S90FAT, promocja -500 zł 04–30.11.2026, tylko w wybranych salonach, brak dostawy; cena przed obniżką 7 299 zł); wcześniej x-kom / Media Expert 7 299 zł; Morele 8 998 zł",
+   "https://www.euro.com.pl/telewizory-led-lcd-plazmowe/samsung-telewizor-qe65s90fatxxh.bhtml",
+   "promo"
   ],
   "s65s90h": [
-   6098,
-   "ddw24.online 6 473,49 zł; Komputronik 6 999 zł; MediaMarkt 8 699 zł (QE65S90HAE, okazje.info)",
+   6473.49,
+   "ddw24.online 6 473,49 zł (okazje.info, mniej znany sklep); prestigeTV 6 995 zł (listing); Komputronik 6 999 zł (QE65S90HAEXXH, dostępny – potwierdzone); MediaMarkt 8 699 zł",
    "https://www.ceneo.pl/195775530",
    "part"
   ],
   "l65c6": [
    6449,
-   "x-kom 7 499 zł (dostępny); RTV Euro AGD 7 499 zł; MediaMarkt 7 499 zł",
+   "MediaMarkt 7 499 zł (przekreślone 7 999 zł, listing 12.11); x-kom 7 499 zł; RTV Euro AGD 7 499 zł",
    "https://www.ceneo.pl/196251468",
    "part"
   ],
   "y65b8ii": [
    9999,
-   "RTV Euro AGD 9 999 zł (okazje.info); Neonet 10 499 zł (ostatnie sztuki); MediaMarkt 10 499 zł",
+   "RTV Euro AGD 9 999 zł (rabat -500 zł, listing); MediaMarkt 9 999 zł (listing); prestigeTV 10 495 zł; Neonet 10 499 zł (ostatnie sztuki, wcześniej)",
    "https://www.ceneo.pl/183977709",
    "part"
   ],
@@ -576,23 +576,23 @@
    12799,
    "Ceneo od 12 799 zł (z listingu)",
    null,
-   "part"
+   "old"
   ],
   "p77z95b": [
    18299,
    "Allegro / taniprojektor 18 299 zł",
    "https://www.ceneo.pl/183977608",
-   "ok"
+   "old"
   ],
   "p65oled911": [
-   10490,
-   "MediaMarkt 10 499 zł; Ole Ole! 10 499 zł; RTV Euro AGD 10 499 zł (okazje.info)",
+   10495,
+   "prestigeTV 10 495 zł (listing); RTV Euro AGD 10 499 zł; Ole Ole! 10 499 zł; okazje.info od 10 499 zł (3 sklepy)",
    null,
    "part"
   ],
   "p77oled911": [
-   15799,
-   "MediaMarkt (marketplace Philips PL) 15 999 zł, dostępny",
+   14999,
+   "MediaMarkt 14 999 zł (karta produktu; dostawa niedostępna – odbiór w sklepie do sprawdzenia); prestigeTV 15 995 zł; RTV Euro AGD 15 999 zł",
    "https://mediamarkt.pl/pl/product/_telewizor-philips-ambilight-oled-bowers-and-wilkins-ambiscape-77-77oled911-czarny-186661902.html",
    "part"
   ],
@@ -600,47 +600,47 @@
    9199,
    "rtvmax 9 199 zł; Allegro 9 499 zł; prestigeTV 9 495 zł; MediaMarkt 9 999 zł",
    null,
-   "part"
+   "old"
   ],
   "p77oled910": [
    15995,
    "Ceneo ok. 15 995 zł (karta bez aktualnych ofert)",
    null,
-   "part"
+   "old"
   ],
   "p77oled950": [
    19995,
    "Ceneo od 19 995 zł (z listingu)",
    null,
-   "part"
+   "old"
   ],
   "p65oled820": [
    5997,
    "Media Expert 7 299 zł; Allegro 7 299 zł (okazje.info); x-kom 6 999 zł (produkt wycofany)",
    "https://www.ceneo.pl/185478309",
-   "part"
+   "old"
   ],
   "p65oled761": [
    5893.99,
    "Ceneo od ok. 5 894 zł (z listingu)",
    null,
-   "part"
+   "old"
   ],
   "t65a400u": [
-   4499.99,
-   "Media Expert 4 499,99 zł",
-   "https://www.ceneo.pl/196436765",
-   "ok"
+   3916.98,
+   "Media Expert 3 916,98 zł z rabatem „67 zł za każde 500 zł” – wymaga drugiego produktu (Pepper, data końca nie podana); bez akcji: Media Expert 4 499,99 zł",
+   "https://www.pepper.pl/promocje/tcl-65a400u-1386265",
+   "promo"
   ],
   "t75a400u": [
    5799.99,
-   "Media Expert / avans / electro 5 799,99 zł",
+   "Media Expert / avans / electro 5 799,99 zł (Media Expert 5 799 zł potwierdza też wybierz.tv); promocja Media Expert 4 929,99 zł z pepper.pl już wygasła",
    "https://www.ceneo.pl/197906969",
    "ok"
   ],
   "t85a400u": [
    7997.98,
-   "Media Expert / avans / electro 7 997,98 zł",
+   "Media Expert / avans / electro 7 997,98 zł (Media Expert 7 997 zł potwierdza też wybierz.tv)",
    "https://www.ceneo.pl/197906968",
    "ok"
   ],
@@ -648,95 +648,95 @@
    11998.98,
    "Media Expert 11 998,98 zł; rtvmax 11 999 zł",
    "https://www.ceneo.pl/196008192",
-   "ok"
+   "old"
   ],
   "t65c9k": [
-   7299,
-   "eukasa 7 299 zł; Media Expert ok. 5 299 zł w teście wybierz.tv",
+   4949.99,
+   "RTV Euro AGD 4 949,99 zł (karta produktu; tylko w wybranych sklepach stacjonarnych, bez dostawy); Media Expert 5 299 zł (wg wybierz.tv); eukasa 7 299 zł",
    "https://www.ceneo.pl/184366059",
    "ok"
   ],
   "t75c9k": [
-   4498,
-   "Ceneo: oferty od ok. 4 498 zł (karta bez aktualnych ofert)",
-   null,
-   "part"
+   5899.99,
+   "RTV Euro AGD 5 899,99 zł (karta produktu; tylko w wybranych sklepach stacjonarnych, bez dostawy; na listingu Euro 5 349,99 zł – niepotwierdzone); Media Expert 7 999 zł (wg wybierz.tv)",
+   "https://www.ceneo.pl/183951819",
+   "ok"
   ],
   "t85c9k": [
    9999.99,
    "Media Expert / avans / electro 9 999,99 zł",
    "https://www.ceneo.pl/183952098",
-   "ok"
+   "old"
   ],
   "t65c8k": [
    4849,
-   "Ceneo ok. 4 849 zł (z listingu); Media Expert 4 997 zł w teście",
-   null,
+   "Ceneo ok. 4 849 zł (z listingu); Media Expert 4 997 zł (wg wybierz.tv)",
+   "https://www.ceneo.pl/183151548",
    "part"
   ],
   "t75c8k": [
-   6999,
-   "Allegro 6 999 zł (z sekcji podobnych na karcie Allegro); brak w RTV Euro AGD; morele 36 575 zł niedostępny",
+   6497,
+   "Media Expert 6 497 zł (wg wybierz.tv); Allegro 6 999 zł; brak w RTV Euro AGD",
    "https://www.ceneo.pl/183151410",
    "part"
   ],
   "t85c8k": [
-   5990,
-   "Allegro iPLUTO 9 597,84 zł (+499 zł dostawa), inna oferta Allegro 10 323 zł; morele niedostępny; brak w RTV Euro AGD (stare rtvmax 5 990 zł niepotwierdzone)",
-   "https://allegro.pl/produkt/telewizor-tcl-85c8k-85-qd-mini-led-4k-144-hz-google-tv-dolby-atmos-d138dc46-9e89-43d3-b490-904b4bca2728",
+   8497,
+   "Media Expert 8 497 zł (wg wybierz.tv); Allegro iPLUTO 9 597,84 zł (+499 zł dostawa); inna oferta Allegro 10 323 zł (stare rtvmax 5 990 zł niepotwierdzone)",
+   "https://www.ceneo.pl/183151023",
    "part"
   ],
   "t75c7k": [
-   5099,
-   "rtvmax 5 099 zł; Media Expert 5 499,99 zł",
+   4999,
+   "Media Expert 4 999 zł (wg wybierz.tv; wcześniej 5 499,99 zł); rtvmax 5 099 zł",
    null,
    "part"
   ],
   "t85c7k": [
-   5675,
-   "Allegro iPLUTO 7 840,23 zł (+499 zł dostawa), inna oferta Allegro 8 416,74 zł; morele niedostępny; brak w RTV Euro AGD",
-   "https://allegro.pl/oferta/telewizor-tcl-85c7k-85-qd-mini-led-4k-144hz-google-tv-dolby-atmos-17441596313",
+   6799,
+   "Media Expert 6 799 zł (wg wybierz.tv); Allegro iPLUTO 7 840,23 zł (+499 zł dostawa); inna oferta Allegro 8 416,74 zł",
+   "https://www.ceneo.pl/183150223",
    "part"
   ],
   "h65u7qp": [
    3999,
    "Allegro 3 999 zł; Media Expert 4 497,98 zł (65U78Q Pro)",
    null,
-   "part"
+   "old"
   ],
   "h75u7qp": [
    5998.99,
    "Media Expert 5 998,99 zł; avans 5 999,98 zł",
    null,
-   "part"
+   "old"
   ],
   "h65u7q": [
    3399,
-   "Ceneo od ok. 3 399 zł (z listingu)",
+   "Ceneo od ok. 3 399 zł (z listingu); Media Expert 3 899 zł (65U78Q, wg wybierz.tv)",
    null,
    "part"
   ],
   "h75u7q": [
    5198,
-   "panekAGD 5 198 zł; 5 995 zł",
+   "panekAGD 5 198 zł; Media Expert 5 499 zł (wg wybierz.tv); 5 995 zł",
    "https://www.ceneo.pl/184551036",
    "ok"
   ],
   "h85u7q": [
    6990,
-   "Ceneo od ok. 6 990 zł (z listingu)",
+   "Ceneo od ok. 6 990 zł (z listingu); x-kom 7 199 zł (wg wybierz.tv)",
    null,
    "part"
   ],
   "h65e8q": [
-   3999.9,
-   "Ceneo od ok. 4 000 zł (z listingu)",
+   3799,
+   "Media Expert 3 799 zł (wg wybierz.tv); Ceneo od ok. 4 000 zł (z listingu)",
    null,
    "part"
   ],
   "h75e8q": [
    3899,
-   "Ceneo od ok. 3 899 zł (z listingu)",
+   "Media Expert 3 899 zł (wg wybierz.tv); Ceneo od ok. 3 899 zł (z listingu)",
    null,
    "part"
   ],
@@ -744,29 +744,29 @@
    3499,
    "RTV Euro AGD 3 499 zł (promocja -700 zł, brak daty końca); Neonet 4 099 zł; morele 3 582 zł (niedostępny)",
    "https://www.ceneo.pl/183662145",
-   "promo"
+   "old"
   ],
   "s75qn80f": [
    3499,
-   "RTV Euro AGD 3 499 zł (promocja -500 zł, brak daty końca)",
+   "RTV Euro AGD 3 499 zł (promocja -500 zł, brak daty końca); x-kom 4 999 zł (wg wybierz.tv)",
    "https://www.ceneo.pl/183662454",
    "promo"
   ],
   "s85qn80f": [
-   7177.04,
-   "Allegro 7 177 zł; Samsung 8 799 zł",
+   6999,
+   "Media Expert 6 999 zł (wg wybierz.tv); Allegro 7 177 zł; x-kom / Neonet 7 799 zł (produkt wycofany); Samsung 8 799 zł",
    "https://www.ceneo.pl/183661063",
-   "ok"
+   "part"
   ],
   "s65qn900f": [
    6199,
-   "audiocolor / Allegro 6 199 zł; prestigeTV 6 995 zł",
+   "Audio Color 6 199 zł (sklep.audiocolor.pl, wcześniej 9 999 zł, „na stanie – może być zamówiony”); prestigeTV 6 995 zł; MediaMarkt 11 999 zł",
    "https://www.ceneo.pl/183662226",
    "ok"
   ],
   "s75qn900f": [
-   8800,
-   "RTV Euro AGD 8 999 zł (promocja -7 500 zł, brak daty końca); prestigeTV 9 995 zł (stare Vobis 8 800 zł niepotwierdzone)",
+   8999,
+   "RTV Euro AGD 8 999 zł (listing, promocja -7 500 zł, brak daty końca; OleOle! – ten sam koncern – „tymczasowo niedostępny”); prestigeTV 9 995 zł; x-kom/Neonet 16 999 zł (wycofany); (Vobis 8 800 zł – niepotwierdzone)",
    "https://www.ceneo.pl/183662456",
    "part"
   ],
@@ -778,48 +778,55 @@
   ],
   "l75qned93": [
    5540,
-   "RTV Euro AGD 8 199 zł; x-kom 5 799 zł (produkt wycofany); Allegro brak nowych",
+   "RTV Euro AGD 8 199 zł (tylko wybrane sklepy, brak dostawy); x-kom 5 799 zł (produkt wycofany); MediaMarkt – dostawa niemożliwa; Allegro brak nowych",
    "https://www.ceneo.pl/183916529",
    "part"
   ],
   "l85qned93": [
    8499,
-   "RTV Euro AGD 9 699 zł (tylko sklepy stacjonarne, bez dostawy); Allegro brak nowych",
-   "https://www.euro.com.pl/telewizory-led-lcd-plazmowe,_LG,przekatna-ekranu-relacje!85-cali.bhtml",
+   "RTV Euro AGD 9 699 zł (tylko sklepy stacjonarne, bez dostawy); MediaMarkt – dostawa niemożliwa; Allegro brak nowych",
+   "https://www.ceneo.pl/183977606",
    "part"
   ],
   "x65m95e": [
    3997.95,
-   "Allegro avans 3 997,95 zł (nowy, darmowa dostawa); kolejna oferta Allegro 5 889,99 zł",
+   "Allegro avans 3 997,95 zł (nowy, Super Sprzedawca, najtańsza z 8 ofert); kolejna oferta Allegro 5 889,99 zł",
    "https://allegro.pl/oferta/telewizor-haier-h65m95eux-65-miniled-4k-google-tv-144hz-dolby-vision-17894260658",
    "ok"
   ],
   "s85b9": [
-   22995,
-   "prestigeTV 22 995 zł (dostępność niejasna); RTV Euro AGD 22 999 zł",
-   "https://prestigetv.pl/products/sony-bravia-9-ii-k-85xr95m2-85-true-rgb-mini-led-4k",
+   22999,
+   "RTV Euro AGD 22 999 zł (dostawa jutro; akcja „67 zł za każde wydane 500 zł” = -2 680 zł); MediaMarkt 22 999 zł (dostępny online); prestigeTV 22 995 zł (oznaczony „Wyprzedane”)",
+   "https://www.euro.com.pl/telewizory-led-lcd-plazmowe/sony-telewizor-bravia-9-ii-k85xr95m2pb.bhtml",
    "ok"
   ],
   "s65qn990f": [
    10290,
-   "Allegro Sferis 10 290 zł; prestigeTV 11 980 zł; RTV Euro AGD 13 999 zł; x-kom 17 999 zł",
+   "Allegro Sferis 10 290 zł (nowy, najtańszy nowy); prestigeTV 11 980 zł; RTV Euro AGD 11 999 zł; MediaMarkt 13 999 zł; (ddw24.online 10 657,99 zł – mniej znany sklep)",
    "https://allegro.pl/oferta/telewizor-samsung-qe65qn990f-65-qd-mini-led-8k-120hz-tizen-tv-17777700439",
    "ok"
   ],
   "s75qn990f": [
    13890,
-   "prestigeTV 13 890 zł; RTV Euro AGD 19 999 zł (promocja -6 000 zł); x-kom 22 499 zł",
-   "https://prestigetv.pl/collections/8k",
+   "prestigeTV 13 890 zł; Audio Color 13 999 zł (brak w magazynie); RTV Euro AGD / OleOle! 19 999 zł (promocja -6 000 zł); MediaMarkt 25 999 zł",
+   "https://prestigetv.pl/products/telewizor-samsung-qe75qn990f-75-cali-neo-qled-8k-mini-led-smart-tv",
    "ok"
   ],
   "p85mled981": [
    null,
    "Dostępny w Media Expert – cena do sprawdzenia",
    "https://www.mediaexpert.pl/telewizory-i-rtv/telewizory/seria_mled981",
-   "part"
+   "old"
   ]
  },
- "specs": {},
+ "specs": {
+  "x85smini": {
+   "ct": "Satynowa (półmat), tłumienie odbić przyzwoite",
+   "m": 7,
+   "va": 3.4,
+   "bt": "93,9% / 73,2%"
+  }
+ },
  "add": [
   {
    "id": "x98smini",
@@ -829,24 +836,24 @@
    "t": "Mini LED",
    "tl": "QD-Mini LED, 880 stref (2026)",
    "p": 9999,
-   "ps": "x-kom 9 999 zł; Neonet 9 999 zł",
+   "ps": "x-kom 9 999 zł (dostępny); Neonet 9 999 zł",
    "pu": "https://www.x-kom.pl/p/1513349-telewizor-98-i-wiekszy-xiaomi-98-s-mini-2026-qd-mini-led-4k-fhd-google-tv-dolby-vision.html",
    "pv": "ok",
-   "pf": null,
+   "pf": 1079,
    "pp": null,
    "mfr": 1200,
-   "ct": "brak danych o powłoce",
-   "m": 4,
+   "ct": "Satynowa (półmat), tłumienie odbić przyzwoite",
+   "m": 7,
    "ss": "2x15 W, Dolby Atmos",
-   "sd": null,
-   "mv": null,
-   "br": null,
-   "ov": null,
+   "sd": 5,
+   "mv": 7.1,
+   "br": 7.5,
+   "ov": 7.1,
    "pn": "LCD QD-Mini LED (typ matrycy nie podany)",
-   "z": "880",
-   "sdr": null,
-   "bt": "DCI-P3 94% (typowo)",
-   "va": null,
+   "z": "880 (producent; w teście 85″: 640)",
+   "sdr": 805,
+   "bt": "93,9% / 73,2%",
+   "va": 3.4,
    "h4": 144,
    "h14": 288,
    "h10": 288,
@@ -856,8 +863,8 @@
    "os": "Google TV",
    "pro": "98\" za ~10 tys. zł, 144 Hz w 4K, Dolby Vision i HDR10+",
    "con": "tylko 880 stref i 1200 nit przy 98\", 3 HDMI, słaby dźwięk 2x15 W",
-   "dn": "Dane techniczne od producenta, brak pomiarów laboratoryjnych",
-   "wz": null
+   "dn": "Oceny z testu serii na wybierz.tv (85″/98″, egzemplarz 85″); liczba stref dla 98″ od producenta",
+   "wz": "https://www.wybierz.tv/telewizory/testy/xiaomi/xiaomi-s-mini-2026-85-98-144hz_AIY"
   },
   {
    "id": "s100qn80f",
@@ -866,25 +873,25 @@
    "s": 100,
    "t": "Mini LED",
    "tl": "Neo QLED, Quantum Mini LED (2025)",
-   "p": 13299,
-   "ps": "x-kom 13 299 zł",
+   "p": 15888,
+   "ps": "x-kom 15 888 zł (dostępny, dostawa jutro; możliwy zwrot do 3 500 zł w akcji Samsung – niepotwierdzone dla tego modelu)",
    "pu": "https://www.x-kom.pl/p/1351182-telewizor-98-i-wiekszy-samsung-tv-samsung-100-qe100qn80f-miniled-4k-144-hz-dolby-atmos.html",
-   "pv": "part",
-   "pf": null,
+   "pv": "ok",
+   "pf": 1150,
    "pp": null,
    "mfr": null,
-   "ct": "brak danych o powłoce",
-   "m": 4,
+   "ct": "Satynowa, tłumienie odbić przyzwoite",
+   "m": 7,
    "ss": "30 W RMS, 4 kanały, Dolby Atmos (wg samsung.com/pl)",
-   "sd": null,
-   "mv": null,
-   "br": null,
-   "ov": null,
-   "pn": null,
-   "z": null,
-   "sdr": null,
-   "bt": null,
-   "va": null,
+   "sd": 6.7,
+   "mv": 7.2,
+   "br": 7.0,
+   "ov": 7.5,
+   "pn": "VA",
+   "z": "120",
+   "sdr": 623,
+   "bt": "90,0% / 67,9%",
+   "va": 3.1,
    "h4": 144,
    "h14": null,
    "h10": null,
@@ -894,8 +901,8 @@
    "os": "Tizen",
    "pro": "100\" Mini LED w rozsądnej cenie, 4x HDMI 2.1 z 144 Hz",
    "con": "brak Dolby Vision, liczba stref i jasność nieujawnione",
-   "dn": "Dane techniczne od producenta, brak pomiarów laboratoryjnych",
-   "wz": null
+   "dn": "Oceny z osobnego testu wybierz.tv wersji 100″ (inna matryca niż 55–85″)",
+   "wz": "https://www.wybierz.tv/telewizory/testy/samsung/samsung-qn80f-100_AGA"
   },
   {
    "id": "s100qn80h",
@@ -905,14 +912,14 @@
    "t": "Mini LED",
    "tl": "Neo QLED Mini LED, Supreme Mini LED Dimming (2026)",
    "p": 20999,
-   "ps": "OleOle!/RTV Euro AGD 20 999 zł",
+   "ps": "OleOle!/RTV Euro AGD 20 999 zł (dostawa jutro)",
    "pu": "https://www.oleole.pl/telewizory-led-lcd-plazmowe/samsung-telewizor-qe100qn80hu.bhtml",
-   "pv": "part",
+   "pv": "ok",
    "pf": null,
    "pp": null,
    "mfr": null,
    "ct": "brak danych o powłoce",
-   "m": 4,
+   "m": null,
    "ss": "2.0, 30 W",
    "sd": null,
    "mv": null,
@@ -943,7 +950,7 @@
    "t": "RGB Mini LED",
    "tl": "RGB-Mini LED, 8736 stref, panel WHVA 2.0 Ultra (2026)",
    "p": 24999,
-   "ps": "RTV Euro AGD 24 999 zł; OleOle! 24 999 zł",
+   "ps": "RTV Euro AGD 24 999 zł; OleOle! 24 999 zł (obniżka o 5 000 zł z 29 999 zł)",
    "pu": "https://www.okazje.info.pl/szukaj/tcl-85rm9l-85-rgb-mini-led-4k-144hz-telewizor-qled/ceny.html",
    "pv": "promo",
    "pf": null,
@@ -1057,24 +1064,24 @@
    "t": "OLED",
    "tl": "OLED evo C6, α11 AI Gen3 (2026)",
    "p": 18999,
-   "ps": "RTV Euro AGD 18 999 zł; MediaMarkt 18 999 zł (wg historii 03.10, obecnie brak oferty)",
+   "ps": "RTV Euro AGD 18 999 zł (jedyna aktualna oferta wg okazje.info); MediaMarkt 18 999 zł (wg historii 03.10, obecnie brak oferty)",
    "pu": "https://www.okazje.info.pl/szukaj/lg-oled83c64la-83-oled-evo-ai-4k-165hz-telewizor-oled/ceny.html",
    "pv": "part",
-   "pf": null,
+   "pf": 2300,
    "pp": null,
    "mfr": null,
-   "ct": "brak deklaracji powłoki na stronie LG",
-   "m": 4,
+   "ct": "Błyszcząca, tłumienie odbić przyzwoite",
+   "m": 5,
    "ss": "2.2 kan., 40 W, Dolby Atmos",
-   "sd": null,
-   "mv": null,
-   "br": null,
-   "ov": null,
+   "sd": 7,
+   "mv": 8.4,
+   "br": 7.6,
+   "ov": 8.4,
    "pn": "WOLED",
-   "z": null,
-   "sdr": null,
-   "bt": null,
-   "va": null,
+   "z": "każdy piksel",
+   "sdr": 690,
+   "bt": "99,3% / 82,6%",
+   "va": 7.3,
    "h4": 165,
    "h14": null,
    "h10": null,
@@ -1084,8 +1091,8 @@
    "os": "webOS 26",
    "pro": "83\" OLED 2026 z 165 Hz",
    "con": "drogi względem 83\" B6/C5; w 83\" brak deklaracji Reflection Free",
-   "dn": "Dane techniczne od producenta, brak pomiarów laboratoryjnych",
-   "wz": null
+   "dn": "Oceny z testu serii C6H (Tandem WOLED) na wybierz.tv – 83″ w „Dostępne przekątne”",
+   "wz": "https://www.wybierz.tv/telewizory/testy/lg/lg-oled-c6h-tandem-woled_AJJ"
   },
   {
    "id": "l65g6",
@@ -1095,24 +1102,24 @@
    "t": "OLED",
    "tl": "OLED evo G6, Hyper Radiant Color, α11 AI Gen3 (2026)",
    "p": 11999,
-   "ps": "x-kom 11 999 zł; RTV Euro AGD 11 999 zł; MediaMarkt 11 999 zł",
+   "ps": "x-kom 11 999 zł (dostępny, -400 zł; najniższa z 30 dni 12 399 zł); RTV Euro AGD 11 999 zł; MediaMarkt 11 999 zł",
    "pu": "https://www.x-kom.pl/p/1509858-telewizor-60-69-lg-oled65g64lw-65-oled-4k-165hz-webos.html",
    "pv": "ok",
-   "pf": null,
-   "pp": null,
+   "pf": 2000,
+   "pp": 2500,
    "mfr": null,
-   "ct": "Reflection Free Premium (błyszczący z AR)",
-   "m": 5,
+   "ct": "Błyszcząca z bardzo skuteczną warstwą AR (tłumienie odbić dobre)",
+   "m": 6,
    "ss": "4.2 kan., 60 W, Dolby Atmos",
-   "sd": null,
-   "mv": null,
-   "br": null,
-   "ov": null,
+   "sd": 8.4,
+   "mv": 8.6,
+   "br": 8.2,
+   "ov": 8.7,
    "pn": "WOLED",
    "z": null,
-   "sdr": null,
-   "bt": ">= DCI-P3 (deklaracja LG)",
-   "va": null,
+   "sdr": 857,
+   "bt": "99,4% DCI-P3 / 81,9% BT.2020",
+   "va": 7.2,
    "h4": 165,
    "h14": null,
    "h10": null,
@@ -1122,8 +1129,160 @@
    "os": "webOS 26",
    "pro": "flagowy OLED LG w 65\", wysoka jasność, Reflection Free Premium, 60 W",
    "con": "cena ~2x C6 65\"",
-   "dn": "Dane techniczne od producenta, brak pomiarów laboratoryjnych",
-   "wz": null
+   "dn": "Oceny z testu serii G6 na wybierz.tv (65″ w „Dostępne przekątne”)",
+   "wz": "https://www.wybierz.tv/telewizory/testy/lg/lg-oled-g6_AIN"
+  },
+  {
+   "id": "s83s90h",
+   "n": "Samsung QE83S90H (WOLED)",
+   "b": "Samsung",
+   "s": 83,
+   "t": "OLED",
+   "tl": "OLED WOLED (2026)",
+   "p": 19999,
+   "ps": "RTV Euro AGD 19 999 zł; Media Expert 20 999 zł; Samsung.pl 20 999 zł (wg wybierz.tv)",
+   "pu": "https://www.euro.com.pl/telewizory-led-lcd-plazmowe/samsung-telewizor-qe83s90hae.bhtml",
+   "pv": "ok",
+   "pf": 1570,
+   "pp": null,
+   "mfr": null,
+   "ct": "Matowa Glare Free, tłumienie odbić bardzo dobre",
+   "m": 10,
+   "ss": "2.1, 40 W, Dolby Atmos",
+   "sd": 8.4,
+   "mv": 8.6,
+   "br": 6.5,
+   "ov": 8.4,
+   "pn": "WOLED",
+   "z": "każdy piksel",
+   "sdr": 473,
+   "bt": "98,7% / 74,7%",
+   "va": 7.6,
+   "h4": 165,
+   "h14": 120,
+   "h10": 120,
+   "hn": "165 Hz w 4K z PC",
+   "hd": "4× HDMI 2.1",
+   "hdr": "HDR10, HDR10+, HLG (bez Dolby Vision)",
+   "os": "Tizen",
+   "pro": "Matowy OLED z bardzo dobrym tłumieniem odbić, 4× HDMI 2.1, 165 Hz.",
+   "con": "Kolory bledną w mocnym świetle; brak Dolby Vision i DTS:X.",
+   "dn": "Oceny z testu serii S90H WOLED na wybierz.tv (83″ w „Dostępne przekątne”, egzemplarz 65″)",
+   "wz": "https://www.wybierz.tv/telewizory/testy/samsung/samsung-s90h-woled_AJI"
+  },
+  {
+   "id": "s65r95h",
+   "n": "Samsung MRE65R95H Micro RGB",
+   "b": "Samsung",
+   "s": 65,
+   "t": "RGB Mini LED",
+   "tl": "Micro RGB (2026)",
+   "p": 13999,
+   "ps": "x-kom 13 999 zł (promocja; najniższa z 30 dni 16 299 zł); Media Expert 16 299 zł; Samsung.pl 16 299 zł (wg wybierz.tv)",
+   "pu": "https://www.x-kom.pl/p/1526857-telewizor-65-samsung-mre65r95h-65--micro-rgb-4k-165-hz-tizen-tv-hdmi-2.1.html",
+   "pv": "promo",
+   "pf": 1400,
+   "pp": 2400,
+   "mfr": null,
+   "ct": "Matowa Glare Free (wg Samsung), tłumienie odbić bardzo dobre",
+   "m": 10,
+   "ss": "4.2.2, 70 W, Dolby Atmos, OTS",
+   "sd": 7.5,
+   "mv": 7.8,
+   "br": 8.9,
+   "ov": 8.2,
+   "pn": "VA",
+   "z": "1344",
+   "sdr": 1172,
+   "bt": "93,9% / 86,8% BT.2020 (plansze / filmy)",
+   "va": 5.0,
+   "h4": 165,
+   "h14": 165,
+   "h10": 240,
+   "hn": "240 Hz w 1080p (DLG, tylko PC)",
+   "hd": "4× HDMI 2.1",
+   "hdr": "HDR10+, HLG (brak Dolby Vision)",
+   "os": "Tizen",
+   "pro": "Bardzo jasny i kontrastowy, szeroki gamut Micro RGB, matowa powłoka, 165 Hz.",
+   "con": "Słabe kąty widzenia (VA); brak Dolby Vision i DTS:X; drogi.",
+   "dn": "Oceny z testu serii R95H na wybierz.tv (test 65″)",
+   "wz": "https://www.wybierz.tv/telewizory/testy/samsung/samsung-r95h_AIS"
+  },
+  {
+   "id": "x65spro",
+   "n": "Xiaomi TV S Pro Mini LED 65 2026",
+   "b": "Xiaomi",
+   "s": 65,
+   "t": "Mini LED",
+   "tl": "QD Mini LED (2026)",
+   "p": 3454,
+   "ps": "Media Expert 3 454 zł; RTV Euro AGD 3 599 zł; x-kom 3 699 zł (wg wybierz.tv)",
+   "pu": null,
+   "pv": "part",
+   "pf": 1033,
+   "pp": 1400,
+   "mfr": 1700,
+   "ct": "Błyszcząca z warstwą o niskim odbiciu (Xiaomi deklaruje 1,8%); w teście tłumienie odbić przeciętne",
+   "m": 4,
+   "ss": "2×15 W, Dolby Atmos, DTS:X",
+   "sd": 7.1,
+   "mv": 6.7,
+   "br": 7.4,
+   "ov": 7.1,
+   "pn": "VA",
+   "z": "532",
+   "sdr": 771,
+   "bt": "93,6% DCI-P3 / 70,9% BT.2020",
+   "va": 3.1,
+   "h4": 144,
+   "h14": 144,
+   "h10": 288,
+   "hn": "288 Hz w 1080p (Game Boost)",
+   "hd": "2× HDMI 2.1 + 1× HDMI 2.0",
+   "hdr": "Dolby Vision, HDR10+, HLG",
+   "os": "Google TV",
+   "pro": "Bardzo tani 65″ Mini LED, jasny SDR, 144 Hz, niski input lag.",
+   "con": "Local dimming słabo działa w HDR; słaba obróbka i kąty widzenia.",
+   "dn": "Oceny z testu serii na wybierz.tv / choose.tv (test 65″)",
+   "wz": "https://www.wybierz.tv/telewizory/testy/xiaomi/xiaomi-tv-s-pro-2026_AHI"
+  },
+  {
+   "id": "x65smini",
+   "n": "Xiaomi TV S Mini LED 65 2026",
+   "b": "Xiaomi",
+   "s": 65,
+   "t": "Mini LED",
+   "tl": "QD Mini LED 60 Hz (2026)",
+   "p": 2899,
+   "ps": "Media Expert 2 899 zł; x-kom 2 899 zł; RTV Euro AGD 3 199 zł (wg wybierz.tv)",
+   "pu": null,
+   "pv": "part",
+   "pf": 1079,
+   "pp": null,
+   "mfr": 1200,
+   "ct": "Satynowa (półmat), słabo tłumi bezpośrednie odblaski (wybierz.tv)",
+   "m": 7,
+   "ss": "2×15 W, Dolby Atmos, DTS:X",
+   "sd": 5,
+   "mv": 6.2,
+   "br": 6.3,
+   "ov": 6.2,
+   "pn": "VA",
+   "z": "512 (producent)",
+   "sdr": 569,
+   "bt": null,
+   "va": null,
+   "h4": 60,
+   "h14": 60,
+   "h10": 120,
+   "hn": "Panel 60 Hz (wersje 55–75″)",
+   "hd": "3× HDMI 2.0",
+   "hdr": "Dolby Vision, HDR10+, HLG",
+   "os": "Google TV",
+   "pro": "Bardzo tani 65″ Mini LED.",
+   "con": "Panel 60 Hz, tylko HDMI 2.0; słaby dźwięk i upscaling.",
+   "dn": "Oceny z osobnego testu wybierz.tv wersji 55–75″ (60 Hz)",
+   "wz": "https://www.wybierz.tv/telewizory/testy/xiaomi/xiaomi-s-mini-2026-55-75-60hz_AJA"
   }
  ]
 }
