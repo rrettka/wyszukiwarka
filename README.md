@@ -39,4 +39,4 @@ Zrzut obejmuje wszystkie modele po załadowaniu, widok szczegółów każdego mo
 ## Migracje i wycofanie
 
 - `tools/migracja_001_wydziel_dane.js` – wydzielenie danych z `index.html` do `data/` (Etap 1).
-- Wycofanie: `git checkout etap0 -- index.html` (wersja z danymi w kodzie strony działa bez `data/` i `data.js`).
+- Wycofanie: `git checkout 024eded -- index.html` (ostatni commit przed Etapem 1) (wersja z danymi w kodzie strony działa bez `data/` i `data.js`).

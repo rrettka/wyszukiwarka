@@ -1,6 +1,6 @@
 // Migracja 001: wydziela dane modeli z index.html (wersja z danymi w kodzie) do data/*.json.
 // Użycie: node tools/migracja_001_wydziel_dane.js <stary_index.html> <katalog_data>
-// Wycofanie: git checkout etap0 -- index.html && usuń data/ i data.js (index.html z etap0 ma dane w sobie).
+// Wycofanie: git checkout 024eded -- index.html && usuń data/ i data.js (index.html z etap0 ma dane w sobie).
 "use strict";
 const fs = require("fs"), vm = require("vm"), path = require("path");
 const [src, outDir] = process.argv.slice(2);
