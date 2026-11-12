@@ -23,6 +23,16 @@
     "src": "sonxplus.com",
     "date": "2026-11-12",
     "note": "wariant północnoamerykański – panel może różnić się od wersji EU"
+   },
+   {
+    "m": "ES",
+    "price": 2998.95,
+    "code": "TQ85QN90FAT",
+    "shop": "Powerplanet (ES)",
+    "url": "https://www.powerplanetonline.com/es/samsung-qn90f-tq85qn90fat-negro",
+    "ship": "nieznana",
+    "src": "powerplanetonline.com",
+    "date": "2026-11-12"
    }
   ],
   "h85ur9s": [
@@ -69,6 +79,27 @@
     "src": "Best Buy Express (erinmills.ca)",
     "date": "2026-11-12",
     "note": "wariant północnoamerykański OLED77C5PUA"
+   },
+   {
+    "m": "FR",
+    "price": 1798.96,
+    "code": "OLED77C54LA",
+    "shop": "Powerplanet (FR)",
+    "url": "https://www.powerplanetonline.com/fr/lg-ai-oled77c54la-noir",
+    "ship": "nieznana",
+    "src": "powerplanetonline.com",
+    "date": "2026-11-12"
+   },
+   {
+    "m": "IT",
+    "price": 1899,
+    "code": "OLED77C55LA",
+    "shop": "Unieuro",
+    "url": "https://www.unieuro.it/online/TV-OLED-EVO/OLED77C55LA-TV-OLED-evo-AI-Serie-C5-77-4K-9-Gen8-Brightness-Booster-40W-4-HDMI-VRR-144Hz-Smart-TV-WebOS-25-pidGOL77C55",
+    "ship": "nieznana",
+    "src": "unieuro.it",
+    "date": "2026-11-12",
+    "note": "włoski wariant C55 tej samej serii C5"
    }
   ],
   "s77s95f": [
@@ -126,6 +157,17 @@
     "ship": "nie (tylko Niemcy)",
     "src": "geizhals.de",
     "date": "2026-11-12"
+   },
+   {
+    "m": "ES",
+    "price": 2359,
+    "code": "85C8L",
+    "shop": "Powerplanet (ES)",
+    "url": "https://www.powerplanetonline.com/es/tcl-85c8l-smart-tv-qd-mini-led-85-4k-aipq-pro-negro",
+    "ship": "nieznana",
+    "src": "powerplanetonline.com",
+    "date": "2026-11-12",
+    "note": "wysyłka w Hiszpanii od 39,95 €"
    }
   ],
   "l83c5": [

@@ -224,18 +224,26 @@ body.resizing{cursor:col-resize;user-select:none}
 body.panning,body.panning *{cursor:grabbing!important;user-select:none!important}
 .tablehead{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
 .tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
-table{border-collapse:separate;border-spacing:0;width:100%;min-width:1180px;font-size:14px}
-thead th{position:sticky;top:0;background:var(--surface-2);text-align:left;font-weight:600;font-size:12.5px;color:var(--muted);padding:0;border-bottom:1px solid var(--line);white-space:nowrap;z-index:1}
-thead th button{all:unset;cursor:pointer;display:block;padding:10px 10px;width:100%;box-sizing:border-box}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:1000px;font-size:13.5px}
+thead th{position:sticky;top:0;background:var(--surface-2);text-align:left;font-weight:600;font-size:12px;line-height:1.25;color:var(--muted);padding:0;border-bottom:1px solid var(--line);white-space:normal;vertical-align:bottom;min-width:58px;max-width:110px;z-index:1}
+thead th.sticky{max-width:none}
+thead th button{all:unset;cursor:pointer;display:block;padding:8px 7px;width:100%;box-sizing:border-box;hyphens:auto;overflow-wrap:break-word}
 thead th button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 thead th button[data-active="true"]{color:var(--ink)}
 thead th.r button{text-align:right}
-tbody td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody td{padding:7px 7px;line-height:1.3;border-bottom:1px solid var(--line);vertical-align:middle}
 tbody tr.row{cursor:pointer}
 tbody tr.row:hover td{background:var(--surface-2)}
 tbody tr.row[aria-expanded="true"] td{background:var(--accent-soft)}
 td.r,th.r{text-align:right}
-td.model{min-width:250px}
+td.model{min-width:220px;width:220px;max-width:240px}
+td.model .tag{white-space:normal}
+td.model .tag{border-radius:8px}
+.mtech{font-size:11.5px;line-height:1.25;color:var(--muted);margin-top:1px}
+td.model .mname{overflow-wrap:anywhere}
+#tbl td{max-width:170px}
+#tbl .hdb,#tbl .matte{white-space:normal}
+#tbl .matte{display:inline-flex;align-items:flex-start}#tbl .matte .dot{flex:none;margin-top:3px}
 .sticky{position:sticky;left:0;background:var(--surface);z-index:1}
 thead .sticky{background:var(--surface-2);z-index:2}
 .mname{font-weight:600}
@@ -284,7 +292,8 @@ thead .sticky{background:var(--surface-2);z-index:2}
 .cmp tbody th{text-align:left;font-weight:500;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface-2)}
 .cmp td{padding:8px 10px;border-bottom:1px solid var(--line)}
 .cmp td.best{color:var(--good);font-weight:600}
-#tbl td.sm{font-size:12.5px;line-height:1.35;min-width:150px}
+#tbl td.sm{font-size:12px;line-height:1.3;min-width:150px;max-width:170px}
+#tbl td.sm.r{min-width:112px}
 #tbl td.nw{white-space:nowrap}
 .cmph{vertical-align:top;cursor:grab;min-width:150px}
 .cmphd{display:flex;gap:6px;align-items:flex-start}
@@ -318,6 +327,7 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
   .mname{font-size:13.5px;line-height:1.25}
   .model .tags .tag{font-size:10.5px;padding:1px 6px}
   .model .tags .tag:not(.size):not(.over):not(.est){display:none}
+  .mtech{display:none}
   td,th button{padding-left:8px!important;padding-right:8px!important}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
@@ -593,9 +603,9 @@ const X0=d=>d.x||(d.x={});
 const p3Of=d=>{const x=X0(d); if(x.p3!=null) return x.p3; const m=String(d.bt||"").match(/([\d,]+)\s*%/); return m?parseFloat(m[1].replace(",",".")):null;};
 const crN=d=>{const x=X0(d); return x.cr==null?null:(x.cr==="inf"?1e7:+x.cr);};
 const crTxt=d=>{const x=X0(d); return x.cr==null?null:(x.cr==="inf"?"∞ : 1":grp(x.cr)+" : 1");};
-const ilTxt=d=>{const x=X0(d); if(x.il==null) return null; let t=x.il+" ms"; if(x.ilh!=null&&x.ilh!==x.il) t+=` <span class="muted">· HDR ${x.ilh} ms</span>`; const b=[]; if(x.il120!=null) b.push(`120 Hz: ${x.il120} ms`); if(x.ildv!=null&&x.ildv!==(x.ilh??x.il)) b.push(`Dolby Vision: ${x.ildv} ms`); return t+(b.length?`<br><span class="muted">${b.join(" · ")}</span>`:"");};
+const ilTxt=d=>{const x=X0(d); if(x.il==null) return null; let t=x.il+" ms"; if(x.ilh!=null&&x.ilh!==x.il) t+=` <span class="muted">· HDR ${x.ilh} ms</span>`; const b=[]; if(x.il120!=null) b.push(`120 Hz: ${x.il120} ms`); if(x.ildv!=null&&x.ildv!==(x.ilh??x.il)) b.push(`DV: ${x.ildv} ms`); return t+(b.length?`<br><span class="muted">${b.join("<br>")}</span>`:"");};
 const vrrTxt=d=>{const x=X0(d); const a=[]; if(x.vrr) a.push(esc(x.vrr)); if(x.allm===true) a.push("ALLM"); else if(x.allm===false) a.push("bez ALLM"); return a.length?a.join(", "):null;};
-const zlTxt=d=>{const x=X0(d); const a=[]; if(x.earc!=null) a.push(x.earc?"eARC":"bez eARC"); if(x.tun) a.push("DVB-"+esc(x.tun)); if(x.ci!=null) a.push(x.ci?"CI+":"bez CI+"); if(x.usb!=null) a.push(x.usb+"× USB"); if(x.lan) a.push("LAN"); if(x.wifi) a.push(x.wifi==="tak"?"Wi-Fi":"Wi-Fi "+esc(x.wifi)); if(x.btv) a.push(x.btv==="tak"?"Bluetooth":"BT "+esc(x.btv)); if(x.opt!=null) a.push(x.opt?"wyjście optyczne":"bez optycznego"); return a.length?a.join(" · "):null;};
+const zlTxt=d=>{const x=X0(d); const a=[]; if(x.earc!=null) a.push(x.earc?"eARC":"bez eARC"); if(x.tun) a.push("DVB-"+esc(x.tun)); if(x.ci!=null) a.push(x.ci?"CI+":"bez CI+"); if(x.usb!=null) a.push(x.usb+"× USB"); if(x.lan) a.push("LAN"); if(x.wifi) a.push(x.wifi==="tak"?"Wi-Fi":"Wi-Fi "+esc(x.wifi)); if(x.btv) a.push(x.btv==="tak"?"Bluetooth":"BT "+esc(x.btv)); if(x.opt!=null) a.push(x.opt?"optyczne":"bez optycz."); return a.length?a.join(", "):null;};
 const auTxt=d=>{const x=X0(d); const a=[]; if(x.rms!=null) a.push(x.rms+" W"); if(x.ch) a.push(esc(x.ch)); if(x.atm!=null) a.push(x.atm?"Dolby Atmos":"bez Atmos"); if(x.dts) a.push(esc(x.dts)); return a.length?a.join(" · "):null;};
 const dimTxt=d=>{const x=X0(d); const a=[]; if(x.dim) a.push(x.dim.map(v=>Math.round(v)).join(" × ")+" mm"); if(x.wt!=null) a.push(String(x.wt).replace(".",",")+" kg"); return a.length?a.join(" · "):null;};
 const stTxt=d=>{const x=X0(d); const a=[]; if(x.st) a.push(esc(x.st)); if(x.sw!=null) a.push((x.st&&/nóż/.test(x.st)?"rozstaw ":"szer. ")+String(Math.round(x.sw/10))+" cm"); if(x.sd!=null) a.push("głęb. "+String(Math.round(x.sd/10))+" cm"); return a.length?a.join(", "):null;};
@@ -656,7 +666,7 @@ function keyVal(d,k){
   if(k==="c4") return con(d,d.h4,4); if(k==="c14") return con(d,d.h14); if(k==="c10") return con(d,d.h10);
   const x=X0(d);
   switch(k){case "cr":return crN(d);case "bl":return x.bls??null;case "p3":return p3Of(d);case "de":return x.den??null;case "il":return x.il??null;case "vrr":return (x.vrr?1:0)+(x.allm?1:0)||null;case "zl":return (x.earc?1:0)+(x.ci?1:0)+(x.tun&&/S2/.test(x.tun)?1:0)||null;case "au":return x.rms??null;case "dims":return x.wt??null;case "stand":return x.sw??null;case "vesa":return vesaN(d);case "en":return x.pw!=null?x.pw:(x.ec?ECR[x.ec]*1000:null);
-  case "score":return score(d);case "obr":return scoreQ(d);case "uzy":return scoreU(d);case "q":{const q=prov(d); return (q.conf?LVR[q.conf]*10:0)+q.have;}case "value":return val(d);case "vmv":return vmv(d);case "name":return d.n;case "wz":return d.wz?d.ov:null;case "wsp":return d.wc?d.wc[2]:null;case "wgr":return d.wc?d.wc[3]:null;case "hv":return d.hv||null;default:return d[k];}
+  case "ca":return caPrice(d);case "score":return score(d);case "obr":return scoreQ(d);case "uzy":return scoreU(d);case "q":{const q=prov(d); return (q.conf?LVR[q.conf]*10:0)+q.have;}case "value":return val(d);case "vmv":return vmv(d);case "name":return d.n;case "wz":return d.wz?d.ov:null;case "wsp":return d.wc?d.wc[2]:null;case "wgr":return d.wc?d.wc[3]:null;case "hv":return d.hv||null;default:return d[k];}
 }
 const SORTOPTS=[["score","Wynik (profil)"],["obr","Obraz"],["uzy","Użytkowość"],["q","Pewność danych"],["value","Opłacalność (w klasie rozmiaru)"],["vmv","Opłacalność obrazu"],["cr","Kontrast"],["p3","Pokrycie DCI-P3"],["il","Input lag (niższy lepszy)"],["au","Moc głośników"],["dims","Waga (lżejszy najpierw)"],["stand","Szerokość podstawy (węższa najpierw)"],["en","Pobór mocy (niższy najpierw)"],["p","Cena"],["s","Przekątna"],["t","Technologia"],["b","Marka"],["name","Nazwa modelu"],
  ["m","Matowość ekranu"],["pf","Jasność HDR w filmach"],["pp","Szczyt HDR (pomiar lab.)"],["sdr","Jasność SDR"],["mv","Filmy UHD"],["br","Jasny pokój"],["sd","Dźwięk"],
@@ -1012,6 +1022,7 @@ const COLS=[
   {k:"rank",l:"#",ns:true,r:true},
   {k:"name",l:"Model",sticky:true},
   {k:"p",l:"Cena",r:true},
+  {k:"ca",l:"Kanada (CAD)",r:true},
   {k:"score",l:"Wynik",r:true},
   {k:"obr",l:"Obraz",r:true},
   {k:"uzy",l:"Użytkowość",r:true},
@@ -1063,7 +1074,7 @@ ORD=ORD.filter(k=>COLK.includes(k)); COLK.forEach((k,i)=>{ if(!ORD.includes(k)) 
 HID=HID||new Set(); HID.delete("name");
 { const known=new Set(SEEN||(Array.isArray(ORD)&&ORD.length?ORD.filter(k=>!["cr","bl","p3","de","il","vrr","zl","au","dims","stand","vesa","en"].includes(k)):[])); COLK.forEach(k=>{ if(!known.has(k)&&DEFHID.has(k)) HID.add(k); }); } CW=CW&&typeof CW==="object"?CW:{};
 function saveCols(){ try{localStorage.setItem("tvcols",JSON.stringify({o:ORD,h:[...HID],w:CW,s:COLK}));}catch(e){} }
-const VIS=()=>ORD.filter(k=>!HID.has(k));
+const VIS=()=>ORD.filter(k=>!HID.has(k)&&(k!=="ca"||(st.reg&&st.reg.has("ca")&&!cadOnly())));
 function applyW(){ const el=$("colW"); if(!el) return; el.textContent=VIS().map((k,i)=>CW[k]?`#tbl thead th:nth-child(${i+1}),#tbl tr.row>td:nth-child(${i+1}){width:${CW[k]}px;min-width:${CW[k]}px!important;max-width:${CW[k]}px;overflow:hidden}`:"").join("\n"); }
 function renderCols(){
   const el=$("colsList"); if(!el) return;
@@ -1153,7 +1164,7 @@ function renderBody(){
   if(!list.length){$("tbody").innerHTML=`<tr><td colspan="${VIS().length}" class="empty">Żaden model nie spełnia wszystkich warunków. Odznacz któryś filtr albo zwiększ cenę maksymalną.</td></tr>`;return;}
   $("tbody").innerHTML=list.map(d=>{
     const sc=score(d),v=val(d),open=st.open===d.id;
-    const tags=[`<span class="tag size">${d.s}″</span>`,`<span class="tag">${esc(d.tl)}</span>`];
+    const tags=[`<span class="tag size">${d.s}″</span>`];
     if(d.p==null) tags.push(`<span class="tag over">cena do sprawdzenia</span>`);
     {const q=prov(d); if(q.tl==="C") tags.push(`<span class="tag est" title="${esc(LV.C)}">${q.t&&q.t.tested?"z testu "+q.t.tested+"″":"test serii"}</span>`); else if(q.tl==="X") tags.push(`<span class="tag est" title="${esc(q.tn)}">test innej matrycy</span>`); if(d.mv!=null&&d.m==null) tags.push(`<span class="tag est" title="Brak oceny powłoki – wynik liczony bez matowości">bez oceny ekranu</span>`);}
     if(d.mv==null) tags.push(`<span class="tag est" title="Brak testu laboratoryjnego – dane techniczne producenta">bez testu</span>`);
@@ -1161,8 +1172,9 @@ function renderBody(){
     const C={
       cmp:`<td onclick="event.stopPropagation()"><input class="cmpbox" type="checkbox" id="c_${d.id}" data-cmp="${d.id}" ${st.cmp.has(d.id)?"checked":""} aria-label="Porównaj ${esc(d.n)}"></td>`,
       rank:`<td class="r rank">${rankOf.get(d.id)}</td>`,
-      name:`<td class="model sticky"><div class="mname">${esc(d.n)}</div><div class="tags">${tags.join("")}</div></td>`,
+      name:`<td class="model sticky"><div class="mname">${esc(d.n)}</div><div class="mtech">${esc(d.tl)}</div><div class="tags">${tags.join("")}</div></td>`,
       p:`<td class="r">${priceCell(d)}</td>`,
+      ca:`<td class="r num">${caPrice(d)==null?"—":`<a class="plink" href="${esc((INTL[d.id]||[]).find(x=>x.m==="CA").url)}" target="_blank" rel="noopener">${grp(caPrice(d))} CAD ↗</a>`}</td>`,
       score:`<td class="r"><span class="score ${sClass(sc)}">${f2(sc)}</span></td>`,
       q:`<td class="nw">${qCell(d)}</td>`,
       obr:`<td class="r num">${f2(scoreQ(d))}</td>`,
@@ -1172,12 +1184,12 @@ function renderBody(){
       ot:`<td>${otherCell(d)}</td>`,
       wsp:`<td class="r num">${d.wc&&d.wc[2]!=null?d.wc[2].toFixed(1):"—"}</td>`,
       wgr:`<td class="r num">${d.wc&&d.wc[3]!=null?d.wc[3].toFixed(1):"—"}</td>`,
-      value:`<td class="r nw">${valTxt(d)}</td>`,
+      value:`<td class="r">${valTxt(d)}</td>`,
       cr:`<td class="r num nw">${crTxt(d)||"—"}</td>`,
       bl:`<td>${X0(d).bl?esc(X0(d).bl):"—"}</td>`,
       p3:`<td class="r num nw">${p3Of(d)==null?"—":String(p3Of(d)).replace(".",",")+" %"}</td>`,
       de:`<td class="r">${X0(d).de?esc(X0(d).de):"—"}</td>`,
-      il:`<td class="r num nw">${ilTxt(d)||"—"}</td>`,
+      il:`<td class="r num sm">${ilTxt(d)||"—"}</td>`,
       vrr:`<td class="sm">${vrrTxt(d)||"—"}</td>`,
       zl:`<td class="sm">${zlTxt(d)||"—"}</td>`,
       au:`<td class="r sm">${auTxt(d)||"—"}</td>`,
@@ -1199,7 +1211,7 @@ function renderBody(){
       c4:`<td class="r gcon">${hzCell(con(d,d.h4,4))}</td>`,
       c14:`<td class="r gcon">${hzCell(con(d,d.h14))}</td>`,
       c10:`<td class="r gcon">${hzCell(con(d,d.h10))}</td>`,
-      hd:`<td class="num" style="white-space:nowrap">${hdmi21?hdmi21+"× 2.1":esc(d.hd.replace("HDMI ",""))}</td>`
+      hd:`<td class="num sm">${hdmi21?hdmi21+"× 2.1":esc(d.hd.replace(/^HDMI 2\.1 \(sprawdź liczbę w ofercie\)$/,"2.1 (liczba?)").replace("HDMI ",""))}</td>`
     };
     let r=`<tr class="row" data-id="${d.id}" aria-expanded="${open}" tabindex="0">
       ${VIS().map(k=>C[k]).join("")}
@@ -1295,8 +1307,10 @@ function scoreHTML(d){
 const MK=TVDATA.mk; let INTL={};
 let FX={...MK.fxFallback.rates}, FXINFO={date:MK.fxFallback.date,table:MK.fxFallback.table,live:false};
 let SHIP={...MK.shipPln}; try{const v=JSON.parse(localStorage.getItem("tvship")||"null"); if(v) Object.assign(SHIP,v);}catch(e){}
-const MODES={pl:{l:"Polska",cur:"zł"},eu:{l:"Z dostawą do Polski (PL + UE + Schengen)",cur:"zł"},ca:{l:"Kanada – cena lokalna (CAD)",cur:"CAD"}};
-st.mkt="pl"; try{const v=localStorage.getItem("tvmkt"); if(MODES[v]) st.mkt=v;}catch(e){}
+const REGS={pl:"Polska",eu:"Europa (UE + Schengen)",ca:"Kanada"};
+st.reg=new Set(["pl"]); try{const v=JSON.parse(localStorage.getItem("tvreg")||"null"); if(Array.isArray(v)&&v.length&&v.every(x=>REGS[x])) st.reg=new Set(v);}catch(e){}
+const cadOnly=()=>st.reg.size===1&&st.reg.has("ca");
+const regLabel=()=>cadOnly()?"Kanada – ceny lokalne w CAD":[...st.reg].filter(r=>r!=="ca").map(r=>REGS[r]).join(" + ")+(st.reg.has("eu")?" (z dostawą do PL)":"");
 const fx=c=>c==="PLN"?1:FX[c]||null;
 function landed(o,d){
   const m=MK.markets[o.m]; if(!m) return null; const r=fx(m.cur); if(!r) return null;
@@ -1308,20 +1322,27 @@ function landed(o,d){
 function restorePL(){ TV.forEach(d=>{ if(d._pl){ d.p=d._pl.p; d.ps=d._pl.ps; d.pu=d._pl.pu; d.pv=d._pl.pv; } }); }
 function snapPL(){ TV.forEach(d=>{ d._pl={p:d.p,ps:d.ps,pu:d.pu,pv:d.pv}; }); }
 function applyMarket(){
-  restorePL(); CUR=MODES[st.mkt].cur;
+  restorePL(); const cad=cadOnly(); CUR=cad?"CAD":"zł";
   TV.forEach(d=>{ d._off=null; const offs=INTL[d.id]||[];
-    if(st.mkt==="eu"){ let best=null; offs.forEach(o=>{ const L=landed(o,d); if(L&&(!best||L.tot<best.L.tot)) best={o,L}; });
+    if(cad){ const o=offs.find(x=>x.m==="CA"); if(o){ d._off={o}; d.p=o.price; d.ps=`${o.shop}${o.note?" – "+o.note:""}`; d.pu=o.url; d.pv="loc"; } else { d.p=null; d.pv="loc"; } return; }
+    const usePL=st.reg.has("pl"); if(!usePL){ d.p=null; d.ps=""; d.pu=null; d.pv="est"; }
+    if(st.reg.has("eu")){ let best=null; offs.forEach(o=>{ const L=landed(o,d); if(L&&(!best||L.tot<best.L.tot)) best={o,L}; });
       if(best&&(d.p==null||best.L.tot<d.p)){ d._off=best; d.p=Math.round(best.L.tot); d.ps=`${MK.markets[best.o.m].n}: ${grp(best.o.price)} ${MK.markets[best.o.m].cur} (${best.o.shop}) → szacunek w PL`; d.pu=best.o.url; d.pv="est"; } }
-    else if(st.mkt==="ca"){ const o=offs.find(x=>x.m==="CA"); if(o){ d._off={o}; d.p=o.price; d.ps=`${o.shop}${o.note?" – "+o.note:""}`; d.pu=o.url; d.pv="loc"; } else { d.p=null; d.pv="loc"; } }
   });
   const lbl=$("prLbl"); if(lbl) lbl.textContent=`Cena (${CUR})`;
 }
-const inMarket=d=>st.mkt!=="ca"||(INTL[d.id]||[]).some(o=>o.m==="CA");
-async function loadFX(){ try{ const r=await fetch("https://api.nbp.pl/api/exchangerates/tables/A/?format=json",{cache:"no-store"}); const t=(await r.json())[0]; t.rates.forEach(x=>{FX[x.code]=x.mid;}); FXINFO={date:t.effectiveDate,table:t.no,live:true}; if(st.mkt!=="pl"){ applyMarket(); renderAll(); } renderMkt(); }catch(e){} }
+const inMarket=d=>{ if(st.reg.has("pl")) return true; if(cadOnly()) return (INTL[d.id]||[]).some(o=>o.m==="CA"); return d.p!=null; };
+const caPrice=d=>{const o=(INTL[d.id]||[]).find(x=>x.m==="CA"); return o?o.price:null;};
+async function loadFX(){ try{ const r=await fetch("https://api.nbp.pl/api/exchangerates/tables/A/?format=json",{cache:"no-store"}); const t=(await r.json())[0]; t.rates.forEach(x=>{FX[x.code]=x.mid;}); FXINFO={date:t.effectiveDate,table:t.no,live:true}; if(!(st.reg.size===1&&st.reg.has("pl"))){ applyMarket(); renderAll(); } renderMkt(); }catch(e){} }
 function renderMkt(){
   const el=$("mktBox"); if(!el) return;
-  el.innerHTML=`<div class="profs" role="group" aria-label="Rynek">${Object.entries(MODES).map(([k,m])=>`<button type="button" class="chip" aria-pressed="${st.mkt===k}" data-mkt="${k}">${m.l}</button>`).join("")}</div>
-  <p class="muted" style="font-size:12.5px;margin:4px 0 0">${st.mkt==="pl"?"Ceny w polskich sklepach.":st.mkt==="eu"?`Najniższa z: ceny w Polsce i szacowanego kosztu zakupu w UE/Schengen z dostawą do PL (netto + 23% VAT PL + transport${MK.markets.CH?"; spoza UE także cło "+MK.dutyTv+"% i agencja":""}). Kursy NBP ${FXINFO.table} z ${FXINFO.date}${FXINFO.live?"":" (zapisane)"}. Transport do PL (szacunek, zł): ${Object.keys(SHIP).map(k=>`<label class="shipin">${VCL[k]} <input type="number" min="0" step="50" data-ship="${k}" value="${SHIP[k]}"></label>`).join(" ")}`:`Tylko modele z ofertą w Kanadzie, ceny w CAD bez podatku sprzedaży. Nie porównujemy ich z cenami w Polsce. Kurs NBP: 1 CAD = ${String(FX.CAD).replace(".",",")} zł (informacyjnie).`}</p>`;
+  const all=st.reg.size===3, ship=`Transport do PL (szacunek, zł): ${Object.keys(SHIP).map(k=>`<label class="shipin">${VCL[k]} <input type="number" min="0" step="50" data-ship="${k}" value="${SHIP[k]}"></label>`).join(" ")}`;
+  const txt=cadOnly()?`Tylko modele z ofertą w Kanadzie; ceny w CAD bez podatku sprzedaży, nie mieszane z cenami w Polsce. Kurs NBP: 1 CAD = ${String(FX.CAD).replace(".",",")} zł (informacyjnie).`
+    :[st.reg.has("pl")&&!st.reg.has("eu")?"Ceny w polskich sklepach.":"",
+      st.reg.has("eu")?`${st.reg.has("pl")?"Niższa z: ceny w Polsce i szacowanego kosztu":"Tylko modele z ofertą w Europie – szacowany koszt"} zakupu w UE/Schengen z dostawą do PL (netto + 23% VAT PL + transport; spoza UE także cło ${MK.dutyTv}% i agencja). Kursy NBP ${FXINFO.table} z ${FXINFO.date}${FXINFO.live?"":" (zapisane)"}. ${ship}`:"",
+      st.reg.has("ca")?"Ceny w Kanadzie (CAD) pokazuje osobna kolumna „Kanada” – nie wchodzą do rankingu ani opłacalności w złotych.":""].filter(Boolean).join(" ");
+  el.innerHTML=`<div class="profs" role="group" aria-label="Regiony">${Object.entries(REGS).map(([k,l])=>`<button type="button" class="chip" aria-pressed="${st.reg.has(k)}" data-reg="${k}">${l}</button>`).join("")}<button type="button" class="chip" aria-pressed="${all}" data-reg="all">Wszystkie</button></div>
+  <p class="muted" style="font-size:12.5px;margin:4px 0 0">${txt}</p>`;
 }
 function intlHTML(d){
   const offs=INTL[d.id]||[]; if(!offs.length) return "";
@@ -1374,7 +1395,7 @@ function upHTML(d){
   const ch=cls.filter(o=>o.p<=d.p-500&&o.sc>=sc-0.25&&o.d!==d).sort((a,b)=>a.p-b.p)[0];
   if(ch) rows.push(`<li><b>Taniej prawie to samo:</b> ${nm(ch.d)} – ${zl(ch.p)} (−${zl(d.p-ch.p)}), wynik ${f2(ch.sc)} (${(ch.sc-sc>=0?"+":"−")+Math.abs(ch.sc-sc).toFixed(2).replace(".",",")}).</li>`);
   if(i.front&&(i.cIn!=null||i.cUp!=null)) rows.unshift(`<li><b>Na froncie opłacalności.</b> ${i.cIn!=null?`Dojście tu z tańszego modelu frontu: ${grp(Math.round(i.cIn))} ${CUR} za każde 0,1 pkt.`:"Najtańszy model frontu w tej klasie."} ${i.cUp!=null?`Dalej: ${grp(Math.round(i.cUp))} ${CUR} za każde 0,1 pkt.`:"Najlepszy wynik w tej klasie."}</li>`);
-  return `<h3 style="margin-top:10px">Czy warto dopłacić? <span class="muted" style="font-weight:400;font-size:13px">${MODES[st.mkt].l} · klasa ${VCL[vcls(d.s)]}, profil: ${st.prof==="custom"?"własne wagi":PROFILES[st.prof].l}</span></h3><ul class="upl">${rows.join("")}</ul>`;
+  return `<h3 style="margin-top:10px">Czy warto dopłacić? <span class="muted" style="font-weight:400;font-size:13px">${regLabel()} · klasa ${VCL[vcls(d.s)]}, profil: ${st.prof==="custom"?"własne wagi":PROFILES[st.prof].l}</span></h3><ul class="upl">${rows.join("")}</ul>`;
 }
 function renderPicks(list){
   list=list||filtered();
@@ -1743,7 +1764,7 @@ async function loadData(manual){
 $("refreshData").addEventListener("click",()=>loadData(true));
 snapPL(); applyMarket();
 loadData(false); loadFX();
-document.addEventListener("click",e=>{const b=e.target.closest("[data-mkt]"); if(!b) return; st.mkt=b.dataset.mkt; try{localStorage.setItem("tvmkt",st.mkt);}catch(err){} applyMarket(); renderMkt(); renderAll();});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-reg]"); if(!b) return; const r=b.dataset.reg; if(r==="all") st.reg=new Set(Object.keys(REGS)); else { st.reg.has(r)?st.reg.delete(r):st.reg.add(r); if(!st.reg.size) st.reg.add(r); } try{localStorage.setItem("tvreg",JSON.stringify([...st.reg]));}catch(err){} applyMarket(); renderMkt(); if(typeof renderCols==="function") renderCols(); renderHead(); renderAll();});
 document.addEventListener("change",e=>{const t=e.target.closest("[data-ship]"); if(!t) return; SHIP[t.dataset.ship]=Math.max(0,+t.value||0); try{localStorage.setItem("tvship",JSON.stringify(SHIP));}catch(err){} applyMarket(); renderAll();});
 function applyPreset(p,setHash){
   if(p==="tv75") st.sizes=new Set([65,75]);
