@@ -274,6 +274,8 @@ thead .sticky{background:var(--surface-2);z-index:2}
 .cmp tbody th{text-align:left;font-weight:500;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface-2)}
 .cmp td{padding:8px 10px;border-bottom:1px solid var(--line)}
 .cmp td.best{color:var(--good);font-weight:600}
+#tbl td.sm{font-size:12.5px;line-height:1.35;min-width:150px}
+#tbl td.nw{white-space:nowrap}
 .cmph{vertical-align:top;cursor:grab;min-width:150px}
 .cmphd{display:flex;gap:6px;align-items:flex-start}
 .cmpn{flex:1;min-width:0}
@@ -899,16 +901,32 @@ function filtered(ignoreBudget){
 }
 const H21=d=>/HDMI 2\.1/.test(d.hd);
 const con=(d,v,res)=>v==null?null:(res===4&&!H21(d)?Math.min(v,60):Math.min(v,120));
+/* ===== Dodatkowe parametry (plik specs.json): pomiary z testów + dane producenta. Brak danych = „—”, nigdy zgadywane ===== */
+const X0=d=>d.x||(d.x={});
+const p3Of=d=>{const x=X0(d); if(x.p3!=null) return x.p3; const m=String(d.bt||"").match(/([\d,]+)\s*%/); return m?parseFloat(m[1].replace(",",".")):null;};
+const crN=d=>{const x=X0(d); return x.cr==null?null:(x.cr==="inf"?1e7:+x.cr);};
+const crTxt=d=>{const x=X0(d); return x.cr==null?null:(x.cr==="inf"?"∞ : 1":grp(x.cr)+" : 1");};
+const ilTxt=d=>{const x=X0(d); return x.il==null?null:x.il+" ms"+(x.il120!=null?`<br><span class="muted">120 Hz: ${x.il120} ms</span>`:"");};
+const vrrTxt=d=>{const x=X0(d); const a=[]; if(x.vrr) a.push(esc(x.vrr)); if(x.allm===true) a.push("ALLM"); else if(x.allm===false) a.push("bez ALLM"); return a.length?a.join(", "):null;};
+const zlTxt=d=>{const x=X0(d); const a=[]; if(x.earc!=null) a.push(x.earc?"eARC":"bez eARC"); if(x.tun) a.push("DVB-"+esc(x.tun)); if(x.ci!=null) a.push(x.ci?"CI+":"bez CI+"); if(x.usb!=null) a.push(x.usb+"× USB"); if(x.lan) a.push("LAN"); if(x.wifi) a.push(x.wifi==="tak"?"Wi-Fi":"Wi-Fi "+esc(x.wifi)); if(x.btv) a.push(x.btv==="tak"?"Bluetooth":"BT "+esc(x.btv)); if(x.opt!=null) a.push(x.opt?"wyjście optyczne":"bez optycznego"); return a.length?a.join(" · "):null;};
+const auTxt=d=>{const x=X0(d); const a=[]; if(x.rms!=null) a.push(x.rms+" W"); if(x.ch) a.push(esc(x.ch)); if(x.atm!=null) a.push(x.atm?"Dolby Atmos":"bez Atmos"); if(x.dts) a.push(esc(x.dts)); return a.length?a.join(" · "):null;};
+const dimTxt=d=>{const x=X0(d); const a=[]; if(x.dim) a.push(x.dim.map(v=>Math.round(v)).join(" × ")+" mm"); if(x.wt!=null) a.push(String(x.wt).replace(".",",")+" kg"); return a.length?a.join(" · "):null;};
+const stTxt=d=>{const x=X0(d); const a=[]; if(x.st) a.push(esc(x.st)); if(x.sw!=null) a.push((x.st&&/nóż/.test(x.st)?"rozstaw ":"szer. ")+String(Math.round(x.sw/10))+" cm"); if(x.sd!=null) a.push("głęb. "+String(Math.round(x.sd/10))+" cm"); return a.length?a.join(", "):null;};
+const ECR={A:1,B:2,C:3,D:4,E:5,F:6,G:7};
+const enTxt=d=>{const x=X0(d); const a=[]; if(x.ec) a.push("SDR "+esc(x.ec)+(x.ech?" / HDR "+esc(x.ech):"")); if(x.pw!=null) a.push(x.pw+" W"); return a.length?a.join(" · "):null;};
+const vesaN=d=>{const v=X0(d).vesa; return v?parseInt(v):null;};
 function keyVal(d,k){
   if(k==="c4") return con(d,d.h4,4); if(k==="c14") return con(d,d.h14); if(k==="c10") return con(d,d.h10);
-  switch(k){case "score":return score(d);case "value":return val(d);case "vmv":return vmv(d);case "name":return d.n;case "wz":return d.wz?d.ov:null;case "wsp":return d.wc?d.wc[2]:null;case "wgr":return d.wc?d.wc[3]:null;case "hv":return d.hv||null;default:return d[k];}
+  const x=X0(d);
+  switch(k){case "cr":return crN(d);case "bl":return x.bls??null;case "p3":return p3Of(d);case "de":return x.den??null;case "il":return x.il??null;case "vrr":return (x.vrr?1:0)+(x.allm?1:0)||null;case "zl":return (x.earc?1:0)+(x.ci?1:0)+(x.tun&&/S2/.test(x.tun)?1:0)||null;case "au":return x.rms??null;case "dims":return x.wt??null;case "stand":return x.sw??null;case "vesa":return vesaN(d);case "en":return x.ec?ECR[x.ec]:null;
+  case "score":return score(d);case "value":return val(d);case "vmv":return vmv(d);case "name":return d.n;case "wz":return d.wz?d.ov:null;case "wsp":return d.wc?d.wc[2]:null;case "wgr":return d.wc?d.wc[3]:null;case "hv":return d.hv||null;default:return d[k];}
 }
-const SORTOPTS=[["score","Wynik ważony"],["value","Jakość za złotówkę"],["vmv","Obraz za złotówkę"],["p","Cena"],["s","Przekątna"],["t","Technologia"],["b","Marka"],["name","Nazwa modelu"],
+const SORTOPTS=[["score","Wynik ważony"],["value","Jakość za złotówkę"],["vmv","Obraz za złotówkę"],["cr","Kontrast"],["p3","Pokrycie DCI-P3"],["il","Input lag (niższy lepszy)"],["au","Moc głośników"],["dims","Waga (lżejszy najpierw)"],["stand","Szerokość podstawy (węższa najpierw)"],["en","Klasa energetyczna"],["p","Cena"],["s","Przekątna"],["t","Technologia"],["b","Marka"],["name","Nazwa modelu"],
  ["m","Matowość ekranu"],["pf","Jasność HDR w filmach"],["pp","Szczyt HDR (pomiar lab.)"],["sdr","Jasność SDR"],["mv","Filmy UHD"],["br","Jasny pokój"],["sd","Dźwięk"],
  ["wz","Ocena wybierz.tv"],["wsp","Sport (wybierz.tv)"],["wgr","Granie na konsoli (wybierz.tv)"],["hv","Werdykt HDTVPolska"],
  ["h4","4K natywnie"],["h14","PC 1440p"],["h10","PC 1080p"],["c4","Konsola 4K"],["c14","Konsola 1440p"],["c10","Konsola 1080p"]];
 const SL=Object.fromEntries(SORTOPTS);
-const defDir=k=>["p","name","t","b"].includes(k)?1:-1;
+const defDir=k=>["p","name","t","b","il","dims","stand","en","vesa"].includes(k)?1:-1;
 function cmpKey(a,b,k,dir){
   const x=keyVal(a,k),y=keyVal(b,k);
   if(x==null&&y==null) return 0; if(x==null) return 1; if(y==null) return -1;
@@ -1013,6 +1031,17 @@ function parseNL(raw){
   take(/\bbez\s+soundbar\w*|\bbez\s+(?:dodatkow\w*\s+)?glosnik\w*/g,()=>{asp.push("sd");});
   take(/\b(?:duz\w*\s+)?(?:ilosc\w*\s+)?stref\w*|\bwygaszani\w*|local\s+dimming/g,()=>{asp.push("mv");});
   take(/\b(?:nie\s+odbija\w*|bez\s+odbic\w*|malo\s+odbic\w*|nie\s+ma\s+odbic\w*)(?:\s+swiatl\w*)?/g,()=>{sp.matte=Math.max(sp.matte||0,7);});
+  /* nowe parametry: dźwięk, złącza, gry, podstawa */
+  take(/\b(?:z\s+)?(?:dolby\s*)?atmos\w*/g,()=>{sp.atm=true;});
+  take(/\bearc\b/g,()=>{sp.earc=true;});
+  take(/\b(?:tuner\w*\s+)?(?:satelit\w*|dvb-?s2?|sat)\b/g,()=>{sp.sat=true;});
+  take(/\b(?:ci\s*\+|ci plus|modul\w* ci|slot\w* ci|cam\b)/g,()=>{sp.ci=true;});
+  take(/\b(?:niski\w*|maly|male|malym|najnizsz\w*|szybk\w*)\s+(?:input\s*lag\w*|lag\w*|opoznieni\w*)|\binput\s*lag\w*|\bopoznieni\w*/g,()=>{sp.lowLag=true;});
+  take(/\b(?:free\s*sync|g-?\s?sync|vrr)\b/g,()=>{sp.vrrq=true;});
+  take(/\ballm\b/g,()=>{sp.allmq=true;});
+  take(/\b(?:(?:szafk\w*|komod\w*|stolik\w*|szafeczk\w*|polk\w*)\s*(?:o\s+szerokosci\s*|szerok\w*\s*)?(?:do\s*)?(\d{2,3})\s*cm)/g,m=>{sp.cab=+m[1];});
+  take(/\b(?:podstaw\w*|nog\w*|stopk\w*)\s+(?:centraln\w*|na srodku|posrodku)|\bcentraln\w*\s+(?:podstaw\w*|nog\w*|stopk\w*)/g,()=>{sp.standC=true;});
+  take(/\bkontrast\w*/g,()=>{asp.push("cr");});
   /* jakość obrazu w ciemności: czerń, kontrast, kolory → sortuj po ocenie filmów */
   take(/\b(czern\w*|czarn\w*|kontrast\w*|kolor\w*|barw\w*|glebok\w* czern\w*)\b/g,()=>{asp.push("mv");});
   /* cena */
@@ -1067,6 +1096,7 @@ function parseNL(raw){
   const so=[];
   if(cheap===1) so.push({k:"p",dir:1}); else if(cheap===-1) so.push({k:"p",dir:-1}); else if(cheap===2) so.push({k:pic?"vmv":"value",dir:-1});
   if(pic && cheap!==2) asp.unshift("mv");
+  if(sp.lowLag) so.push({k:"il",dir:1});
   asp.forEach(k=>so.push({k,dir:-1}));
   if(!so.length && best) so.push({k:"score",dir:-1});
   sp.sort=xsort?xsort.slice():[...sp.sort,...so];
@@ -1108,6 +1138,14 @@ function buildNL(sp,ai){
   if(+sp.nit){ const n=+sp.nit; f.push(d=>(d.pf||0)>=n); ch.push(`HDR ≥ ${grp(n)} nit`); }
   if(sp.h21===true){ f.push(H21); ch.push("HDMI 2.1"); }
   if(sp.dv===true){ f.push(d=>/Dolby Vision/.test(d.hdr)&&!/(brak|bez) Dolby Vision/.test(d.hdr)); ch.push("Dolby Vision"); }
+  if(sp.atm){ f.push(d=>X0(d).atm===true); ch.push("Dolby Atmos"); }
+  if(sp.earc){ f.push(d=>X0(d).earc===true); ch.push("eARC"); }
+  if(sp.sat){ f.push(d=>/S2/.test(X0(d).tun||"")); ch.push("tuner satelitarny DVB-S2"); }
+  if(sp.ci){ f.push(d=>X0(d).ci===true); ch.push("slot CI+ (potwierdzony)"); }
+  if(sp.vrrq){ f.push(d=>!!X0(d).vrr&&!/brak/.test(X0(d).vrr)); ch.push("VRR"); }
+  if(sp.allmq){ f.push(d=>X0(d).allm===true); ch.push("ALLM"); }
+  if(sp.standC){ f.push(d=>/^centraln/.test(X0(d).st||"")); ch.push("podstawa centralna"); }
+  if(+sp.cab){ const mm=+sp.cab*10; f.push(d=>{const x=X0(d); return /^centraln/.test(x.st||"")||(x.sw!=null&&x.sw<=mm);}); ch.push(`mieści się na szafce ${sp.cab} cm`); }
   if(sp.h10p===true){ f.push(d=>/HDR10\+/.test(d.hdr)&&!/(brak|bez) HDR10\+/.test(d.hdr)); ch.push("HDR10+"); }
   if(typeof sp.os==="string"&&sp.os){ const os=nrm(sp.os); f.push(d=>nrm(d.os).includes(os)); ch.push(sp.os); }
   if(sp.rec===true){ f.push(d=>d.hv>=2); ch.push("polecany przez HDTVPolska"); }
@@ -1254,17 +1292,33 @@ const COLS=[
   {k:"c4",l:"Konsola 4K",r:true,g:"con"},
   {k:"c14",l:"Konsola 1440p",r:true,g:"con"},
   {k:"c10",l:"Konsola 1080p",r:true,g:"con"},
-  {k:"hd",l:"HDMI",ns:true}
+  {k:"hd",l:"HDMI",ns:true},
+  {k:"cr",l:"Kontrast",r:true},
+  {k:"bl",l:"Blooming"},
+  {k:"p3",l:"DCI-P3",r:true},
+  {k:"de",l:"Kolory fabrycznie",r:true},
+  {k:"il",l:"Input lag",r:true},
+  {k:"vrr",l:"VRR / ALLM"},
+  {k:"zl",l:"Złącza"},
+  {k:"au",l:"Głośniki",r:true},
+  {k:"dims",l:"Wymiary / waga",r:true},
+  {k:"stand",l:"Podstawa",r:true},
+  {k:"vesa",l:"VESA",r:true},
+  {k:"en",l:"Energia",r:true}
 ];
 
 /* Układ kolumn: kolejność, widoczność, szerokość – zapamiętywane w tej przeglądarce */
 const COLK=COLS.map(c=>c.k), CM=Object.fromEntries(COLS.map(c=>[c.k,c]));
 let ORD=null,HID=null,CW=null;
-try{const v=JSON.parse(localStorage.getItem("tvcols")||"null"); if(v){ORD=v.o;HID=new Set(v.h||[]);CW=v.w||{};}}catch(e){}
+let SEEN=null;
+try{const v=JSON.parse(localStorage.getItem("tvcols")||"null"); if(v){ORD=v.o;HID=new Set(v.h||[]);CW=v.w||{};SEEN=v.s||null;}}catch(e){}
+/* nowe kolumny: część domyślnie ukryta (włączysz je w panelu „Kolumny”) */
+const DEFHID=new Set(["bl","de","dims","vesa","en"]);
 if(!Array.isArray(ORD)) ORD=COLK.slice();
 ORD=ORD.filter(k=>COLK.includes(k)); COLK.forEach((k,i)=>{ if(!ORD.includes(k)) ORD.splice(Math.min(i,ORD.length),0,k); });
-HID=HID||new Set(); HID.delete("name"); CW=CW&&typeof CW==="object"?CW:{};
-function saveCols(){ try{localStorage.setItem("tvcols",JSON.stringify({o:ORD,h:[...HID],w:CW}));}catch(e){} }
+HID=HID||new Set(); HID.delete("name");
+{ const known=new Set(SEEN||(Array.isArray(ORD)&&ORD.length?ORD.filter(k=>!["cr","bl","p3","de","il","vrr","zl","au","dims","stand","vesa","en"].includes(k)):[])); COLK.forEach(k=>{ if(!known.has(k)&&DEFHID.has(k)) HID.add(k); }); } CW=CW&&typeof CW==="object"?CW:{};
+function saveCols(){ try{localStorage.setItem("tvcols",JSON.stringify({o:ORD,h:[...HID],w:CW,s:COLK}));}catch(e){} }
 const VIS=()=>ORD.filter(k=>!HID.has(k));
 function applyW(){ const el=$("colW"); if(!el) return; el.textContent=VIS().map((k,i)=>CW[k]?`#tbl thead th:nth-child(${i+1}),#tbl tr.row>td:nth-child(${i+1}){width:${CW[k]}px;min-width:${CW[k]}px!important;max-width:${CW[k]}px;overflow:hidden}`:"").join("\n"); }
 function renderCols(){
@@ -1376,6 +1430,18 @@ function renderBody(){
       wsp:`<td class="r num">${d.wc&&d.wc[2]!=null?d.wc[2].toFixed(1):"—"}</td>`,
       wgr:`<td class="r num">${d.wc&&d.wc[3]!=null?d.wc[3].toFixed(1):"—"}</td>`,
       value:`<td class="r num">${v==null?"—":v.toFixed(2)}</td>`,
+      cr:`<td class="r num nw">${crTxt(d)||"—"}</td>`,
+      bl:`<td>${X0(d).bl?esc(X0(d).bl):"—"}</td>`,
+      p3:`<td class="r num nw">${p3Of(d)==null?"—":String(p3Of(d)).replace(".",",")+" %"}</td>`,
+      de:`<td class="r">${X0(d).de?esc(X0(d).de):"—"}</td>`,
+      il:`<td class="r num nw">${ilTxt(d)||"—"}</td>`,
+      vrr:`<td class="sm">${vrrTxt(d)||"—"}</td>`,
+      zl:`<td class="sm">${zlTxt(d)||"—"}</td>`,
+      au:`<td class="r sm">${auTxt(d)||"—"}</td>`,
+      dims:`<td class="r sm">${dimTxt(d)||"—"}</td>`,
+      stand:`<td class="r sm">${stTxt(d)||"—"}</td>`,
+      vesa:`<td class="r num">${X0(d).vesa?esc(X0(d).vesa):"—"}</td>`,
+      en:`<td class="r sm">${enTxt(d)||"—"}</td>`,
       vmv:`<td class="r num">${vmv(d)==null?"—":vmv(d).toFixed(2)}</td>`,
       pf:`<td>${nitCell(d)}</td>`,
       pp:`<td class="r">${ppCell(d)}</td>`,
@@ -1434,20 +1500,26 @@ function wzBlock(d){
   return `<div class="wzbox"><h3 style="margin:0 0 6px">wybierz.tv – ocena ${d.ov.toFixed(1)}/10 <a class="extl" href="${d.wz}" target="_blank" rel="noopener" style="font-size:13px;font-weight:500">pełny test ↗</a></h3>${bars}${meas?`<p class="muted" style="margin:6px 0 0;font-size:13px">Pomiary w dzień: ${esc(meas)}</p>`:""}${d.dn?`<p class="muted" style="margin:4px 0 0;font-size:12.5px">${esc(d.dn)}</p>`:""}</div>`;
 }
 function detailRow(d){
-  const dl=(pairs)=>`<dl>${pairs.filter(p=>p[1]!=null&&p[1]!=="").map(p=>`<dt>${p[0]}</dt><dd>${p[1]}</dd>`).join("")}</dl>`;
+  const dl=(pairs)=>{ const ok=pairs.filter(p=>p[1]!=null&&p[1]!==""); return ok.length?`<dl>${ok.map(p=>`<dt>${p[0]}</dt><dd>${p[1]}</dd>`).join("")}</dl>`:""; };
   return `<tr class="detail"><td colspan="${VIS().length}"><div class="dgrid">
     <div><h3 style="margin-bottom:8px">Obraz</h3>${dl([
       ["Technologia",esc(d.tl)],["Panel",esc(d.pn)],["Strefy wygaszania",esc(d.z??"brak danych")],
       ["Szczyt HDR, filmy",d.pf?grp(d.pf)+"\u00a0nit":"brak pomiaru"],
       ["Szczyt HDR, pomiar lab.",d.pp?grp(d.pp)+" nit"+(d.pps?` <span class="muted">(${esc(d.pps)})</span>`:""):"brak pomiaru"],["Deklaracja producenta",d.mfr?"do "+grp(d.mfr)+" nit":null],
       ["Jasność SDR",d.sdr?grp(d.sdr)+" nit":null],
-      ["BT.2020 (wzorzec / film)",esc(d.bt)],["Kąty widzenia",d.va?d.va+" / 10":null],
+      ["Pokrycie DCI-P3 / BT.2020",esc(d.bt)||(p3Of(d)!=null?String(p3Of(d)).replace(".",",")+" % DCI-P3":null)],
+      ["Kontrast",crTxt(d)],["Blooming (poświata)",X0(d).bl?esc(X0(d).bl):null],["Kolory fabrycznie (ocena)",X0(d).de?esc(X0(d).de):null],["Kąty widzenia",d.va?d.va+" / 10":null],
       ["Powłoka ekranu",esc(d.ct)],["HDR",esc(d.hdr)],["Ocena ogólna",d.ov==null?"brak testu":d.ov.toFixed(1)+" / 10"]])}</div>
     <div><h3 style="margin-bottom:8px">Gry, dźwięk, system</h3>${dl([
       ["Odświeżanie 4K",d.h4+" Hz"],["1440p",d.h14?d.h14+" Hz":"—"],["1080p",d.h10?d.h10+" Hz":"—"],
-      ["Uwagi",esc(d.hn)],["HDMI",esc(d.hd)],["Dźwięk",esc(d.ss)+(d.sd==null?"":" · ocena "+d.sd.toFixed(1))],["System",esc(d.os)],
+      ["Uwagi",esc(d.hn)],["Input lag (4K 60 Hz)",ilTxt(d)],["VRR / ALLM",vrrTxt(d)],["HDMI",esc(d.hd)],["Złącza",zlTxt(d)],["Głośniki",auTxt(d)],["Dźwięk",esc(d.ss)+(d.sd==null?"":" · ocena "+d.sd.toFixed(1))],["System",esc(d.os)],
       ["Cena",fmtP(d.p)+` <span class="muted">(${PV[d.pv]})</span>`],["Sklepy",esc(d.ps)],
       ["Porównaj ceny",shopLinks(d)]])}</div>
+    <div><h3 style="margin-bottom:8px">Wymiary i montaż</h3>${dl([
+      ["Wymiary bez podstawy (S × W × G)",X0(d).dim?X0(d).dim.map(v=>Math.round(v)).join(" × ")+" mm":null],["Wysokość z podstawą",X0(d).hs?Math.round(X0(d).hs)+" mm":null],
+      ["Waga",X0(d).wt!=null?String(X0(d).wt).replace(".",",")+" kg"+(X0(d).wts?` <span class="muted">(z podstawą ${String(X0(d).wts).replace(".",",")} kg)</span>`:""):null],
+      ["Podstawa",stTxt(d)],["VESA",X0(d).vesa?esc(X0(d).vesa)+" mm":null],["Energia",enTxt(d)],
+      ["Źródło tych danych",X0(d).src?esc(X0(d).src):null]])||'<p class="muted" style="font-size:13px">Brak sprawdzonych danych – uzupełniane stopniowo z kart producentów.</p>'}</div>
     <div class="pc"><h3>Ocena</h3><p class="plus">${esc(d.pro)}</p><p class="minus">${esc(d.con)}</p>${d.dn?`<p class="note">${esc(d.dn)}</p>`:""}
       ${wzBlock(d)}
       ${testsHTML(d)}
@@ -1490,13 +1562,17 @@ function renderCmp(){
     ["HDR w filmach",d=>d.pf,v=>v?v+" nit":"brak","max"],["HDR wzorzec",d=>d.pp,v=>v?v+" nit":"brak","max"],
     ["Matowość",d=>d.m,v=>v+" / 10","max"],["Filmy UHD",d=>d.mv,v=>f1(v),"max"],["Jasny pokój",d=>d.br,v=>f1(v),"max"],
     ["Dźwięk",d=>d.sd,v=>f1(v),"max"],["Odświeżanie 4K",d=>d.h4,v=>v+" Hz","max"],["1440p",d=>d.h14,v=>v?v+" Hz":"—","max"],["1080p",d=>d.h10,v=>v?v+" Hz":"—","max"],
+    ["Kontrast",d=>crN(d),(v,d)=>crTxt(d)||"—","max"],["DCI-P3",d=>p3Of(d),v=>v==null?"—":String(v).replace(".",",")+" %","max"],["Input lag",d=>X0(d).il??null,(v,d)=>ilTxt(d)||"—","min"],
+    ["VRR / ALLM",d=>vrrTxt(d),v=>v||"—",null],["Złącza",d=>zlTxt(d),v=>v||"—",null],["Głośniki",d=>X0(d).rms??null,(v,d)=>auTxt(d)||"—","max"],
+    ["Wymiary / waga",d=>dimTxt(d),v=>v||"—",null],["Podstawa",d=>stTxt(d),v=>v||"—",null],["VESA",d=>X0(d).vesa||null,v=>v?esc(v):"—",null],["Energia",d=>enTxt(d),v=>v||"—",null],
     ["HDMI",d=>d.hd,v=>esc(v),null],["HDR",d=>d.hdr,v=>esc(v),null],["System",d=>d.os,v=>esc(v),null],["Strefy",d=>d.z,v=>esc(v??"—"),null],["Powłoka",d=>d.ct,v=>esc(v),null]
   ];
   $("cmpTbl").innerHTML=`<thead><tr><th scope="col" style="padding:10px">Parametr</th>${ds.map((d,i)=>`<th scope="col" class="cmph" data-ci="${i}" draggable="true" style="padding:10px;color:var(--ink)"><div class="cmphd"><span class="cmpgrip" title="Przeciągnij, by zmienić kolejność" aria-hidden="true">⋮⋮</span><span class="cmpn">${esc(d.n)} <span class="tag size">${d.s}″</span></span><button type="button" class="cmpx" data-cmpdel="${d.id}" title="Usuń z porównania" aria-label="Usuń ${esc(d.n)} z porównania">×</button></div><div class="cmpmv"><button type="button" class="linkbtn" data-cmpmv="${i}" data-d="-1" ${i===0?"disabled":""} aria-label="Przesuń w lewo">◀</button><button type="button" class="linkbtn" data-cmpmv="${i}" data-d="1" ${i===ds.length-1?"disabled":""} aria-label="Przesuń w prawo">▶</button></div></th>`).join("")}</tr></thead><tbody>`+
     rows.map(([l,g,f,mode])=>{
       const vals=ds.map(g); let bestV=null;
       if(mode){const nums=vals.filter(v=>v!=null); if(nums.length) bestV=mode==="max"?Math.max(...nums):Math.min(...nums);}
-      return `<tr><th scope="row">${l}</th>${vals.map(v=>`<td class="${mode&&v!=null&&v===bestV&&ds.length>1?"best":""} ${typeof v==="number"?"num":""}">${f(v)}</td>`).join("")}</tr>`;
+      if(vals.every(v=>v==null||v==="")) return "";
+      return `<tr><th scope="row">${l}</th>${vals.map((v,i)=>`<td class="${mode&&v!=null&&v===bestV&&ds.length>1?"best":""} ${typeof v==="number"?"num":""}">${f(v,ds[i])}</td>`).join("")}</tr>`;
     }).join("")+`</tbody>`;
 }
 
@@ -1802,6 +1878,8 @@ async function loadData(manual){
     Object.entries(j.specs||{}).forEach(([id,o])=>{ const d=TV.find(x=>x.id===id); if(!d) return; SPEC_KEYS.forEach(k=>{ if(k in o && o[k]!==d[k]){ d[k]=o[k]; changed++; } }); });
     Object.entries(j.prices||{}).forEach(([id,v])=>{ const d=TV.find(x=>x.id===id); if(!d||!v) return; if(d.p!==v[0]) changed++; d.p=v[0]; if(v[1]) d.ps=v[1]; if(v[2]) d.pu=v[2]; d.pv=v[3]||"ok"; });
     if(j.updated) $("stampDate").textContent=j.updated;
+    /* dodatkowe parametry: specs.json (pomiary z testów i dane producentów; tylko sprawdzone wartości) */
+    try{ const r2=await fetch("specs.json?t="+Date.now(),{cache:"no-store"}); if(r2.ok){ const s2=await r2.json(); Object.entries(s2.models||{}).forEach(([id,o])=>{ const d=TV.find(x=>x.id===id); if(d&&o&&typeof o==="object"){ d.x=Object.assign({},d.x||{},o); changed++; } }); } }catch(e){}
     if(manual) msg.textContent=changed?"zaktualizowano ("+changed+" zmian)":"dane są aktualne";
     renderAll();
   }catch(e){ if(manual) msg.textContent="nie udało się pobrać pliku z danymi – pokazuję dane zapisane w stronie"; }
