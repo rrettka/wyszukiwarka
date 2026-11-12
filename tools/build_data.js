@@ -5,7 +5,8 @@ const fs = require("fs"), path = require("path");
 const dir = path.join(__dirname, "..", "data");
 const rd = f => JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
 const wzt = rd("tests_wz.json"); delete wzt._opis;
-const D = { series: rd("series.json"), models: rd("models.json"), offers: rd("offers.json"), tables: rd("tables.json"), wzt };
+const mk = rd("markets.json"); delete mk._opis;
+const D = { series: rd("series.json"), models: rd("models.json"), offers: rd("offers.json"), tables: rd("tables.json"), wzt, mk };
 // kontrola spójności: każdy model ma serię i ofertę, identyfikatory są unikalne
 const ids = new Set();
 D.models.forEach(m => {

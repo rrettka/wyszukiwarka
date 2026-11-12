@@ -46,3 +46,9 @@ Zrzut obejmuje wszystkie modele po załadowaniu, widok szczegółów każdego mo
 - `data/tests_wz.json` – testy wybierz.tv: przekątne objęte testem, przekątne z inną matrycą, rozmiar testowanego egzemplarza (null = test go nie podaje), input lag SDR/HDR/Dolby Vision 60/120 Hz.
 - `specs/build_specs.py` buduje `specs.json` z `specs/wz_data.py`, `data/tests_wz.json`, `specs/me_data.json`, `specs/ce_data.py`; pole `fs` = źródło każdej wartości, `konf` = rozbieżności sklepów.
 - Poziomy na stronie: A pomiar tego rozmiaru · B producent / wyposażenie z testu · C pomiar z innego rozmiaru tej samej matrycy · D sklep lub deklaracja · X test innej matrycy. Brak danych nigdy nie jest liczony jako zero.
+
+## Rynki i ceny (Etap 5)
+
+- `data/markets.json` – rynki, stawki VAT, cło (CH/NO), szacowany transport do PL wg klasy rozmiaru, kursy NBP awaryjne (na żywo strona pobiera tabelę A z api.nbp.pl).
+- `prices_intl.json` – oferty z UE/Schengen (cena brutto z lokalnym VAT) i z Kanady (CAD bez podatku), z linkiem, oznaczeniem modelu na rynku i informacją o wysyłce do PL; aktualizuje go zadanie codzienne.
+- Tryby na stronie: Polska · Z dostawą do Polski (PL + UE + Schengen) · Kanada (cena lokalna). Nie mieszamy ceny lokalnej z ceną z dostawą do PL w jednym rankingu.

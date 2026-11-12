@@ -1,0 +1,28 @@
+{
+"_opis":"Rynki i zasady liczenia cen. type: pl = Polska; eu = UE (cena brutto z lokalnym VAT -> netto + 23% VAT PL, sprzedawca rozlicza VAT przez OSS) + szacowany transport do PL; noneu = Europa spoza UE w strefie Schengen (cena bez lokalnego VAT przy eksporcie + transport + cło + 23% VAT importowy + agencja celna); local = rynek lokalny (cena w walucie kraju, bez transportu, VAT i cła; przeliczenie na PLN tylko informacyjne). Stawki cła i transportu to szacunki do ustawienia.",
+"plVat":23,
+"dutyTv":14,
+"agencyPln":150,
+"shipPln":{"65":350,"75":450,"85":600,"98":900,"110":1200},
+"fxFallback":{"date":"2026-11-10","table":"219/A/NBP/2026","rates":{"EUR":4.3895,"CZK":0.1804,"SEK":0.3994,"DKK":0.5872,"HUF":0.012109,"RON":0.8214,"CHF":4.7637,"NOK":0.4135,"ISK":0.031993,"CAD":2.7657,"USD":3.9099,"GBP":5.249}},
+"markets":{
+"PL":{"n":"Polska","cur":"PLN","type":"pl","vat":23},
+"DE":{"n":"Niemcy","cur":"EUR","type":"eu","vat":19},
+"AT":{"n":"Austria","cur":"EUR","type":"eu","vat":20},
+"NL":{"n":"Holandia","cur":"EUR","type":"eu","vat":21},
+"BE":{"n":"Belgia","cur":"EUR","type":"eu","vat":21},
+"FR":{"n":"Francja","cur":"EUR","type":"eu","vat":20},
+"IT":{"n":"Włochy","cur":"EUR","type":"eu","vat":22},
+"ES":{"n":"Hiszpania","cur":"EUR","type":"eu","vat":21},
+"EE":{"n":"Estonia","cur":"EUR","type":"eu","vat":24},
+"LT":{"n":"Litwa","cur":"EUR","type":"eu","vat":21},
+"SK":{"n":"Słowacja","cur":"EUR","type":"eu","vat":23},
+"CZ":{"n":"Czechy","cur":"CZK","type":"eu","vat":21},
+"SE":{"n":"Szwecja","cur":"SEK","type":"eu","vat":25},
+"DK":{"n":"Dania","cur":"DKK","type":"eu","vat":25},
+"HU":{"n":"Węgry","cur":"HUF","type":"eu","vat":27},
+"CH":{"n":"Szwajcaria","cur":"CHF","type":"noneu","vat":8.1},
+"NO":{"n":"Norwegia","cur":"NOK","type":"noneu","vat":25},
+"CA":{"n":"Kanada","cur":"CAD","type":"local","note":"ceny bez podatku sprzedaży (GST/HST/PST zależny od prowincji)"}
+}
+}

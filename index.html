@@ -248,6 +248,7 @@ thead .sticky{background:var(--surface-2);z-index:2}
 .crit{display:inline-block;margin:0 8px 3px 0;white-space:nowrap;font-size:12px}
 .qbox{margin-top:10px}
 .vok{color:var(--good);font-weight:600;font-size:12.5px}.vloss{color:var(--warn);font-size:12.5px}
+.shipin{white-space:nowrap;margin-right:6px}.shipin input{width:64px;font:inherit;font-size:12px;padding:1px 3px}
 .upl{margin:4px 0 0;padding-left:18px;font-size:13px}.upl li{margin:3px 0}
 .sctbl{border-collapse:collapse;font-size:13px;width:100%;max-width:420px}.sctbl td,.sctbl th{padding:2px 6px;border-bottom:1px solid var(--line);text-align:left;font-weight:400}.sctbl .r{text-align:right}
 .profs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}.profs .chip{font-size:12.5px}
@@ -357,7 +358,9 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
   </div>
   <div class="ctl">
     <div class="pricebox">
-    <span class="lbl" id="prLbl">Cena (zł)</span>
+    <span class="lbl">Rynek i rodzaj ceny</span>
+    <div id="mktBox"></div>
+    <span class="lbl" id="prLbl" style="margin-top:10px">Cena (zł)</span>
     <div class="dual" role="group" aria-labelledby="prLbl">
       <div class="dtrack"><i id="pfill"></i></div>
       <input id="pMin" type="range" min="2000" max="50000" step="250" value="2000" aria-label="Cena od">
@@ -437,6 +440,7 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
     <div>
       <p><strong>Wynik (profil)</strong> to średnia ważona 9 kryteriów w skali 0–10: oceny cząstkowe z laboratorium wybierz.tv (filmy, TV i YouTube, sport, gry na konsoli, monitor PC, funkcje i aplikacje, dźwięk), jasność z pomiaru w nitach (skala logarytmiczna z nasyceniem: HDR 250→2500 nit, SDR 150→1500 nit) i matowość ekranu. Profil (Twój, Uniwersalny, Kino w ciemni, Jasny salon, Gry, Sport) ustawia wagi; suwaki je zmieniają, a wagi zawsze przeliczają się do 100%. Ocena „Mocne światło” z wybierz.tv nie wchodzi do wyniku, bo zawiera jasność i odbicia, które liczymy osobno – tak nic nie jest liczone dwa razy. Brak danych w kryterium nie jest zerem: kryterium jest pomijane. Za oceny z innego rozmiaru tej samej matrycy wynik traci 0,15 pkt, za test innej matrycy 0,5 pkt. <strong>Obraz</strong> i <strong>Użytkowość</strong> to dwa stałe wyniki pomocnicze (obraz: filmy 50, TV 10, sport 10, jasność 15, matowość 15; użytkowość: gry 35, PC 10, funkcje 25, dźwięk 30).</p>
       <p><strong>Opłacalność</strong> liczona jest tylko w obrębie klasy rozmiaru (65″ · 75–77″ · 83–86″ · 97–100″ · 110″+) i jednego rynku (Polska). „✓ front” oznacza, że nie ma modelu jednocześnie tańszego (lub w tej samej cenie) i lepszego; „−0,30 pkt” – że za tę samą lub niższą cenę jest model o 0,30 pkt lepszy. Sortowanie po opłacalności stawia wyżej modele frontu, przy których dalsza dopłata kosztuje dużo za każde 0,1 pkt, a dojście do nich kosztowało mało. W szczegółach modelu: „Czy warto dopłacić 1000/2000/3000 zł” i tańsze modele z prawie tym samym wynikiem; w porównaniu – koszt dopłaty i mocne strony każdego modelu.</p>
+      <p><strong>Rynek.</strong> „Polska” – ceny w polskich sklepach. „Z dostawą do Polski” – niższa z: ceny w Polsce i szacowanego kosztu zakupu w UE/Schengen (cena bez VAT kraju + 23% VAT PL + transport; spoza UE dodatkowo cło i agencja celna); transport to szacunek, który możesz zmienić. „Kanada” – ceny lokalne w CAD, bez transportu, VAT i cła; nie są mieszane z cenami w Polsce. Kursy walut z NBP (tabela A).</p>
       <p><strong>Matowość</strong> to ocena własna na podstawie testów: 10 matowy Glare-Free, 9 matowy z utratą efektu pod kątem, 7 satynowy półmat, 5 błyszczący z dobrą warstwą AR, 4 błyszczący, 3 błyszczący ze słabym AR. Brak danych o powłoce nie jest liczony jako niska ocena – wynik liczy się wtedy z pozostałych kryteriów.</p>
       <p><strong>Dane</strong> – pewność wyniku i pokrycie: A pomiar tego rozmiaru, C pomiar z innego rozmiaru tej samej matrycy (lub test nie podaje, który rozmiar badano), X test innej matrycy; liczba to kryteria z danymi (np. 8/9). Szczegóły źródeł każdego modelu są w rozwiniętym wierszu.</p>
     </div>
@@ -461,7 +465,7 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
 
 </div>
 
-<script src="data.js?v=7b709f56c2"></script>
+<script src="data.js?v=44f5685628"></script>
 <script>
 /* Dane modeli: źródło w data/*.json (serie, modele, oferty, tabele testów); paczkę data.js buduje tools/build_data.js.
  Model = cechy serii + cechy własne wariantu (przekątna, nazwa, różnice) + oferta (cena, sklepy, link, status). */
@@ -494,7 +498,7 @@ const SHOPS=[
  ["Amazon.pl",d=>"https://www.amazon.pl/s?k="+encodeURIComponent(qq(d)),"shop"]
 ];
 const shopLinks=d=>`<span class="ytl">${d.pu?`<a href="${d.pu}" target="_blank" rel="noopener"><b>Ceneo – ta oferta ↗</b></a>`:""}${SHOPS.map(s=>`<a href="${s[1](d)}" target="_blank" rel="noopener">${s[0]} ↗</a>`).join("")}</span>`;
-const PV={ok:"cena sprawdzona w Ceneo 11.11.2026",promo:"cena promocyjna – sprawdź dostępność",part:"cena z listingu Ceneo – sprawdź w ofercie",old:"cena sprzed kilku tygodni – sprawdź aktualną"};
+const PV={est:"szacowany koszt w Polsce: cena zagraniczna + VAT + transport (szczegóły w opisie modelu)",loc:"cena lokalna na rynku zagranicznym – bez transportu, VAT i cła",ok:"cena sprawdzona w Ceneo 11.11.2026",promo:"cena promocyjna – sprawdź dostępność",part:"cena z listingu Ceneo – sprawdź w ofercie",old:"cena sprzed kilku tygodni – sprawdź aktualną"};
 
 const BRANDS=[...new Set(TV.map(d=>d.b))].sort();
 const NIT=1300;
@@ -509,7 +513,8 @@ const st={q:"",nl:null,nlKey:"",sortsBefore:null,aiSpec:null,aiFor:null,sizes:ne
 const $=id=>document.getElementById(id);
 st.brands=new Set(BRANDS);
 const grp=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,"\u00a0");
-const fmtP=p=>{if(p==null) return "—"; const i=Math.floor(p), c=Math.round((p-i)*100); return grp(i)+(c?","+String(c).padStart(2,"0"):"")+"\u00a0zł";};
+let CUR="zł";
+const fmtP=p=>{if(p==null) return "—"; const i=Math.floor(p), c=Math.round((p-i)*100); return grp(i)+(c?","+String(c).padStart(2,"0"):"")+"\u00a0"+CUR;};
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 /* ===== Punktacja (Etap 3) =====
    9 kryteriów w skali 0–10. Oceny cząstkowe z laboratorium wybierz.tv + jasność z pomiaru (skala logarytmiczna z nasyceniem) + matowość.
@@ -571,6 +576,7 @@ function filtered(ignoreBudget){
     if(!ignoreBudget && !(N&&N.ovP) && d.p!=null && (d.p>st.max||d.p<st.pmin)) return false;
     if(st.hmin>0||st.hmax<HM()){ const v=d[st.hmode]; if(v==null) return false; if(v<st.hmin||v>st.hmax) return false; }
     if(st.matte && (d.m==null||d.m<7)) return false;
+    if(!inMarket(d)) return false;
     if(st.g144 && d.h4<144) return false;
     if(st.hdp && d.hv<2) return false;
     if(N){
@@ -1226,8 +1232,9 @@ function testsHTML(d){
 }
 function priceCell(d){
   const link=d.pu||ceneoQ(d);
-  const flag=d.pv==="ok"?"":`<div><span class="tag est" title="${PV[d.pv]}">${d.pv==="promo"?"promocja":"do sprawdzenia"}</span></div>`;
-  return `<span class="num">${fmtP(d.p)}</span><div><a class="plink" href="${link}" target="_blank" rel="noopener" title="${PV[d.pv]}">${d.pu?"oferty w Ceneo":"szukaj w Ceneo"} ↗</a></div>${flag}`;
+  const flag=d.pv==="ok"?"":`<div><span class="tag est" title="${PV[d.pv]}">${d.pv==="promo"?"promocja":d.pv==="est"?"szacunek z dostawą":d.pv==="loc"?"cena w CAD":"do sprawdzenia"}</span></div>`;
+  const lt=d.pv==="est"?"oferta zagraniczna":d.pv==="loc"?"oferta w Kanadzie":d.pu?"oferty w Ceneo":"szukaj w Ceneo";
+  return `<span class="num">${fmtP(d.p)}</span><div><a class="plink" href="${link}" target="_blank" rel="noopener" title="${esc(d.ps||PV[d.pv])}">${lt} ↗</a></div>${flag}`;
 }
 function wzBlock(d){
   if(!d.wz) return "";
@@ -1262,7 +1269,8 @@ function detailRow(d){
       ${qBlock(d)}
       ${testsHTML(d)}
       ${scoreHTML(d)}
-      ${upHTML(d)}</div>
+      ${upHTML(d)}
+      ${intlHTML(d)}</div>
   </div></td></tr>`;
 }
 
@@ -1278,6 +1286,51 @@ function scoreHTML(d){
   Obraz ${f2(scoreQ(d))} · Użytkowość ${f2(scoreU(d))}.</p>`;
 }
 
+/* ===== Rynki i ceny (Etap 5) =====
+   Dwa rodzaje cen, nigdy w jednym rankingu:
+   • Cena z dostawą do Polski (PLN): Polska + UE + Schengen. UE: cena brutto → netto (bez VAT kraju) + 23% VAT PL (sprzedaż przez OSS) + szacowany transport.
+     Schengen spoza UE (CH, NO): netto (eksport bez VAT) + transport + cło + 23% VAT importowy + agencja celna.
+   • Cena lokalna (Kanada, CAD): bez transportu, VAT i cła; PLN tylko informacyjnie.
+   Ranking, opłacalność i „czy warto dopłacić” liczą się zawsze w obrębie jednego trybu. */
+const MK=TVDATA.mk; let INTL={};
+let FX={...MK.fxFallback.rates}, FXINFO={date:MK.fxFallback.date,table:MK.fxFallback.table,live:false};
+let SHIP={...MK.shipPln}; try{const v=JSON.parse(localStorage.getItem("tvship")||"null"); if(v) Object.assign(SHIP,v);}catch(e){}
+const MODES={pl:{l:"Polska",cur:"zł"},eu:{l:"Z dostawą do Polski (PL + UE + Schengen)",cur:"zł"},ca:{l:"Kanada – cena lokalna (CAD)",cur:"CAD"}};
+st.mkt="pl"; try{const v=localStorage.getItem("tvmkt"); if(MODES[v]) st.mkt=v;}catch(e){}
+const fx=c=>c==="PLN"?1:FX[c]||null;
+function landed(o,d){
+  const m=MK.markets[o.m]; if(!m) return null; const r=fx(m.cur); if(!r) return null;
+  const ship=SHIP[String(vcls(d.s))]||0, net=o.price/(1+(m.vat||0)/100)*r;
+  if(m.type==="eu"){ const vat=net*MK.plVat/100; return {tot:net+vat+ship,net,vat,ship,duty:0,agency:0}; }
+  if(m.type==="noneu"){ const base=net+ship, duty=base*MK.dutyTv/100, vat=(base+duty)*MK.plVat/100; return {tot:base+duty+vat+MK.agencyPln,net,vat,ship,duty,agency:MK.agencyPln}; }
+  return null;
+}
+function restorePL(){ TV.forEach(d=>{ if(d._pl){ d.p=d._pl.p; d.ps=d._pl.ps; d.pu=d._pl.pu; d.pv=d._pl.pv; } }); }
+function snapPL(){ TV.forEach(d=>{ d._pl={p:d.p,ps:d.ps,pu:d.pu,pv:d.pv}; }); }
+function applyMarket(){
+  restorePL(); CUR=MODES[st.mkt].cur;
+  TV.forEach(d=>{ d._off=null; const offs=INTL[d.id]||[];
+    if(st.mkt==="eu"){ let best=null; offs.forEach(o=>{ const L=landed(o,d); if(L&&(!best||L.tot<best.L.tot)) best={o,L}; });
+      if(best&&(d.p==null||best.L.tot<d.p)){ d._off=best; d.p=Math.round(best.L.tot); d.ps=`${MK.markets[best.o.m].n}: ${grp(best.o.price)} ${MK.markets[best.o.m].cur} (${best.o.shop}) → szacunek w PL`; d.pu=best.o.url; d.pv="est"; } }
+    else if(st.mkt==="ca"){ const o=offs.find(x=>x.m==="CA"); if(o){ d._off={o}; d.p=o.price; d.ps=`${o.shop}${o.note?" – "+o.note:""}`; d.pu=o.url; d.pv="loc"; } else { d.p=null; d.pv="loc"; } }
+  });
+  const lbl=$("prLbl"); if(lbl) lbl.textContent=`Cena (${CUR})`;
+}
+const inMarket=d=>st.mkt!=="ca"||(INTL[d.id]||[]).some(o=>o.m==="CA");
+async function loadFX(){ try{ const r=await fetch("https://api.nbp.pl/api/exchangerates/tables/A/?format=json",{cache:"no-store"}); const t=(await r.json())[0]; t.rates.forEach(x=>{FX[x.code]=x.mid;}); FXINFO={date:t.effectiveDate,table:t.no,live:true}; if(st.mkt!=="pl"){ applyMarket(); renderAll(); } renderMkt(); }catch(e){} }
+function renderMkt(){
+  const el=$("mktBox"); if(!el) return;
+  el.innerHTML=`<div class="profs" role="group" aria-label="Rynek">${Object.entries(MODES).map(([k,m])=>`<button type="button" class="chip" aria-pressed="${st.mkt===k}" data-mkt="${k}">${m.l}</button>`).join("")}</div>
+  <p class="muted" style="font-size:12.5px;margin:4px 0 0">${st.mkt==="pl"?"Ceny w polskich sklepach.":st.mkt==="eu"?`Najniższa z: ceny w Polsce i szacowanego kosztu zakupu w UE/Schengen z dostawą do PL (netto + 23% VAT PL + transport${MK.markets.CH?"; spoza UE także cło "+MK.dutyTv+"% i agencja":""}). Kursy NBP ${FXINFO.table} z ${FXINFO.date}${FXINFO.live?"":" (zapisane)"}. Transport do PL (szacunek, zł): ${Object.keys(SHIP).map(k=>`<label class="shipin">${VCL[k]} <input type="number" min="0" step="50" data-ship="${k}" value="${SHIP[k]}"></label>`).join(" ")}`:`Tylko modele z ofertą w Kanadzie, ceny w CAD bez podatku sprzedaży. Nie porównujemy ich z cenami w Polsce. Kurs NBP: 1 CAD = ${String(FX.CAD).replace(".",",")} zł (informacyjnie).`}</p>`;
+}
+function intlHTML(d){
+  const offs=INTL[d.id]||[]; if(!offs.length) return "";
+  const rows=offs.map(o=>{ const m=MK.markets[o.m], L=m.type==="local"?null:landed(o,d);
+    return `<li><b>${m.n}</b> – <a href="${esc(o.url)}" target="_blank" rel="noopener">${esc(o.shop)} ↗</a>: ${grp(o.price)} ${m.cur} <span class="muted">(${esc(o.code)}, ${esc(o.date)}${o.note?"; "+esc(o.note):""})</span><br>`+
+      (L?`<span class="muted">W Polsce ok. <b>${grp(Math.round(L.tot))} zł</b> = netto ${grp(Math.round(L.net))} + VAT 23% ${grp(Math.round(L.vat))}${L.duty?` + cło ${grp(Math.round(L.duty))}`:""} + transport ${grp(L.ship)}${L.agency?` + agencja ${L.agency}`:""} zł · wysyłka do PL: ${esc(o.ship)}</span>`
+        :`<span class="muted">Cena lokalna (bez transportu, VAT i cła); informacyjnie ok. ${grp(Math.round(o.price*(fx(m.cur)||0)))} zł po kursie NBP.</span>`)+`</li>`; }).join("");
+  return `<h3 style="margin-top:10px">Ceny na innych rynkach</h3><ul class="upl">${rows}</ul><p class="muted" style="font-size:12px">Ceny zagraniczne to migawki z dnia sprawdzenia; transport to szacunek (zmienisz go w panelu rynku). Gdy sklep nie wysyła do Polski, potrzebny jest odbiór osobisty lub firma transportowa.</p>`;
+}
 /* ===== Opłacalność (Etap 4) =====
    Porównujemy tylko modele z tej samej klasy rozmiaru (65 · 75–77 · 83–86 · 97–100 · 110+), z ceną i wynikiem.
    Front opłacalności (Pareto): model, którego nie da się pobić jednocześnie niższą (lub równą) ceną i wyższym (lub równym) wynikiem.
@@ -1313,15 +1366,15 @@ function valTxt(d){ const i=vctx().get(d); if(!i) return "—"; return i.front?`
 function upHTML(d){
   const i=vctx().get(d); if(!i) return "";
   const sc=score(d), cls=i.cls, nm=x=>`<button class="linkbtn" type="button" data-goto="${x.id}">${esc(x.n)}</button>`;
-  const zl=v=>grp(Math.round(v))+" zł";
+  const zl=v=>grp(Math.round(v))+" "+CUR;
   const rows=[];
   if(i.dom){ rows.push(`<li><b>Lepszy i tańszy:</b> ${nm(i.dom.d)} – ${zl(i.dom.p)} (${i.dom.p<d.p?"−"+zl(d.p-i.dom.p):"ta sama cena"}), wynik ${f2(i.dom.sc)} (+${(i.dom.sc-sc).toFixed(2).replace(".",",")}).</li>`); }
   [1000,2000,3000].forEach(x=>{ const b=cls.filter(o=>o.p>d.p&&o.p<=d.p+x).sort((a,b)=>b.sc-a.sc||a.p-b.p)[0];
-    rows.push(b&&b.sc>sc?`<li><b>+${grp(x)} zł:</b> ${nm(b.d)} (+${zl(b.p-d.p)}) → wynik +${(b.sc-sc).toFixed(2).replace(".",",")} pkt <span class="muted">(${grp(Math.round((b.p-d.p)/((b.sc-sc)*10)))} zł za każde 0,1 pkt)</span></li>`:`<li><b>+${grp(x)} zł:</b> <span class="muted">w tej klasie nic lepszego w tym budżecie – dopłata się nie opłaca.</span></li>`); });
+    rows.push(b&&b.sc>sc?`<li><b>+${grp(x)} ${CUR}:</b> ${nm(b.d)} (+${zl(b.p-d.p)}) → wynik +${(b.sc-sc).toFixed(2).replace(".",",")} pkt <span class="muted">(${grp(Math.round((b.p-d.p)/((b.sc-sc)*10)))} ${CUR} za każde 0,1 pkt)</span></li>`:`<li><b>+${grp(x)} ${CUR}:</b> <span class="muted">w tej klasie nic lepszego w tym budżecie – dopłata się nie opłaca.</span></li>`); });
   const ch=cls.filter(o=>o.p<=d.p-500&&o.sc>=sc-0.25&&o.d!==d).sort((a,b)=>a.p-b.p)[0];
   if(ch) rows.push(`<li><b>Taniej prawie to samo:</b> ${nm(ch.d)} – ${zl(ch.p)} (−${zl(d.p-ch.p)}), wynik ${f2(ch.sc)} (${(ch.sc-sc>=0?"+":"−")+Math.abs(ch.sc-sc).toFixed(2).replace(".",",")}).</li>`);
-  if(i.front&&(i.cIn!=null||i.cUp!=null)) rows.unshift(`<li><b>Na froncie opłacalności.</b> ${i.cIn!=null?`Dojście tu z tańszego modelu frontu: ${grp(Math.round(i.cIn))} zł za każde 0,1 pkt.`:"Najtańszy model frontu w tej klasie."} ${i.cUp!=null?`Dalej: ${grp(Math.round(i.cUp))} zł za każde 0,1 pkt.`:"Najlepszy wynik w tej klasie."}</li>`);
-  return `<h3 style="margin-top:10px">Czy warto dopłacić? <span class="muted" style="font-weight:400;font-size:13px">klasa ${VCL[vcls(d.s)]}, profil: ${st.prof==="custom"?"własne wagi":PROFILES[st.prof].l}</span></h3><ul class="upl">${rows.join("")}</ul>`;
+  if(i.front&&(i.cIn!=null||i.cUp!=null)) rows.unshift(`<li><b>Na froncie opłacalności.</b> ${i.cIn!=null?`Dojście tu z tańszego modelu frontu: ${grp(Math.round(i.cIn))} ${CUR} za każde 0,1 pkt.`:"Najtańszy model frontu w tej klasie."} ${i.cUp!=null?`Dalej: ${grp(Math.round(i.cUp))} ${CUR} za każde 0,1 pkt.`:"Najlepszy wynik w tej klasie."}</li>`);
+  return `<h3 style="margin-top:10px">Czy warto dopłacić? <span class="muted" style="font-weight:400;font-size:13px">${MODES[st.mkt].l} · klasa ${VCL[vcls(d.s)]}, profil: ${st.prof==="custom"?"własne wagi":PROFILES[st.prof].l}</span></h3><ul class="upl">${rows.join("")}</ul>`;
 }
 function renderPicks(list){
   list=list||filtered();
@@ -1340,7 +1393,7 @@ function renderPicks(list){
   const perSize=sizesIn.map(s=>{const b=best(list.filter(d=>sg(d.s)===s)); return b?`<span><b>${SLB(s)}:</b> <button class="linkbtn" type="button" data-goto="${b.id}">${esc(b.n)}</button> <span class="num muted">${fmtP(b.p)} · ${f2(score(b))}</span></span>`:"";}).join("");
   $("picks").innerHTML=
     card("Najwyższy wynik",top,top?esc(top.pro):"")+
-    card("Opłacalny wybór",bv,bv?(bv===top?"Najlepszy w filtrach jest jednocześnie najtańszym z czołówki.":`Wynik ${f2(score(bv))} – tylko ${(topS-score(bv)).toFixed(2).replace(".",",")} pkt mniej niż najlepszy, a ${grp(Math.round(top.p-bv.p))} zł taniej.`):"")+
+    card("Opłacalny wybór",bv,bv?(bv===top?"Najlepszy w filtrach jest jednocześnie najtańszym z czołówki.":`Wynik ${f2(score(bv))} – tylko ${(topS-score(bv)).toFixed(2).replace(".",",")} pkt mniej niż najlepszy, a ${grp(Math.round(top.p-bv.p))} ${CUR} taniej.`):"")+
     card("Najtańszy z wynikiem ≥ 7,5",cheap,cheap?esc(cheap.pro):"");
   $("perSize").innerHTML=perSize?`<span class="k">Najlepszy w każdym rozmiarze:</span> ${perSize}`:"";
 }
@@ -1365,7 +1418,7 @@ function renderCmp(){
   ];
   const byP=ds.filter(d=>d.p!=null&&score(d)!=null).sort((a,b)=>a.p-b.p), base=byP[0];
   const extra=[["Dopłata do najtańszego z wybranych",d=>d.p,(v,d)=>{ if(!base||d===base||d.p==null||score(d)==null) return d===base?'<span class="muted">punkt odniesienia</span>':"—"; const dp=d.p-base.p, ds=score(d)-score(base);
-      return `+${grp(Math.round(dp))} zł → ${ds>=0?"+":"−"}${Math.abs(ds).toFixed(2).replace(".",",")} pkt`+(ds>0.005?` <span class="muted">(${grp(Math.round(dp/(ds*10)))} zł za 0,1 pkt)</span>`:` <span class="muted">– dopłata bez zysku</span>`); },null],
+      return `+${grp(Math.round(dp))} ${CUR} → ${ds>=0?"+":"−"}${Math.abs(ds).toFixed(2).replace(".",",")} pkt`+(ds>0.005?` <span class="muted">(${grp(Math.round(dp/(ds*10)))} ${CUR} za 0,1 pkt)</span>`:` <span class="muted">– dopłata bez zysku</span>`); },null],
     ["Mocne strony (na tle wybranych)",d=>1,(v,d)=>{ const o=CRITS.filter(c=>{ const x=c.get(d); if(x==null) return false; const others=ds.filter(y=>y!==d).map(y=>c.get(y)).filter(z=>z!=null); return others.length&&x>=Math.max(...others)+0.3; }).map(c=>c.l); return o.length?o.join(", "):'<span class="muted">—</span>'; },null]];
   rows.splice(rows.findIndex(r=>r[0]==="Opłacalność")+1,0,...extra);
   $("cmpTbl").innerHTML=`<thead><tr><th scope="col" style="padding:10px">Parametr</th>${ds.map((d,i)=>`<th scope="col" class="cmph" data-ci="${i}" draggable="true" style="padding:10px;color:var(--ink)"><div class="cmphd"><span class="cmpgrip" title="Przeciągnij, by zmienić kolejność" aria-hidden="true">⋮⋮</span><span class="cmpn">${esc(d.n)} <span class="tag size">${d.s}″</span></span><button type="button" class="cmpx" data-cmpdel="${d.id}" title="Usuń z porównania" aria-label="Usuń ${esc(d.n)} z porównania">×</button></div><div class="cmpmv"><button type="button" class="linkbtn" data-cmpmv="${i}" data-d="-1" ${i===0?"disabled":""} aria-label="Przesuń w lewo">◀</button><button type="button" class="linkbtn" data-cmpmv="${i}" data-d="1" ${i===ds.length-1?"disabled":""} aria-label="Przesuń w prawo">▶</button></div></th>`).join("")}</tr></thead><tbody>`+
@@ -1674,19 +1727,24 @@ async function loadData(manual){
   const msg=$("refreshMsg"); if(manual) msg.textContent="sprawdzam…";
   try{
     const r=await fetch("prices.json?t="+Date.now(),{cache:"no-store"}); if(!r.ok) throw 0;
-    const j=await r.json(); let changed=0;
+    const j=await r.json(); let changed=0; restorePL();
     (j.add||[]).forEach(rec=>{ if(rec&&rec.id&&!TV.some(d=>d.id===rec.id)){ { const r=Object.assign({pv:"ok",hv:0,wc:null,wm:null},rec); if(r.m!=null&&r.m<=4&&/brak (danych|deklaracji|oceny)/i.test(r.ct||"")) r.m=null; TV.push(r); } if(!BRANDS.includes(rec.b)){BRANDS.push(rec.b); BRANDS.sort(); st.brands.add(rec.b);} changed++; } });
     Object.entries(j.specs||{}).forEach(([id,o])=>{ const d=TV.find(x=>x.id===id); if(!d) return; SPEC_KEYS.forEach(k=>{ if(k in o && o[k]!==d[k]){ d[k]=o[k]; changed++; } }); });
     Object.entries(j.prices||{}).forEach(([id,v])=>{ const d=TV.find(x=>x.id===id); if(!d||!v) return; if(d.p!==v[0]) changed++; d.p=v[0]; if(v[1]) d.ps=v[1]; if(v[2]) d.pu=v[2]; d.pv=v[3]||"ok"; });
     if(j.updated) $("stampDate").textContent=j.updated;
+    try{ const r3=await fetch("prices_intl.json?t="+Date.now(),{cache:"no-store"}); if(r3.ok){ const j3=await r3.json(); INTL=j3.offers||{}; } }catch(e){}
     /* dodatkowe parametry: specs.json (pomiary z testów i dane producentów; tylko sprawdzone wartości) */
     try{ const r2=await fetch("specs.json?t="+Date.now(),{cache:"no-store"}); if(r2.ok){ const s2=await r2.json(); Object.entries(s2.models||{}).forEach(([id,o])=>{ const d=TV.find(x=>x.id===id); if(d&&o&&typeof o==="object"){ d.x=Object.assign({},d.x||{},o); changed++; } }); } }catch(e){}
     if(manual) msg.textContent=changed?"zaktualizowano ("+changed+" zmian)":"dane są aktualne";
+    snapPL(); applyMarket(); renderMkt();
     renderAll();
   }catch(e){ if(manual) msg.textContent="nie udało się pobrać pliku z danymi – pokazuję dane zapisane w stronie"; }
 }
 $("refreshData").addEventListener("click",()=>loadData(true));
-loadData(false);
+snapPL(); applyMarket();
+loadData(false); loadFX();
+document.addEventListener("click",e=>{const b=e.target.closest("[data-mkt]"); if(!b) return; st.mkt=b.dataset.mkt; try{localStorage.setItem("tvmkt",st.mkt);}catch(err){} applyMarket(); renderMkt(); renderAll();});
+document.addEventListener("change",e=>{const t=e.target.closest("[data-ship]"); if(!t) return; SHIP[t.dataset.ship]=Math.max(0,+t.value||0); try{localStorage.setItem("tvship",JSON.stringify(SHIP));}catch(err){} applyMarket(); renderAll();});
 function applyPreset(p,setHash){
   if(p==="tv75") st.sizes=new Set([65,75]);
   else if(p==="tv85") st.sizes=new Set([85]);

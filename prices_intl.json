@@ -1,0 +1,154 @@
+{
+ "updated": "12.11.2026",
+ "note": "Oferty z innych rynków. m = kod rynku z markets.json, price = cena w walucie rynku (UE/Schengen: brutto z lokalnym VAT; Kanada: bez podatku sprzedaży), code = oznaczenie modelu na tym rynku, ship = wysyłka do PL (tak / nie / nieznana), src = skąd cena, date = kiedy sprawdzona.",
+ "offers": {
+  "s85qn92f": [
+   {
+    "m": "DE",
+    "price": 2149,
+    "code": "GQ85QN90F",
+    "shop": "najtańsza oferta w billiger.de",
+    "url": "https://www.billiger.de/products/5262364474-samsung-gq85qn90f-85-neo-qled-4k-vision-ai-smart-tv-qn90f",
+    "ship": "nieznana",
+    "src": "billiger.de",
+    "date": "2026-11-12"
+   },
+   {
+    "m": "CA",
+    "price": 3499.99,
+    "code": "QN85QN90FAFXZC",
+    "shop": "Son-X-Plus",
+    "url": "https://en.sonxplus.com/products/samsung-qn85qn90fafxzc-televiseur-85-serie-qn90f-120hz-4k-neo-qled",
+    "ship": "—",
+    "src": "sonxplus.com",
+    "date": "2026-11-12",
+    "note": "wariant północnoamerykański – panel może różnić się od wersji EU"
+   }
+  ],
+  "h85ur9s": [
+   {
+    "m": "AT",
+    "price": 2499,
+    "code": "85UR9S",
+    "shop": "MediaMarkt AT (najtańsza w geizhals.at)",
+    "url": "https://geizhals.at/hisense-85ur9s-a3771348.html",
+    "ship": "nie (tylko Austria)",
+    "src": "geizhals.at",
+    "date": "2026-11-12"
+   }
+  ],
+  "l77c5": [
+   {
+    "m": "DE",
+    "price": 1769,
+    "code": "OLED77C54LA",
+    "shop": "najtańsza oferta w billiger.de",
+    "url": "https://www.billiger.de/products/5239377487-lg-oled77c5elb-77-4k-oled-evo-ai-smart-tv-c5",
+    "ship": "nieznana",
+    "src": "billiger.de",
+    "date": "2026-11-12"
+   },
+   {
+    "m": "EE",
+    "price": 1911.2,
+    "code": "OLED77C54LA",
+    "shop": "datafox.ee",
+    "url": "https://pood.datafox.ee/audio-ja-video/televiisorid/telewizor-77-lg-oled77c54la/",
+    "ship": "nieznana",
+    "src": "datafox.ee",
+    "date": "2026-11-12",
+    "note": "w chwili sprawdzenia: brak na stanie"
+   },
+   {
+    "m": "CA",
+    "price": 3199.99,
+    "code": "OLED77C5PUA",
+    "shop": "Best Buy Canada",
+    "url": "https://bestbuy.ca/en-ca/product/lg-77-c5-4k-uhd-hdr-oled-smart-tv-oled77c5pua-2025/19277615",
+    "ship": "—",
+    "src": "Best Buy Express (erinmills.ca)",
+    "date": "2026-11-12",
+    "note": "wariant północnoamerykański OLED77C5PUA"
+   }
+  ],
+  "s77s95f": [
+   {
+    "m": "DE",
+    "price": 2499,
+    "code": "GQ77S95F",
+    "shop": "najtańsza oferta w billiger.de",
+    "url": "https://www.billiger.de/products/5270679443-samsung-gq77s95f-77-oled-4k-vision-ai-smart-tv-s95f",
+    "ship": "nieznana",
+    "src": "billiger.de",
+    "date": "2026-11-12"
+   }
+  ],
+  "s85b9": [
+   {
+    "m": "DE",
+    "price": 5099,
+    "code": "K-85XR95M2",
+    "shop": "elektrokoeck.com (testbericht.de)",
+    "url": "https://www.testbericht.de/produkte/sony-bravia-9-ii-85-zoll",
+    "ship": "nieznana",
+    "src": "testbericht.de",
+    "date": "2026-11-12"
+   },
+   {
+    "m": "EE",
+    "price": 4999,
+    "code": "K85XR95M2PB.CEI",
+    "shop": "Euronics EE",
+    "url": "https://www.euronics.ee/en/tv/tvs/over-69/k85xr95m2pbdtcei/sony-bravia-9-ii-xr95-85-4k-uhd-rgb-led-black-tv",
+    "ship": "nieznana",
+    "src": "euronics.ee",
+    "date": "2026-11-12"
+   },
+   {
+    "m": "CA",
+    "price": 8999.99,
+    "code": "K85XR90M2",
+    "shop": "Sony Canada",
+    "url": "https://www.sony.ca/en/tv-video/televisions/all-tvs/p/k85xr90m2",
+    "ship": "—",
+    "src": "sony.ca",
+    "date": "2026-11-12",
+    "note": "w Ameryce Płn. jako XR90 (w Europie XR95)"
+   }
+  ],
+  "t85c8l": [
+   {
+    "m": "DE",
+    "price": 1999,
+    "code": "85C8L",
+    "shop": "najtańsza oferta w geizhals.de",
+    "url": "https://geizhals.de/tcl-85c8l-a3810591.html",
+    "ship": "nie (tylko Niemcy)",
+    "src": "geizhals.de",
+    "date": "2026-11-12"
+   }
+  ],
+  "l83c5": [
+   {
+    "m": "EE",
+    "price": 2743.7,
+    "code": "OLED83C54LA",
+    "shop": "datafox.ee",
+    "url": "https://pood.datafox.ee/audio-ja-video/televiisorid/telewizor-83-lg-oled83c54la/",
+    "ship": "nieznana",
+    "src": "datafox.ee",
+    "date": "2026-11-12"
+   },
+   {
+    "m": "NL",
+    "price": 3199,
+    "code": "OLED83C54LA",
+    "shop": "MediaMarkt NL",
+    "url": "https://www.mediamarkt.nl/nl/product/_lg-oled83c54laaeu-2025-1880627.html",
+    "ship": "nieznana",
+    "src": "mediamarkt.nl",
+    "date": "2026-11-12"
+   }
+  ]
+ }
+}
