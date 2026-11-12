@@ -247,6 +247,8 @@ thead .sticky{background:var(--surface-2);z-index:2}
 .lvA{background:var(--good-soft);color:var(--good)}.lvB{background:var(--surface-2);color:var(--ink);border-color:var(--line)}.lvC{background:var(--warn-soft);color:var(--warn)}.lvD{background:var(--surface-2);color:var(--muted);border-color:var(--line)}.lvX{background:var(--bad-soft);color:var(--bad)}.lvN{color:var(--muted)}
 .crit{display:inline-block;margin:0 8px 3px 0;white-space:nowrap;font-size:12px}
 .qbox{margin-top:10px}
+.sctbl{border-collapse:collapse;font-size:13px;width:100%;max-width:420px}.sctbl td,.sctbl th{padding:2px 6px;border-bottom:1px solid var(--line);text-align:left;font-weight:400}.sctbl .r{text-align:right}
+.profs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}.profs .chip{font-size:12.5px}
 .tag.est{background:var(--warn-soft);color:var(--warn);border-color:transparent}
 .score{display:inline-block;min-width:48px;text-align:center;padding:3px 8px;border-radius:6px;font-family:var(--font-mono);font-weight:500}
 .s-na{color:var(--muted)}
@@ -372,9 +374,9 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
     <div class="hpre" id="hpre"></div>
   </div>
   <div class="ctl">
-    <span class="lbl">Wagi wyniku (Twoje priorytety)</span>
+    <span class="lbl">Profil i wagi wyniku (przeliczane do 100%)</span>
     <div class="weights" id="weights"></div>
-    <button class="linkbtn" id="resetW" type="button">Przywróć wagi 40 / 25 / 20 / 15</button>
+    <button class="linkbtn" id="resetW" type="button">Przywróć profil „Twój” 40 / 25 / 20 / 15</button>
     <div class="pricebox">
     <span class="lbl" id="prLbl">Cena (zł)</span>
     <div class="dual" role="group" aria-labelledby="prLbl">
@@ -438,8 +440,8 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
   <h2 id="mH" style="margin-bottom:12px">Jak liczony jest wynik i skąd są dane</h2>
   <div class="method">
     <div>
-      <p><strong>Wynik ważony</strong> to średnia ocen 1–10: Filmy UHD (jakość obrazu), Jasny pokój, Matowość ekranu i Dźwięk. Domyślne wagi 40/25/20/15 odpowiadają kolejności priorytetów: obraz z jasnością, matowy ekran, dźwięk. Suwaki zmieniają wynik na żywo.</p>
-      <p><strong>Jakość za złotówkę</strong> to wynik ważony podzielony przez cenę w tysiącach złotych.</p>
+      <p><strong>Wynik (profil)</strong> to średnia ważona 9 kryteriów w skali 0–10: oceny cząstkowe z laboratorium wybierz.tv (filmy, TV i YouTube, sport, gry na konsoli, monitor PC, funkcje i aplikacje, dźwięk), jasność z pomiaru w nitach (skala logarytmiczna z nasyceniem: HDR 250→2500 nit, SDR 150→1500 nit) i matowość ekranu. Profil (Twój, Uniwersalny, Kino w ciemni, Jasny salon, Gry, Sport) ustawia wagi; suwaki je zmieniają, a wagi zawsze przeliczają się do 100%. Ocena „Mocne światło” z wybierz.tv nie wchodzi do wyniku, bo zawiera jasność i odbicia, które liczymy osobno – tak nic nie jest liczone dwa razy. Brak danych w kryterium nie jest zerem: kryterium jest pomijane. Za oceny z innego rozmiaru tej samej matrycy wynik traci 0,15 pkt, za test innej matrycy 0,5 pkt. <strong>Obraz</strong> i <strong>Użytkowość</strong> to dwa stałe wyniki pomocnicze (obraz: filmy 50, TV 10, sport 10, jasność 15, matowość 15; użytkowość: gry 35, PC 10, funkcje 25, dźwięk 30).</p>
+      <p><strong>Jakość za złotówkę</strong> to wynik (profil) podzielony przez cenę w tysiącach złotych; <strong>Obraz za złotówkę</strong> – wynik Obraz podzielony przez cenę. Nowy model opłacalności (w obrębie klasy rozmiaru, dopłata za każdy krok jakości) przyjdzie w Etapie 4.</p>
       <p><strong>Matowość</strong> to ocena własna na podstawie testów: 10 matowy Glare-Free, 9 matowy z utratą efektu pod kątem, 7 satynowy półmat, 5 błyszczący z dobrą warstwą AR, 4 błyszczący, 3 błyszczący ze słabym AR. Brak danych o powłoce nie jest liczony jako niska ocena – wynik liczy się wtedy z pozostałych kryteriów.</p>
       <p><strong>Dane</strong> – pewność wyniku i pokrycie: A pomiar tego rozmiaru, C pomiar z innego rozmiaru tej samej matrycy (lub test nie podaje, który rozmiar badano), X test innej matrycy; liczba to kryteria z danymi (np. 8/9). Szczegóły źródeł każdego modelu są w rozwiniętym wierszu.</p>
     </div>
@@ -501,26 +503,68 @@ const PV={ok:"cena sprawdzona w Ceneo 11.11.2026",promo:"cena promocyjna – spr
 
 const BRANDS=[...new Set(TV.map(d=>d.b))].sort();
 const NIT=1300;
-const W_DEF={mv:40,br:25,m:20,sd:15};
-const W_LABEL={mv:"Obraz (filmy)",br:"Jasny pokój",m:"Matowość",sd:"Dźwięk"};
 const SIZES=[{k:65,l:"65″"},{k:75,l:"75″"},{k:77,l:"77″"},{k:83,l:"83″"},{k:85,l:"85–86″"},{k:98,l:"98–100″"},{k:110,l:"110″ i więcej"}];
 const ALLS=SIZES.map(x=>x.k);
 const SLB=k=>(SIZES.find(x=>x.k===k)||{l:k+"″"}).l;
 const TECHS=["Mini LED","RGB Mini LED","OLED"];
 const sg=s=>s>=110?110:s>=98?98:s>=85?85:s;
 
-const st={q:"",nl:null,nlKey:"",sortsBefore:null,aiSpec:null,aiFor:null,sizes:new Set(ALLS),techs:new Set(TECHS),brands:null,budget:false,pmin:2000,hmode:"pf",hmin:0,hmax:2500,matte:false,g144:false,hdp:false,max:50000,sorts:[{k:"score",dir:-1}],w:{...W_DEF},open:null,cmp:new Set()};
-try{const sv=JSON.parse(localStorage.getItem("tvw")||"null"); if(sv&&typeof sv.mv==="number") st.w=sv;}catch(e){}
+const st={q:"",nl:null,nlKey:"",sortsBefore:null,aiSpec:null,aiFor:null,sizes:new Set(ALLS),techs:new Set(TECHS),brands:null,budget:false,pmin:2000,hmode:"pf",hmin:0,hmax:2500,matte:false,g144:false,hdp:false,max:50000,sorts:[{k:"score",dir:-1}],w:null,prof:"wlasny",open:null,cmp:new Set()};
 
 const $=id=>document.getElementById(id);
 st.brands=new Set(BRANDS);
 const grp=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,"\u00a0");
 const fmtP=p=>{if(p==null) return "—"; const i=Math.floor(p), c=Math.round((p-i)*100); return grp(i)+(c?","+String(c).padStart(2,"0"):"")+"\u00a0zł";};
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-/* brak oceny matowości NIE liczy się jako zero: wynik liczony z pozostałych kryteriów (pokrycie widoczne w kolumnie „Dane”) */
-function score(d){if(d.mv==null||d.br==null||d.sd==null) return null; const w=st.w, hm=d.m!=null, S=w.mv+w.br+(hm?w.m:0)+w.sd; if(!S) return 0; return Math.round(((w.mv*d.mv+w.br*d.br+(hm?w.m*d.m:0)+w.sd*d.sd)/S)*100)/100;}
+/* ===== Punktacja (Etap 3) =====
+   9 kryteriów w skali 0–10. Oceny cząstkowe z laboratorium wybierz.tv + jasność z pomiaru (skala logarytmiczna z nasyceniem) + matowość.
+   „Mocne światło” z wybierz.tv NIE wchodzi do wyniku: zawiera jasność i odbicia, które liczymy osobno (unikamy podwójnego liczenia).
+   Kontrast, kolory i input lag są już w ocenach „Filmy” i „Gry” – pokazujemy je, ale nie dodajemy drugi raz.
+   Brak danych w kryterium ≠ zero: kryterium pomijamy, a wagi pozostałych przeliczamy (pokrycie widać w wyniku). */
+const sat=(v,lo,hi)=>v==null||!(v>0)?null:Math.max(0,Math.min(10,10*Math.log(v/lo)/Math.log(hi/lo)));
+const wcv=(d,i)=>d.wc&&d.wc[i]!=null?d.wc[i]:null;
+const avg=a=>{const b=a.filter(v=>v!=null); return b.length?b.reduce((x,y)=>x+y,0)/b.length:null;};
+const jasN=d=>avg([sat(d.pf,250,2500),sat(d.sdr,150,1500)]);
+const CRITS=[
+  {k:"film",l:"Filmy (HDR, kontrast, kolory)",g:"Q",get:d=>d.mv,src:"wybierz.tv – Filmy i seriale UHD"},
+  {k:"tvyt",l:"TV i YouTube",g:"Q",get:d=>wcv(d,1),src:"wybierz.tv – Klasyczna TV, YouTube"},
+  {k:"sport",l:"Sport (ruch)",g:"Q",get:d=>wcv(d,2),src:"wybierz.tv – Sport"},
+  {k:"jas",l:"Jasność (pomiar)",g:"Q",get:jasN,src:"HDR w filmach 250→2500 nit i SDR 150→1500 nit, skala log. z nasyceniem"},
+  {k:"mat",l:"Matowość / odbicia",g:"Q",get:d=>d.m,src:"ocena własna wg powłoki i tłumienia odbić z testu"},
+  {k:"gry",l:"Gry na konsoli",g:"U",get:d=>wcv(d,3),src:"wybierz.tv – Granie na konsoli (input lag, VRR, HDMI 2.1)"},
+  {k:"pc",l:"Monitor PC",g:"U",get:d=>wcv(d,4),src:"wybierz.tv – Monitor do PC"},
+  {k:"fun",l:"Funkcje i aplikacje",g:"U",get:d=>avg([wcv(d,6),wcv(d,7)]),src:"wybierz.tv – średnia: Funkcje użytkowe, Aplikacje"},
+  {k:"dzw",l:"Dźwięk",g:"U",get:d=>d.sd,src:"wybierz.tv – Dźwięk"}];
+const CK=Object.fromEntries(CRITS.map(c=>[c.k,c]));
+const W_Q={film:50,tvyt:10,sport:10,jas:15,mat:15}, W_U={gry:35,pc:10,fun:25,dzw:30};
+const PROFILES={
+  wlasny:{l:"Twój (40/25/20/15)",w:{film:40,jas:25,mat:20,dzw:15}},
+  uni:{l:"Uniwersalny",w:{film:30,tvyt:10,sport:10,jas:10,mat:10,gry:10,fun:10,dzw:10}},
+  kino:{l:"Kino w ciemni",w:{film:60,tvyt:5,sport:5,jas:5,gry:5,fun:5,dzw:15}},
+  salon:{l:"Jasny salon",w:{film:25,tvyt:10,sport:5,jas:25,mat:20,fun:5,dzw:10}},
+  gry:{l:"Gry",w:{film:25,sport:5,jas:10,mat:5,gry:35,pc:10,fun:5,dzw:5}},
+  sport:{l:"Sport",w:{film:20,tvyt:15,sport:35,jas:15,mat:10,dzw:5}}};
+const PEN={C:0.15,X:0.5}; /* lekka kara w wyniku za oceny z innego rozmiaru (C) i z testu innej matrycy (X) */
+const fullW=w=>Object.fromEntries(CRITS.map(c=>[c.k,+(w[c.k]||0)]));
+function wsum(d,w){ let S=0,T=0,A=0; const parts=[]; CRITS.forEach(c=>{const wi=w[c.k]||0; if(!wi) return; T+=wi; const v=c.get(d); parts.push([c.k,v,wi]); if(v!=null){S+=wi*v; A+=wi;}}); return {v:A?S/A:null,cov:T?A/T:0,parts}; }
+let SCC=new Map();
+function scoreParts(d){
+  if(SCC.has(d)) return SCC.get(d);
+  let r=null;
+  if(d.mv!=null){ const b=wsum(d,st.w), q=prov(d), pen=PEN[q.tl]||0;
+    r={raw:b.v, pen, v:Math.round(Math.max(0,b.v-pen)*100)/100, cov:b.cov, parts:b.parts,
+       Q:wsum(d,W_Q), U:wsum(d,W_U)}; }
+  SCC.set(d,r); return r;
+}
+const scInv=()=>SCC.clear();
+function score(d){ const r=scoreParts(d); return r?r.v:null; }
+function scoreQ(d){ const r=scoreParts(d); return r&&r.Q.v!=null?Math.round(Math.max(0,r.Q.v-r.pen)*100)/100:null; }
+function scoreU(d){ const r=scoreParts(d); return r&&r.U.v!=null?Math.round(Math.max(0,r.U.v-r.pen)*100)/100:null; }
+st.w=fullW(PROFILES.wlasny.w);
+try{const sv=JSON.parse(localStorage.getItem("tvw2")||"null"); if(sv&&sv.w){st.w=fullW(sv.w); st.prof=PROFILES[sv.prof]?sv.prof:"custom";} else { const o=JSON.parse(localStorage.getItem("tvw")||"null"); if(o&&typeof o.mv==="number"){ st.w=fullW({film:o.mv,jas:o.br,mat:o.m,dzw:o.sd}); st.prof="custom"; } } }catch(e){}
+const saveW=()=>{try{localStorage.setItem("tvw2",JSON.stringify({prof:st.prof,w:st.w}));}catch(e){}};
 function val(d){const s=score(d); return d.p&&s!=null?Math.round(s/(d.p/1000)*100)/100:null;}
-function vmv(d){return d.p&&d.mv!=null?Math.round(d.mv/(d.p/1000)*100)/100:null;}
+function vmv(d){const q=scoreQ(d); return d.p&&q!=null?Math.round(q/(d.p/1000)*100)/100:null;}
 const f1=v=>v==null?"—":v.toFixed(1), f2=v=>v==null?"—":v.toFixed(2), sc0=d=>score(d)??-1;
 function sClass(v){return v==null?"s-na":v>=7.8?"s-hi":v>=7?"s-mid":"s-lo";}
 function matteLbl(m){return m==null?"brak danych o powłoce":m>=9?"matowy":m>=7?"półmat":"błyszczący";}
@@ -614,9 +658,9 @@ function keyVal(d,k){
   if(k==="c4") return con(d,d.h4,4); if(k==="c14") return con(d,d.h14); if(k==="c10") return con(d,d.h10);
   const x=X0(d);
   switch(k){case "cr":return crN(d);case "bl":return x.bls??null;case "p3":return p3Of(d);case "de":return x.den??null;case "il":return x.il??null;case "vrr":return (x.vrr?1:0)+(x.allm?1:0)||null;case "zl":return (x.earc?1:0)+(x.ci?1:0)+(x.tun&&/S2/.test(x.tun)?1:0)||null;case "au":return x.rms??null;case "dims":return x.wt??null;case "stand":return x.sw??null;case "vesa":return vesaN(d);case "en":return x.pw!=null?x.pw:(x.ec?ECR[x.ec]*1000:null);
-  case "score":return score(d);case "q":{const q=prov(d); return (q.conf?LVR[q.conf]*10:0)+q.have;}case "value":return val(d);case "vmv":return vmv(d);case "name":return d.n;case "wz":return d.wz?d.ov:null;case "wsp":return d.wc?d.wc[2]:null;case "wgr":return d.wc?d.wc[3]:null;case "hv":return d.hv||null;default:return d[k];}
+  case "score":return score(d);case "obr":return scoreQ(d);case "uzy":return scoreU(d);case "q":{const q=prov(d); return (q.conf?LVR[q.conf]*10:0)+q.have;}case "value":return val(d);case "vmv":return vmv(d);case "name":return d.n;case "wz":return d.wz?d.ov:null;case "wsp":return d.wc?d.wc[2]:null;case "wgr":return d.wc?d.wc[3]:null;case "hv":return d.hv||null;default:return d[k];}
 }
-const SORTOPTS=[["score","Wynik ważony"],["q","Pewność danych"],["value","Jakość za złotówkę"],["vmv","Obraz za złotówkę"],["cr","Kontrast"],["p3","Pokrycie DCI-P3"],["il","Input lag (niższy lepszy)"],["au","Moc głośników"],["dims","Waga (lżejszy najpierw)"],["stand","Szerokość podstawy (węższa najpierw)"],["en","Pobór mocy (niższy najpierw)"],["p","Cena"],["s","Przekątna"],["t","Technologia"],["b","Marka"],["name","Nazwa modelu"],
+const SORTOPTS=[["score","Wynik (profil)"],["obr","Obraz"],["uzy","Użytkowość"],["q","Pewność danych"],["value","Jakość za złotówkę"],["vmv","Obraz za złotówkę"],["cr","Kontrast"],["p3","Pokrycie DCI-P3"],["il","Input lag (niższy lepszy)"],["au","Moc głośników"],["dims","Waga (lżejszy najpierw)"],["stand","Szerokość podstawy (węższa najpierw)"],["en","Pobór mocy (niższy najpierw)"],["p","Cena"],["s","Przekątna"],["t","Technologia"],["b","Marka"],["name","Nazwa modelu"],
  ["m","Matowość ekranu"],["pf","Jasność HDR w filmach"],["pp","Szczyt HDR (pomiar lab.)"],["sdr","Jasność SDR"],["mv","Filmy UHD"],["br","Jasny pokój"],["sd","Dźwięk"],
  ["wz","Ocena wybierz.tv"],["wsp","Sport (wybierz.tv)"],["wgr","Granie na konsoli (wybierz.tv)"],["hv","Werdykt HDTVPolska"],
  ["h4","4K natywnie"],["h14","PC 1440p"],["h10","PC 1080p"],["c4","Konsola 4K"],["c14","Konsola 1440p"],["c10","Konsola 1080p"]];
@@ -971,6 +1015,8 @@ const COLS=[
   {k:"name",l:"Model",sticky:true},
   {k:"p",l:"Cena",r:true},
   {k:"score",l:"Wynik",r:true},
+  {k:"obr",l:"Obraz",r:true},
+  {k:"uzy",l:"Użytkowość",r:true},
   {k:"q",l:"Dane",ns:false},
   {k:"wz",l:"wybierz.tv",r:true},
   {k:"hv",l:"HDTVPolska"},
@@ -1098,6 +1144,7 @@ function renderOut(){
     `<p><b>Świadomie pominięte:</b> ${EXCL.map(([n,r])=>`${esc(n)} – ${esc(r)}`).join("; ")}.</p>`;
 }
 function renderBody(){
+  scInv();
   renderOut(); if(typeof FH==="function") setTimeout(FH,0);
   const list=sorted(filtered());
   const ranked=filtered().slice().sort((a,b)=>sc0(b)-sc0(a));
@@ -1120,6 +1167,8 @@ function renderBody(){
       p:`<td class="r">${priceCell(d)}</td>`,
       score:`<td class="r"><span class="score ${sClass(sc)}">${f2(sc)}</span></td>`,
       q:`<td class="nw">${qCell(d)}</td>`,
+      obr:`<td class="r num">${f2(scoreQ(d))}</td>`,
+      uzy:`<td class="r num">${f2(scoreU(d))}</td>`,
       wz:`<td class="r">${wzCell(d)}</td>`,
       hv:`<td>${hdCell(d)}</td>`,
       ot:`<td>${otherCell(d)}</td>`,
@@ -1220,8 +1269,20 @@ function detailRow(d){
       ${wzBlock(d)}
       ${qBlock(d)}
       ${testsHTML(d)}
-      ${score(d)==null?`<p class="muted" style="font-size:13px">Model bez testu laboratoryjnego – dane techniczne od producenta i ze sklepów; wynik ważony nie jest liczony, a w sortowaniu po wyniku trafia na koniec.</p>`:`<p class="muted" style="font-size:13px">Wynik ważony ${f2(score(d))} = filmy ${d.mv} · jasny pokój ${d.br} · mat ${d.m??"brak danych – pominięty"} · dźwięk ${d.sd}, przy wagach ${st.w.mv}/${st.w.br}/${d.m==null?"–":st.w.m}/${st.w.sd}.</p>`}</div>
+      ${scoreHTML(d)}</div>
   </div></td></tr>`;
+}
+
+function scoreHTML(d){
+  const r=scoreParts(d);
+  if(!r) return `<p class="muted" style="font-size:13px">Model bez testu laboratoryjnego – dane techniczne od producenta i ze sklepów; wynik nie jest liczony, a w sortowaniu po wyniku model trafia na koniec.</p>`;
+  const T=r.parts.reduce((a,p)=>a+p[2],0)||1;
+  const rows=r.parts.map(([k,v,w])=>`<tr><td>${CK[k].l}</td><td class="r num">${Math.round(w/T*100)}%</td><td class="r num">${v==null?'<span class="muted">brak – pominięte</span>':v.toFixed(1)}</td></tr>`).join("");
+  const q=prov(d);
+  return `<h3 style="margin-top:10px">Skąd ten wynik</h3><table class="sctbl"><thead><tr><th>Kryterium</th><th class="r">waga</th><th class="r">ocena</th></tr></thead><tbody>${rows}</tbody></table>
+  <p class="muted" style="font-size:12.5px;margin-top:6px">Profil: ${st.prof==="custom"?"własne wagi":PROFILES[st.prof].l} · pokrycie wag danymi ${Math.round(r.cov*100)}%${r.cov<1?" (brakujące kryteria pominięte, wagi pozostałych przeliczone)":""}.
+  ${r.pen?`Kara ${String(r.pen).replace(".",",")} pkt: ${q.tl==="X"?"oceny z testu innej matrycy":"oceny z innego rozmiaru tej samej matrycy"} (wynik przed karą ${r.raw.toFixed(2)}).`:""}
+  Obraz ${f2(scoreQ(d))} · Użytkowość ${f2(scoreU(d))}.</p>`;
 }
 
 function renderPicks(list){
@@ -1255,7 +1316,7 @@ function renderCmp(){
   sec.hidden=false;
   const ds=ids.map(id=>TV.find(d=>d.id===id));
   const rows=[
-    ["Cena",d=>d.p,v=>fmtP(v),"min"],["Wynik ważony",d=>score(d),v=>f2(v),"max"],["Pewność danych",d=>{const q=prov(d); return (q.conf?LVR[q.conf]*10:0)+q.have;},(v,d)=>qCell(d),"max"],["Pkt / 1000 zł",d=>val(d),v=>v==null?"—":v.toFixed(2),"max"],
+    ["Cena",d=>d.p,v=>fmtP(v),"min"],["Wynik (profil)",d=>score(d),v=>f2(v),"max"],["Obraz",d=>scoreQ(d),v=>f2(v),"max"],["Użytkowość",d=>scoreU(d),v=>f2(v),"max"],["Pewność danych",d=>{const q=prov(d); return (q.conf?LVR[q.conf]*10:0)+q.have;},(v,d)=>qCell(d),"max"],["Pkt / 1000 zł",d=>val(d),v=>v==null?"—":v.toFixed(2),"max"],
     ["HDR w filmach",d=>d.pf,v=>v?v+" nit":"brak","max"],["HDR wzorzec",d=>d.pp,v=>v?v+" nit":"brak","max"],
     ["Matowość",d=>d.m,v=>v==null?"brak danych":v+" / 10","max"],["Filmy UHD",d=>d.mv,v=>f1(v),"max"],["Jasny pokój",d=>d.br,v=>f1(v),"max"],
     ["Dźwięk",d=>d.sd,v=>f1(v),"max"],["Odświeżanie 4K",d=>d.h4,v=>v+" Hz","max"],["1440p",d=>d.h14,v=>v?v+" Hz":"—","max"],["1080p",d=>d.h10,v=>v?v+" Hz":"—","max"],
@@ -1274,7 +1335,9 @@ function renderCmp(){
 }
 
 function renderWeights(){
-  $("weights").innerHTML=Object.keys(W_DEF).map(k=>`<div class="w"><label for="w_${k}">${W_LABEL[k]}</label><input type="range" id="w_${k}" data-w="${k}" min="0" max="100" step="5" value="${st.w[k]}"><output class="num" for="w_${k}" id="wo_${k}">${st.w[k]}</output></div>`).join("");
+  const T=CRITS.reduce((a,c)=>a+(st.w[c.k]||0),0)||1;
+  $("weights").innerHTML=`<div class="profs" role="group" aria-label="Profil użycia">${Object.entries(PROFILES).map(([k,p])=>`<button type="button" class="chip" aria-pressed="${st.prof===k}" data-prof="${k}">${p.l}</button>`).join("")}${st.prof==="custom"?`<span class="chip" aria-pressed="true">Własne wagi</span>`:""}</div>`+
+   CRITS.map(c=>`<div class="w"><label for="w_${c.k}" title="${esc(c.src)}">${c.l}</label><input type="range" id="w_${c.k}" data-w="${c.k}" min="0" max="60" step="5" value="${st.w[c.k]||0}"><output class="num" for="w_${c.k}" id="wo_${c.k}">${Math.round((st.w[c.k]||0)/T*100)}%</output></div>`).join("");
 }
 const MS={
   size:{label:"Przekątna",opts:()=>SIZES.map(x=>({k:String(x.k),l:x.l,c:TV.filter(d=>sg(d.s)===x.k).length})).filter(x=>x.c>0),set:()=>st.sizes,conv:v=>+v},
@@ -1347,9 +1410,10 @@ document.addEventListener("change",e=>{
   const c=e.target.closest("[data-cmp]"); if(c){const id=c.dataset.cmp; if(c.checked){ const mx=cmpMax(); if(st.cmp.size>=mx){c.checked=false; cmpMsg(`Na raz porównasz najwyżej ${mx} ${mx<5?"modele na tym ekranie":"modeli"}. Odznacz któryś, by dodać kolejny.`); return;} st.cmp.add(id);} else st.cmp.delete(id); renderCmp(); return;}
 });
 document.addEventListener("input",e=>{
-  const w=e.target.closest("[data-w]"); if(w){st.w[w.dataset.w]=+w.value; $("wo_"+w.dataset.w).textContent=w.value; try{localStorage.setItem("tvw",JSON.stringify(st.w));}catch(err){} renderBody();renderPicks();renderCmp();}
+  const w=e.target.closest("[data-w]"); if(w){st.w[w.dataset.w]=+w.value; st.prof="custom"; saveW(); scInv(); const T=CRITS.reduce((a,c)=>a+(st.w[c.k]||0),0)||1; CRITS.forEach(c=>{const o=$("wo_"+c.k); if(o) o.textContent=Math.round((st.w[c.k]||0)/T*100)+"%";}); document.querySelectorAll("[data-prof]").forEach(b=>b.setAttribute("aria-pressed","false")); renderBody();renderPicks();renderCmp();}
 });
-$("resetW").addEventListener("click",()=>{st.w={...W_DEF}; try{localStorage.removeItem("tvw");}catch(e){} renderWeights(); renderAll();});
+$("resetW").addEventListener("click",()=>{st.prof="wlasny"; st.w=fullW(PROFILES.wlasny.w); try{localStorage.removeItem("tvw2");localStorage.removeItem("tvw");}catch(e){} scInv(); renderWeights(); renderAll();});
+$("weights").addEventListener("click",e=>{const b=e.target.closest("[data-prof]"); if(!b) return; st.prof=b.dataset.prof; st.w=fullW(PROFILES[st.prof].w); saveW(); scInv(); renderWeights(); renderAll();});
 function setH(a,b,src){
   const M=HM(); a=Math.max(0,Math.min(M,+a||0)); b=Math.max(0,Math.min(M,isNaN(+b)?M:+b));
   if(a>b){ if(src==="min") b=a; else a=b; }
