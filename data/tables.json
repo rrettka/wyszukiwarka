@@ -1,0 +1,327 @@
+{
+ "TK": {
+  "l77g6": "g6",
+  "s77s95h": "s95h",
+  "t75x11l": "x11l",
+  "s85r95h": "r95h",
+  "s75r95h": "r95h",
+  "h85u7s": "u7s",
+  "h75u7s": "u7s",
+  "h85ur9s": "ur9s",
+  "h75ur9s": "ur9s",
+  "h85ur8s": "ur8s",
+  "h75ur8s": "ur8s",
+  "t85c8l": "c8l",
+  "t75c8l": "c8l",
+  "t85c7l": "c7l",
+  "t75c7l": "c7l",
+  "s85qn92f": "qn90f",
+  "s75qn90f": "qn90f",
+  "s85b7": "b7",
+  "s75b7": "b7",
+  "h85u8q": "u8q",
+  "h75u8q": "u8q",
+  "l77c6": "c6h",
+  "s77s90h": "s90h",
+  "l77g5": "g5",
+  "x75spro": "xspro",
+  "y77b8": "b8",
+  "h65ur9s": "ur9s",
+  "h65ur8s": "ur8s",
+  "h65u8q": "u8q",
+  "t65c8l": "c8l",
+  "t65c7l": "c7l",
+  "s65b7": "b7",
+  "s65qn90f": "qn90f",
+  "s65s95h": "s95h",
+  "l65g5": "g5",
+  "y65b8": "b8",
+  "t98c8l": "c8l",
+  "t98c7l": "c7l",
+  "h100u8q": "u8q",
+  "h100ur8s": "ur8s",
+  "s98b7": "b7",
+  "s98qn90f": "qn90f",
+  "t98x11l": "x11l",
+  "t85x11l": "x11l",
+  "l83g6": "g6"
+ },
+ "YT": {
+  "g6": "LG G6",
+  "s95h": "Samsung S95H",
+  "x11l": "TCL X11L",
+  "r95h": "Samsung R95H",
+  "u7s": "Hisense U7S",
+  "ur9s": "Hisense UR9S",
+  "ur8s": "Hisense UR8S",
+  "c8l": "TCL C8L",
+  "c7l": "TCL C7L",
+  "qn90f": "Samsung QN90F",
+  "b7": "Sony Bravia 7 II",
+  "u8q": "Hisense U8Q",
+  "c6h": "LG C6 77",
+  "s90h": "Samsung S90H",
+  "g5": "LG G5",
+  "xspro": "Xiaomi TV S Pro Mini LED 2026",
+  "b8": "Sony Bravia 8"
+ },
+ "TESTS": {
+  "ur9s": [
+   [
+    "HDTVPolska (PL, laboratorium)",
+    "https://hdtvpolska.com/hisense-ur9s-rgb-miniled-test/",
+    "Pierwszy pełny test RGB Mini LED (65″) z pomiarami w redakcyjnym laboratorium."
+   ],
+   [
+    "HDTVPolska – wideotest (PL)",
+    "https://hdtvpolska.com/hisense-ur9s-test-czy-rgb-miniled-to-przyszlosc-telewizorow-wideo/",
+    "Materiał wideo z tabelą wyników pomiarów."
+   ],
+   [
+    "choose.tv / wybierz.tv",
+    "https://www.choose.tv/us/tv/reviews/hisense/hisense-ur9s_AIH/85",
+    "W zbalansowanych scenach filmowych ok. 1500 nit; wyniki laboratoryjne są znacznie wyższe."
+   ],
+   [
+    "RTINGS (UR9SG)",
+    "https://www.rtings.com/tv/reviews/hisense/ur9sg",
+    "Fantastyczna jasność HDR i SDR, świetna czerń; powłoka Obsidian ogranicza odbicia."
+   ],
+   [
+    "Tom's Guide",
+    "https://www.tomsguide.com/tvs/qled-tvs/hisense-ur9-rgb-mini-led-tv-review",
+    "4370 nit (okno 10%), 93% BT.2020, lag 12 ms; zdaniem redakcji balans barw i funkcje dla graczy słabsze niż TCL QM8L i LG C6."
+   ],
+   [
+    "What Hi-Fi?",
+    "https://www.whathifi.com/tv-home-cinema/televisions/hisense-ur9-65ur9stuk",
+    "Test 65″ (980 stref, 170 Hz w tym rozmiarze)."
+   ],
+   [
+    "Expert Reviews",
+    "https://www.expertreviews.co.uk/technology/tvs-home-cinema/hisense-ur9s-review",
+    "Tryb Filmmaker bardzo zachowawczy w SDR."
+   ]
+  ],
+  "ur8s": [
+   [
+    "HDTVPolska (PL, laboratorium)",
+    "https://hdtvpolska.com/hisense-ur8s-rgb-mini-led-test/",
+    "„Bardzo polecamy”: bardzo jasny, dobrze tłumi odbicia; najmniejsze jasne detale na czarnym tle bywają przygaszane."
+   ],
+   [
+    "RTINGS (UR8SG)",
+    "https://www.rtings.com/tv/reviews/hisense/ur8sg",
+    "Niesamowita jasność, bardzo jasny SDR łatwo pokonuje odblaski; powłoka Obsidian."
+   ],
+   [
+    "RTINGS: UR8 vs UR9",
+    "https://www.rtings.com/tv/tools/compare/hisense-ur8sg-vs-hisense-ur9sg/131548/131549",
+    "UR9 ma głębszą czerń, mniej halo i jest trochę jaśniejszy."
+   ],
+   [
+    "Tom's Guide (75″)",
+    "https://www.tomsguide.com/tvs/4k-tvs/hisense-75ur8sg-review",
+    "Test wersji 75″, chwalony obraz i dźwięk."
+   ]
+  ],
+  "c8l": [
+   [
+    "HDTVPolska (PL, laboratorium)",
+    "https://hdtvpolska.com/tcl-c8l-test-opinia/",
+    "Test 65C8L: 97% DCI-P3 i 90% BT.2020, fabrycznie ΔE ok. 2,3; znakomita czerń przy lekkim świetle."
+   ],
+   [
+    "videotesty.pl (PL)",
+    "https://www.videotesty.pl/recenzja/2820/test-telewizora-mini-led-tcl-c8l-65-calowy-kombajn-kinowy-do-jasnego-salonu-filmow-sportu-i-gier/",
+    "Testy w warunkach domowych; 288 Hz tylko przy obniżonej rozdzielczości."
+   ],
+   [
+    "netzwelt.de",
+    "https://www.netzwelt.de/news/254655-uns-test-neuen-tcl-c8l-wirklich-ueberrascht.html",
+    "Test 85″: do 3350 nit, bardzo energooszczędny w relacji do jasności."
+   ],
+   [
+    "RTINGS (QM8L, wersja US)",
+    "https://www.rtings.com/tv/reviews/tcl/qm8l",
+    "4K 144 Hz lub 1080p 288 Hz; w trybie Game Master ruch bywa rozmyty."
+   ]
+  ],
+  "c7l": [
+   [
+    "HDTVPolska (PL, laboratorium)",
+    "https://hdtvpolska.com/tcl-c7l-test-opinia-czy-warto-kupic-mini-led/?showfull=1",
+    "Test 65C7L: 2700 nit na planszy L20; „Bardzo polecamy”."
+   ]
+  ],
+  "qn90f": [
+   [
+    "RTINGS",
+    "https://rtings.com/tv/reviews/samsung/qn90f",
+    "Bardzo jasny SDR, znakomicie tłumi odbicia lamp i okien."
+   ],
+   [
+    "RTINGS – pomiary",
+    "https://www.rtings.com/tv/tools/compare/samsung-qn80f-samsung-qn90f/92240/92241",
+    "Real scene 1162 nit, okno 10% ok. 2100 nit."
+   ],
+   [
+    "TechRadar",
+    "https://www.techradar.com/televisions/samsung-qn90f-review",
+    "2086 nit (okno 10%); Glare-Free skutecznie eliminuje odbicia; brak Dolby Vision."
+   ],
+   [
+    "Expert Reviews",
+    "https://www.expertreviews.co.uk/technology/tvs-home-cinema/samsung-qn90f-review",
+    "Odbicia prawie całkowicie wyeliminowane, świetne sterowanie podświetleniem."
+   ]
+  ],
+  "b7": [
+   [
+    "RTINGS",
+    "https://www.rtings.com/tv/reviews/sony/bravia-7-ii",
+    "Doskonały do jasnego pokoju: fantastyczna jasność i świetna czerń."
+   ],
+   [
+    "TechRadar",
+    "https://techradar.com/televisions/sony-bravia-7-ii-review",
+    "65″: ok. 1100 nit w trybie Professional, ok. 1300 nit w Standard."
+   ],
+   [
+    "Tom's Guide – pomiary",
+    "https://www.inkl.com/news/we-just-tested-the-bravia-7-ii-heres-why-i-think-it-could-be-the-sony-tv-to-buy-in-2026",
+    "Ok. 2078 nit (okno 10%), 87% BT.2020."
+   ],
+   [
+    "What Hi-Fi?",
+    "https://www.whathifi.com/tv-home-cinema/televisions/sony-bravia-7-ii-k55xr75m2",
+    "W 55″ naliczono 340 stref; ocena: nieidealny, ale wiele robi dobrze."
+   ]
+  ],
+  "u8q": [
+   [
+    "HDTVPolska (PL, laboratorium)",
+    "https://hdtvpolska.com/hisense-u8q-test-mini-led-2025/",
+    "Nagroda EISA: najlepszy Mini LED Premium 2025–2026; 4K 165 Hz, 1080p 288 Hz."
+   ],
+   [
+    "What Hi-Fi?",
+    "https://www.whathifi.com/tv-home-cinema/televisions/hisense-u8q-65u8qtuk",
+    "Uwaga: amerykański U8QG różni się od europejskiego U8Q."
+   ],
+   [
+    "RTINGS (U8QG, wersja US)",
+    "https://rtings.com/tv/reviews/hisense/u8qg",
+    "Jeden z najlepszych testowanych Hisense (wersja US z Google TV)."
+   ]
+  ],
+  "c6h": [
+   [
+    "RTINGS (C6H 77/83″)",
+    "https://rtings.com/tv/reviews/lg/c6h-oled",
+    "Panel Tandem: doskonała jasność SDR i HDR, idealna czerń; odbicia przeciętne."
+   ],
+   [
+    "Expert Reviews",
+    "https://www.expertreviews.co.uk/technology/tvs-home-cinema/lg-c6-oled-primary-rgb-tandem-review",
+    "Panel Primary RGB Tandem daje 400–700 nit więcej niż mniejsze C6."
+   ],
+   [
+    "TechRadar",
+    "https://www.techradar.com/televisions/lg-c6-review",
+    "C6 65″: 1438 nit (okno 10%); 77″ ma mocniejszy panel."
+   ]
+  ],
+  "s90h": [
+   [
+    "choose.tv (77″ QD-OLED)",
+    "https://www.choose.tv/de/fernseher/tests/samsung/samsung-s90h-qd-oled_AIT",
+    "Ocena 8,6; w filmach ok. 1470 nit; matowa powłoka bardzo skuteczna."
+   ],
+   [
+    "RTINGS (77S90H)",
+    "https://www.rtings.com/tv/reviews/samsung/77s90h-oled",
+    "Małe jasne detale świetnie widoczne, ale mocno przyciemnia bardzo jasne sceny."
+   ],
+   [
+    "android.com.pl (PL)",
+    "https://android.com.pl/tech/1078961-recenzja-samsung-s90h-55-oled-telewizor-ktoremu-slonce-niestraszne/",
+    "Fenomenalna matowa powłoka Glare Free, bardzo wysoka jasność jak na OLED (55″)."
+   ],
+   [
+    "netzwelt.de",
+    "https://www.netzwelt.de/fernseher/samsung-s90h-gq65s90h-testbericht.html",
+    "Test 65″: ponad 1500 nit."
+   ],
+   [
+    "The Shortcut",
+    "https://www.theshortcut.com/p/samsung-s90h-oled-tv-review",
+    "Glare-Free blokuje odbicia; ok. 1600 nit; część rozmiarów ma panel WOLED."
+   ]
+  ],
+  "g5": [
+   [
+    "choose.tv (77″)",
+    "https://www.choose.tv/us/tv/reviews/lg/lg-oled-g5_AER/77",
+    "Ocena 8,9; ok. 2350 nit w filmach; ekran błyszczący, odbicia przyzwoite."
+   ],
+   [
+    "RTINGS (test 77″)",
+    "https://www.rtings.com/tv/reviews/lg/g5-oled",
+    "Doskonały do jasnego pokoju, dobre tłumienie odbić; wyższy input lag przy 165 Hz."
+   ],
+   [
+    "What Hi-Fi?",
+    "https://www.whathifi.com/reviews/lg-g5",
+    "Pierwszy OLED Primary RGB Tandem, duży skok jakości."
+   ]
+  ],
+  "xspro": [
+   [
+    "choose.tv",
+    "https://www.choose.tv/us/tv/reviews/xiaomi/xiaomi-s-pro-2026_AHI",
+    "Ocena 7,1; w filmach 470–1030 nit; wygaszanie słabo działa w HDR; Dolby Vision w grach ok. 110 ms."
+   ],
+   [
+    "netzwelt.de (test 75″)",
+    "https://www.netzwelt.de/fernseher/xiaomi-s-pro-mini-led-2026/testbericht.html",
+    "Bardzo jasny i kolorowy za uczciwą cenę; czasem migotanie jasności przy przejściach scen."
+   ],
+   [
+    "videotesty.pl (PL)",
+    "https://www.videotesty.pl/recenzja/2797/xiaomi-tv-s-pro-mini-led-2026/",
+    "Pozytywna recenzja 65″; materiał przy współpracy z Xiaomi."
+   ],
+   [
+    "M3.se",
+    "https://www.m3.se/article/2937645/xiaomi-tv-s-pro-mini-led-2026.html",
+    "Deklaracje o tłumieniu odbić przesadzone; głośniki rozczarowują."
+   ]
+  ],
+  "b8": [
+   [
+    "choose.tv (77″)",
+    "https://www.choose.tv/us/tv/reviews/sony/sony-bravia-8-xr80_ACO/77",
+    "Ocena 7,8; ok. 880 nit HDR, SDR 330 nit – słaby w jasnym pokoju."
+   ]
+  ]
+ },
+ "EXCL": [
+  [
+   "Panasonic W95C",
+   "brak ofert w polskich sklepach"
+  ],
+  [
+   "Samsung QN990F 98″, Sony Bravia 9 II 115″",
+   "cena powyżej 50 000 zł"
+  ],
+  [
+   "Panasonic W95B, Sony Bravia 5, Samsung The Frame Pro, LG QNED86/QNED80",
+   "podświetlenie bez Mini LED albo telewizor typu „obraz” – poza zakresem technologii"
+  ],
+  [
+   "Iffalcon U85X1, Dreame S100, Sharp JP7765E",
+   "najtańsze Mini LED z oceną poniżej 7,0 i słabą jasnością HDR"
+  ]
+ ]
+}
