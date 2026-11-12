@@ -274,6 +274,17 @@ thead .sticky{background:var(--surface-2);z-index:2}
 .cmp tbody th{text-align:left;font-weight:500;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface-2)}
 .cmp td{padding:8px 10px;border-bottom:1px solid var(--line)}
 .cmp td.best{color:var(--good);font-weight:600}
+.cmph{vertical-align:top;cursor:grab;min-width:150px}
+.cmphd{display:flex;gap:6px;align-items:flex-start}
+.cmpn{flex:1;min-width:0}
+.cmpgrip{color:var(--muted);letter-spacing:-3px;font-size:13px;padding-top:2px;user-select:none}
+.cmpx{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;font-size:16px;line-height:1;padding:0}
+.cmpx:hover{color:#c0392b;border-color:#c0392b}
+.cmpmv{display:flex;gap:10px;margin-top:4px;font-size:11px}
+.cmpmv button:disabled{opacity:.3;cursor:default}
+@media (pointer:fine){.cmpmv{display:none}}
+th.cmpdrag{opacity:.45}
+th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
 #cmpToast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink,#222);color:var(--surface,#fff);padding:10px 16px;border-radius:10px;font-size:14px;box-shadow:0 6px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60;max-width:90vw;text-align:center}
 #cmpToast.on{opacity:1;transform:translate(-50%,0)}
 .method{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));font-size:14px}
@@ -923,7 +934,26 @@ function renderSortRows(){
 /* ===== Wyszukiwanie zwykłym językiem (lokalnie, bez AI i bez kosztów) ===== */
 const nrm=s=>String(s??"").toLowerCase().replace(/ł/g,"l").normalize("NFD").replace(/[̀-ͯ]/g,"");
 const hayOf=d=>d._hay||(d._hay=nrm([d.n,d.b,d.tl,d.t,d.os,d.ct,matteLbl(d.m),d.hd,d.hdr,d.h4+" hz",d.s+"″",d.s+'"',d.pro,d.ss].join(" ")));
-const STOP=new Set("mnie interesuja interesuje interesujace interesuja no inne inny inna pozostale reszta ceny cen jakosc jakosci jakoscia najlepszy najlepsza najlepsze lub albo ewentualnie mniej wiecej okolo jakis jakies cos czegos to po mi ma jak sa ze na do od za ich jej jego tez wiec czy bo posortuj sortuj sortowanie sortowac posortowane uporzadkuj kolejnosc kolejnosci wedlug wg pierwsze pierwszy pierwsza drugi druga drugie trzeci trzecia trzecie parametr parametrem parametry kryterium kryteria nastepnie potem rosnaco malejaco najpierw rowniez takze oraz prosze pokaz znajdz daj chce telewizor telewizory telewizora telewizorow telewizorze tv tele do na z ze i w we dla o a jaki jakie jakis jakas ktory ktore ktora pokaz pokazac szukam szukaj chce chcialbym chcialabym potrzebuje poszukuje model modele modelu najlepiej oraz lub albo sie mi mam jest by zeby ale bardzo dobry dobre dobra dobrym dobrej cos ok nowy nowe nowa co przy pod nad po mozliwie jak najbardziej raczej typu ten te tez tylko wszystkie zl pln tys tysiecy cena cenie cenowo okolo ekran ekranem cali cale cal calowy calowe sprzet salonu salon pokoju pokoj mieszkania kupic kupie polecisz polecasz jakby rozsadny rozsadne fajny fajne super".split(" "));
+const STOP=new Set("bez bedzie budzet budzetu matryca matrycy matryca matryce panel zlotych zlote zloty zl swiatla swiatlo swiatlem series przez ktory ktora ktore iloscia ilosc dodatkowego dobrego dobrym dobrych dobremu dobry dobra dobre duzy duze duza duzego duzym ogladania ogladac ogladanie ogladam pracy praca jako czy jest sa jakis jakies cos czegos mnie interesuja interesuje interesujace interesuja no inne inny inna pozostale reszta ceny cen jakosc jakosci jakoscia najlepszy najlepsza najlepsze lub albo ewentualnie mniej wiecej okolo jakis jakies cos czegos to po mi ma jak sa ze na do od za ich jej jego tez wiec czy bo posortuj sortuj sortowanie sortowac posortowane uporzadkuj kolejnosc kolejnosci wedlug wg pierwsze pierwszy pierwsza drugi druga drugie trzeci trzecia trzecie parametr parametrem parametry kryterium kryteria nastepnie potem rosnaco malejaco najpierw rowniez takze oraz prosze pokaz znajdz daj chce telewizor telewizory telewizora telewizorow telewizorze tv tele do na z ze i w we dla o a jaki jakie jakis jakas ktory ktore ktora pokaz pokazac szukam szukaj chce chcialbym chcialabym potrzebuje poszukuje model modele modelu najlepiej oraz lub albo sie mi mam jest by zeby ale bardzo dobry dobre dobra dobrym dobrej cos ok nowy nowe nowa co przy pod nad po mozliwie jak najbardziej raczej typu ten te tez tylko wszystkie zl pln tys tysiecy cena cenie cenowo okolo ekran ekranem cali cale cal calowy calowe sprzet salonu salon pokoju pokoj mieszkania kupic kupie polecisz polecasz jakby rozsadny rozsadne fajny fajne super".split(" "));
+/* liczby słownie (z dyktowania): „siedemdziesiąt siedem” → 77, „dziesięciu tysięcy” → 10 tysiecy, „półtora tysiąca” → 1.5 tysiaca */
+const NUMW=(()=>{ const m={};
+  const add=(v,...ws)=>ws.forEach(w=>m[w]=v);
+  add(1,"jeden","jedna","jednego"); add(2,"dwa","dwie","dwoch"); add(3,"trzy","trzech"); add(4,"cztery","czterech"); add(5,"piec","pieciu"); add(6,"szesc","szesciu"); add(7,"siedem","siedmiu"); add(8,"osiem","osmiu"); add(9,"dziewiec","dziewieciu");
+  add(10,"dziesiec","dziesieciu"); add(11,"jedenascie","jedenastu"); add(12,"dwanascie","dwunastu"); add(13,"trzynascie","trzynastu"); add(14,"czternascie","czternastu"); add(15,"pietnascie","pietnastu"); add(16,"szesnascie","szesnastu"); add(17,"siedemnascie","siedemnastu"); add(18,"osiemnascie","osiemnastu"); add(19,"dziewietnascie","dziewietnastu");
+  add(20,"dwadziescia","dwudziestu"); add(30,"trzydziesci","trzydziestu"); add(40,"czterdziesci","czterdziestu"); add(50,"piecdziesiat","piecdziesieciu"); add(60,"szescdziesiat","szescdziesieciu"); add(70,"siedemdziesiat","siedemdziesieciu"); add(80,"osiemdziesiat","osiemdziesieciu"); add(90,"dziewiecdziesiat","dziewiecdziesieciu");
+  add(100,"sto","stu"); add(200,"dwiescie"); add(300,"trzysta"); add(400,"czterysta"); add(500,"piecset"); add(600,"szescset"); add(700,"siedemset"); add(800,"osiemset"); add(900,"dziewiecset");
+  return m; })();
+function wordsToNum(s){
+  const t=s.split(" "), out=[]; let i=0;
+  while(i<t.length){
+    if(t[i]==="poltora"){ out.push("1.5"); i++; continue; }
+    if(NUMW[t[i]]==null){ out.push(t[i]); i++; continue; }
+    let v=0, last=1000, j=i;
+    while(j<t.length&&NUMW[t[j]]!=null){ const n=NUMW[t[j]], ord=n>=100?100:n>=20?10:1; if(ord>=last&&!(ord===1&&last===10&&n<10&&false)) break; if(ord===1&&n>=10&&last<=10) break; v+=n; last=ord===1&&n>=10?1:ord; j++; }
+    out.push(String(v)); i=j;
+  }
+  return out.join(" ");
+}
 const numPL=(v,u)=>{ let n=parseFloat(String(v).replace(",",".")); if(isNaN(n)) return null; if(u&&/^(t|k)/.test(u)) n*=1000; else if(n<200) n*=1000; return Math.round(n); };
 const VOC=[...new Set("konsoli konsola konsole konsolowy grania granie gracza gier matowy matowe matowa matowym polmatowy oled qled mini filmow filmy filmu filmowy kina sport sportu sportowy meczy dzwiek dzwiekiem glosniki najtanszy najtansze najtansza najtanszego tanie tani tanio najlepszy najlepsze najlepsza najlepiej jasnego jasny jasnym pokoju pomieszczenia slonecznego telewizor telewizory telewizorow telewizora komputera komputer monitor playstation xbox oplacalny oplacalne ogromny najwiekszy najwieksze najjasniejszy najjasniejsze polecany polecane dolby vision".split(" ").concat(BRANDS.map(nrm)))];
 function lev(a,b){ if(Math.abs(a.length-b.length)>2) return 9; const d=Array.from({length:a.length+1},(_,i)=>[i]); for(let j=1;j<=b.length;j++) d[0][j]=j;
@@ -933,6 +963,9 @@ function fixTypos(t){ return t.split(" ").map(w=>{ if(w.length<4||STOP.has(w)||V
 function parseNL(raw){
   let s=" "+fixTypos(nrm(raw).replace(/[;!?()]/g," ").replace(/\s+/g," ").trim())+" ";
   const sp={sort:[],unk:[],words:[]}; let cheap=0,best=false,asp=[];
+  s=" "+wordsToNum(s.trim())+" ";
+  /* kody modeli Samsunga: UE75…, QE85… → przekątna + marka */
+  s=s.replace(/\b(?:ue|qe|gq|tq)(\d{2,3})[a-z0-9]*\b/g,(m0,n)=>{ (sp.brandIn=sp.brandIn||[]).push("Samsung"); return " "+n+" cali "; });
   /* dyktowanie często rozbija słowa: „o ledy” → „oledy”, „q led” → „qled”, „mini ledy” zostaje */
   s=s.replace(/\bo\s+led(\w*)/g," oled$1").replace(/\bq\s+led(\w*)/g," qled$1").replace(/\bmini\s+-?\s*led/g,"mini led");
   /* pary „przekątna + technologia”: „77 cali oledy i 85 cali inne” = 77″ tylko OLED, 85″ pozostałe technologie */
@@ -961,7 +994,7 @@ function parseNL(raw){
   take(new RegExp("\\b(\\d{2,3})\\s*(?:-|do|–)\\s*(\\d{2,3})\\s*"+IN,"g"),m=>{sp.smin=+m[1]; sp.smax=+m[2];});
   take(new RegExp("\\b(?:od|min\\w*|powyzej|ponad|co najmniej|wiecej niz|minimum)\\s*(\\d{2,3})\\s*"+IN,"g"),m=>{sp.smin=+m[1];});
   take(new RegExp("\\b(?:do|max\\w*|maks\\w*|ponizej|najwyzej)\\s*(\\d{2,3})\\s*"+IN,"g"),m=>{sp.smax=+m[1];});
-  take(new RegExp("\\b(\\d{2,3})\\s*"+IN,"g"),m=>{(sp.sizeSet=sp.sizeSet||[]).push(+m[1]);});
+  take(new RegExp("\\b(\\d{2,3})\\s*"+IN,"g"),m=>{ const n=+m[1]; if(n<60){ sp.unk.push(n+"″ (porównywarka od 65″)"); return; } (sp.sizeSet=sp.sizeSet||[]).push(n);});
   take(/\b(ogromn\w*|gigant\w*)\b/g,()=>{sp.smin=98;});
   take(/\b(\d{2,3})\s*(?:\+|(?:lub|i|albo)?\s*(?:wieksz\w*|wiecej|wzwyz|w gore))(?=\s|$)/g,m=>{const n=+m[1]; if(n<40||n>120) return false; sp.smin=n;});
   take(/\b(?:od|min\w*|co najmniej|powyzej|ponad)\s*(\d{2,3})\b(?!\s*(?:tys|k\b|zl|pln|\d))/g,m=>{const n=+m[1]; if(n<40||n>120) return false; sp.smin=n;});
@@ -972,10 +1005,20 @@ function parseNL(raw){
   take(/\b(\d{2,3})\s*hz\b/g,m=>{sp.hz=+m[1];});
   take(/\b(\d{3,4})\s*(?:nit\w*|cd)\b/g,m=>{sp.nit=+m[1];});
   take(/\bhdmi\s*2[.,]1\b/g,()=>{sp.h21=true;});
-  take(/\b(dolby\s*vision|dv)\b/g,()=>{sp.dv=true;});
+  take(/\b(dolby\s*vision|dolby\s*wizj\w*|dv)\b/g,()=>{sp.dv=true;});
+  take(/\bhdr\s*10\s*(?:\+|plus)(?=\s|$)/g,()=>{sp.h10p=true;});
+  /* podtypy OLED i Ambilight – szukane w nazwie modelu */
+  take(/\bqd\s*-?\s*oled\w*/g,()=>{ (sp.techIn=sp.techIn||[]).push("OLED"); sp.words.push("qd-oled"); });
+  take(/\bambilight\w*/g,()=>{ sp.words.push("ambilight"); });
+  take(/\bbez\s+soundbar\w*|\bbez\s+(?:dodatkow\w*\s+)?glosnik\w*/g,()=>{asp.push("sd");});
+  take(/\b(?:duz\w*\s+)?(?:ilosc\w*\s+)?stref\w*|\bwygaszani\w*|local\s+dimming/g,()=>{asp.push("mv");});
+  take(/\b(?:nie\s+odbija\w*|bez\s+odbic\w*|malo\s+odbic\w*|nie\s+ma\s+odbic\w*)(?:\s+swiatl\w*)?/g,()=>{sp.matte=Math.max(sp.matte||0,7);});
+  /* jakość obrazu w ciemności: czerń, kontrast, kolory → sortuj po ocenie filmów */
+  take(/\b(czern\w*|czarn\w*|kontrast\w*|kolor\w*|barw\w*|glebok\w* czern\w*)\b/g,()=>{asp.push("mv");});
   /* cena */
   const U='(tys\\w*|k\\b|zl\\w*|pln)?';
   take(new RegExp("\\b(?:od|miedzy)?\\s*(\\d+(?:[.,]\\d+)?)\\s*"+U+"\\s*(?:-|–|do|a)\\s*(\\d+(?:[.,]\\d+)?)\\s*(tys\\w*|k\\b|zl\\w*|pln)","g"),m=>{const a=numPL(m[1],m[2]||m[4]),b=numPL(m[3],m[4]); if(a==null||b==null) return false; sp.pmin=Math.min(a,b); sp.pmax=Math.max(a,b);});
+  take(new RegExp("\\b(?:budzet\\w*\\s+)?(?:okolo|ok|mniej wiecej|w okolicach|rzedu|w granicach|kolo)\\s*(\\d+(?:[.,]\\d+)?)\\s*"+U,"g"),m=>{const v=numPL(m[1],m[2]); if(v==null||v<1000) return false; sp.pmin=Math.round(v*0.85/100)*100; sp.pmax=Math.round(v*1.15/100)*100;});
   take(new RegExp("\\b(?:do|ponizej|max\\w*|maks\\w*|mniej niz|nie drozej niz|nie wiecej niz|budzet\\w*|za|najwyzej)\\s*(\\d+(?:[.,]\\d+)?)\\s*"+U,"g"),m=>{const v=numPL(m[1],m[2]); if(v==null) return false; sp.pmax=v;});
   take(new RegExp("\\b(?:od|powyzej|ponad|min\\w*|wiecej niz|co najmniej)\\s*(\\d+(?:[.,]\\d+)?)\\s*"+U,"g"),m=>{const v=numPL(m[1],m[2]); if(v==null) return false; sp.pmin=v;});
   take(/\b(\d+(?:[.,]\d+)?)\s*(tys\w*|k\b|zl\w*|pln)/g,m=>{const v=numPL(m[1],m[2]); if(v==null) return false; sp.pmax=v;});
@@ -1064,7 +1107,8 @@ function buildNL(sp,ai){
   if(+sp.hz){ const h=+sp.hz; f.push(d=>d.h4>=h); ch.push(`≥ ${h} Hz w 4K`); }
   if(+sp.nit){ const n=+sp.nit; f.push(d=>(d.pf||0)>=n); ch.push(`HDR ≥ ${grp(n)} nit`); }
   if(sp.h21===true){ f.push(H21); ch.push("HDMI 2.1"); }
-  if(sp.dv===true){ f.push(d=>/Dolby Vision/.test(d.hdr)); ch.push("Dolby Vision"); }
+  if(sp.dv===true){ f.push(d=>/Dolby Vision/.test(d.hdr)&&!/(brak|bez) Dolby Vision/.test(d.hdr)); ch.push("Dolby Vision"); }
+  if(sp.h10p===true){ f.push(d=>/HDR10\+/.test(d.hdr)&&!/(brak|bez) HDR10\+/.test(d.hdr)); ch.push("HDR10+"); }
   if(typeof sp.os==="string"&&sp.os){ const os=nrm(sp.os); f.push(d=>nrm(d.os).includes(os)); ch.push(sp.os); }
   if(sp.rec===true){ f.push(d=>d.hv>=2); ch.push("polecany przez HDTVPolska"); }
   o.words.forEach(w=>{ F.length=0; if(drop.has(`„${w}”`)) { o.words=o.words.filter(x=>x!==w); _push({l:`„${w}”`,off:true}); } else _push({l:`„${w}”`}); });
@@ -1448,7 +1492,7 @@ function renderCmp(){
     ["Dźwięk",d=>d.sd,v=>f1(v),"max"],["Odświeżanie 4K",d=>d.h4,v=>v+" Hz","max"],["1440p",d=>d.h14,v=>v?v+" Hz":"—","max"],["1080p",d=>d.h10,v=>v?v+" Hz":"—","max"],
     ["HDMI",d=>d.hd,v=>esc(v),null],["HDR",d=>d.hdr,v=>esc(v),null],["System",d=>d.os,v=>esc(v),null],["Strefy",d=>d.z,v=>esc(v??"—"),null],["Powłoka",d=>d.ct,v=>esc(v),null]
   ];
-  $("cmpTbl").innerHTML=`<thead><tr><th scope="col" style="padding:10px">Parametr</th>${ds.map(d=>`<th scope="col" style="padding:10px;color:var(--ink)">${esc(d.n)} <span class="tag size">${d.s}″</span></th>`).join("")}</tr></thead><tbody>`+
+  $("cmpTbl").innerHTML=`<thead><tr><th scope="col" style="padding:10px">Parametr</th>${ds.map((d,i)=>`<th scope="col" class="cmph" data-ci="${i}" draggable="true" style="padding:10px;color:var(--ink)"><div class="cmphd"><span class="cmpgrip" title="Przeciągnij, by zmienić kolejność" aria-hidden="true">⋮⋮</span><span class="cmpn">${esc(d.n)} <span class="tag size">${d.s}″</span></span><button type="button" class="cmpx" data-cmpdel="${d.id}" title="Usuń z porównania" aria-label="Usuń ${esc(d.n)} z porównania">×</button></div><div class="cmpmv"><button type="button" class="linkbtn" data-cmpmv="${i}" data-d="-1" ${i===0?"disabled":""} aria-label="Przesuń w lewo">◀</button><button type="button" class="linkbtn" data-cmpmv="${i}" data-d="1" ${i===ds.length-1?"disabled":""} aria-label="Przesuń w prawo">▶</button></div></th>`).join("")}</tr></thead><tbody>`+
     rows.map(([l,g,f,mode])=>{
       const vals=ds.map(g); let bestV=null;
       if(mode){const nums=vals.filter(v=>v!=null); if(nums.length) bestV=mode==="max"?Math.max(...nums):Math.min(...nums);}
@@ -1733,6 +1777,19 @@ $("colsList").addEventListener("click",e=>{
   const b=e.target.closest("[data-colmv]"); if(!b) return; const k=b.dataset.colmv, i=ORD.indexOf(k), j=i+(+b.dataset.d); if(j<0||j>=ORD.length) return; [ORD[i],ORD[j]]=[ORD[j],ORD[i]]; colsChanged();
   const nb=document.querySelector(`[data-colmv="${k}"][data-d="${b.dataset.d}"]`); nb&&!nb.disabled&&nb.focus(); });
 $("cmpClear").addEventListener("click",()=>{st.cmp.clear();renderBody();renderCmp();});
+/* porównanie: × usuwa model (odznacza też „Porównaj” w tabeli), kolumny przestawia się przeciąganiem lub ◀ ▶ */
+function cmpMove(i,j){ const a=[...st.cmp].slice(0,cmpMax()); if(j<0||j>=a.length||i===j) return; const [x]=a.splice(i,1); a.splice(j,0,x); const rest=[...st.cmp].filter(id=>!a.includes(id)); st.cmp=new Set([...a,...rest]); renderCmp(); }
+(function(){
+  const t=$("cmpTbl"); let from=null;
+  t.addEventListener("click",e=>{
+    const x=e.target.closest("[data-cmpdel]"); if(x){ st.cmp.delete(x.dataset.cmpdel); renderBody(); renderCmp(); return; }
+    const m=e.target.closest("[data-cmpmv]"); if(m){ cmpMove(+m.dataset.cmpmv, +m.dataset.cmpmv + +m.dataset.d); }
+  });
+  t.addEventListener("dragstart",e=>{ const h=e.target.closest&&e.target.closest("th.cmph"); if(!h) return; from=+h.dataset.ci; h.classList.add("cmpdrag"); e.dataTransfer.effectAllowed="move"; try{e.dataTransfer.setData("text/plain",String(from));}catch(_){} });
+  t.addEventListener("dragover",e=>{ if(from==null) return; const h=e.target.closest("th.cmph"); if(!h) return; e.preventDefault(); t.querySelectorAll(".cmpover").forEach(x=>x.classList.remove("cmpover")); if(+h.dataset.ci!==from) h.classList.add("cmpover"); });
+  t.addEventListener("drop",e=>{ if(from==null) return; e.preventDefault(); const h=e.target.closest("th.cmph"); const f=from; from=null; if(h) cmpMove(f,+h.dataset.ci); });
+  t.addEventListener("dragend",()=>{ from=null; t.querySelectorAll(".cmpdrag,.cmpover").forEach(x=>x.classList.remove("cmpdrag","cmpover")); });
+})();
 
 /* Dane aktualizowane codziennie: prices.json (ceny = zawsze z pliku; dane techniczne = tylko poprawki z pliku; nowe modele = dopisywane) */
 const SPEC_KEYS=["pf","pp","pps","mfr","sdr","ct","m","ss","sd","mv","br","ov","pn","z","bt","va","h4","h14","h10","hn","hd","hdr","os","pro","con","dn","est","tl","wz"];
