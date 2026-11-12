@@ -6,6 +6,7 @@ Użycie: python3 specs/build_specs.py   (z katalogu głównego repozytorium)
   1. wz   – test serii w wybierz.tv (specs/wz_data.py, data/tests_wz.json): pomiary i wyposażenie
   2. me   – karta produktu Media Expert (specs/me_data.json): wymiary, waga, VESA, pobór mocy, głośniki
   3. ce   – karta produktu Ceneo (specs/ce_data.py): tylko pola, których brak z wyższego źródła
+  +  kal  – ocena „Barwy po kalibracji” i tryb pomiaru z testu serii wybierz.tv (specs/kal_data.json)
   +  bd   – banding / płynność przejść tonalnych z testu serii wybierz.tv (specs/bd_data.json, wg id serii)
 Pole „fs” w rekordzie modelu zapisuje, z którego źródła pochodzi każda wartość (używa go strona
 do poziomów wiarygodności A–D). Rozbieżności między sklepami trafiają do pola „konf”.
@@ -106,6 +107,14 @@ for i, v in CE.items():
     if used:
         x["src"] = (x.get("src", "") + "; " if x.get("src") else "") + f"głośniki, pobór mocy, klasa, VESA: karta Ceneo ({pid})"
 
+KAL = rd("specs/kal_data.json")["serie"]
+for d in tv:
+    k = KAL.get(d.get("sr"))
+    if not k: continue
+    x = out.setdefault(d["id"], {})
+    x["bk"] = k["bk"]; x.setdefault("fs", {})["bk"] = "wz"
+    if k.get("bkm"): x["bkm"] = k["bkm"]
+
 BD = rd("specs/bd_data.json")["serie"]
 for d in tv:
     b = BD.get(d.get("sr"))
@@ -116,7 +125,7 @@ for d in tv:
     x.setdefault("fs", {})["bd"] = "wz"
 
 spec = {"updated": "12.11.2026",
-        "note": "Dodatkowe parametry. Pomiary (kontrast, input lag, VRR/ALLM, eARC, Atmos, ocena barw) z testów wybierz.tv; wymiary, podstawa, VESA, złącza, dźwięk, energia z kart producentów – uzupełniane stopniowo. Tylko sprawdzone wartości; brak = brak pola. fs = źródło każdego pola (wz = test wybierz.tv, me = Media Expert, ce = Ceneo); konf = rozbieżne wartości z innego źródła. bd = płynność przejść tonalnych (banding) 0–10 z testu wybierz.tv, bdt = opis, bdf = ustawienie wygładzania, bdu = źródła.",
+        "note": "Dodatkowe parametry. Pomiary (kontrast, input lag, VRR/ALLM, eARC, Atmos, ocena barw) z testów wybierz.tv; wymiary, podstawa, VESA, złącza, dźwięk, energia z kart producentów – uzupełniane stopniowo. Tylko sprawdzone wartości; brak = brak pola. fs = źródło każdego pola (wz = test wybierz.tv, me = Media Expert, ce = Ceneo); konf = rozbieżne wartości z innego źródła. bd = płynność przejść tonalnych (banding) 0–10 z testu wybierz.tv, bdt = opis, bdf = ustawienie wygładzania, bdu = źródła. de/den = „Barwy fabrycznie” (zgodność ze wzorcem bez kalibracji), bk = „Barwy po kalibracji”, bkm = tryb pomiaru fabrycznego.",
         "models": out}
 json.dump(spec, open(os.path.join(R, "specs.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 cnt = lambda k: sum(1 for m in out.values() if k in m)

@@ -483,6 +483,7 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
       <p><strong>Wynik (profil)</strong> to średnia ważona 10 kryteriów w skali 0–10: oceny cząstkowe z laboratorium wybierz.tv (filmy, TV i YouTube, sport, gry na konsoli, monitor PC, funkcje i aplikacje, dźwięk), jasność z pomiaru w nitach (skala logarytmiczna z nasyceniem: HDR 250→2500 nit, SDR 150→1500 nit) i matowość ekranu. Profil (Twój, Uniwersalny, Kino w ciemni, Jasny salon, Gry, Sport) ustawia wagi; suwaki je zmieniają, a wagi zawsze przeliczają się do 100%. Ocena „Mocne światło” z wybierz.tv nie wchodzi do wyniku, bo zawiera jasność i odbicia, które liczymy osobno – tak nic nie jest liczone dwa razy. Brak danych w kryterium nie jest zerem: kryterium jest pomijane. Za oceny z innego rozmiaru tej samej matrycy wynik traci 0,15 pkt, za test innej matrycy 0,5 pkt. <strong>Obraz</strong> i <strong>Użytkowość</strong> to dwa stałe wyniki pomocnicze (obraz: filmy 50, TV 10, sport 10, jasność 15, matowość 15, banding 5; użytkowość: gry 35, PC 10, funkcje 25, dźwięk 30).</p>
       <p><strong>Opłacalność</strong> liczona jest tylko w obrębie klasy rozmiaru (65″ · 75–77″ · 83–86″ · 97–100″ · 110″+) i jednego rynku (Polska). „✓ front” oznacza, że nie ma modelu jednocześnie tańszego (lub w tej samej cenie) i lepszego; „−0,30 pkt” – że za tę samą lub niższą cenę jest model o 0,30 pkt lepszy. Sortowanie po opłacalności stawia wyżej modele frontu, przy których dalsza dopłata kosztuje dużo za każde 0,1 pkt, a dojście do nich kosztowało mało. W szczegółach modelu: „Czy warto dopłacić 1000/2000/3000 zł” i tańsze modele z prawie tym samym wynikiem; w porównaniu – koszt dopłaty i mocne strony każdego modelu.</p>
       <p><strong>Rynek.</strong> „Polska” – ceny w polskich sklepach. „Z dostawą do Polski” – niższa z: ceny w Polsce i szacowanego kosztu zakupu w UE/Schengen (cena bez VAT kraju + 23% VAT PL + transport; spoza UE dodatkowo cło i agencja celna); transport to szacunek, który możesz zmienić. „Kanada” – ceny lokalne w CAD, bez transportu, VAT i cła; nie są mieszane z cenami w Polsce. Kursy walut z NBP (tabela A).</p>
+      <p><strong>Wierność barw</strong> to dwie oceny z wybierz.tv: „Barwy fabrycznie” – jak dokładnie telewizor trzyma się wzorca (balans bieli, gamma, odcienie) w najlepszym trybie (zwykle Filmmaker) bez kalibracji – oraz „Barwy po kalibracji”. To nie jest ocena nasycenia ani bogactwa kolorów: tę pokazuje pokrycie DCI-P3. Niska ocena fabryczna przy Mini LED (typowo ok. 5–5,5) oznacza najczęściej przesunięty balans bieli lub zbyt jasną gammę, a po kalibracji te same telewizory dostają zwykle 7,5–9. Ocena nie wchodzi do wyniku, bo zawiera się już w ocenie „Filmy”.</p>
       <p><strong>Banding</strong> to ocena „Płynność przejść tonalnych” z testu wybierz.tv (0–10): czy gradienty – niebo, cienie, ciemne szarości – przechodzą płynnie, czy rozpadają się na pasy i schodki (posteryzacja). Waga jest mała (5), bo ta cecha częściowo zawiera się już w ocenie „Filmy”. Zależy głównie od przetwarzania i panelu: WOLED częściej pokazuje pasy tuż nad czernią niż QD-OLED, a ich widoczność może się różnić między egzemplarzami. Funkcje typu „Płynna gradacja” / „Redukcja zniekształceń” zwykle je zmniejszają kosztem drobnego detalu – w szczegółach modelu podaję, czy działają. To co innego niż chroma 4:4:4 (pełna rozdzielczość koloru, ważna dla tekstu z PC), która nie wpływa na banding w filmach. W LG G6 i C6H niską ocenę powoduje głównie dithering i migotanie przy czerni, a nie same pasy. Źródła i opisy: wybierz.tv, HDTVPolska, Expert Reviews, TechRadar i inne – w rozwiniętym wierszu.</p>
       <p><strong>Matowość</strong> to ocena własna na podstawie testów: 10 matowy Glare-Free, 9 matowy z utratą efektu pod kątem, 7 satynowy półmat, 5 błyszczący z dobrą warstwą AR, 4 błyszczący, 3 błyszczący ze słabym AR. Brak danych o powłoce nie jest liczony jako niska ocena – wynik liczy się wtedy z pozostałych kryteriów.</p>
       <p><strong>Dane</strong> – pewność wyniku i pokrycie: A pomiar tego rozmiaru, C pomiar z innego rozmiaru tej samej matrycy (lub test nie podaje, który rozmiar badano), X test innej matrycy; liczba to kryteria z danymi (np. 8/9). Szczegóły źródeł każdego modelu są w rozwiniętym wierszu.</p>
@@ -651,6 +652,13 @@ const enTxt=d=>{const x=X0(d); const a=[]; if(x.pw!=null) a.push(`<b>${x.pw} W</
 function nameHTML(d){ const nn=String(d.n).replace(/\s+(Micro RGB|Mini RGB evo)$/,"").replace(/(Mini LED \d+) 20\d\d$/,"$1"); const m=nn.match(/^(.*?)\s*(\(.*\)|[≈=].*)$/); if(!m) return esc(nn);
   const tail=m[2].replace(/^\((.*)\)$/,"$1").trim(); if(/^((19|20)\d\d|QD-?OLED|WOLED|OLED|RGB Mini LED|Mini LED)$/i.test(tail)) return esc(m[1]);
   return esc(m[1])+` <span class="mtail">${esc(m[2])}</span>`; }
+/* Barwy: „Barwy fabrycznie” = zgodność ze wzorcem bez kalibracji (balans bieli, gamma, odcienie) – NIE nasycenie ani gama */
+const f1c=v=>v==null?"—":(+v).toFixed(1).replace(".",",");
+let DEMED=null; function deMed(t){ if(!DEMED){ DEMED={}; const g={}; TV.forEach(d=>{const v=X0(d).den; if(v!=null)(g[d.t]=g[d.t]||[]).push(v);}); for(const k in g){const a=g[k].sort((x,y)=>x-y); DEMED[k]=a[Math.floor(a.length/2)];} } return DEMED[t]; }
+function colCell(d){ const x=X0(d); if(x.den==null) return null; return L3([`fabr. <b>${f1c(x.den)}</b>`, x.bk!=null?`<span class="muted">po kal. ${f1c(x.bk)}</span>`:null]); }
+function colDetail(d){ const x=X0(d); if(x.den==null) return null; const m=deMed(d.t);
+  return `<b>fabrycznie ${f1c(x.den)} / 10</b>${x.bkm?` <span class="muted">(tryb ${esc(x.bkm)})</span>`:""}${x.bk!=null?` · <b>po kalibracji ${f1c(x.bk)} / 10</b>`:""}<br><span class="muted">Zgodność ze wzorcem (balans bieli, gamma, odcienie) – nie nasycenie ani bogactwo kolorów; to pokazuje pokrycie DCI-P3.${m!=null?` Typowo dla ${esc(d.t)}: ${f1c(m)} fabrycznie.`:""}</span>`; }
+function vaDetail(d){ if(!d.va) return null; return `${f1c(d.va)} / 10${/VA/.test(d.pn||"")?`<br><span class="muted">Panel VA: patrząc z boku, spada kontrast i nasycenie – najlepiej na wprost.</span>`:""}`; }
 function techShort(d){ const tl=String(d.tl||""), y=(tl.match(/\b(20\d\d)\b/)||[])[1]; let t=d.t;
   if(d.t==="OLED") t=/QD-?OLED/i.test(tl+" "+d.n)?"QD-OLED":/Tandem|evo G6/i.test(tl)?"WOLED Tandem":/WOLED|evo/i.test(tl)?"WOLED":"OLED";
   else if(d.t==="Mini LED") t=/\bS?QD\b|QD-|Neo QLED|Quantum/i.test(tl)?"QD Mini LED":/QNED/i.test(tl)?"QNED Mini LED":"Mini LED";
@@ -1101,7 +1109,7 @@ const COLS=[
   {k:"cr",l:"Kontrast",r:true},
   {k:"bl",l:"Blooming"},
   {k:"p3",l:"DCI-P3",r:true},
-  {k:"de",l:"Kolory fabrycznie",r:true},
+  {k:"de",l:"Wierność barw",r:true},
   {k:"il",l:"Input lag",r:true},
   {k:"vrr",l:"VRR / ALLM"},
   {k:"zl",l:"Złącza"},
@@ -1239,7 +1247,7 @@ function renderBody(){
       bl:`<td>${X0(d).bl?esc(X0(d).bl):"—"}</td>`,
       bd:`<td class="r nw">${bdCell(d)}</td>`,
       p3:`<td class="r num nw">${p3Of(d)==null?"—":String(p3Of(d)).replace(".",",")+" %"}</td>`,
-      de:`<td class="r">${X0(d).de?esc(X0(d).de):"—"}</td>`,
+      de:`<td class="r sm l3" title="Zgodność kolorów ze wzorcem: fabrycznie (bez kalibracji) i po kalibracji – nie nasycenie">${colCell(d)||"—"}</td>`,
       il:`<td class="r num sm l3">${ilTxt(d)||"—"}</td>`,
       vrr:`<td class="sm l3">${vrrTxt(d)||"—"}</td>`,
       zl:`<td class="sm l3">${zlTxt(d)||"—"}</td>`,
@@ -1315,7 +1323,7 @@ function detailRow(d){
       ["Szczyt HDR, pomiar lab.",d.pp?grp(d.pp)+" nit"+(d.pps?` <span class="muted">(${esc(d.pps)})</span>`:""):"brak pomiaru"],["Deklaracja producenta",d.mfr?"do "+grp(d.mfr)+" nit":null],
       ["Jasność SDR",d.sdr?grp(d.sdr)+" nit":null],
       ["Pokrycie DCI-P3 / BT.2020",esc(d.bt)||(p3Of(d)!=null?String(p3Of(d)).replace(".",",")+" % DCI-P3":null)],
-      ["Kontrast",crTxt(d)],["Blooming (poświata)",X0(d).bl?esc(X0(d).bl):null],["Banding (gradienty)",bdDetail(d)],["Kolory fabrycznie (ocena)",X0(d).de?esc(X0(d).de):null],["Kąty widzenia",d.va?d.va+" / 10":null],
+      ["Kontrast",crTxt(d)],["Blooming (poświata)",X0(d).bl?esc(X0(d).bl):null],["Banding (gradienty)",bdDetail(d)],["Wierność barw",colDetail(d)],["Kąty widzenia",vaDetail(d)],
       ["Powłoka ekranu",esc(d.ct)],["HDR",esc(d.hdr)],["Ocena ogólna",d.ov==null?"brak testu":d.ov.toFixed(1)+" / 10"]])}</div>
     <div><h3 style="margin-bottom:8px">Gry, dźwięk, system</h3>${dl([
       ["Odświeżanie 4K",d.h4+" Hz"],["1440p",d.h14?d.h14+" Hz":"—"],["1080p",d.h10?d.h10+" Hz":"—"],
@@ -1609,7 +1617,7 @@ function renderCmp(){
     ["HDR w filmach",d=>d.pf,v=>v?v+" nit":"brak","max"],["HDR wzorzec",d=>d.pp,v=>v?v+" nit":"brak","max"],
     ["Matowość",d=>d.m,v=>v==null?"brak danych":v+" / 10","max"],["Filmy UHD",d=>d.mv,v=>f1(v),"max"],["Jasny pokój",d=>d.br,v=>f1(v),"max"],
     ["Dźwięk",d=>d.sd,v=>f1(v),"max"],["Odświeżanie 4K",d=>d.h4,v=>v+" Hz","max"],["1440p",d=>d.h14,v=>v?v+" Hz":"—","max"],["1080p",d=>d.h10,v=>v?v+" Hz":"—","max"],
-    ["Kontrast",d=>crN(d),(v,d)=>crTxt(d)||"—","max"],["Banding (gradienty)",d=>X0(d).bd??null,v=>v==null?"—":v.toFixed(1).replace(".",",")+" / 10","max"],["DCI-P3",d=>p3Of(d),v=>v==null?"—":String(v).replace(".",",")+" %","max"],["Input lag",d=>X0(d).il??null,(v,d)=>ilTxt(d)||"—","min"],
+    ["Kontrast",d=>crN(d),(v,d)=>crTxt(d)||"—","max"],["Banding (gradienty)",d=>X0(d).bd??null,v=>v==null?"—":v.toFixed(1).replace(".",",")+" / 10","max"],["DCI-P3",d=>p3Of(d),v=>v==null?"—":String(v).replace(".",",")+" %","max"],["Wierność barw (fabrycznie)",d=>X0(d).den??null,(v,d)=>colCell(d)||"—","max"],["Input lag",d=>X0(d).il??null,(v,d)=>ilTxt(d)||"—","min"],
     ["VRR / ALLM",d=>vrrTxt(d),v=>v||"—",null],["Złącza",d=>zlTxt(d),v=>v||"—",null],["Głośniki",d=>X0(d).rms??null,(v,d)=>auTxt(d)||"—","max"],
     ["Wymiary / waga",d=>dimTxt(d),v=>v||"—",null],["Podstawa",d=>stTxt(d),v=>v||"—",null],["VESA",d=>X0(d).vesa||null,v=>v?esc(v):"—",null],["Pobór mocy",d=>X0(d).pw??null,(v,d)=>enTxt(d)||"—","min"],
     ["HDMI",d=>d.hd,v=>esc(v),null],["HDR",d=>d.hdr,v=>esc(v),null],["System",d=>d.os,v=>esc(v),null],["Strefy",d=>d.z,v=>esc(v??"—"),null],["Powłoka",d=>d.ct,v=>esc(v),null]

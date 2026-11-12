@@ -1,0 +1,232 @@
+{
+ "_opis": "Barwy z testów wybierz.tv: bk = ocena „Barwy po kalibracji” (0–10), bkm = tryb obrazu, w którym mierzono „Barwy fabrycznie” (tylko gdy test to podaje). Ocena fabryczna (bf) jest w wz_data.py. Klucz = id serii. Zebrane 12.11.2026.",
+ "serie": {
+  "haier-m95e": {
+   "bk": 6.0,
+   "bkm": "Film"
+  },
+  "hisense-e8q": {
+   "bk": 7.4,
+   "bkm": "Filmmaker"
+  },
+  "hisense-u7q": {
+   "bk": 7.4,
+   "bkm": "Filmmaker"
+  },
+  "hisense-u7q-pro": {
+   "bk": 7.5,
+   "bkm": "Filmmaker"
+  },
+  "hisense-u7s-pro": {
+   "bk": 7.5,
+   "bkm": "Filmmaker"
+  },
+  "hisense-u7s-u77se": {
+   "bk": 7.5
+  },
+  "hisense-u8q": {
+   "bk": 8.0
+  },
+  "hisense-ur8s": {
+   "bk": 7.5,
+   "bkm": "Filmmaker"
+  },
+  "hisense-ur9s": {
+   "bk": 8.0,
+   "bkm": "Filmmaker"
+  },
+  "lg-mrgb85b": {
+   "bk": 7.0,
+   "bkm": "Filmmaker"
+  },
+  "lg-oled-b5": {
+   "bk": 9.1,
+   "bkm": "Filmmaker"
+  },
+  "lg-oled-b6": {
+   "bk": 9.2,
+   "bkm": "Filmmaker"
+  },
+  "lg-oled-c5": {
+   "bk": 9.4,
+   "bkm": "Filmmaker"
+  },
+  "lg-oled-c6-woled": {
+   "bk": 9.1,
+   "bkm": "Filmmaker"
+  },
+  "lg-oled-c6h-tandem-woled": {
+   "bk": 9.1,
+   "bkm": "Filmmaker"
+  },
+  "lg-oled-g5": {
+   "bk": 9.8,
+   "bkm": "Filmmaker"
+  },
+  "lg-oled-g6": {
+   "bk": 9.2,
+   "bkm": "Filmmaker"
+  },
+  "lg-qned86a-qned85a-qned87a": {
+   "bk": 7.6,
+   "bkm": "Filmmaker"
+  },
+  "lg-qned93a-qned90a": {
+   "bk": 7.8,
+   "bkm": "Filmmaker"
+  },
+  "panasonic-z95b": {
+   "bk": 9.8,
+   "bkm": "Filmmaker"
+  },
+  "philips-mled920-mled910": {
+   "bk": 7.5,
+   "bkm": "Filmmaker"
+  },
+  "philips-oled761": {
+   "bk": 9.0,
+   "bkm": "Film"
+  },
+  "philips-oled820": {
+   "bk": 9.3,
+   "bkm": "Filmmaker"
+  },
+  "philips-oled910": {
+   "bk": 9.4,
+   "bkm": "Film"
+  },
+  "philips-oled911": {
+   "bk": 9.4,
+   "bkm": "Filmmaker"
+  },
+  "philips-oled950": {
+   "bk": 9.4,
+   "bkm": "Film"
+  },
+  "samsung-oled-s85f-woled": {
+   "bk": 9.0
+  },
+  "samsung-oled-s90f-qd-oled": {
+   "bk": 9.3,
+   "bkm": "Filmmaker"
+  },
+  "samsung-oled-s90f-woled": {
+   "bk": 9.2,
+   "bkm": "Filmmaker"
+  },
+  "samsung-oled-s95f-qd-oled": {
+   "bk": 9.4
+  },
+  "samsung-qn80f": {
+   "bk": 8.3,
+   "bkm": "Filmmaker"
+  },
+  "samsung-qn80h": {
+   "bk": 8.2,
+   "bkm": "Filmmaker"
+  },
+  "samsung-qn85f": {
+   "bk": 8.5,
+   "bkm": "Filmmaker"
+  },
+  "samsung-qn900f": {
+   "bk": 8.7,
+   "bkm": "Filmmaker"
+  },
+  "samsung-qn92f-qn90f": {
+   "bk": 9.0,
+   "bkm": "Filmmaker"
+  },
+  "samsung-qn990f": {
+   "bk": 8.5,
+   "bkm": "Filmmaker"
+  },
+  "samsung-r85h-r86h": {
+   "bk": 8.6,
+   "bkm": "Filmmaker"
+  },
+  "samsung-r95h": {
+   "bk": 8.8,
+   "bkm": "Filmmaker"
+  },
+  "samsung-s85h": {
+   "bk": 9.1,
+   "bkm": "Filmmaker"
+  },
+  "samsung-s90h-qd-oled": {
+   "bk": 9.4,
+   "bkm": "Filmmaker"
+  },
+  "samsung-s90h-woled": {
+   "bk": 9.2
+  },
+  "samsung-s95h": {
+   "bk": 9.4
+  },
+  "samsung-s99h-qd-oled": {
+   "bk": 9.6
+  },
+  "sony-bravia-6-a65": {
+   "bk": 8.0,
+   "bkm": "Kinowy"
+  },
+  "sony-bravia-7-ii": {
+   "bk": 8.8,
+   "bkm": "Profesjonalny"
+  },
+  "sony-bravia-8-ii": {
+   "bk": 9.2,
+   "bkm": "IMAX Enhanced"
+  },
+  "sony-bravia-8-xr80": {
+   "bk": 8.2
+  },
+  "sony-bravia-9-ii": {
+   "bk": 9.0
+  },
+  "tcl-a400u": {
+   "bk": 8.9,
+   "bkm": "Filmmaker"
+  },
+  "tcl-c7k-qm7k-55-85": {
+   "bk": 7.5,
+   "bkm": "Filmmaker"
+  },
+  "tcl-c7l": {
+   "bk": 7.5,
+   "bkm": "Filmmaker"
+  },
+  "tcl-c8k-qm8k": {
+   "bk": 7.5,
+   "bkm": "Filmmaker"
+  },
+  "tcl-c8l": {
+   "bk": 7.5,
+   "bkm": "Filmmaker"
+  },
+  "tcl-c9k": {
+   "bk": 7.5,
+   "bkm": "Filmmaker"
+  },
+  "tcl-rm7l": {
+   "bk": 8.0,
+   "bkm": "Filmmaker"
+  },
+  "tcl-x11l": {
+   "bk": 7.0,
+   "bkm": "Filmmaker"
+  },
+  "xiaomi-s-mini-2026-55-75-60hz": {
+   "bk": 7.5,
+   "bkm": "Film"
+  },
+  "xiaomi-s-mini-2026-85-98-144hz": {
+   "bk": 7.7,
+   "bkm": "Film"
+  },
+  "xiaomi-tv-s-pro-2026": {
+   "bk": 7.2,
+   "bkm": "Film"
+  }
+ }
+}
