@@ -52,3 +52,15 @@ Zrzut obejmuje wszystkie modele po załadowaniu, widok szczegółów każdego mo
 - `data/markets.json` – rynki, stawki VAT, cło (CH/NO), szacowany transport do PL wg klasy rozmiaru, kursy NBP awaryjne (na żywo strona pobiera tabelę A z api.nbp.pl).
 - `prices_intl.json` – oferty z UE/Schengen (cena brutto z lokalnym VAT) i z Kanady (CAD bez podatku), z linkiem, oznaczeniem modelu na rynku i informacją o wysyłce do PL; aktualizuje go zadanie codzienne.
 - Tryby na stronie: Polska · Z dostawą do Polski (PL + UE + Schengen) · Kanada (cena lokalna). Nie mieszamy ceny lokalnej z ceną z dostawą do PL w jednym rankingu.
+
+## Etap 6 – historia cen, zalety, porównanie w linku
+
+- `api/history.php` – historia cen w SQLite (jeden plik, bez użytkownika i hasła). Baza leży poza katalogiem strony
+  (`../tvdb_wyszukiwarka/ceny.sqlite`), a gdy się nie da – w `api/_db/` z blokadą dostępu. Nie ma zapisu z zewnątrz:
+  przy zapytaniu skrypt sprawdza daty zmian `prices.json`, `prices_intl.json`, `history.json` i dopisuje najniższą cenę dnia.
+  Przy pierwszym uruchomieniu importuje `history.json`.
+- `history.json` – historia z gita: `node tools/build_history.js` (uruchamiać po każdej aktualizacji cen).
+  Strona najpierw pyta `api/history.php`, a gdy go nie ma (artefakt na claude.ai) – czyta `history.json`.
+- Szczegóły modelu: „Na tle klasy” (górne/dolne 20% w klasie rozmiaru) i „Historia ceny” (wykres, minimum, zmiana).
+- Porównanie: „Słabsze strony”, „Zalety w swojej klasie rozmiaru”, „Najniższa cena w historii” i przycisk
+  „Kopiuj link do tego porównania” (`#porownaj=id1,id2&profil=…&rynek=pl,eu`, przy własnych wagach także `&wagi=…`).

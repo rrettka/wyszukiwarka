@@ -15,3 +15,4 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RedirectMatch 404 /\.git
 RedirectMatch 404 /README\.md$
 RedirectMatch 404 /(tools|tests|specs)/
+RedirectMatch 404 /api/_db/

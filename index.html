@@ -241,7 +241,7 @@ td.model .tag{white-space:normal}
 td.model .tag{border-radius:8px}
 .mtech{font-size:11.5px;line-height:1.25;color:var(--muted);margin-top:1px}
 td.model .mname{overflow-wrap:anywhere}
-#tbl td{max-width:170px}
+#tbl tr.row>td{max-width:170px}
 #tbl .hdb,#tbl .matte{white-space:normal}
 #tbl .matte{display:inline-flex;align-items:flex-start}#tbl .matte .dot{flex:none;margin-top:3px}
 .sticky{position:sticky;left:0;background:var(--surface);z-index:1}
@@ -275,7 +275,8 @@ thead .sticky{background:var(--surface-2);z-index:2}
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
 .cmpbox{width:16px;height:16px;accent-color:var(--accent)}
 .rank{color:var(--muted);font-family:var(--font-mono)}
-.detail td{background:var(--surface-2);padding:16px}
+.detail>td{background:var(--surface-2);padding:16px}
+.detail table{min-width:0}
 .dgrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));position:sticky;left:16px;max-width:min(1340px,calc(100vw - 96px))}
 .dgrid dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13.5px}
 .dgrid dt{color:var(--muted)}
@@ -286,6 +287,8 @@ thead .sticky{background:var(--surface-2);z-index:2}
 .pc .minus{border-left:3px solid var(--bad);padding-left:10px}
 .pc .note{border-left:3px solid var(--warn);padding-left:10px;color:var(--muted)}
 .empty{padding:28px;text-align:center;color:var(--muted)}
+.hsvg{display:block;max-width:100%;height:auto;margin-top:4px;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.hsvg .hline{fill:none;stroke:var(--accent);stroke-width:2}.hsvg .hdot{fill:var(--accent)}.hsvg .hdotmin{fill:var(--good)}.hsvg .hmin{stroke:var(--good);stroke-dasharray:3 3;opacity:.6}
 
 .cmp{display:grid;gap:12px}
 .cmp table{min-width:640px}
@@ -439,7 +442,7 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
 <section class="panel cmp" id="cmpSec" aria-labelledby="cmpH" hidden>
   <div class="tablehead">
     <h2 id="cmpH">Porównanie wybranych</h2>
-    <button class="linkbtn" id="cmpClear" type="button">Wyczyść porównanie</button>
+    <span><button class="linkbtn" id="cmpLink" type="button">Kopiuj link do tego porównania</button> · <button class="linkbtn" id="cmpClear" type="button">Wyczyść porównanie</button></span>
   </div>
   <div class="tablebox"><table id="cmpTbl"></table></div>
 </section>
@@ -1281,7 +1284,9 @@ function detailRow(d){
       ${qBlock(d)}
       ${testsHTML(d)}
       ${scoreHTML(d)}
+      ${swHTML(d)}
       ${upHTML(d)}
+      ${histHTML(d)}
       ${intlHTML(d)}</div>
   </div></td></tr>`;
 }
@@ -1421,6 +1426,80 @@ function renderPicks(list){
 
 function cmpMax(){ const w=Math.min(innerWidth,screen.width||innerWidth), touch=matchMedia("(pointer:coarse)").matches; return w<700?3:(w<1100||touch)?4:5; }
 function cmpMsg(t){ let el=$("cmpToast"); if(!el){ el=document.createElement("div"); el.id="cmpToast"; el.setAttribute("role","status"); document.body.appendChild(el);} el.textContent=t; el.classList.add("on"); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove("on"),2600); }
+/* ===== Etap 6: historia cen ===== */
+let HIST=null, HISTSRC="";
+async function loadHist(){
+  const get=async u=>{ const r=await fetch(u,{cache:"no-store"}); if(!r.ok) throw 0; const j=await r.json(); if(!j||!j.pl) throw 0; return j; };
+  try{ HIST=await get("api/history.php"); HISTSRC="db"; }catch(e){ try{ HIST=await get("history.json"); HISTSRC="json"; }catch(e2){ HIST=null; } }
+  if(HIST){ document.querySelectorAll("[data-hist]").forEach(el=>{ const d=TV.find(x=>x.id===el.dataset.hist); if(d) el.innerHTML=histInner(d); }); if(!$("cmpSec").hidden) renderCmp(); }
+}
+const histPts=d=>{ if(!HIST) return null; if(cadOnly()){ const m=HIST.intl&&HIST.intl[d.id]; return m&&m.CA||null; } return HIST.pl[d.id]||null; };
+const fdate=x=>x.slice(8,10)+"."+x.slice(5,7)+"."+x.slice(0,4);
+function histSVG(pts){
+  const W=300,H=74,P=6, xs=pts.map(p=>Date.parse(p[0])), ys=pts.map(p=>p[1]);
+  const x0=Math.min(...xs), x1=Math.max(...xs), y0=Math.min(...ys), y1=Math.max(...ys);
+  const X=t=>x1===x0?W/2:P+(t-x0)/(x1-x0)*(W-2*P), Y=v=>y1===y0?H/2:P+(1-(v-y0)/(y1-y0))*(H-2*P);
+  let path=""; pts.forEach((p,i)=>{ const x=X(xs[i]).toFixed(1), y=Y(p[1]).toFixed(1); path+=i?` H${x} V${y}`:`M${x} ${y}`; });
+  const iMin=ys.indexOf(y0);
+  return `<svg class="hsvg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Historia ceny od ${fdate(pts[0][0])}: od ${grp(y0)} do ${grp(y1)} ${CUR}">
+    <line x1="${P}" x2="${W-P}" y1="${Y(y0)}" y2="${Y(y0)}" class="hmin"/><path d="${path}" class="hline"/>
+    ${pts.map((p,i)=>`<circle cx="${X(xs[i]).toFixed(1)}" cy="${Y(p[1]).toFixed(1)}" r="${i===iMin?3.2:2.2}" class="${i===iMin?"hdotmin":"hdot"}"><title>${fdate(p[0])}: ${grp(p[1])} ${CUR}</title></circle>`).join("")}</svg>`;
+}
+function histStats(pts){
+  const ys=pts.map(p=>p[1]), cur=ys[ys.length-1], mn=Math.min(...ys), mx=Math.max(...ys), first=ys[0];
+  const ch=cur-first; return {cur,mn,mx,first,ch,days:Math.round((Date.parse(pts[pts.length-1][0])-Date.parse(pts[0][0]))/864e5)+1,atMin:cur<=mn};
+}
+function histInner(d){
+  if(!HIST) return `<p class="muted" style="font-size:12.5px">Historia cen niedostępna.</p>`;
+  const pts=histPts(d);
+  if(!pts||!pts.length) return `<p class="muted" style="font-size:12.5px">Brak zapisanych cen dla tego modelu${cadOnly()?" w Kanadzie":""}.</p>`;
+  const s=histStats(pts);
+  const tr=s.ch===0?"cena bez zmian":`zmiana ${s.ch<0?"−":"+"}${grp(Math.abs(Math.round(s.ch)))} ${CUR} (${s.ch<0?"−":"+"}${Math.abs(s.ch/s.first*100).toFixed(1).replace(".",",")}%)`;
+  return `${pts.length>1&&s.mn<s.mx?histSVG(pts):""}<p class="muted" style="font-size:12.5px;margin:4px 0 0">Od ${fdate(pts[0][0])} (${s.days} dni, ${pts.length} pomiar${pts.length===1?"":pts.length<5?"y":"ów"}): najniżej <b>${grp(s.mn)} ${CUR}</b>, najwyżej ${grp(s.mx)} ${CUR}, ${tr}${s.atMin&&pts.length>1&&s.mn<s.mx?" · <span class=\"vok\">teraz najtaniej w historii</span>":""}.
+    ${cadOnly()?"Ceny w Kanadzie (CAD).":"Ceny w Polsce, najniższa cena dnia."} ${HISTSRC==="db"?"Zapis codzienny w bazie na serwerze.":"Dane z historii repozytorium."}</p>`;
+}
+const histHTML=d=>`<h3 style="margin-top:10px">Historia ceny</h3><div data-hist="${d.id}">${histInner(d)}</div>`;
+
+/* ===== Etap 6: zalety i słabe strony na tle klasy rozmiaru ===== */
+function classSW(d){
+  const peers=TV.filter(x=>vcls(x.s)===vcls(d.s)&&score(x)!=null&&inMarket(x)), plus=[], minus=[];
+  if(peers.length<5||score(d)==null) return null;
+  CRITS.forEach(c=>{ const v=c.get(d); if(v==null) return; const vals=peers.map(c.get).filter(x=>x!=null).sort((a,b)=>a-b); if(vals.length<5) return;
+    const below=vals.filter(x=>x<v).length, above=vals.filter(x=>x>v).length, n=vals.length;
+    if(above/n<=0.2&&v>vals[0]) plus.push(c.l); else if(below/n<=0.2&&v<vals[n-1]) minus.push(c.l); });
+  return {plus,minus,n:peers.length};
+}
+function swHTML(d){
+  const r=classSW(d); if(!r) return "";
+  return `<h3 style="margin-top:10px">Na tle klasy ${VCL[vcls(d.s)]} <span class="muted" style="font-weight:400;font-size:13px">(${r.n} modeli)</span></h3>
+  <p class="plus" style="font-size:13.5px">Zalety (górne 20%): ${r.plus.length?r.plus.join(", "):"—"}</p><p class="minus" style="font-size:13.5px">Słabe strony (dolne 20%): ${r.minus.length?r.minus.join(", "):"—"}</p>`;
+}
+
+/* ===== Etap 6: porównanie zapisane w linku ===== */
+function cmpLinkURL(){
+  const ids=[...st.cmp].slice(0,cmpMax()), q=new URLSearchParams();
+  q.set("porownaj",ids.join(",")); q.set("profil",st.prof);
+  if(st.prof==="custom") q.set("wagi",CRITS.map(c=>c.k+":"+(st.w[c.k]||0)).join(","));
+  q.set("rynek",[...st.reg].join(","));
+  return location.href.split("#")[0]+"#"+[...q].map(([k,v])=>k+"="+encodeURIComponent(v).replace(/%2C/g,",").replace(/%3A/g,":")).join("&");
+}
+function applyCmpLink(h){
+  const q=new URLSearchParams(h); if(!q.get("porownaj")) return false;
+  const ids=q.get("porownaj").split(",").filter(id=>TV.some(d=>d.id===id)).slice(0,5); if(!ids.length) return false;
+  st.cmp=new Set(ids);
+  const pr=q.get("profil"); if(PROFILES[pr]){ st.prof=pr; st.w=fullW(PROFILES[pr].w); }
+  else if(pr==="custom"&&q.get("wagi")){ const w={}; q.get("wagi").split(",").forEach(x=>{ const [k,v]=x.split(":"); if(CRITS.some(c=>c.k===k)) w[k]=Math.max(0,Math.min(60,+v||0)); }); st.prof="custom"; st.w=fullW(w); }
+  const rg=(q.get("rynek")||"").split(",").filter(r=>REGS[r]); if(rg.length) st.reg=new Set(rg);
+  scInv(); applyMarket(); renderMkt(); renderWeights(); renderHead(); renderAll();
+  setTimeout(()=>{ const s=$("cmpSec"); if(s&&!s.hidden) s.scrollIntoView({behavior:"smooth",block:"start"}); },150);
+  return true;
+}
+$("cmpLink").addEventListener("click",async()=>{
+  const u=cmpLinkURL();
+  try{ await navigator.clipboard.writeText(u); cmpMsg("Link skopiowany – otworzy to samo porównanie z tym samym profilem i rynkiem"); }
+  catch(e){ window.prompt("Skopiuj link do porównania:",u); }
+});
+
 function renderCmp(){
   const lg=$("cmpLeg"); if(lg) lg.textContent=`Zaznacz „Porównaj” przy 2–${cmpMax()} modelach`;
   const ids=[...st.cmp].slice(0,cmpMax()), sec=$("cmpSec");
@@ -1440,7 +1519,10 @@ function renderCmp(){
   const byP=ds.filter(d=>d.p!=null&&score(d)!=null).sort((a,b)=>a.p-b.p), base=byP[0];
   const extra=[["Dopłata do najtańszego z wybranych",d=>d.p,(v,d)=>{ if(!base||d===base||d.p==null||score(d)==null) return d===base?'<span class="muted">punkt odniesienia</span>':"—"; const dp=d.p-base.p, ds=score(d)-score(base);
       return `+${grp(Math.round(dp))} ${CUR} → ${ds>=0?"+":"−"}${Math.abs(ds).toFixed(2).replace(".",",")} pkt`+(ds>0.005?` <span class="muted">(${grp(Math.round(dp/(ds*10)))} ${CUR} za 0,1 pkt)</span>`:` <span class="muted">– dopłata bez zysku</span>`); },null],
-    ["Mocne strony (na tle wybranych)",d=>1,(v,d)=>{ const o=CRITS.filter(c=>{ const x=c.get(d); if(x==null) return false; const others=ds.filter(y=>y!==d).map(y=>c.get(y)).filter(z=>z!=null); return others.length&&x>=Math.max(...others)+0.3; }).map(c=>c.l); return o.length?o.join(", "):'<span class="muted">—</span>'; },null]];
+    ["Mocne strony (na tle wybranych)",d=>1,(v,d)=>{ const o=CRITS.filter(c=>{ const x=c.get(d); if(x==null) return false; const others=ds.filter(y=>y!==d).map(y=>c.get(y)).filter(z=>z!=null); return others.length&&x>=Math.max(...others)+0.3; }).map(c=>c.l); return o.length?o.join(", "):'<span class="muted">—</span>'; },null],
+    ["Słabsze strony (na tle wybranych)",d=>1,(v,d)=>{ const o=CRITS.filter(c=>{ const x=c.get(d); if(x==null) return false; const others=ds.filter(y=>y!==d).map(y=>c.get(y)).filter(z=>z!=null); return others.length&&x<=Math.min(...others)-0.3; }).map(c=>c.l); return o.length?o.join(", "):'<span class="muted">—</span>'; },null],
+    ["Zalety w swojej klasie rozmiaru",d=>1,(v,d)=>{ const r=classSW(d); return r?(r.plus.length?r.plus.join(", "):'<span class="muted">—</span>'):'<span class="muted">za mało danych</span>'; },null],
+    ["Najniższa cena w historii",d=>{const p=histPts(d); return p&&p.length?histStats(p).mn:null;},(v,d)=>{ const p=histPts(d); if(!p||!p.length) return "—"; const s=histStats(p); return `${grp(s.mn)} ${CUR}`+(s.atMin?' <span class="muted">(teraz)</span>':` <span class="muted">(teraz +${grp(Math.round(s.cur-s.mn))})</span>`); },null]];
   rows.splice(rows.findIndex(r=>r[0]==="Opłacalność")+1,0,...extra);
   $("cmpTbl").innerHTML=`<thead><tr><th scope="col" style="padding:10px">Parametr</th>${ds.map((d,i)=>`<th scope="col" class="cmph" data-ci="${i}" draggable="true" style="padding:10px;color:var(--ink)"><div class="cmphd"><span class="cmpgrip" title="Przeciągnij, by zmienić kolejność" aria-hidden="true">⋮⋮</span><span class="cmpn">${esc(d.n)} <span class="tag size">${d.s}″</span></span><button type="button" class="cmpx" data-cmpdel="${d.id}" title="Usuń z porównania" aria-label="Usuń ${esc(d.n)} z porównania">×</button></div><div class="cmpmv"><button type="button" class="linkbtn" data-cmpmv="${i}" data-d="-1" ${i===0?"disabled":""} aria-label="Przesuń w lewo">◀</button><button type="button" class="linkbtn" data-cmpmv="${i}" data-d="1" ${i===ds.length-1?"disabled":""} aria-label="Przesuń w prawo">▶</button></div></th>`).join("")}</tr></thead><tbody>`+
     rows.map(([l,g,f,mode])=>{
@@ -1777,7 +1859,9 @@ function applyPreset(p,setHash){
 window.addEventListener("hashchange",()=>{const h=location.hash.slice(1); if(["tv75","tv85","tv98","wszystkie"].includes(h)) applyPreset(h,false);});
 
 renderWeights(); renderChips(); renderCols(); renderEx();
-{const h=location.hash.slice(1); if(["tv75","tv85","tv98","wszystkie"].includes(h)) applyPreset(h,false); else renderAll();}
+{const h=location.hash.slice(1); if(["tv75","tv85","tv98","wszystkie"].includes(h)) applyPreset(h,false); else if(!applyCmpLink(h)) renderAll();}
+window.addEventListener("hashchange",()=>applyCmpLink(location.hash.slice(1)));
+loadHist();
 </script>
 <div class="hbar" id="hbar" aria-hidden="true">
   <button type="button" class="hbtn" id="hbL" tabindex="-1" aria-label="Przewiń w lewo">‹</button>
