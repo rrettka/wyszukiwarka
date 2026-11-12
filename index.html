@@ -308,8 +308,22 @@ thead .sticky{background:var(--surface-2);z-index:2}
 .cmp tbody th{text-align:left;font-weight:500;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface-2)}
 .cmp td{padding:8px 10px;border-bottom:1px solid var(--line)}
 .cmp td.best{color:var(--good);font-weight:600}
-#tbl td.sm{font-size:12px;line-height:1.3;min-width:150px;max-width:170px}
-#tbl td.sm.r{min-width:112px}
+#tbl td.sm{font-size:12px;line-height:1.3;min-width:118px;max-width:165px}
+#tbl td.sm.r{min-width:96px}
+#tbl td.sm.l3{white-space:nowrap;min-width:0;max-width:none}
+#tbl td.model .mname{font-size:13px}
+.mtail{font-weight:400;color:var(--muted)}
+/* Kolumna Model: 3 linie – nazwa / technologia i rok / znaczniki */
+#tbl td.model{min-width:212px;width:212px;max-width:212px}
+#tbl td.model .mname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal}
+#tbl td.model .mtech{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#tbl td.model .tags{flex-wrap:nowrap;overflow:hidden}
+#tbl td.model .tag{white-space:nowrap;flex:none;font-size:11px;padding:0 6px}
+#tbl td.model .tags{gap:3px}
+/* delikatne pionowe linie między kolumnami */
+#tbl thead th,#tbl tbody tr.row>td,.fhead thead th{border-right:1px solid color-mix(in srgb,var(--line) 55%,transparent)}
+#tbl thead th:last-child,#tbl tbody tr.row>td:last-child,.fhead thead th:last-child{border-right:0}
+#tbl thead th.sticky,#tbl td.model.sticky,.fhead th.sticky{border-right:1px solid var(--line)}
 #tbl td.nw{white-space:nowrap}
 .cmph{vertical-align:top;cursor:grab;min-width:150px}
 .cmphd{display:flex;gap:6px;align-items:flex-start}
@@ -339,7 +353,8 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
   header.top{align-items:flex-start}
 }
 @media (max-width: 640px){
-  td.model{min-width:0;width:132px;max-width:132px}
+  td.model,#tbl td.model{min-width:0;width:132px;max-width:132px}
+  #tbl td.model .mname{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
   .mname{font-size:13.5px;line-height:1.25}
   .model .tags .tag{font-size:10.5px;padding:1px 6px}
   .model .tags .tag:not(.size):not(.over):not(.est){display:none}
@@ -622,14 +637,24 @@ const X0=d=>d.x||(d.x={});
 const p3Of=d=>{const x=X0(d); if(x.p3!=null) return x.p3; const m=String(d.bt||"").match(/([\d,]+)\s*%/); return m?parseFloat(m[1].replace(",",".")):null;};
 const crN=d=>{const x=X0(d); return x.cr==null?null:(x.cr==="inf"?1e7:+x.cr);};
 const crTxt=d=>{const x=X0(d); return x.cr==null?null:(x.cr==="inf"?"∞ : 1":grp(x.cr)+" : 1");};
-const ilTxt=d=>{const x=X0(d); if(x.il==null) return null; let t=x.il+" ms"; if(x.ilh!=null&&x.ilh!==x.il) t+=` <span class="muted">· HDR ${x.ilh} ms</span>`; const b=[]; if(x.il120!=null) b.push(`120 Hz: ${x.il120} ms`); if(x.ildv!=null&&x.ildv!==(x.ilh??x.il)) b.push(`DV: ${x.ildv} ms`); return t+(b.length?`<br><span class="muted">${b.join("<br>")}</span>`:"");};
-const vrrTxt=d=>{const x=X0(d); const a=[]; if(x.vrr) a.push(esc(x.vrr)); if(x.allm===true) a.push("ALLM"); else if(x.allm===false) a.push("bez ALLM"); return a.length?a.join(", "):null;};
-const zlTxt=d=>{const x=X0(d); const a=[]; if(x.earc!=null) a.push(x.earc?"eARC":"bez eARC"); if(x.tun) a.push("DVB-"+esc(x.tun)); if(x.ci!=null) a.push(x.ci?"CI+":"bez CI+"); if(x.usb!=null) a.push(x.usb+"× USB"); if(x.lan) a.push("LAN"); if(x.wifi) a.push(x.wifi==="tak"?"Wi-Fi":"Wi-Fi "+esc(x.wifi)); if(x.btv) a.push(x.btv==="tak"?"Bluetooth":"BT "+esc(x.btv)); if(x.opt!=null) a.push(x.opt?"optyczne":"bez optycz."); return a.length?a.join(", "):null;};
-const auTxt=d=>{const x=X0(d); const a=[]; if(x.rms!=null) a.push(x.rms+" W"); if(x.ch) a.push(esc(x.ch)); if(x.atm!=null) a.push(x.atm?"Dolby Atmos":"bez Atmos"); if(x.dts) a.push(esc(x.dts)); return a.length?a.join(" · "):null;};
-const dimTxt=d=>{const x=X0(d); const a=[]; if(x.dim) a.push(x.dim.map(v=>Math.round(v)).join(" × ")+" mm"); if(x.wt!=null) a.push(String(x.wt).replace(".",",")+" kg"); return a.length?a.join(" · "):null;};
-const stTxt=d=>{const x=X0(d); const a=[]; if(x.st) a.push(esc(x.st)); if(x.sw!=null) a.push((x.st&&/nóż/.test(x.st)?"rozstaw ":"szer. ")+String(Math.round(x.sw/10))+" cm"); if(x.sd!=null) a.push("głęb. "+String(Math.round(x.sd/10))+" cm"); return a.length?a.join(", "):null;};
+const L3=a=>{const b=a.filter(Boolean); return b.length?b.join("<br>"):null;}; /* komórki: najwyżej 3 krótkie linie */
+const ilTxt=d=>{const x=X0(d); if(x.il==null) return null; const m=[]; if(x.ilh!=null&&x.ilh!==x.il) m.push("HDR "+x.ilh); if(x.ildv!=null&&x.ildv!==(x.ilh??x.il)) m.push("DV "+x.ildv); return L3([`<b>${x.il} ms</b>`, m.length?`<span class="muted">${m.join(" · ")} ms</span>`:null, x.il120!=null?`<span class="muted">120 Hz: ${x.il120} ms</span>`:null]);};
+const vrrTxt=d=>{const x=X0(d); const a=[]; if(x.vrr) a.push(esc(x.vrr).replace(/, (G-Sync|FreeSync.*)$/,"<br>$1")); if(x.allm===true) a.push("ALLM"); else if(x.allm===false) a.push("bez ALLM"); return a.length?a.join("<br>"):null;};
+const zlTxt=d=>{const x=X0(d); const au=[],tv=[],io=[]; if(x.earc!=null) au.push(x.earc?"eARC":"bez eARC"); if(x.opt!=null) au.push(x.opt?"optyczne":"bez optycz."); if(x.tun) tv.push("DVB-"+esc(x.tun)); if(x.ci!=null) tv.push(x.ci?"CI+":"bez CI+"); if(x.usb!=null) io.push(x.usb+"× USB"); if(x.lan) io.push("LAN"); if(x.wifi) io.push(x.wifi==="tak"?"Wi-Fi":"Wi-Fi "+esc(x.wifi)); if(x.btv) io.push(x.btv==="tak"?"BT":"BT "+esc(x.btv)); return L3([au.join(" · "),tv.join(" · "),io.join(" · ")]);};
+const auTxt=d=>{const x=X0(d); const a=[],b=[]; if(x.rms!=null) a.push(x.rms+" W"); if(x.ch) a.push(esc(x.ch)); if(x.atm!=null) b.push(x.atm?"Dolby Atmos":"bez Atmos"); if(x.dts) b.push(esc(x.dts)); return L3([a.join(" · "),b.join(" · ")]);};
+const dimTxt=d=>{const x=X0(d); return L3([x.dim?x.dim.map(v=>Math.round(v)).join(" × ")+" mm":null, x.wt!=null?String(x.wt).replace(".",",")+" kg":null]);};
+const stTxt=d=>{const x=X0(d); const b=[]; if(x.sw!=null) b.push((x.st&&/nóż/.test(x.st)?"rozstaw ":"szer. ")+String(Math.round(x.sw/10))+" cm"); if(x.sd!=null) b.push("głęb. "+String(Math.round(x.sd/10))+" cm"); const sm=x.st?String(x.st).match(/^(.*?)\s*\((.*)\)$/):null; const s1=sm?sm[1]:x.st, s2=sm?sm[2].replace(/regulacja (\S+), regulacja (\S+)/,"reg. $1 i $2").replace(/^regulacja /,"reg. "):null; return L3([s1?esc(s1):null,s2?esc(s2):null,b.join(" · ")]);};
 const ECR={A:1,B:2,C:3,D:4,E:5,F:6,G:7};
-const enTxt=d=>{const x=X0(d); const a=[]; if(x.pw!=null) a.push(`<b>${x.pw} W</b>`); if(x.pwh!=null) a.push(`HDR ${x.pwh} W`); if(x.ec) a.push("klasa "+esc(x.ec)); return a.length?a.join(" · "):null;};
+const enTxt=d=>{const x=X0(d); const a=[]; if(x.pw!=null) a.push(`<b>${x.pw} W</b>`); if(x.pwh!=null) a.push(`HDR ${x.pwh} W`); return L3([a.join(" · "),x.ec?"klasa "+esc(x.ec):null]);};
+/* Technologia + rok w kolumnie Model (pełna nazwa w podpowiedzi i w szczegółach) */
+/* Nazwa w kolumnie Model: dopisek w nawiasie wyszarzony (ucina się pierwszy), a technologia/rok z nawiasu pomijane, bo są w 2. linii */
+function nameHTML(d){ const nn=String(d.n).replace(/\s+(Micro RGB|Mini RGB evo)$/,"").replace(/(Mini LED \d+) 20\d\d$/,"$1"); const m=nn.match(/^(.*?)\s*(\(.*\)|[≈=].*)$/); if(!m) return esc(nn);
+  const tail=m[2].replace(/^\((.*)\)$/,"$1").trim(); if(/^((19|20)\d\d|QD-?OLED|WOLED|OLED|RGB Mini LED|Mini LED)$/i.test(tail)) return esc(m[1]);
+  return esc(m[1])+` <span class="mtail">${esc(m[2])}</span>`; }
+function techShort(d){ const tl=String(d.tl||""), y=(tl.match(/\b(20\d\d)\b/)||[])[1]; let t=d.t;
+  if(d.t==="OLED") t=/QD-?OLED/i.test(tl+" "+d.n)?"QD-OLED":/Tandem|evo G6/i.test(tl)?"WOLED Tandem":/WOLED|evo/i.test(tl)?"WOLED":"OLED";
+  else if(d.t==="Mini LED") t=/\bS?QD\b|QD-|Neo QLED|Quantum/i.test(tl)?"QD Mini LED":/QNED/i.test(tl)?"QNED Mini LED":"Mini LED";
+  return t+(y?` (${y})`:""); }
 const vesaN=d=>{const v=X0(d).vesa; return v?parseInt(v):null;};
 /* Banding = płynność przejść tonalnych z testu wybierz.tv (0–10): pasy/schodki/posteryzacja w gradientach */
 const bdLbl=v=>v==null?"":v>=9?"bez pasów":v>=8?"drobne":v>=7?"widoczne w ciemnych":"wyraźne";
@@ -1190,14 +1215,14 @@ function renderBody(){
   $("tbody").innerHTML=list.map(d=>{
     const sc=score(d),v=val(d),open=st.open===d.id;
     const tags=[`<span class="tag size">${d.s}″</span>`];
-    if(d.p==null) tags.push(`<span class="tag over">cena do sprawdzenia</span>`);
-    {const q=prov(d); if(q.tl==="C") tags.push(`<span class="tag est" title="${esc(LV.C)}">${q.t&&q.t.tested?"z testu "+q.t.tested+"″":"test serii"}</span>`); else if(q.tl==="X") tags.push(`<span class="tag est" title="${esc(q.tn)}">test innej matrycy</span>`); if(d.mv!=null&&d.m==null) tags.push(`<span class="tag est" title="Brak oceny powłoki – wynik liczony bez matowości">bez oceny ekranu</span>`);}
+    if(d.p==null) tags.push(`<span class="tag over">brak ceny</span>`);
+    {const q=prov(d); if(q.tl==="C") tags.push(`<span class="tag est" title="${esc(LV.C)}">${q.t&&q.t.tested?"z testu "+q.t.tested+"″":"test serii"}</span>`); else if(q.tl==="X") tags.push(`<span class="tag est" title="${esc(q.tn)}">inna matryca</span>`); if(d.mv!=null&&d.m==null) tags.push(`<span class="tag est" title="Brak oceny powłoki – wynik liczony bez matowości">bez matowości</span>`);}
     if(d.mv==null) tags.push(`<span class="tag est" title="Brak testu laboratoryjnego – dane techniczne producenta">bez testu</span>`);
     const hdmi21=(d.hd.match(/(\d)× HDMI 2\.1/)||[])[1];
     const C={
       cmp:`<td onclick="event.stopPropagation()"><input class="cmpbox" type="checkbox" id="c_${d.id}" data-cmp="${d.id}" ${st.cmp.has(d.id)?"checked":""} aria-label="Porównaj ${esc(d.n)}"></td>`,
       rank:`<td class="r rank">${rankOf.get(d.id)}</td>`,
-      name:`<td class="model sticky"><div class="mname">${esc(d.n)}</div><div class="mtech">${esc(d.tl)}</div><div class="tags">${tags.join("")}</div></td>`,
+      name:`<td class="model sticky" title="${esc(d.n+" – "+d.tl)}"><div class="mname">${nameHTML(d)}</div><div class="mtech">${esc(techShort(d))}</div><div class="tags">${tags.join("")}</div></td>`,
       p:`<td class="r">${priceCell(d)}</td>`,
       ca:`<td class="r num">${caPrice(d)==null?"—":`<a class="plink" href="${esc((INTL[d.id]||[]).find(x=>x.m==="CA").url)}" target="_blank" rel="noopener">${grp(caPrice(d))} CAD ↗</a>`}</td>`,
       score:`<td class="r"><span class="score ${sClass(sc)}">${f2(sc)}</span></td>`,
@@ -1215,14 +1240,14 @@ function renderBody(){
       bd:`<td class="r nw">${bdCell(d)}</td>`,
       p3:`<td class="r num nw">${p3Of(d)==null?"—":String(p3Of(d)).replace(".",",")+" %"}</td>`,
       de:`<td class="r">${X0(d).de?esc(X0(d).de):"—"}</td>`,
-      il:`<td class="r num sm">${ilTxt(d)||"—"}</td>`,
-      vrr:`<td class="sm">${vrrTxt(d)||"—"}</td>`,
-      zl:`<td class="sm">${zlTxt(d)||"—"}</td>`,
-      au:`<td class="r sm">${auTxt(d)||"—"}</td>`,
-      dims:`<td class="r sm">${dimTxt(d)||"—"}</td>`,
-      stand:`<td class="r sm">${stTxt(d)||"—"}</td>`,
+      il:`<td class="r num sm l3">${ilTxt(d)||"—"}</td>`,
+      vrr:`<td class="sm l3">${vrrTxt(d)||"—"}</td>`,
+      zl:`<td class="sm l3">${zlTxt(d)||"—"}</td>`,
+      au:`<td class="r sm l3">${auTxt(d)||"—"}</td>`,
+      dims:`<td class="r sm l3">${dimTxt(d)||"—"}</td>`,
+      stand:`<td class="r sm l3">${stTxt(d)||"—"}</td>`,
       vesa:`<td class="r num">${X0(d).vesa?esc(X0(d).vesa):"—"}</td>`,
-      en:`<td class="r sm">${enTxt(d)||"—"}</td>`,
+      en:`<td class="r sm l3">${enTxt(d)||"—"}</td>`,
       vmv:`<td class="r num">${vmv(d)==null?"—":(vctx().get(d).lossQ?"−"+vctx().get(d).lossQ.toFixed(2).replace(".",",")+" pkt":"✓ front")}</td>`,
       pf:`<td>${nitCell(d)}</td>`,
       pp:`<td class="r">${ppCell(d)}</td>`,
@@ -1237,7 +1262,7 @@ function renderBody(){
       c4:`<td class="r gcon">${hzCell(con(d,d.h4,4))}</td>`,
       c14:`<td class="r gcon">${hzCell(con(d,d.h14))}</td>`,
       c10:`<td class="r gcon">${hzCell(con(d,d.h10))}</td>`,
-      hd:`<td class="num sm">${hdmi21?hdmi21+"× 2.1":esc(d.hd.replace(/^HDMI 2\.1 \(sprawdź liczbę w ofercie\)$/,"2.1 (liczba?)").replace("HDMI ",""))}</td>`
+      hd:`<td class="num sm" title="${esc(d.hd)}">${hdmi21?hdmi21+"× 2.1":esc(d.hd.replace(/^HDMI 2\.1 \(sprawdź liczbę w ofercie\)$/,"2.1 (liczba?)").replace("HDMI ","").replace(/\s*\((?!liczba)[^)]*\)/g,""))}</td>`
     };
     let r=`<tr class="row" data-id="${d.id}" aria-expanded="${open}" tabindex="0">
       ${VIS().map(k=>C[k]).join("")}
