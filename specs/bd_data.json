@@ -1,0 +1,760 @@
+{
+ "_opis": "Banding: ocena „Płynność przejść tonalnych” (0–10) z testu serii w wybierz.tv + krótki opis (bdt), działanie funkcji wygładzania (bdf) i źródła (bdu). Klucz = id serii z data/series.json. Zebrane 12.11.2026; RTINGS niedostępny dla automatycznego odczytu.",
+ "serie": {
+  "hisense-ur8s": {
+   "bd": 9.3,
+   "bdt": "Przejścia prawie bez widocznych schodków; w Dolby Vision lekkie pasy w ciemnych partiach.",
+   "bdf": "Wygładzanie przejść tonalnych działa bardzo dobrze na słabszym materiale.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/hisense/hisense-ur8s_AJN"
+    ]
+   ]
+  },
+  "sony-bravia-7-ii": {
+   "bd": 8.5,
+   "bdt": "W HDR10 płynnie; w Dolby Vision pasy w ciemnych odcieniach łatwiej zauważyć (HDTVPolska: lekkie schodki w ciemnych błękitach).",
+   "bdf": "„Łagodna gradacja” podniesiona o stopień usuwa schodki.",
+   "bdu": [
+    [
+     "HDTVPolska",
+     "https://hdtvpolska.com/sony-bravia-7-ii-test-opinia-true-rgb/?showfull=1"
+    ],
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/sony/sony-bravia-7-ii_AJL"
+    ],
+    [
+     "netzwelt.de",
+     "https://www.netzwelt.de/fernseher/sony-bravia-7-ii-testbericht.html"
+    ]
+   ]
+  },
+  "tcl-c8l": {
+   "bd": 9.0,
+   "bdt": "Przejścia „prawie referencyjne”; drobne niedoskonałości tylko w bardzo ciemnych scenach.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/tcl/tcl-c8l_AIO"
+    ],
+    [
+     "videotesty.pl",
+     "https://www.videotesty.pl/recenzja/2820/test-telewizora-mini-led-tcl-c8l-65-calowy-kombajn-kinowy-do-jasnego-salonu-filmow-sportu-i-gier/"
+    ]
+   ]
+  },
+  "samsung-qn92f-qn90f": {
+   "bd": 8.9,
+   "bdt": "Bardzo dobrze; Expert Reviews: praktycznie bez pasów w HDR.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-qn92f-qn90f_AGQ"
+    ],
+    [
+     "Expert Reviews",
+     "https://www.expertreviews.co.uk/technology/tvs-home-cinema/samsung-qn90f-review"
+    ],
+    [
+     "What Hi-Fi?",
+     "https://www.whathifi.com/tv-home-cinema/televisions/samsung-qn90f-qe65qn90f"
+    ]
+   ]
+  },
+  "hisense-u8q": {
+   "bd": 8.9,
+   "bdt": "Nawet w najciemniejszych scenach brak „schodków”.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/hisense/hisense-u8q_AGB"
+    ],
+    [
+     "Trusted Reviews",
+     "https://www.trustedreviews.com/reviews/hisense-u8q-55u8qftuk"
+    ]
+   ]
+  },
+  "tcl-rm7l": {
+   "bd": 8.9,
+   "bdt": "Płynne gradienty w jasnych i ciemnych scenach.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/tcl/tcl-rm7l_AIZ"
+    ]
+   ]
+  },
+  "hisense-u7s-pro": {
+   "bd": 9.5,
+   "bdt": "Bez wyraźnej posteryzacji i schodków.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/hisense/hisense-u7s-pro_AIJ"
+    ]
+   ]
+  },
+  "tcl-c7l": {
+   "bd": 8.6,
+   "bdt": "W większości scen czysto; drobne niedoskonałości w bardzo ciemnych, mocno skompresowanych materiałach.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/tcl/tcl-c7l_AIM"
+    ]
+   ]
+  },
+  "hisense-ur9s": {
+   "bd": 9.4,
+   "bdt": "Płynnie, czasem drobne niedoskonałości w Dolby Vision (HDTVPolska: schodki w ciemnych scenach).",
+   "bdf": "Programowe wygładzanie gradientów mocno je ogranicza.",
+   "bdu": [
+    [
+     "HDTVPolska",
+     "https://hdtvpolska.com/hisense-ur9s-rgb-miniled-test/?showfull=1"
+    ],
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/hisense/hisense-ur9s_AIH"
+    ],
+    [
+     "Expert Reviews",
+     "https://www.expertreviews.co.uk/technology/tvs-home-cinema/hisense-ur9s-review"
+    ]
+   ]
+  },
+  "samsung-r85h-r86h": {
+   "bd": 8.9,
+   "bdt": "Jasne gradienty równe, bez wyraźnych pasów.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-r85h-r86h_AJP"
+    ]
+   ]
+  },
+  "samsung-qn85f": {
+   "bd": 9.0,
+   "bdt": "Gradienty płynne, czyste przejścia kolorów.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-qn85f_AGI"
+    ]
+   ]
+  },
+  "samsung-qn80h": {
+   "bd": 9.5,
+   "bdt": "Bez pasów i plam; ciemne gradienty szczególnie dobre, czasem lekkie schodki w bardzo jasnych ujęciach.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-qn80h_AIW"
+    ]
+   ]
+  },
+  "xiaomi-s-mini-2026-85-98-144hz": {
+   "bd": 9.0,
+   "bdt": "W 85/98″ bardzo dobrze, tylko śladowa posteryzacja (mniejsze rozmiary wypadają wyraźnie gorzej).",
+   "bdf": "Funkcja przeciw posteryzacji prawie nic nie daje.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/xiaomi/xiaomi-s-mini-2026-85-98-144hz_AIY"
+    ]
+   ]
+  },
+  "lg-mrgb85b": {
+   "bd": 8.9,
+   "bdt": "Dość dobrze; w ciemnych scenach i w Dolby Vision posteryzacja nieco wyraźniejsza.",
+   "bdf": "„Płynna gradacja” na Niski/Średni skutecznie usuwa pasy.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/lg/lg-mrgb85b_AJG"
+    ]
+   ]
+  },
+  "lg-qned86a-qned85a-qned87a": {
+   "bd": 8.9,
+   "bdt": "Bez wyraźnych schodków; lekkie pasy tylko w najciemniejszych partiach.",
+   "bdf": "„Płynna gradacja” na Średni wygładza bez utraty ziarna.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/lg/lg-qned86a-qned85a-qned87a_AGH"
+    ]
+   ]
+  },
+  "philips-mled920-mled910": {
+   "bd": 6.5,
+   "bdt": "Słabsza strona: widoczne schodki i twarde przejścia odcieni, lepiej w jasnych scenach.",
+   "bdf": "„Redukcja zniekształceń” na Średni wygładza schodki.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/philips/philips-mled920-mled910_AGO"
+    ]
+   ]
+  },
+  "lg-oled-c5": {
+   "bd": 8.2,
+   "bdt": "Typowe dla WOLED pasy w ciemnych partiach w dużej mierze usunięte; subtelne granice w bardzo ciemnych scenach.",
+   "bdf": "„Płynna gradacja” usuwa banding prawie całkowicie.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/lg/lg-oled-c5_AFE"
+    ],
+    [
+     "Expert Reviews",
+     "https://www.expertreviews.co.uk/technology/tvs-home-cinema/lg-oled-c5-review"
+    ]
+   ]
+  },
+  "lg-oled-b6": {
+   "bd": 7.3,
+   "bdt": "W większości scen płynnie, ale w ciemnych partiach typowe dla WOLED pasy.",
+   "bdf": "„Płynna gradacja” Niski/Średni wyraźnie pomaga.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/lg/lg-oled-b6_AJE"
+    ],
+    [
+     "Reviewed",
+     "https://reviewed.com/televisions/content/lg-b6-series-4k-oled-tv-review"
+    ]
+   ]
+  },
+  "lg-oled-b5": {
+   "bd": 7.2,
+   "bdt": "W ciemnych, subtelnych scenach drobne fałszywe kontury i grudkowanie.",
+   "bdf": "Wygładzanie gradacji pomaga przy słabszym materiale.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/lg/lg-oled-b5_AFG"
+    ],
+    [
+     "Tom's Guide",
+     "https://www.tomsguide.com/tvs/oled-tvs/lg-b5-oled-tv-review"
+    ]
+   ]
+  },
+  "samsung-oled-s90f-woled": {
+   "bd": 7.3,
+   "bdt": "Wersja WOLED: lekkie schodki w ciemnych scenach, gorzej niż S90D (minus w teście).",
+   "bdf": "Redukcja szumów wygładza, ale zjada ziarno i detal.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-oled-s90f-woled_AFF"
+    ],
+    [
+     "HDTVPolska",
+     "https://hdtvpolska.com/test-samsung-oled-s90f-2025-qd-oled-recenzja-opinie-pomiary/"
+    ]
+   ]
+  },
+  "samsung-oled-s85f-woled": {
+   "bd": 7.3,
+   "bdt": "Wersja WOLED: słabiej niż QD-OLED, w jasnych momentach widoczne łączenia kolorów.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-oled-s85f-woled_AHG"
+    ],
+    [
+     "TechRadar",
+     "https://www.techradar.com/televisions/samsung-s85f-review"
+    ]
+   ]
+  },
+  "sony-bravia-6-a65": {
+   "bd": 6.7,
+   "bdt": "Przeciętnie: w ciemnych tonach osobne pasy zamiast płynnych przejść; Dolby Vision jeszcze gorzej.",
+   "bdf": "„De Contour” na Średni pomaga tylko trochę.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/sony/sony-bravia-6-a65_AKE"
+    ]
+   ]
+  },
+  "lg-oled-c6h-tandem-woled": {
+   "bd": 5.0,
+   "bdt": "Same gradienty płynne – ocenę obniża mocny dithering i migotanie tuż nad czernią.",
+   "bdf": "„Płynna gradacja” na Niski dobrze ukrywa artefakty.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/lg/lg-oled-c6h-tandem-woled_AJJ"
+    ],
+    [
+     "Expert Reviews",
+     "https://www.expertreviews.co.uk/technology/tvs-home-cinema/lg-c6-oled-primary-rgb-tandem-review"
+    ]
+   ]
+  },
+  "samsung-s90h-qd-oled": {
+   "bd": 9.0,
+   "bdt": "77″ QD-OLED: posteryzację trudno zauważyć; wyraźna przewaga nad wersją WOLED.",
+   "bdf": "Wygładzanie gradacji skuteczne, ale zjada ziarno.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-s90h-qd-oled_AIT"
+    ]
+   ]
+  },
+  "samsung-s85h": {
+   "bd": 7.0,
+   "bdt": "Wyraźne schodki w jasnych gradientach, gorzej w ruchu; ciemne też nie idealne (minus w teście).",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-s85h_AJM"
+    ],
+    [
+     "What Hi-Fi?",
+     "https://www.whathifi.com/tv-home-cinema/televisions/samsung-s85h-qe55s85h"
+    ]
+   ]
+  },
+  "xiaomi-s-mini-2026-55-75-60hz": {
+   "bd": 5.5,
+   "bdt": "W 55–75″ posteryzacja dość często w ciemnych scenach.",
+   "bdf": "Brak funkcji wygładzania gradacji.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/xiaomi/xiaomi-s-mini-2026-55-75-60hz_AJA"
+    ]
+   ]
+  },
+  "lg-oled-g5": {
+   "bd": 8.5,
+   "bdt": "Wyraźnie lepiej niż G4; drobne niedoskonałości w bardzo ciemnych szarościach. RTINGS: kontury w ciemnych scenach HDR10; błąd w Dolby Vision poprawiony aktualizacją.",
+   "bdf": "„Płynna gradacja” na Niski skutecznie usuwa artefakty.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/lg/lg-oled-g5_AER"
+    ],
+    [
+     "RTINGS (quoted by choose.tv)",
+     "https://www.choose.tv/us/news/lg-g5-like-a-rose-with-thorns-the-first-tests-of-the-flagship-oled-from-the-koreans_AMT"
+    ],
+    [
+     "What Hi-Fi? / TechRadar",
+     "https://www.whathifi.com/tv-home-cinema/televisions/a-fix-is-on-the-way-for-the-big-problem-we-identified-with-the-lg-g5"
+    ]
+   ]
+  },
+  "sony-bravia-8-xr80": {
+   "bd": 5.0,
+   "bdt": "Gradacja słaba – widoczne łączenia w ciemnych i jasnych kolorach.",
+   "bdf": "Brak regulacji „Łagodna gradacja”; redukcja szumów pomaga kosztem detalu.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/sony/sony-bravia-8-xr80_ACO"
+    ],
+    [
+     "Digital Trends",
+     "https://digitaltrends.com/home-theater/sony-bravia-8-review-a-solid-and-lovely-oled-tv"
+    ]
+   ]
+  },
+  "xiaomi-tv-s-pro-2026": {
+   "bd": 6.9,
+   "bdt": "Mocno widoczny banding w ciemnych scenach (minus w teście); jasne gradienty wzorowo.",
+   "bdf": "Usuwanie konturów kolorów nie daje efektu.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/xiaomi/xiaomi-tv-s-pro-2026_AHI"
+    ],
+    [
+     "netzwelt.de",
+     "https://www.netzwelt.de/fernseher/xiaomi-s-pro-mini-led-2026/testbericht.html"
+    ]
+   ]
+  },
+  "lg-oled-g6": {
+   "bd": 5.5,
+   "bdt": "Same przejścia bardzo dobre (bliskie QD-OLED) – ocenę obniża agresywny dithering i migotanie ciemnych szarości. TechRadar: w Dolby Vision więcej pierścieni niż G5.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/lg/lg-oled-g6_AIN"
+    ],
+    [
+     "TechRadar",
+     "https://www.techradar.com/televisions/home-theater-fans-will-be-happy-the-lg-g6-oled-tv-fixes-this-overlooked-picture-issue-its-predecessors-had-but-theres-a-catch"
+    ],
+    [
+     "Home Technology Review",
+     "https://hometechnologyreview.com/lg-g6-oled-review-great-tv-with-problems/"
+    ]
+   ]
+  },
+  "samsung-s95h": {
+   "bd": 9.0,
+   "bdt": "Ciemne sceny płynne; lekkie nierówności w niektórych jasnych scenach.",
+   "bdf": "Redukcja szumów dobrze wygładza pasy.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-s95h_AKN"
+    ],
+    [
+     "TechRadar",
+     "https://www.techradar.com/televisions/samsung-s95h-review"
+    ]
+   ]
+  },
+  "tcl-x11l": {
+   "bd": 9.5,
+   "bdt": "„Prawie idealnie” – bez schodków, także w Dolby Vision.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/tcl/tcl-x11l_AIU"
+    ]
+   ]
+  },
+  "samsung-r95h": {
+   "bd": 8.8,
+   "bdt": "Jasne płynnie z drobnymi śladami posteryzacji; ciemne bez większych pasów.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-r95h_AIS"
+    ],
+    [
+     "Expert Reviews",
+     "https://www.expertreviews.co.uk/technology/tvs-home-cinema/samsung-r95h-review"
+    ]
+   ]
+  },
+  "hisense-u7s-u77se": {
+   "bd": 8.5,
+   "bdt": "W HDR10 mocna strona; w Dolby Vision granice odcieni bardziej widoczne.",
+   "bdf": "Wygładzanie gradientów słabe – zostawia pasy i rozmywa detal.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/hisense/hisense-u7s-u77se_AJO"
+    ]
+   ]
+  },
+  "sony-bravia-9-ii": {
+   "bd": 9.5,
+   "bdt": "Bardzo dobrze w jasnych i ciemnych gradientach; Dolby Vision czasem minimalnie gorzej.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/sony/sony-bravia-9-ii_AIV"
+    ],
+    [
+     "Expert Reviews",
+     "https://www.expertreviews.co.uk/technology/tvs-home-cinema/sony-bravia-9-ii-review"
+    ]
+   ]
+  },
+  "samsung-s99h-qd-oled": {
+   "bd": 9.6,
+   "bdt": "Praktycznie bez widocznych pasów; QD-OLED radzi sobie przy czerni lepiej niż WOLED.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-s99h-qd-oled_AJH"
+    ],
+    [
+     "hifi.de",
+     "https://hifi.de/test/samsung-oled-s99h-im-test-das-beste-bild-das-es-jemals-gab-275105"
+    ]
+   ]
+  },
+  "samsung-oled-s95f-qd-oled": {
+   "bd": 8.9,
+   "bdt": "Płynna gradacja; drobne niedoskonałości tylko tuż nad czernią.",
+   "bdf": "Redukcja szumów: zalecane ustawienie Standard.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-oled-s95f-qd-oled_AFX"
+    ]
+   ]
+  },
+  "samsung-oled-s90f-qd-oled": {
+   "bd": 8.8,
+   "bdt": "Większość przejść gładka; kosmetyczne niedoskonałości w bardzo jasnych partiach.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-oled-s90f-qd-oled_AGY"
+    ]
+   ]
+  },
+  "samsung-s90h-woled": {
+   "bd": 8.0,
+   "bdt": "Pasy rzadziej niż wcześniej, ale wciąż słabiej niż wersja QD-OLED.",
+   "bdf": "Wygładzanie gradientów działa, ale zjada ziarno.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-s90h-woled_AJI"
+    ]
+   ]
+  },
+  "lg-oled-c6-woled": {
+   "bd": 7.0,
+   "bdt": "Prawie bez posteryzacji w filmach; ocenę obniża dithering przy czerni. TechRadar (65″): pionowe pasy na szarym tle w ciemnej scenie.",
+   "bdf": "„Płynna gradacja” na Niski.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/lg/lg-oled-c6-woled_AJK"
+    ],
+    [
+     "TechRadar",
+     "https://www.techradar.com/televisions/lg-c6-review"
+    ],
+    [
+     "Expert Reviews",
+     "https://www.expertreviews.co.uk/technology/tvs-home-cinema/lg-c6-oled-primary-rgb-tandem-review"
+    ]
+   ]
+  },
+  "sony-bravia-8-ii": {
+   "bd": 8.5,
+   "bdt": "Jasne HDR bez pasów; lekkie problemy w ciemnych scenach nocnych.",
+   "bdf": "Wygładzanie usuwa pasy na gradientach kolorów i szarości.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/sony/sony-bravia-8-ii_AFU"
+    ],
+    [
+     "StereoNET",
+     "https://www.stereonet.com/reviews/sony-bravia-8-ii-television-review"
+    ],
+    [
+     "What Hi-Fi",
+     "https://www.whathifi.com/tv-home-cinema/televisions/sony-bravia-8-ii"
+    ]
+   ]
+  },
+  "panasonic-z95b": {
+   "bd": 7.8,
+   "bdt": "Wyraźna poprawa względem Z95A, ale w bardzo ciemnych, trudnych scenach niedoskonałości zostają.",
+   "bdf": "Wygładzanie gradacji bez widocznego efektu.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/panasonic/panasonic-z95b_AGR"
+    ],
+    [
+     "Senses.se",
+     "https://www.senses.se/en/review-panasonic-z95b-oled-65-ends-on-a-high-note/"
+    ],
+    [
+     "T3",
+     "https://www.t3.com/tech/tvs/panasonic-z95b-review"
+    ]
+   ]
+  },
+  "philips-oled911": {
+   "bd": 5.3,
+   "bdt": "W ciemnych scenach wyraźne pasy koloru zamiast płynnych przejść (minus w teście); migotanie tuż nad czernią.",
+   "bdf": "Wygładzanie działa nierówno.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/philips/philips-oled911_AKO"
+    ]
+   ]
+  },
+  "philips-oled910": {
+   "bd": 7.0,
+   "bdt": "Ogólnie dobrze, ale w ciemnych partiach charakterystyczne schodki.",
+   "bdf": "„Redukcja zniekształceń” w dużej mierze je usuwa.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/philips/philips-oled910_AGD"
+    ]
+   ]
+  },
+  "philips-oled950": {
+   "bd": 7.1,
+   "bdt": "Rzadka, lekka posteryzacja w trudnych ciemnych scenach (minus w teście).",
+   "bdf": "„Redukcja zniekształceń” na Średni pomaga, ale wygładza skórę.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/philips/philips-oled950_AIA"
+    ]
+   ]
+  },
+  "philips-oled820": {
+   "bd": 6.5,
+   "bdt": "„Pięta achillesowa” modelu: schodki w jasnych i ciemnych scenach.",
+   "bdf": "„Redukcja zniekształceń” na Średni pomaga kosztem detalu.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/philips/philips-oled820_AGJ"
+    ]
+   ]
+  },
+  "philips-oled761": {
+   "bd": 7.4,
+   "bdt": "Dość wyraźne pasy w ciemnych scenach i nierównomierność panelu (minus w teście); może się różnić między egzemplarzami.",
+   "bdf": "„Redukcja zniekształceń” zmniejsza pasy na jednolitym tle.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/philips/philips-oled761_AKB"
+    ]
+   ]
+  },
+  "tcl-a400u": {
+   "bd": 9.4,
+   "bdt": "Bardzo dobrze; lekkie schodki tylko tuż nad czernią.",
+   "bdf": "Wygładzanie prawie nic nie daje.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/tcl/tcl-a400u_AJZ"
+    ]
+   ]
+  },
+  "tcl-c9k": {
+   "bd": 8.7,
+   "bdt": "Bez typowych schodków; drobne problemy w najjaśniejszych partiach.",
+   "bdf": "Wygładzanie gradacji prawie nie działa.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/tcl/tcl-c9k_AGC"
+    ]
+   ]
+  },
+  "tcl-c8k-qm8k": {
+   "bd": 8.7,
+   "bdt": "Bez pasów; drobne nierówności w najciemniejszych szarościach.",
+   "bdf": "Wygładzanie pomaga tylko trochę.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/tcl/tcl-c8k-qm8k_AEX"
+    ]
+   ]
+  },
+  "tcl-c7k-qm7k-55-85": {
+   "bd": 8.6,
+   "bdt": "Bardzo dobrze; ograniczenia tylko w bardzo ciemnych tonach.",
+   "bdf": "Wygładzanie słabe i zjada detal.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/tcl/tcl-c7k-qm7k-55-85_AGF"
+    ]
+   ]
+  },
+  "hisense-u7q-pro": {
+   "bd": 9.5,
+   "bdt": "Bez schodków i pasów, w kolorach i szarościach.",
+   "bdf": "„Obraz gładki i gradientowy” na Średni usuwa problemy starszego materiału.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/hisense/hisense-u7q-pro_AFR"
+    ]
+   ]
+  },
+  "hisense-u7q": {
+   "bd": 9.9,
+   "bdt": "Przejścia czyste, bez widocznych pasów.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/hisense/hisense-u7q_AFQ"
+    ]
+   ]
+  },
+  "hisense-e8q": {
+   "bd": 9.9,
+   "bdt": "Wyjątkowo płynnie, także w trudnych scenach.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/hisense/hisense-e8q_AFT"
+    ]
+   ]
+  },
+  "samsung-qn80f": {
+   "bd": 9.0,
+   "bdt": "Bez pasów na niebie i plam w cieniach; drobne schodki w najjaśniejszych partiach.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-qn80f_AFI"
+    ]
+   ]
+  },
+  "samsung-qn900f": {
+   "bd": 8.3,
+   "bdt": "Płynnie i naturalnie, bez wyraźnych konturów.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-qn900f_AFK"
+    ]
+   ]
+  },
+  "lg-qned93a-qned90a": {
+   "bd": 8.0,
+   "bdt": "W większości scen bez schodków; w jasnych partiach słabe łączenia kolorów. Wyraźna poprawa względem QNED91.",
+   "bdf": "„Płynna gradacja” na Średni.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/lg/lg-qned93a-qned90a_AGN"
+    ],
+    [
+     "Expert Reviews",
+     "https://www.expertreviews.co.uk/technology/tvs-home-cinema/lg-qned93-review"
+    ]
+   ]
+  },
+  "haier-m95e": {
+   "bd": 9.4,
+   "bdt": "Znakomicie, także w ciemnych scenach.",
+   "bdf": "Wygładzania lepiej nie włączać – dodaje artefakty.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/haier/haier-m95e_AHE"
+    ]
+   ]
+  },
+  "samsung-qn990f": {
+   "bd": 9.2,
+   "bdt": "Bardzo dobrze; w bardzo ciemnych ujęciach typowe drobne schodki.",
+   "bdu": [
+    [
+     "wybierz.tv",
+     "https://www.wybierz.tv/telewizory/testy/samsung/samsung-qn990f_AFL"
+    ]
+   ]
+  }
+ }
+}

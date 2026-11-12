@@ -123,6 +123,19 @@ details.ms .msv{font-size:13.5px;font-weight:500;white-space:nowrap;overflow:hid
 .hthumb{position:absolute;top:1px;bottom:1px;left:0;border-radius:999px;background:var(--accent);opacity:.75;cursor:grab;touch-action:none}
 .hthumb.drag,.hthumb:hover{opacity:1}.hthumb.drag{cursor:grabbing}
 .hbtn{flex:none;width:34px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:18px;line-height:1;cursor:pointer}
+.edge{position:fixed;z-index:25;width:64px;display:none;align-items:center;pointer-events:none}
+.edge.on{display:flex}
+.edgeL{justify-content:flex-start;padding-left:6px;background:linear-gradient(to right,color-mix(in srgb,var(--surface) 92%,transparent),transparent)}
+.edgeR{justify-content:flex-end;padding-right:6px;background:linear-gradient(to left,color-mix(in srgb,var(--surface) 92%,transparent),transparent)}
+.ebtn{pointer-events:auto;flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--accent);background:var(--surface);color:var(--accent);font-size:24px;line-height:1;padding:0 0 3px;cursor:pointer;box-shadow:0 3px 10px rgb(0 0 0 / .2)}
+.ebtn:hover{background:var(--accent);color:var(--accent-ink)}
+.ehint{position:absolute;right:50px;white-space:nowrap;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--accent);color:var(--accent-ink);box-shadow:0 3px 10px rgb(0 0 0 / .18)}
+body.hseen .ehint{display:none}
+@media (prefers-reduced-motion:no-preference){.edgeR .ebtn{animation:enudge 1.6s ease-in-out 3}}
+@keyframes enudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+@media (max-width:640px){.edge{width:48px}.ebtn{width:32px;height:32px;font-size:20px}.ehint{right:42px;font-size:11px}}
+.sharebtn{display:inline-flex;gap:6px;align-items:center;font-size:13.5px;padding:6px 12px}
+.sharebtn svg{width:15px;height:15px}
 td.gcon{background:color-mix(in srgb,var(--accent) 5%,transparent)}
 thead th.gcon{background:color-mix(in srgb,var(--accent) 9%,var(--surface-2))}
 .wzbox{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:4px 0 12px;background:var(--surface)}
@@ -345,7 +358,7 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
     <h1>Porównywarka telewizorów 65″ i większych</h1>
     <p>Mini LED, RGB Mini LED i OLED dostępne w Polsce. Ceny z Ceneo (najniższa oferta, przy cenie link do ofert), oceny i pomiary z polskiego laboratorium wybierz.tv (to samo co choose.tv), werdykty z testów HDTVPolska, w szczegółach linki do testów laboratoryjnych i recenzji. Kliknij wiersz, żeby zobaczyć pełną specyfikację.</p>
   </div>
-  <div class="datastamp" id="dataStamp">Ceny i lista modeli z dnia <b id="stampDate">11.11.2026</b> · <button type="button" class="linkbtn" id="refreshData">Odśwież dane</button> <span class="muted" id="refreshMsg"></span></div>
+  <div class="datastamp" id="dataStamp">Ceny i lista modeli z dnia <b id="stampDate">11.11.2026</b> · <button type="button" class="linkbtn" id="refreshData">Odśwież dane</button> <span class="muted" id="refreshMsg"></span><br><button type="button" class="btn sharebtn" data-share title="Kopiuje link, który otwiera stronę z Twoimi filtrami, wagami, sortowaniem, układem kolumn, porównaniem i rozwiniętym modelem"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.6 13.4a1 1 0 0 1 0-1.4l3.4-3.4a1 1 0 1 1 1.4 1.4L12 13.4a1 1 0 0 1-1.4 0zM8.5 19.5a4.2 4.2 0 0 1-3-7.2l2.4-2.4a1 1 0 1 1 1.4 1.4l-2.4 2.4a2.2 2.2 0 1 0 3.1 3.1l2.4-2.4a1 1 0 1 1 1.4 1.4l-2.4 2.4a4.2 4.2 0 0 1-2.9 1.3zm7-5.6a1 1 0 0 1-.7-1.7l2.4-2.4a2.2 2.2 0 1 0-3.1-3.1l-2.4 2.4a1 1 0 1 1-1.4-1.4l2.4-2.4a4.2 4.2 0 0 1 5.9 5.9l-2.4 2.4a1 1 0 0 1-.7.3z"/></svg>Link do moich ustawień</button></div>
 </header>
 
 <section class="panel controls" aria-label="Filtry i wagi">
@@ -421,7 +434,8 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
   <div class="tablehead">
     <h2 id="tblH">Wszystkie modele</h2>
     <span class="muted" id="count"></span>
-    <details class="ms colsm"><summary><span class="lbl">Kolumny</span><span class="msv" id="colsSum">wszystkie</span></summary><div class="msbox" id="colsList"></div></details>
+    <button type="button" class="btn sharebtn" data-share style="margin-left:auto" title="Kopiuje link do tego widoku: filtry, wagi, sortowanie, kolumny, porównanie"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10.6 13.4a1 1 0 0 1 0-1.4l3.4-3.4a1 1 0 1 1 1.4 1.4L12 13.4a1 1 0 0 1-1.4 0zM8.5 19.5a4.2 4.2 0 0 1-3-7.2l2.4-2.4a1 1 0 1 1 1.4 1.4l-2.4 2.4a2.2 2.2 0 1 0 3.1 3.1l2.4-2.4a1 1 0 1 1 1.4 1.4l-2.4 2.4a4.2 4.2 0 0 1-2.9 1.3zm7-5.6a1 1 0 0 1-.7-1.7l2.4-2.4a2.2 2.2 0 1 0-3.1-3.1l-2.4 2.4a1 1 0 1 1-1.4-1.4l2.4-2.4a4.2 4.2 0 0 1 5.9 5.9l-2.4 2.4a1 1 0 0 1-.7.3z"/></svg>Udostępnij ten widok</button>
+    <details class="ms colsm" style="margin-left:0"><summary><span class="lbl">Kolumny</span><span class="msv" id="colsSum">wszystkie</span></summary><div class="msbox" id="colsList"></div></details>
   </div>
   <div class="legend">
     <span id="thrLeg"></span>
@@ -451,9 +465,10 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
   <h2 id="mH" style="margin-bottom:12px">Jak liczony jest wynik i skąd są dane</h2>
   <div class="method">
     <div>
-      <p><strong>Wynik (profil)</strong> to średnia ważona 9 kryteriów w skali 0–10: oceny cząstkowe z laboratorium wybierz.tv (filmy, TV i YouTube, sport, gry na konsoli, monitor PC, funkcje i aplikacje, dźwięk), jasność z pomiaru w nitach (skala logarytmiczna z nasyceniem: HDR 250→2500 nit, SDR 150→1500 nit) i matowość ekranu. Profil (Twój, Uniwersalny, Kino w ciemni, Jasny salon, Gry, Sport) ustawia wagi; suwaki je zmieniają, a wagi zawsze przeliczają się do 100%. Ocena „Mocne światło” z wybierz.tv nie wchodzi do wyniku, bo zawiera jasność i odbicia, które liczymy osobno – tak nic nie jest liczone dwa razy. Brak danych w kryterium nie jest zerem: kryterium jest pomijane. Za oceny z innego rozmiaru tej samej matrycy wynik traci 0,15 pkt, za test innej matrycy 0,5 pkt. <strong>Obraz</strong> i <strong>Użytkowość</strong> to dwa stałe wyniki pomocnicze (obraz: filmy 50, TV 10, sport 10, jasność 15, matowość 15; użytkowość: gry 35, PC 10, funkcje 25, dźwięk 30).</p>
+      <p><strong>Wynik (profil)</strong> to średnia ważona 10 kryteriów w skali 0–10: oceny cząstkowe z laboratorium wybierz.tv (filmy, TV i YouTube, sport, gry na konsoli, monitor PC, funkcje i aplikacje, dźwięk), jasność z pomiaru w nitach (skala logarytmiczna z nasyceniem: HDR 250→2500 nit, SDR 150→1500 nit) i matowość ekranu. Profil (Twój, Uniwersalny, Kino w ciemni, Jasny salon, Gry, Sport) ustawia wagi; suwaki je zmieniają, a wagi zawsze przeliczają się do 100%. Ocena „Mocne światło” z wybierz.tv nie wchodzi do wyniku, bo zawiera jasność i odbicia, które liczymy osobno – tak nic nie jest liczone dwa razy. Brak danych w kryterium nie jest zerem: kryterium jest pomijane. Za oceny z innego rozmiaru tej samej matrycy wynik traci 0,15 pkt, za test innej matrycy 0,5 pkt. <strong>Obraz</strong> i <strong>Użytkowość</strong> to dwa stałe wyniki pomocnicze (obraz: filmy 50, TV 10, sport 10, jasność 15, matowość 15, banding 5; użytkowość: gry 35, PC 10, funkcje 25, dźwięk 30).</p>
       <p><strong>Opłacalność</strong> liczona jest tylko w obrębie klasy rozmiaru (65″ · 75–77″ · 83–86″ · 97–100″ · 110″+) i jednego rynku (Polska). „✓ front” oznacza, że nie ma modelu jednocześnie tańszego (lub w tej samej cenie) i lepszego; „−0,30 pkt” – że za tę samą lub niższą cenę jest model o 0,30 pkt lepszy. Sortowanie po opłacalności stawia wyżej modele frontu, przy których dalsza dopłata kosztuje dużo za każde 0,1 pkt, a dojście do nich kosztowało mało. W szczegółach modelu: „Czy warto dopłacić 1000/2000/3000 zł” i tańsze modele z prawie tym samym wynikiem; w porównaniu – koszt dopłaty i mocne strony każdego modelu.</p>
       <p><strong>Rynek.</strong> „Polska” – ceny w polskich sklepach. „Z dostawą do Polski” – niższa z: ceny w Polsce i szacowanego kosztu zakupu w UE/Schengen (cena bez VAT kraju + 23% VAT PL + transport; spoza UE dodatkowo cło i agencja celna); transport to szacunek, który możesz zmienić. „Kanada” – ceny lokalne w CAD, bez transportu, VAT i cła; nie są mieszane z cenami w Polsce. Kursy walut z NBP (tabela A).</p>
+      <p><strong>Banding</strong> to ocena „Płynność przejść tonalnych” z testu wybierz.tv (0–10): czy gradienty – niebo, cienie, ciemne szarości – przechodzą płynnie, czy rozpadają się na pasy i schodki (posteryzacja). Waga jest mała (5), bo ta cecha częściowo zawiera się już w ocenie „Filmy”. Zależy głównie od przetwarzania i panelu: WOLED częściej pokazuje pasy tuż nad czernią niż QD-OLED, a ich widoczność może się różnić między egzemplarzami. Funkcje typu „Płynna gradacja” / „Redukcja zniekształceń” zwykle je zmniejszają kosztem drobnego detalu – w szczegółach modelu podaję, czy działają. To co innego niż chroma 4:4:4 (pełna rozdzielczość koloru, ważna dla tekstu z PC), która nie wpływa na banding w filmach. W LG G6 i C6H niską ocenę powoduje głównie dithering i migotanie przy czerni, a nie same pasy. Źródła i opisy: wybierz.tv, HDTVPolska, Expert Reviews, TechRadar i inne – w rozwiniętym wierszu.</p>
       <p><strong>Matowość</strong> to ocena własna na podstawie testów: 10 matowy Glare-Free, 9 matowy z utratą efektu pod kątem, 7 satynowy półmat, 5 błyszczący z dobrą warstwą AR, 4 błyszczący, 3 błyszczący ze słabym AR. Brak danych o powłoce nie jest liczony jako niska ocena – wynik liczy się wtedy z pozostałych kryteriów.</p>
       <p><strong>Dane</strong> – pewność wyniku i pokrycie: A pomiar tego rozmiaru, C pomiar z innego rozmiaru tej samej matrycy (lub test nie podaje, który rozmiar badano), X test innej matrycy; liczba to kryteria z danymi (np. 8/9). Szczegóły źródeł każdego modelu są w rozwiniętym wierszu.</p>
     </div>
@@ -530,7 +545,7 @@ let CUR="zł";
 const fmtP=p=>{if(p==null) return "—"; const i=Math.floor(p), c=Math.round((p-i)*100); return grp(i)+(c?","+String(c).padStart(2,"0"):"")+"\u00a0"+CUR;};
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 /* ===== Punktacja (Etap 3) =====
-   9 kryteriów w skali 0–10. Oceny cząstkowe z laboratorium wybierz.tv + jasność z pomiaru (skala logarytmiczna z nasyceniem) + matowość.
+   10 kryteriów w skali 0–10. Oceny cząstkowe z laboratorium wybierz.tv + jasność z pomiaru (skala logarytmiczna z nasyceniem) + matowość.
    „Mocne światło” z wybierz.tv NIE wchodzi do wyniku: zawiera jasność i odbicia, które liczymy osobno (unikamy podwójnego liczenia).
    Kontrast, kolory i input lag są już w ocenach „Filmy” i „Gry” – pokazujemy je, ale nie dodajemy drugi raz.
    Brak danych w kryterium ≠ zero: kryterium pomijamy, a wagi pozostałych przeliczamy (pokrycie widać w wyniku). */
@@ -544,18 +559,19 @@ const CRITS=[
   {k:"sport",l:"Sport (ruch)",g:"Q",get:d=>wcv(d,2),src:"wybierz.tv – Sport"},
   {k:"jas",l:"Jasność (pomiar)",g:"Q",get:jasN,src:"HDR w filmach 250→2500 nit i SDR 150→1500 nit, skala log. z nasyceniem"},
   {k:"mat",l:"Matowość / odbicia",g:"Q",get:d=>d.m,src:"ocena własna wg powłoki i tłumienia odbić z testu"},
+  {k:"band",l:"Banding (gradienty)",g:"Q",get:d=>X0(d).bd??null,src:"wybierz.tv – Płynność przejść tonalnych (pasy, schodki, posteryzacja); mała waga, bo częściowo zawiera się już w ocenie Filmy"},
   {k:"gry",l:"Gry na konsoli",g:"U",get:d=>wcv(d,3),src:"wybierz.tv – Granie na konsoli (input lag, VRR, HDMI 2.1)"},
   {k:"pc",l:"Monitor PC",g:"U",get:d=>wcv(d,4),src:"wybierz.tv – Monitor do PC"},
   {k:"fun",l:"Funkcje i aplikacje",g:"U",get:d=>avg([wcv(d,6),wcv(d,7)]),src:"wybierz.tv – średnia: Funkcje użytkowe, Aplikacje"},
   {k:"dzw",l:"Dźwięk",g:"U",get:d=>d.sd,src:"wybierz.tv – Dźwięk"}];
 const CK=Object.fromEntries(CRITS.map(c=>[c.k,c]));
-const W_Q={film:50,tvyt:10,sport:10,jas:15,mat:15}, W_U={gry:35,pc:10,fun:25,dzw:30};
+const W_Q={film:50,tvyt:10,sport:10,jas:15,mat:15,band:5}, W_U={gry:35,pc:10,fun:25,dzw:30};
 const PROFILES={
-  uni:{l:"Uniwersalny",w:{film:30,tvyt:10,sport:10,jas:10,mat:10,gry:10,fun:10,dzw:10}},
-  kino:{l:"Kino w ciemni",w:{film:60,tvyt:5,sport:5,jas:5,gry:5,fun:5,dzw:15}},
-  salon:{l:"Jasny salon",w:{film:25,tvyt:10,sport:5,jas:25,mat:20,fun:5,dzw:10}},
-  gry:{l:"Gry",w:{film:25,sport:5,jas:10,mat:5,gry:35,pc:10,fun:5,dzw:5}},
-  sport:{l:"Sport",w:{film:20,tvyt:15,sport:35,jas:15,mat:10,dzw:5}}};
+  uni:{l:"Uniwersalny",w:{film:30,tvyt:10,sport:10,jas:10,mat:10,band:5,gry:10,fun:10,dzw:10}},
+  kino:{l:"Kino w ciemni",w:{film:60,tvyt:5,sport:5,jas:5,band:5,gry:5,fun:5,dzw:15}},
+  salon:{l:"Jasny salon",w:{film:25,tvyt:10,sport:5,jas:25,mat:20,band:5,fun:5,dzw:10}},
+  gry:{l:"Gry",w:{film:25,sport:5,jas:10,mat:5,band:5,gry:35,pc:10,fun:5,dzw:5}},
+  sport:{l:"Sport",w:{film:20,tvyt:15,sport:35,jas:15,mat:10,band:5,dzw:5}}};
 const PEN={C:0.15,X:0.5}; /* lekka kara w wyniku za oceny z innego rozmiaru (C) i z testu innej matrycy (X) */
 const fullW=w=>Object.fromEntries(CRITS.map(c=>[c.k,+(w[c.k]||0)]));
 function wsum(d,w){ let S=0,T=0,A=0; const parts=[]; CRITS.forEach(c=>{const wi=w[c.k]||0; if(!wi) return; T+=wi; const v=c.get(d); parts.push([c.k,v,wi]); if(v!=null){S+=wi*v; A+=wi;}}); return {v:A?S/A:null,cov:T?A/T:0,parts}; }
@@ -573,7 +589,7 @@ function score(d){ const r=scoreParts(d); return r?r.v:null; }
 function scoreQ(d){ const r=scoreParts(d); return r&&r.Q.v!=null?Math.round(Math.max(0,r.Q.v-r.pen)*100)/100:null; }
 function scoreU(d){ const r=scoreParts(d); return r&&r.U.v!=null?Math.round(Math.max(0,r.U.v-r.pen)*100)/100:null; }
 st.w=fullW(PROFILES.uni.w); st.prof="uni";
-try{const sv=JSON.parse(localStorage.getItem("tvw2")||"null"); if(sv&&sv.w){st.w=fullW(sv.w); st.prof=PROFILES[sv.prof]?sv.prof:"custom";} else { const o=JSON.parse(localStorage.getItem("tvw")||"null"); if(o&&typeof o.mv==="number"){ st.w=fullW({film:o.mv,jas:o.br,mat:o.m,dzw:o.sd}); st.prof="custom"; } } }catch(e){}
+try{const sv=JSON.parse(localStorage.getItem("tvw2")||"null"); if(sv&&sv.w){st.prof=PROFILES[sv.prof]?sv.prof:"custom"; st.w=fullW(st.prof==="custom"?sv.w:PROFILES[st.prof].w);} else { const o=JSON.parse(localStorage.getItem("tvw")||"null"); if(o&&typeof o.mv==="number"){ st.w=fullW({film:o.mv,jas:o.br,mat:o.m,dzw:o.sd}); st.prof="custom"; } } }catch(e){}
 const saveW=()=>{try{localStorage.setItem("tvw2",JSON.stringify({prof:st.prof,w:st.w}));}catch(e){}};
 const f1=v=>v==null?"—":v.toFixed(1), f2=v=>v==null?"—":v.toFixed(2), sc0=d=>score(d)??-1;
 function sClass(v){return v==null?"s-na":v>=7.8?"s-hi":v>=7?"s-mid":"s-lo";}
@@ -615,6 +631,11 @@ const stTxt=d=>{const x=X0(d); const a=[]; if(x.st) a.push(esc(x.st)); if(x.sw!=
 const ECR={A:1,B:2,C:3,D:4,E:5,F:6,G:7};
 const enTxt=d=>{const x=X0(d); const a=[]; if(x.pw!=null) a.push(`<b>${x.pw} W</b>`); if(x.pwh!=null) a.push(`HDR ${x.pwh} W`); if(x.ec) a.push("klasa "+esc(x.ec)); return a.length?a.join(" · "):null;};
 const vesaN=d=>{const v=X0(d).vesa; return v?parseInt(v):null;};
+/* Banding = płynność przejść tonalnych z testu wybierz.tv (0–10): pasy/schodki/posteryzacja w gradientach */
+const bdLbl=v=>v==null?"":v>=9?"bez pasów":v>=8?"drobne":v>=7?"widoczne w ciemnych":"wyraźne";
+const bdColor=v=>v==null?"var(--line)":v>=9?"var(--good)":v>=8?"var(--accent)":v>=7?"var(--warn)":"var(--bad)";
+function bdCell(d){ const x=X0(d); if(x.bd==null) return `<span class="na">—</span>`; return `<span class="matte" style="white-space:nowrap" title="${esc((x.bdt||"")+(x.bdf?" Ustawienie: "+x.bdf:""))}"><span class="dot" style="background:${bdColor(x.bd)}"></span><span class="num">${x.bd.toFixed(1).replace(".",",")}</span> <span class="muted sm">${bdLbl(x.bd).replace(/ /g,"\u00a0")}</span></span>`; }
+function bdDetail(d){ const x=X0(d); if(x.bd==null) return null; const src=(x.bdu||[]).map(([n,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)} ↗</a>`).join(" · "); return `<b>${x.bd.toFixed(1).replace(".",",")} / 10</b> – ${esc(bdLbl(x.bd))}. ${esc(x.bdt||"")}${x.bdf?`<br><span class="muted">Ustawienie: ${esc(x.bdf)}</span>`:""}${src?`<br><span class="muted">Źródła: ${src}</span>`:""}`; }
 /* ===== Wiarygodność danych (Etap 2) =====
    A – pomiar tego rozmiaru (test egzemplarza o tej przekątnej)
    B – wyposażenie i parametry producenta, potwierdzone w teście lub na karcie produktu
@@ -622,10 +643,10 @@ const vesaN=d=>{const v=X0(d).vesa; return v?parseInt(v):null;};
    D – dane sklepu lub deklaracja producenta bez pomiaru (np. „do 2500 nit”)
    X – test nie obejmuje tej przekątnej (inna matryca) – wyników nie należy przenosić */
 const LV={A:"pomiar tego rozmiaru",B:"dane producenta / wyposażenie potwierdzone w teście",C:"pomiar z innego rozmiaru tej samej matrycy",D:"dane sklepu lub deklaracja bez pomiaru",X:"test nie obejmuje tej przekątnej"};
-const F_MEAS=["mv","br","sd","ov","m","pf","sdr","va","z","bt","cr","den","il","ilh","il120","ildv","p3"];
+const F_MEAS=["mv","br","sd","ov","m","pf","sdr","va","z","bt","cr","den","il","ilh","il120","ildv","p3","bd"];
 const F_EQ=["h4","h14","h10","hd","hdr","os","pn","ss","vrr","allm","earc","opt","wifi","lan","btv","tun","ci","atm","dts","st"];
 const F_SHOP=["dim","hs","wt","wts","vesa","ec","pw","pwh","rms","ch","usb"];
-const CRIT=[["mv","Obraz (filmy)"],["br","Jasny pokój"],["m","Matowość"],["sd","Dźwięk"],["pf","Jasność HDR"],["sdr","Jasność SDR"],["cr","Kontrast"],["il","Input lag"],["p3","Paleta DCI-P3"]];
+const CRIT=[["mv","Obraz (filmy)"],["br","Jasny pokój"],["m","Matowość"],["sd","Dźwięk"],["pf","Jasność HDR"],["sdr","Jasność SDR"],["cr","Kontrast"],["il","Input lag"],["p3","Paleta DCI-P3"],["bd","Banding"]];
 const SC_KEYS=["mv","br","m","sd"];
 const LVR={A:4,B:3,C:2,D:1,X:0};
 function wzTest(d){ const c=d.wz&&(d.wz.match(/_([A-Z0-9]{3})$/)||[])[1]; return c?WZT[c]||null:null; }
@@ -668,10 +689,10 @@ function qBlock(d){
 function keyVal(d,k){
   if(k==="c4") return con(d,d.h4,4); if(k==="c14") return con(d,d.h14); if(k==="c10") return con(d,d.h10);
   const x=X0(d);
-  switch(k){case "cr":return crN(d);case "bl":return x.bls??null;case "p3":return p3Of(d);case "de":return x.den??null;case "il":return x.il??null;case "vrr":return (x.vrr?1:0)+(x.allm?1:0)||null;case "zl":return (x.earc?1:0)+(x.ci?1:0)+(x.tun&&/S2/.test(x.tun)?1:0)||null;case "au":return x.rms??null;case "dims":return x.wt??null;case "stand":return x.sw??null;case "vesa":return vesaN(d);case "en":return x.pw!=null?x.pw:(x.ec?ECR[x.ec]*1000:null);
+  switch(k){case "cr":return crN(d);case "bl":return x.bls??null;case "bd":return x.bd??null;case "p3":return p3Of(d);case "de":return x.den??null;case "il":return x.il??null;case "vrr":return (x.vrr?1:0)+(x.allm?1:0)||null;case "zl":return (x.earc?1:0)+(x.ci?1:0)+(x.tun&&/S2/.test(x.tun)?1:0)||null;case "au":return x.rms??null;case "dims":return x.wt??null;case "stand":return x.sw??null;case "vesa":return vesaN(d);case "en":return x.pw!=null?x.pw:(x.ec?ECR[x.ec]*1000:null);
   case "ca":return caPrice(d);case "score":return score(d);case "obr":return scoreQ(d);case "uzy":return scoreU(d);case "q":{const q=prov(d); return (q.conf?LVR[q.conf]*10:0)+q.have;}case "value":return val(d);case "vmv":return vmv(d);case "name":return d.n;case "wz":return d.wz?d.ov:null;case "wsp":return d.wc?d.wc[2]:null;case "wgr":return d.wc?d.wc[3]:null;case "hv":return d.hv||null;default:return d[k];}
 }
-const SORTOPTS=[["score","Wynik (profil)"],["obr","Obraz"],["uzy","Użytkowość"],["q","Pewność danych"],["value","Opłacalność (w klasie rozmiaru)"],["vmv","Opłacalność obrazu"],["cr","Kontrast"],["p3","Pokrycie DCI-P3"],["il","Input lag (niższy lepszy)"],["au","Moc głośników"],["dims","Waga (lżejszy najpierw)"],["stand","Szerokość podstawy (węższa najpierw)"],["en","Pobór mocy (niższy najpierw)"],["p","Cena"],["s","Przekątna"],["t","Technologia"],["b","Marka"],["name","Nazwa modelu"],
+const SORTOPTS=[["score","Wynik (profil)"],["obr","Obraz"],["uzy","Użytkowość"],["q","Pewność danych"],["value","Opłacalność (w klasie rozmiaru)"],["vmv","Opłacalność obrazu"],["cr","Kontrast"],["bd","Banding (płynne gradienty)"],["p3","Pokrycie DCI-P3"],["il","Input lag (niższy lepszy)"],["au","Moc głośników"],["dims","Waga (lżejszy najpierw)"],["stand","Szerokość podstawy (węższa najpierw)"],["en","Pobór mocy (niższy najpierw)"],["p","Cena"],["s","Przekątna"],["t","Technologia"],["b","Marka"],["name","Nazwa modelu"],
  ["m","Matowość ekranu"],["pf","Jasność HDR w filmach"],["pp","Szczyt HDR (pomiar lab.)"],["sdr","Jasność SDR"],["mv","Filmy UHD"],["br","Jasny pokój"],["sd","Dźwięk"],
  ["wz","Ocena wybierz.tv"],["wsp","Sport (wybierz.tv)"],["wgr","Granie na konsoli (wybierz.tv)"],["hv","Werdykt HDTVPolska"],
  ["h4","4K natywnie"],["h14","PC 1440p"],["h10","PC 1080p"],["c4","Konsola 4K"],["c14","Konsola 1440p"],["c10","Konsola 1080p"]];
@@ -749,7 +770,7 @@ function parseNL(raw){
   /* jawna kolejność sortowania: kryteria po słowie „sortuj/posortuj/uporządkuj” w kolejności wystąpienia */
   let xsort=null;
   { const m=s.match(/\b(po)?sortuj\w*|\bsortowani\w*|\buporzadkuj\w*|\bwedlug\b|\bwg\b/);
-    if(m){ const tail=s.slice(m.index); const KW=[[/\b(cen\w*|tani\w*|drozsz\w*)/,"p"],[/\b(jasnosc\w*\s+sdr|sdr)\b/,"sdr"],[/\b(jasnosc\w*|jasn\w*|nit\w*|hdr)\b/,"pf"],[/\b(dzwiek\w*)/,"sd"],[/\b(matow\w*)/,"m"],[/\b(przekatn\w*|rozmiar\w*|cal\w*)/,"s"],[/\b(wynik\w*|ocen\w*)/,"score"],[/\b(hz|odswiezani\w*)/,"h4"],[/\b(obraz\w* za|obraz\w* do cen\w*)/,"vmv"],[/\b(film\w*|obraz\w*)(?!\w* za| do cen)/,"mv"],[/\b(oplacaln\w*|jakosc\w* za|stosun\w*)/,"value"]];
+    if(m){ const tail=s.slice(m.index); const KW=[[/\b(cen\w*|tani\w*|drozsz\w*)/,"p"],[/\b(jasnosc\w*\s+sdr|sdr)\b/,"sdr"],[/\b(jasnosc\w*|jasn\w*|nit\w*|hdr)\b/,"pf"],[/\b(dzwiek\w*)/,"sd"],[/\b(matow\w*)/,"m"],[/\b(przekatn\w*|rozmiar\w*|cal\w*)/,"s"],[/\b(wynik\w*|ocen\w*)/,"score"],[/\b(hz|odswiezani\w*)/,"h4"],[/\b(obraz\w* za|obraz\w* do cen\w*)/,"vmv"],[/\b(film\w*|obraz\w*)(?!\w* za| do cen)/,"mv"],[/\b(oplacaln\w*|jakosc\w* za|stosun\w*)/,"value"],[/\b(banding\w*|gradac\w*|gradient\w*|posteryz\w*|pasy|pasow)/,"bd"]];
       const found=[]; KW.forEach(([re,k])=>{ const g=new RegExp(re.source,"g"); let x; while((x=g.exec(tail))){ if(k==="pf"&&found.some(f=>f.k==="sdr"&&f.i===x.index)) continue; found.push({k,i:x.index}); } });
       found.sort((a,b)=>a.i-b.i); const ks=[]; found.forEach(f=>{ if(!ks.includes(f.k)) ks.push(f.k); });
       if(ks.length){ const dirOf=k=>{ const f=found.find(x=>x.k===k), w=tail.slice(f.i,f.i+40).split(/\b(?:potem|nastepnie|a drug\w*|a trzec\w*|,)\b/)[0]; if(/malejac|od najdrozsz|od najwieksz|od najjasniejsz|od najlepsz/.test(w)) return -1; if(/rosnac|od najtansz|od najmniejsz/.test(w)) return 1; return k==="p"||k==="s"&&false?1:-1; }; xsort=ks.slice(0,3).map(k=>({k,dir:dirOf(k)})); s=s.slice(0,m.index)+tail.replace(/\b(jasnosc\w*|sdr|hdr|nit\w*|dzwiek\w*|odswiezani\w*|wynik\w*|ocen\w*|przekatn\w*|rozmiar\w*)\b/g," "); } } }
@@ -1041,6 +1062,7 @@ const COLS=[
   {k:"pp",l:"Szczyt HDR (lab.)",r:true},
   {k:"sdr",l:"Jasność SDR",r:false},
   {k:"m",l:"Ekran"},
+  {k:"bd",l:"Banding",r:true},
   {k:"mv",l:"Filmy",r:true},
   {k:"br",l:"Jasny pokój",r:true},
   {k:"sd",l:"Dźwięk",r:true},
@@ -1190,6 +1212,7 @@ function renderBody(){
       value:`<td class="r">${valTxt(d)}</td>`,
       cr:`<td class="r num nw">${crTxt(d)||"—"}</td>`,
       bl:`<td>${X0(d).bl?esc(X0(d).bl):"—"}</td>`,
+      bd:`<td class="r nw">${bdCell(d)}</td>`,
       p3:`<td class="r num nw">${p3Of(d)==null?"—":String(p3Of(d)).replace(".",",")+" %"}</td>`,
       de:`<td class="r">${X0(d).de?esc(X0(d).de):"—"}</td>`,
       il:`<td class="r num sm">${ilTxt(d)||"—"}</td>`,
@@ -1267,7 +1290,7 @@ function detailRow(d){
       ["Szczyt HDR, pomiar lab.",d.pp?grp(d.pp)+" nit"+(d.pps?` <span class="muted">(${esc(d.pps)})</span>`:""):"brak pomiaru"],["Deklaracja producenta",d.mfr?"do "+grp(d.mfr)+" nit":null],
       ["Jasność SDR",d.sdr?grp(d.sdr)+" nit":null],
       ["Pokrycie DCI-P3 / BT.2020",esc(d.bt)||(p3Of(d)!=null?String(p3Of(d)).replace(".",",")+" % DCI-P3":null)],
-      ["Kontrast",crTxt(d)],["Blooming (poświata)",X0(d).bl?esc(X0(d).bl):null],["Kolory fabrycznie (ocena)",X0(d).de?esc(X0(d).de):null],["Kąty widzenia",d.va?d.va+" / 10":null],
+      ["Kontrast",crTxt(d)],["Blooming (poświata)",X0(d).bl?esc(X0(d).bl):null],["Banding (gradienty)",bdDetail(d)],["Kolory fabrycznie (ocena)",X0(d).de?esc(X0(d).de):null],["Kąty widzenia",d.va?d.va+" / 10":null],
       ["Powłoka ekranu",esc(d.ct)],["HDR",esc(d.hdr)],["Ocena ogólna",d.ov==null?"brak testu":d.ov.toFixed(1)+" / 10"]])}</div>
     <div><h3 style="margin-bottom:8px">Gry, dźwięk, system</h3>${dl([
       ["Odświeżanie 4K",d.h4+" Hz"],["1440p",d.h14?d.h14+" Hz":"—"],["1080p",d.h10?d.h10+" Hz":"—"],
@@ -1475,6 +1498,56 @@ function swHTML(d){
   <p class="plus" style="font-size:13.5px">Zalety (górne 20%): ${r.plus.length?r.plus.join(", "):"—"}</p><p class="minus" style="font-size:13.5px">Słabe strony (dolne 20%): ${r.minus.length?r.minus.join(", "):"—"}</p>`;
 }
 
+/* ===== Link do ustawień: filtry, wagi, sortowanie, kolumny, porównanie, rynek, zapytanie, rozwinięty model ===== */
+function shareURL(){
+  const q=[]; const add=(k,v)=>q.push(k+"="+encodeURIComponent(v).replace(/%2C/g,",").replace(/%3A/g,":"));
+  add("ust","1");
+  if(st.sizes.size!==ALLS.length) add("rozm",[...st.sizes].join(","));
+  if(st.techs.size!==TECHS.length) add("tech",TECHS.map((t,i)=>st.techs.has(t)?i:null).filter(x=>x!=null).join(","));
+  if(st.brands.size!==BRANDS.length) add("marki",[...st.brands].join(","));
+  if(st.pmin!==2000||st.max!==50000) add("cena",st.pmin+"-"+st.max);
+  if(st.hmode!=="pf"||st.hmin>0||st.hmax<HM()) add("hdr",st.hmode+":"+st.hmin+"-"+st.hmax);
+  const fl=["matte","g144","hdp"].filter(k=>st[k]); if(fl.length) add("opcje",fl.join(","));
+  add("sort",st.sorts.map(o=>o.k+":"+o.dir).join(","));
+  add("profil",st.prof); if(st.prof==="custom") add("wagi",CRITS.map(c=>c.k+":"+(st.w[c.k]||0)).join(","));
+  add("rynek",[...st.reg].join(","));
+  add("kol",ORD.join(",")); if(HID.size) add("ukr",[...HID].join(","));
+  if(st.cmp.size) add("cmp",[...st.cmp].join(","));
+  if(st.q.trim()) add("q",st.q.trim());
+  if(st.open) add("otw",st.open);
+  return location.href.split("#")[0]+"#"+q.join("&");
+}
+function applyShareLink(h){
+  const q=new URLSearchParams(h); if(q.get("ust")!=="1") return false;
+  const list=k=>(q.get(k)||"").split(",").filter(Boolean);
+  st.sizes=q.has("rozm")?new Set(list("rozm").map(Number).filter(v=>ALLS.includes(v))):new Set(ALLS);
+  st.techs=q.has("tech")?new Set(list("tech").map(i=>TECHS[+i]).filter(Boolean)):new Set(TECHS);
+  st.brands=q.has("marki")?new Set(list("marki").filter(b=>BRANDS.includes(b))):new Set(BRANDS);
+  const c=(q.get("cena")||"").split("-").map(Number); st.pmin=c[0]>=2000?Math.min(c[0],50000):2000; st.max=c[1]>=2000?Math.min(c[1],50000):50000;
+  const hd=(q.get("hdr")||"").match(/^(pf|pp):(\d+)-(\d+)$/);
+  st.hmode=hd?hd[1]:"pf"; document.querySelectorAll("[data-hm]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.hm===st.hmode)); ["hMin","hMax","hMinN","hMaxN"].forEach(id=>$(id).max=HM()); renderHPre();
+  const fl=list("opcje"); ["matte","g144","hdp"].forEach(k=>st[k]=fl.includes(k));
+  const pr=q.get("profil"); if(PROFILES[pr]){ st.prof=pr; st.w=fullW(PROFILES[pr].w); }
+  else if(pr==="custom"&&q.get("wagi")){ const w={}; list("wagi").forEach(x=>{ const [k,v]=x.split(":"); if(CRITS.some(c=>c.k===k)) w[k]=Math.max(0,Math.min(60,+v||0)); }); st.prof="custom"; st.w=fullW(w); }
+  const rg=list("rynek").filter(r=>REGS[r]); if(rg.length) st.reg=new Set(rg);
+  const ko=list("kol").filter(k=>COLK.includes(k)); if(ko.length){ ORD=[...new Set(ko)]; COLK.forEach((k,i)=>{ if(!ORD.includes(k)) ORD.splice(Math.min(i,ORD.length),0,k); }); HID=new Set(list("ukr").filter(k=>COLK.includes(k)&&k!=="name")); }
+  st.cmp=new Set(list("cmp").filter(id=>TV.some(d=>d.id===id)).slice(0,5));
+  const op=q.get("otw"); st.open=op&&TV.some(d=>d.id===op)?op:null;
+  st.q=q.get("q")||""; $("q").value=st.q; st.nlDrop=null; st.aiSpec=null; st.aiFor=null; st.uiSaved=null; st.nlKey=""; st.sortsBefore=null;
+  scInv(); applyMarket(); renderMkt(); renderWeights(); renderCols(); applyW();
+  applyQ();
+  const so=list("sort").map(x=>{const [k,dd]=x.split(":"); return {k,dir:+dd<0?-1:1};}).filter(o=>SORTOPTS.some(s=>s[0]===o.k)||["c4","c14","c10","h4","h14","h10","hd","ca","wz","hv","pf","pp","sdr","m","mv","br","sd","bl","bd","de","vrr","zl","vesa"].includes(o.k));
+  if(so.length){ st.sorts=so; renderAll(); }
+  setH(hd?+hd[2]:0,hd?+hd[3]:HM()); syncP();
+  setTimeout(()=>{ const r=st.open&&document.querySelector(`tr[data-id="${st.open}"]`); if(r) r.scrollIntoView({block:"start"}); else { const s=$("cmpSec"); if(s&&!s.hidden) s.scrollIntoView({block:"start"}); } },300);
+  cmpMsg("Otwarto udostępnione ustawienia"+(st.cmp.size>1?` · porównanie ${st.cmp.size} modeli`:""));
+  return true;
+}
+document.addEventListener("click",async e=>{ const b=e.target.closest("[data-share]"); if(!b) return;
+  const u=shareURL();
+  try{ await navigator.clipboard.writeText(u); cmpMsg("Link skopiowany – otworzy stronę z Twoimi filtrami, wagami, sortowaniem, kolumnami"+(st.cmp.size?" i porównaniem":"")); }
+  catch(err){ window.prompt("Skopiuj link do swoich ustawień:",u); }
+});
 /* ===== Etap 6: porównanie zapisane w linku ===== */
 function cmpLinkURL(){
   const ids=[...st.cmp].slice(0,cmpMax()), q=new URLSearchParams();
@@ -1511,7 +1584,7 @@ function renderCmp(){
     ["HDR w filmach",d=>d.pf,v=>v?v+" nit":"brak","max"],["HDR wzorzec",d=>d.pp,v=>v?v+" nit":"brak","max"],
     ["Matowość",d=>d.m,v=>v==null?"brak danych":v+" / 10","max"],["Filmy UHD",d=>d.mv,v=>f1(v),"max"],["Jasny pokój",d=>d.br,v=>f1(v),"max"],
     ["Dźwięk",d=>d.sd,v=>f1(v),"max"],["Odświeżanie 4K",d=>d.h4,v=>v+" Hz","max"],["1440p",d=>d.h14,v=>v?v+" Hz":"—","max"],["1080p",d=>d.h10,v=>v?v+" Hz":"—","max"],
-    ["Kontrast",d=>crN(d),(v,d)=>crTxt(d)||"—","max"],["DCI-P3",d=>p3Of(d),v=>v==null?"—":String(v).replace(".",",")+" %","max"],["Input lag",d=>X0(d).il??null,(v,d)=>ilTxt(d)||"—","min"],
+    ["Kontrast",d=>crN(d),(v,d)=>crTxt(d)||"—","max"],["Banding (gradienty)",d=>X0(d).bd??null,v=>v==null?"—":v.toFixed(1).replace(".",",")+" / 10","max"],["DCI-P3",d=>p3Of(d),v=>v==null?"—":String(v).replace(".",",")+" %","max"],["Input lag",d=>X0(d).il??null,(v,d)=>ilTxt(d)||"—","min"],
     ["VRR / ALLM",d=>vrrTxt(d),v=>v||"—",null],["Złącza",d=>zlTxt(d),v=>v||"—",null],["Głośniki",d=>X0(d).rms??null,(v,d)=>auTxt(d)||"—","max"],
     ["Wymiary / waga",d=>dimTxt(d),v=>v||"—",null],["Podstawa",d=>stTxt(d),v=>v||"—",null],["VESA",d=>X0(d).vesa||null,v=>v?esc(v):"—",null],["Pobór mocy",d=>X0(d).pw??null,(v,d)=>enTxt(d)||"—","min"],
     ["HDMI",d=>d.hd,v=>esc(v),null],["HDR",d=>d.hdr,v=>esc(v),null],["System",d=>d.os,v=>esc(v),null],["Strefy",d=>d.z,v=>esc(v??"—"),null],["Powłoka",d=>d.ct,v=>esc(v),null]
@@ -1859,10 +1932,12 @@ function applyPreset(p,setHash){
 window.addEventListener("hashchange",()=>{const h=location.hash.slice(1); if(["tv75","tv85","tv98","wszystkie"].includes(h)) applyPreset(h,false);});
 
 renderWeights(); renderChips(); renderCols(); renderEx();
-{const h=location.hash.slice(1); if(["tv75","tv85","tv98","wszystkie"].includes(h)) applyPreset(h,false); else if(!applyCmpLink(h)) renderAll();}
-window.addEventListener("hashchange",()=>applyCmpLink(location.hash.slice(1)));
+{const h=location.hash.slice(1); if(["tv75","tv85","tv98","wszystkie"].includes(h)) applyPreset(h,false); else if(!applyShareLink(h)&&!applyCmpLink(h)) renderAll();}
+window.addEventListener("hashchange",()=>{ const h=location.hash.slice(1); if(!applyShareLink(h)) applyCmpLink(h); });
 loadHist();
 </script>
+<div class="edge edgeL" id="edgeL"><button type="button" class="ebtn" id="edgeLb" tabindex="-1" aria-label="Przewiń tabelę w lewo" title="Wróć do poprzednich kolumn">‹</button></div>
+<div class="edge edgeR" id="edgeR"><span class="ehint">więcej kolumn</span><button type="button" class="ebtn" id="edgeRb" tabindex="-1" aria-label="Przewiń tabelę w prawo" title="Pokaż kolejne kolumny">›</button></div>
 <div class="hbar" id="hbar" aria-hidden="true">
   <button type="button" class="hbtn" id="hbL" tabindex="-1" aria-label="Przewiń w lewo">‹</button>
   <div class="htrack" id="htrack"><div class="hthumb" id="hthumb"></div></div>
@@ -1896,6 +1971,28 @@ loadHist();
   window.addEventListener("resize",sync);
   if(window.ResizeObserver) new ResizeObserver(sync).observe(document.getElementById("tbl"));
   sync();
+  /* Strzałki przy krawędziach tabeli: widoczne tylko, gdy w danym kierunku jest co przewijać */
+  const eL=document.getElementById("edgeL"), eR=document.getElementById("edgeR");
+  let er=0;
+  function edges(){ er=0;
+    const r=box.getBoundingClientRect(), vh=window.innerHeight, max=box.scrollWidth-box.clientWidth;
+    const fh=document.getElementById("fhead"), topOff=fh&&fh.style.display==="block"?fh.getBoundingClientRect().bottom:0;
+    const th=document.getElementById("thead"), hh=th?th.getBoundingClientRect().height:0;
+    const top=Math.max(r.top+hh,topOff,0), bot=Math.min(r.bottom,vh-(bar.classList.contains("on")?bar.offsetHeight:0));
+    const vis=max>4 && bot-top>90;
+    const st0=document.querySelector("#tbl thead th.sticky"), sr=st0?st0.getBoundingClientRect().right:r.left;
+    const showL=vis && box.scrollLeft>4, showR=vis && box.scrollLeft<max-4;
+    [[eL,showL,Math.max(r.left,sr)],[eR,showR,r.left+box.clientWidth-eR.offsetWidth]].forEach(([el,on,x])=>{
+      el.classList.toggle("on",on); if(!on) return;
+      el.style.top=top+"px"; el.style.height=(bot-top)+"px"; el.style.left=(el===eR?r.left+box.clientWidth-(el.offsetWidth||64):x)+"px"; });
+  }
+  const qe=()=>{ if(!er) er=requestAnimationFrame(edges); };
+  box.addEventListener("scroll",()=>{ if(box.scrollLeft>20) document.body.classList.add("hseen"); qe(); },{passive:true});
+  window.addEventListener("scroll",qe,{passive:true}); window.addEventListener("resize",qe);
+  if(window.ResizeObserver) new ResizeObserver(qe).observe(document.getElementById("tbl"));
+  document.getElementById("edgeLb").addEventListener("click",()=>step(-1));
+  document.getElementById("edgeRb").addEventListener("click",()=>step(1));
+  edges(); setTimeout(edges,600);
 })();
 </script>
 </body>
