@@ -64,3 +64,9 @@ Zrzut obejmuje wszystkie modele po załadowaniu, widok szczegółów każdego mo
 - Szczegóły modelu: „Na tle klasy” (górne/dolne 20% w klasie rozmiaru) i „Historia ceny” (wykres, minimum, zmiana).
 - Porównanie: „Słabsze strony”, „Zalety w swojej klasie rozmiaru”, „Najniższa cena w historii” i przycisk
   „Kopiuj link do tego porównania” (`#porownaj=id1,id2&profil=…&rynek=pl,eu`, przy własnych wagach także `&wagi=…`).
+
+## Etap 7: alerty cenowe, USA/UK, recenzje
+
+- **Alerty cenowe** (w rozwiniętym wierszu modelu): próg ceny na wybranym rynku (PL, Kanada, USA, UK). Zapis tylko w przeglądarce (localStorage `tvalerts`), bez kont i danych osobowych. Baner pojawia się po otwarciu strony, gdy cena spadła do progu lub poniżej. Alert nie wysyła maili ani powiadomień push.
+- **Rynki lokalne**: Kanada (CAD), USA (USD, bez podatku sprzedaży), Wielka Brytania (GBP, z VAT 20%) – zawsze osobno od cen w PL; oferty w `prices_intl.json` z `m` = `CA` / `US` / `GB`.
+- **Recenzje**: ręcznie dodawane linki w `data/tables.json` (`TESTS`, `TK`, `YT`) – tylko zweryfikowane adresy, krótki własny opis. Dodano FlatpanelsHD (UR9S, LG C5, Samsung S95F).

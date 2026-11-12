@@ -300,6 +300,9 @@ thead .sticky{background:var(--surface-2);z-index:2}
 .pc .minus{border-left:3px solid var(--bad);padding-left:10px}
 .pc .note{border-left:3px solid var(--warn);padding-left:10px;color:var(--muted)}
 .empty{padding:28px;text-align:center;color:var(--muted)}
+.alertbar{background:var(--surface-2);border:1px solid var(--line);border-left:4px solid var(--good);border-radius:8px;padding:8px 12px;font-size:14px;display:grid;gap:4px}
+.alform{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:end;margin-top:4px}.alform label{display:grid;gap:2px;font-size:12.5px;color:var(--muted)}.alform input,.alform select{font:inherit;padding:5px 7px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}.alform input{width:110px}
+.alist{margin:4px 0 6px;padding-left:18px;font-size:13.5px}
 .hsvg{display:block;max-width:100%;height:auto;margin-top:4px;background:var(--surface);border:1px solid var(--line);border-radius:8px}
 .hsvg .hline{fill:none;stroke:var(--accent);stroke-width:2}.hsvg .hdot{fill:var(--accent)}.hsvg .hdotmin{fill:var(--good)}.hsvg .hmin{stroke:var(--good);stroke-dasharray:3 3;opacity:.6}
 
@@ -446,6 +449,7 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
 </section>
 
 <section style="display:grid;gap:10px" aria-labelledby="tblH">
+  <div id="alertBar" class="alertbar" role="status" hidden></div>
   <div class="tablehead">
     <h2 id="tblH">Wszystkie modele</h2>
     <span class="muted" id="count"></span>
@@ -509,7 +513,7 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
 
 </div>
 
-<script src="data.js?v=44f5685628"></script>
+<script src="data.js?v=918495f88d"></script>
 <script>
 /* Dane modeli: źródło w data/*.json (serie, modele, oferty, tabele testów); paczkę data.js buduje tools/build_data.js.
  Model = cechy serii + cechy własne wariantu (przekątna, nazwa, różnice) + oferta (cena, sklepy, link, status). */
@@ -723,7 +727,7 @@ function keyVal(d,k){
   if(k==="c4") return con(d,d.h4,4); if(k==="c14") return con(d,d.h14); if(k==="c10") return con(d,d.h10);
   const x=X0(d);
   switch(k){case "cr":return crN(d);case "bl":return x.bls??null;case "bd":return x.bd??null;case "p3":return p3Of(d);case "de":return x.den??null;case "il":return x.il??null;case "vrr":return (x.vrr?1:0)+(x.allm?1:0)||null;case "zl":return (x.earc?1:0)+(x.ci?1:0)+(x.tun&&/S2/.test(x.tun)?1:0)||null;case "au":return x.rms??null;case "dims":return x.wt??null;case "stand":return x.sw??null;case "vesa":return vesaN(d);case "en":return x.pw!=null?x.pw:(x.ec?ECR[x.ec]*1000:null);
-  case "ca":return caPrice(d);case "score":return score(d);case "obr":return scoreQ(d);case "uzy":return scoreU(d);case "q":{const q=prov(d); return (q.conf?LVR[q.conf]*10:0)+q.have;}case "value":return val(d);case "vmv":return vmv(d);case "name":return d.n;case "wz":return d.wz?d.ov:null;case "wsp":return d.wc?d.wc[2]:null;case "wgr":return d.wc?d.wc[3]:null;case "hv":return d.hv||null;default:return d[k];}
+  case "ca":case "us":case "uk":return locPrice(d,k);case "score":return score(d);case "obr":return scoreQ(d);case "uzy":return scoreU(d);case "q":{const q=prov(d); return (q.conf?LVR[q.conf]*10:0)+q.have;}case "value":return val(d);case "vmv":return vmv(d);case "name":return d.n;case "wz":return d.wz?d.ov:null;case "wsp":return d.wc?d.wc[2]:null;case "wgr":return d.wc?d.wc[3]:null;case "hv":return d.hv||null;default:return d[k];}
 }
 const SORTOPTS=[["score","Wynik (profil)"],["obr","Obraz"],["uzy","Użytkowość"],["q","Pewność danych"],["value","Opłacalność (w klasie rozmiaru)"],["vmv","Opłacalność obrazu"],["cr","Kontrast"],["bd","Banding (płynne gradienty)"],["p3","Pokrycie DCI-P3"],["il","Input lag (niższy lepszy)"],["au","Moc głośników"],["dims","Waga (lżejszy najpierw)"],["stand","Szerokość podstawy (węższa najpierw)"],["en","Pobór mocy (niższy najpierw)"],["p","Cena"],["s","Przekątna"],["t","Technologia"],["b","Marka"],["name","Nazwa modelu"],
  ["m","Matowość ekranu"],["pf","Jasność HDR w filmach"],["pp","Szczyt HDR (pomiar lab.)"],["sdr","Jasność SDR"],["mv","Filmy UHD"],["br","Jasny pokój"],["sd","Dźwięk"],
@@ -1080,6 +1084,8 @@ const COLS=[
   {k:"name",l:"Model",sticky:true},
   {k:"p",l:"Cena",r:true},
   {k:"ca",l:"Kanada (CAD)",r:true},
+  {k:"us",l:"USA (USD)",r:true},
+  {k:"uk",l:"W. Brytania (GBP)",r:true},
   {k:"score",l:"Wynik",r:true},
   {k:"obr",l:"Obraz",r:true},
   {k:"uzy",l:"Użytkowość",r:true},
@@ -1132,7 +1138,7 @@ ORD=ORD.filter(k=>COLK.includes(k)); COLK.forEach((k,i)=>{ if(!ORD.includes(k)) 
 HID=HID||new Set(); HID.delete("name");
 { const known=new Set(SEEN||(Array.isArray(ORD)&&ORD.length?ORD.filter(k=>!["cr","bl","p3","de","il","vrr","zl","au","dims","stand","vesa","en"].includes(k)):[])); COLK.forEach(k=>{ if(!known.has(k)&&DEFHID.has(k)) HID.add(k); }); } CW=CW&&typeof CW==="object"?CW:{};
 function saveCols(){ try{localStorage.setItem("tvcols",JSON.stringify({o:ORD,h:[...HID],w:CW,s:COLK}));}catch(e){} }
-const VIS=()=>ORD.filter(k=>!HID.has(k)&&(k!=="ca"||(st.reg&&st.reg.has("ca")&&!cadOnly())));
+const VIS=()=>ORD.filter(k=>!HID.has(k)&&(!LOCS[k]||(st.reg&&st.reg.has(k)&&locP()!==k)));
 function applyW(){ const el=$("colW"); if(!el) return; el.textContent=VIS().map((k,i)=>CW[k]?`#tbl thead th:nth-child(${i+1}),#tbl tr.row>td:nth-child(${i+1}){width:${CW[k]}px;min-width:${CW[k]}px!important;max-width:${CW[k]}px;overflow:hidden}`:"").join("\n"); }
 function renderCols(){
   const el=$("colsList"); if(!el) return;
@@ -1232,7 +1238,7 @@ function renderBody(){
       rank:`<td class="r rank">${rankOf.get(d.id)}</td>`,
       name:`<td class="model sticky" title="${esc(d.n+" – "+d.tl)}"><div class="mname">${nameHTML(d)}</div><div class="mtech">${esc(techShort(d))}</div><div class="tags">${tags.join("")}</div></td>`,
       p:`<td class="r">${priceCell(d)}</td>`,
-      ca:`<td class="r num">${caPrice(d)==null?"—":`<a class="plink" href="${esc((INTL[d.id]||[]).find(x=>x.m==="CA").url)}" target="_blank" rel="noopener">${grp(caPrice(d))} CAD ↗</a>`}</td>`,
+      ca:locCell(d,"ca"), us:locCell(d,"us"), uk:locCell(d,"uk"),
       score:`<td class="r"><span class="score ${sClass(sc)}">${f2(sc)}</span></td>`,
       q:`<td class="nw">${qCell(d)}</td>`,
       obr:`<td class="r num">${f2(scoreQ(d))}</td>`,
@@ -1314,6 +1320,7 @@ function wzBlock(d){
   const meas=[m[0]?"powłoka "+m[0]:null,m[1]?"tłumienie odbić: "+m[1]:null,m[2]?"jasność SDR "+grp(m[2])+" nit":null].filter(Boolean).join(" · ");
   return `<div class="wzbox"><h3 style="margin:0 0 6px">wybierz.tv – ocena ${d.ov.toFixed(1)}/10 <a class="extl" href="${d.wz}" target="_blank" rel="noopener" style="font-size:13px;font-weight:500">pełny test ↗</a></h3>${bars}${meas?`<p class="muted" style="margin:6px 0 0;font-size:13px">Pomiary w dzień: ${esc(meas)}</p>`:""}${d.dn?`<p class="muted" style="margin:4px 0 0;font-size:12.5px">${esc(d.dn)}</p>`:""}</div>`;
 }
+const locCell=(d,k)=>{const o=locOffer(d,k); return `<td class="r num">${o?`<a class="plink" href="${esc(o.url)}" target="_blank" rel="noopener">${grp(o.price)} ${LOCS[k].cur} ↗</a>`:"—"}</td>`;};
 function detailRow(d){
   const dl=(pairs)=>{ const ok=pairs.filter(p=>p[1]!=null&&p[1]!==""); return ok.length?`<dl>${ok.map(p=>`<dt>${p[0]}</dt><dd>${p[1]}</dd>`).join("")}</dl>`:""; };
   return `<tr class="detail"><td colspan="${VIS().length}"><div class="dgrid">
@@ -1343,6 +1350,7 @@ function detailRow(d){
       ${swHTML(d)}
       ${upHTML(d)}
       ${histHTML(d)}
+      ${alertHTML(d)}
       ${intlHTML(d)}</div>
   </div></td></tr>`;
 }
@@ -1368,10 +1376,11 @@ function scoreHTML(d){
 const MK=TVDATA.mk; let INTL={};
 let FX={...MK.fxFallback.rates}, FXINFO={date:MK.fxFallback.date,table:MK.fxFallback.table,live:false};
 let SHIP={...MK.shipPln}; try{const v=JSON.parse(localStorage.getItem("tvship")||"null"); if(v) Object.assign(SHIP,v);}catch(e){}
-const REGS={pl:"Polska",eu:"Europa (UE + Schengen)",ca:"Kanada"};
+const LOCS={ca:{m:"CA",cur:"CAD",l:"Kanada",col:"Kanada (CAD)"},us:{m:"US",cur:"USD",l:"USA",col:"USA (USD)"},uk:{m:"GB",cur:"GBP",l:"Wielka Brytania",col:"W. Brytania (GBP)"}};
+const REGS={pl:"Polska",eu:"Europa (UE + Schengen)",ca:"Kanada",us:"USA",uk:"Wielka Brytania"};
 st.reg=new Set(["pl"]); try{const v=JSON.parse(localStorage.getItem("tvreg")||"null"); if(Array.isArray(v)&&v.length&&v.every(x=>REGS[x])) st.reg=new Set(v);}catch(e){}
-const cadOnly=()=>st.reg.size===1&&st.reg.has("ca");
-const regLabel=()=>cadOnly()?"Kanada – ceny lokalne w CAD":[...st.reg].filter(r=>r!=="ca").map(r=>REGS[r]).join(" + ")+(st.reg.has("eu")?" (z dostawą do PL)":"");
+const locP=()=>(st.reg.has("pl")||st.reg.has("eu"))?null:(Object.keys(LOCS).find(k=>st.reg.has(k))||null);
+const regLabel=()=>{const lp=locP(); return lp?`${LOCS[lp].l} – ceny lokalne w ${LOCS[lp].cur}`:[...st.reg].filter(r=>!LOCS[r]).map(r=>REGS[r]).join(" + ")+(st.reg.has("eu")?" (z dostawą do PL)":"");};
 const fx=c=>c==="PLN"?1:FX[c]||null;
 function landed(o,d){
   const m=MK.markets[o.m]; if(!m) return null; const r=fx(m.cur); if(!r) return null;
@@ -1383,25 +1392,27 @@ function landed(o,d){
 function restorePL(){ TV.forEach(d=>{ if(d._pl){ d.p=d._pl.p; d.ps=d._pl.ps; d.pu=d._pl.pu; d.pv=d._pl.pv; } }); }
 function snapPL(){ TV.forEach(d=>{ d._pl={p:d.p,ps:d.ps,pu:d.pu,pv:d.pv}; }); }
 function applyMarket(){
-  restorePL(); const cad=cadOnly(); CUR=cad?"CAD":"zł";
+  restorePL(); const lp=locP(); CUR=lp?LOCS[lp].cur:"zł";
   TV.forEach(d=>{ d._off=null; const offs=INTL[d.id]||[];
-    if(cad){ const o=offs.find(x=>x.m==="CA"); if(o){ d._off={o}; d.p=o.price; d.ps=`${o.shop}${o.note?" – "+o.note:""}`; d.pu=o.url; d.pv="loc"; } else { d.p=null; d.pv="loc"; } return; }
+    if(lp){ const o=offs.find(x=>x.m===LOCS[lp].m); if(o){ d._off={o}; d.p=o.price; d.ps=`${o.shop}${o.note?" – "+o.note:""}`; d.pu=o.url; d.pv="loc"; } else { d.p=null; d.pv="loc"; } return; }
     const usePL=st.reg.has("pl"); if(!usePL){ d.p=null; d.ps=""; d.pu=null; d.pv="est"; }
     if(st.reg.has("eu")){ let best=null; offs.forEach(o=>{ const L=landed(o,d); if(L&&(!best||L.tot<best.L.tot)) best={o,L}; });
       if(best&&(d.p==null||best.L.tot<d.p)){ d._off=best; d.p=Math.round(best.L.tot); d.ps=`${MK.markets[best.o.m].n}: ${grp(best.o.price)} ${MK.markets[best.o.m].cur} (${best.o.shop}) → szacunek w PL`; d.pu=best.o.url; d.pv="est"; } }
   });
   const lbl=$("prLbl"); if(lbl) lbl.textContent=`Cena (${CUR})`;
 }
-const inMarket=d=>{ if(st.reg.has("pl")) return true; if(cadOnly()) return (INTL[d.id]||[]).some(o=>o.m==="CA"); return d.p!=null; };
-const caPrice=d=>{const o=(INTL[d.id]||[]).find(x=>x.m==="CA"); return o?o.price:null;};
+const inMarket=d=>{ if(st.reg.has("pl")) return true; const lp=locP(); if(lp) return (INTL[d.id]||[]).some(o=>o.m===LOCS[lp].m); return d.p!=null; };
+const locOffer=(d,k)=>(INTL[d.id]||[]).find(x=>x.m===LOCS[k].m)||null;
+const locPrice=(d,k)=>{const o=locOffer(d,k); return o?o.price:null;};
 async function loadFX(){ try{ const r=await fetch("https://api.nbp.pl/api/exchangerates/tables/A/?format=json",{cache:"no-store"}); const t=(await r.json())[0]; t.rates.forEach(x=>{FX[x.code]=x.mid;}); FXINFO={date:t.effectiveDate,table:t.no,live:true}; if(!(st.reg.size===1&&st.reg.has("pl"))){ applyMarket(); renderAll(); } renderMkt(); }catch(e){} }
 function renderMkt(){
   const el=$("mktBox"); if(!el) return;
-  const all=st.reg.size===3, ship=`Transport do PL (szacunek, zł): ${Object.keys(SHIP).map(k=>`<label class="shipin">${VCL[k]} <input type="number" min="0" step="50" data-ship="${k}" value="${SHIP[k]}"></label>`).join(" ")}`;
-  const txt=cadOnly()?`Tylko modele z ofertą w Kanadzie; ceny w CAD bez podatku sprzedaży, nie mieszane z cenami w Polsce. Kurs NBP: 1 CAD = ${String(FX.CAD).replace(".",",")} zł (informacyjnie).`
+  const all=st.reg.size===Object.keys(REGS).length, ship=`Transport do PL (szacunek, zł): ${Object.keys(SHIP).map(k=>`<label class="shipin">${VCL[k]} <input type="number" min="0" step="50" data-ship="${k}" value="${SHIP[k]}"></label>`).join(" ")}`;
+  const lp=locP(), others=Object.keys(LOCS).filter(k=>st.reg.has(k)&&k!==lp);
+  const txt=lp?`Tylko modele z ofertą: ${LOCS[lp].l}. Ceny lokalne w ${LOCS[lp].cur} (${MK.markets[LOCS[lp].m].note||"cena półkowa"}), nie mieszane z cenami w Polsce. Kurs NBP: 1 ${LOCS[lp].cur} = ${String(FX[LOCS[lp].cur]||"?").replace(".",",")} zł (informacyjnie).${others.length?` ${others.map(k=>LOCS[k].l).join(", ")}: osobne kolumny w innych walutach.`:""}`
     :[st.reg.has("pl")&&!st.reg.has("eu")?"Ceny w polskich sklepach.":"",
       st.reg.has("eu")?`${st.reg.has("pl")?"Niższa z: ceny w Polsce i szacowanego kosztu":"Tylko modele z ofertą w Europie – szacowany koszt"} zakupu w UE/Schengen z dostawą do PL (netto + 23% VAT PL + transport; spoza UE także cło ${MK.dutyTv}% i agencja). Kursy NBP ${FXINFO.table} z ${FXINFO.date}${FXINFO.live?"":" (zapisane)"}. ${ship}`:"",
-      st.reg.has("ca")?"Ceny w Kanadzie (CAD) pokazuje osobna kolumna „Kanada” – nie wchodzą do rankingu ani opłacalności w złotych.":""].filter(Boolean).join(" ");
+      Object.keys(LOCS).some(k=>st.reg.has(k))?`Ceny lokalne (${Object.keys(LOCS).filter(k=>st.reg.has(k)).map(k=>LOCS[k].l+", "+LOCS[k].cur).join("; ")}) pokazują osobne kolumny – nie wchodzą do rankingu ani opłacalności w złotych.`:""].filter(Boolean).join(" ");
   el.innerHTML=`<div class="profs" role="group" aria-label="Regiony">${Object.entries(REGS).map(([k,l])=>`<button type="button" class="chip" aria-pressed="${st.reg.has(k)}" data-reg="${k}">${l}</button>`).join("")}<button type="button" class="chip" aria-pressed="${all}" data-reg="all">Wszystkie</button></div>
   <p class="muted" style="font-size:12.5px;margin:4px 0 0">${txt}</p>`;
 }
@@ -1489,7 +1500,7 @@ async function loadHist(){
   try{ HIST=await get("api/history.php"); HISTSRC="db"; }catch(e){ try{ HIST=await get("history.json"); HISTSRC="json"; }catch(e2){ HIST=null; } }
   if(HIST){ document.querySelectorAll("[data-hist]").forEach(el=>{ const d=TV.find(x=>x.id===el.dataset.hist); if(d) el.innerHTML=histInner(d); }); if(!$("cmpSec").hidden) renderCmp(); }
 }
-const histPts=d=>{ if(!HIST) return null; if(cadOnly()){ const m=HIST.intl&&HIST.intl[d.id]; return m&&m.CA||null; } return HIST.pl[d.id]||null; };
+const histPts=d=>{ if(!HIST) return null; const lp=locP(); if(lp){ const m=HIST.intl&&HIST.intl[d.id]; return m&&m[LOCS[lp].m]||null; } return HIST.pl[d.id]||null; };
 const fdate=x=>x.slice(8,10)+"."+x.slice(5,7)+"."+x.slice(0,4);
 function histSVG(pts){
   const W=300,H=74,P=6, xs=pts.map(p=>Date.parse(p[0])), ys=pts.map(p=>p[1]);
@@ -1508,13 +1519,50 @@ function histStats(pts){
 function histInner(d){
   if(!HIST) return `<p class="muted" style="font-size:12.5px">Historia cen niedostępna.</p>`;
   const pts=histPts(d);
-  if(!pts||!pts.length) return `<p class="muted" style="font-size:12.5px">Brak zapisanych cen dla tego modelu${cadOnly()?" w Kanadzie":""}.</p>`;
+  if(!pts||!pts.length) return `<p class="muted" style="font-size:12.5px">Brak zapisanych cen dla tego modelu${locP()?" – "+LOCS[locP()].l:""}.</p>`;
   const s=histStats(pts);
   const tr=s.ch===0?"cena bez zmian":`zmiana ${s.ch<0?"−":"+"}${grp(Math.abs(Math.round(s.ch)))} ${CUR} (${s.ch<0?"−":"+"}${Math.abs(s.ch/s.first*100).toFixed(1).replace(".",",")}%)`;
   return `${pts.length>1&&s.mn<s.mx?histSVG(pts):""}<p class="muted" style="font-size:12.5px;margin:4px 0 0">Od ${fdate(pts[0][0])} (${s.days} dni, ${pts.length} pomiar${pts.length===1?"":pts.length<5?"y":"ów"}): najniżej <b>${grp(s.mn)} ${CUR}</b>, najwyżej ${grp(s.mx)} ${CUR}, ${tr}${s.atMin&&pts.length>1&&s.mn<s.mx?" · <span class=\"vok\">teraz najtaniej w historii</span>":""}.
-    ${cadOnly()?"Ceny w Kanadzie (CAD).":"Ceny w Polsce, najniższa cena dnia."} ${HISTSRC==="db"?"Zapis codzienny w bazie na serwerze.":"Dane z historii repozytorium."}</p>`;
+    ${locP()?`Ceny: ${LOCS[locP()].l} (${LOCS[locP()].cur}).`:"Ceny w Polsce, najniższa cena dnia."} ${HISTSRC==="db"?"Zapis codzienny w bazie na serwerze.":"Dane z historii repozytorium."}</p>`;
 }
 const histHTML=d=>`<h3 style="margin-top:10px">Historia ceny</h3><div data-hist="${d.id}">${histInner(d)}</div>`;
+
+/* ===== Etap 7: alerty cenowe (zapis w przeglądarce, bez danych osobowych) ===== */
+const ALK="tvalerts";
+const alLoad=()=>{ try{ const a=JSON.parse(localStorage.getItem(ALK)||"[]"); return Array.isArray(a)?a.filter(x=>x&&x.id&&x.t>0&&(x.m==="PL"||LOCS[x.m])):[]; }catch(e){ return []; } };
+const alSave=a=>{ try{ localStorage.setItem(ALK,JSON.stringify(a)); }catch(e){} };
+const alCur=m=>m==="PL"?"zł":LOCS[m].cur;
+const alPrice=(d,m)=>m==="PL"?(d._pl?d._pl.p:d.p):locPrice(d,m);
+const alFire=a=>{ const d=TV.find(x=>x.id===a.id); if(!d) return null; const p=alPrice(d,a.m); return p!=null&&p<=a.t?{d,p}:null; };
+function renderAlertBar(){
+  const el=$("alertBar"); if(!el) return;
+  const hit=alLoad().map(a=>({a,f:alFire(a)})).filter(x=>x.f);
+  el.hidden=!hit.length;
+  el.innerHTML=hit.map(({a,f})=>`<div>🔔 <b>${esc(f.d.n)}</b>: ${grp(f.p)} ${alCur(a.m)} – poniżej Twojego progu ${grp(a.t)} ${alCur(a.m)}${a.m==="PL"?"":" ("+LOCS[a.m].l+")"}. <button type="button" class="linkbtn" data-alopen="${a.id}">Pokaż</button> · <button type="button" class="linkbtn" data-aldel="${a.id}|${a.m}">Usuń alert</button></div>`).join("");
+}
+function alInner(d){
+  const mine=alLoad().filter(a=>a.id===d.id);
+  const opts=[["PL","Polska (zł)"]].concat(Object.keys(LOCS).filter(k=>locOffer(d,k)).map(k=>[k,`${LOCS[k].l} (${LOCS[k].cur})`]));
+  const cur=locP()||"PL", p=alPrice(d,cur), sug=p!=null?Math.floor(p*0.95/10)*10:"";
+  return `${mine.length?`<ul class="alist">${mine.map(a=>{const f=alFire(a); return `<li>${a.m==="PL"?"Polska":LOCS[a.m].l}: gdy cena ≤ <b>${grp(a.t)} ${alCur(a.m)}</b>${f?` – <span class="vok">już spełniony (teraz ${grp(f.p)} ${alCur(a.m)})</span>`:""} <button type="button" class="linkbtn" data-aldel="${d.id}|${a.m}">usuń</button></li>`;}).join("")}</ul>`:""}
+  <div class="alform"><label>Rynek <select data-alm>${opts.map(([k,l])=>`<option value="${k}"${k===cur?" selected":""}>${l}</option>`).join("")}</select></label>
+  <label>Powiadom, gdy cena ≤ <input type="number" min="1" step="10" data-alt value="${sug}" inputmode="numeric"></label>
+  <button type="button" class="btn" data-aladd="${d.id}">Obserwuj cenę</button></div>
+  <p class="muted" style="font-size:12.5px;margin:4px 0 0">Alert zapisuje się tylko w tej przeglądarce (bez e-maila i konta) i pojawia się na górze listy, gdy otworzysz stronę po spadku ceny. Dla Polski liczy się cena ze sklepów w Polsce.</p>`;
+}
+const alertHTML=d=>`<h3 style="margin-top:10px">Alert cenowy</h3><div data-alert="${d.id}">${alInner(d)}</div>`;
+document.addEventListener("click",e=>{
+  const add=e.target.closest("[data-aladd]");
+  if(add){ const id=add.dataset.aladd, box=add.closest(".alform"), m=box.querySelector("[data-alm]").value, t=Math.round(+box.querySelector("[data-alt]").value);
+    if(!(t>0)){ cmpMsg("Wpisz próg ceny większy od zera"); return; }
+    const a=alLoad().filter(x=>!(x.id===id&&x.m===m)); a.push({id,m,t}); alSave(a);
+    const d=TV.find(x=>x.id===id), w=add.closest("[data-alert]"); if(w&&d) w.innerHTML=alInner(d); renderAlertBar(); return; }
+  const del=e.target.closest("[data-aldel]");
+  if(del){ const [id,m]=del.dataset.aldel.split("|"); alSave(alLoad().filter(x=>!(x.id===id&&x.m===m)));
+    const d=TV.find(x=>x.id===id), w=document.querySelector(`[data-alert="${id}"]`); if(w&&d) w.innerHTML=alInner(d); renderAlertBar(); return; }
+  const op=e.target.closest("[data-alopen]");
+  if(op){ st.open=op.dataset.alopen; st.q=""; const qi=$("q"); if(qi) qi.value=""; renderAll(); setTimeout(()=>{ const r=document.querySelector(`tr[data-id="${st.open}"]`); if(r) r.scrollIntoView({block:"start"}); },80); }
+});
 
 /* ===== Etap 6: zalety i słabe strony na tle klasy rozmiaru ===== */
 function classSW(d){
@@ -1678,7 +1726,7 @@ var FH=(()=>{
   addEventListener("scroll",q,{passive:true}); addEventListener("resize",q); box.addEventListener("scroll",q,{passive:true});
   return q;
 })();
-function renderAll(){renderChips();renderHead();renderBody();renderPicks();renderCmp();
+function renderAll(){renderChips();renderHead();renderBody();renderPicks();renderCmp();renderAlertBar();
   renderSortRows();
   syncP();}
 

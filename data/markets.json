@@ -23,6 +23,8 @@
 "HU":{"n":"Węgry","cur":"HUF","type":"eu","vat":27},
 "CH":{"n":"Szwajcaria","cur":"CHF","type":"noneu","vat":8.1},
 "NO":{"n":"Norwegia","cur":"NOK","type":"noneu","vat":25},
-"CA":{"n":"Kanada","cur":"CAD","type":"local","note":"ceny bez podatku sprzedaży (GST/HST/PST zależny od prowincji)"}
+"CA":{"n":"Kanada","cur":"CAD","type":"local","note":"ceny bez podatku sprzedaży (GST/HST/PST zależny od prowincji)"},
+"US":{"n":"USA","cur":"USD","type":"local","note":"ceny bez podatku sprzedaży (zależy od stanu)"},
+"GB":{"n":"Wielka Brytania","cur":"GBP","type":"local","note":"cena półkowa z brytyjskim VAT 20%"}
 }
 }

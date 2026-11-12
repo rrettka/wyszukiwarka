@@ -44,7 +44,12 @@
   "s98qn90f": "qn90f",
   "t98x11l": "x11l",
   "t85x11l": "x11l",
-  "l83g6": "g6"
+  "l83g6": "g6",
+  "l83c5": "c5",
+  "l77c5": "c5",
+  "l65c5": "c5",
+  "s65s95f": "s95f",
+  "s77s95f": "s95f"
  },
  "YT": {
   "g6": "LG G6",
@@ -63,7 +68,9 @@
   "s90h": "Samsung S90H",
   "g5": "LG G5",
   "xspro": "Xiaomi TV S Pro Mini LED 2026",
-  "b8": "Sony Bravia 8"
+  "b8": "Sony Bravia 8",
+  "c5": "LG C5",
+  "s95f": "Samsung S95F"
  },
  "TESTS": {
   "ur9s": [
@@ -101,6 +108,11 @@
     "Expert Reviews",
     "https://www.expertreviews.co.uk/technology/tvs-home-cinema/hisense-ur9s-review",
     "Tryb Filmmaker bardzo zachowawczy w SDR."
+   ],
+   [
+    "FlatpanelsHD (EN)",
+    "https://www.flatpanelshd.com/review.php?subaction=showfull&id=1794468664",
+    "Test 65″: macierz 44×24 stref (1056), natywny kontrast ANSI 4540:1; bez reklam na ekranie głównym; wersja europejska z Vidaa."
    ]
   ],
   "ur8s": [
@@ -303,6 +315,20 @@
     "choose.tv (77″)",
     "https://www.choose.tv/us/tv/reviews/sony/sony-bravia-8-xr80_ACO/77",
     "Ocena 7,8; ok. 880 nit HDR, SDR 330 nit – słaby w jasnym pokoju."
+   ]
+  ],
+  "c5": [
+   [
+    "FlatpanelsHD (EN)",
+    "https://www.flatpanelshd.com/review.php?subaction=showfull&id=1760942616",
+    "Test 65″: ok. 1200 nit szczytu, ok. 200 nit pełnego ekranu; pokrycie ok. 96–98% DCI-P3; 5 lat aktualizacji webOS."
+   ]
+  ],
+  "s95f": [
+   [
+    "FlatpanelsHD (EN)",
+    "https://www.flatpanelshd.com/review.php?subaction=showfull&id=1751526539",
+    "Test 65″: ponad 2000 nit szczytu, szeroka gama QD-OLED, bez Dolby Vision; wersja 83″ ma panel WOLED."
    ]
   ]
  },
