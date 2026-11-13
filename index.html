@@ -1602,6 +1602,14 @@ function shareURL(){
   if(st.open) add("otw",st.open);
   return location.href.split("#")[0]+"#"+q.join("&");
 }
+/* przewinięcie do „Porównanie wybranych”: ponawiane, bo układ strony zmienia się jeszcze po wczytaniu cen i danych */
+function goCmp(){
+  try{ history.scrollRestoration="manual"; }catch(e){}
+  let n=0,stop=false; const halt=()=>{ stop=true; };
+  ["wheel","touchstart","keydown","mousedown"].forEach(ev=>window.addEventListener(ev,halt,{once:true,passive:true}));
+  const go=()=>{ if(stop) return; const sec=$("cmpSec"); if(sec&&!sec.hidden){ const y=sec.getBoundingClientRect().top+window.scrollY-8; if(Math.abs(window.scrollY-y)>3) window.scrollTo(0,y); } if(++n<14) setTimeout(go,200); };
+  setTimeout(go,60);
+}
 function applyShareLink(h,silent){
   const q=new URLSearchParams(h); if(q.get("ust")!=="1") return false;
   const list=k=>(q.get(k)||"").split(",").filter(Boolean);
@@ -1624,7 +1632,7 @@ function applyShareLink(h,silent){
   const so=list("sort").map(x=>{const [k,dd]=x.split(":"); return {k,dir:+dd<0?-1:1};}).filter(o=>SORTOPTS.some(s=>s[0]===o.k)||["c4","c14","c10","h4","h14","h10","hd","ca","wz","hv","pf","pp","sdr","m","mv","br","sd","bl","bd","de","vrr","zl","vesa"].includes(o.k));
   if(so.length){ st.sorts=so; renderAll(); }
   setH(hd?+hd[2]:0,hd?+hd[3]:HM()); syncP();
-  setTimeout(()=>{ const r=st.open&&document.querySelector(`tr[data-id="${st.open}"]`); if(r) r.scrollIntoView({block:"start"}); else { const s=$("cmpSec"); if(s&&!s.hidden) s.scrollIntoView({block:"start"}); } },300);
+  setTimeout(()=>{ const r=st.open&&document.querySelector(`tr[data-id="${st.open}"]`); if(r) r.scrollIntoView({block:"start"}); else goCmp(); },300);
   if(!silent) cmpMsg("Otwarto udostępnione ustawienia"+(st.cmp.size>1?` · porównanie ${st.cmp.size} modeli`:""));
   return true;
 }
@@ -1649,7 +1657,7 @@ function applyCmpLink(h){
   else if(pr==="custom"&&q.get("wagi")){ const w={}; q.get("wagi").split(",").forEach(x=>{ const [k,v]=x.split(":"); if(CRITS.some(c=>c.k===k)) w[k]=Math.max(0,Math.min(60,+v||0)); }); st.prof="custom"; st.w=fullW(w); }
   const rg=(q.get("rynek")||"").split(",").filter(r=>REGS[r]); if(rg.length) st.reg=new Set(rg);
   scInv(); applyMarket(); renderMkt(); renderWeights(); renderHead(); renderAll();
-  setTimeout(()=>{ const s=$("cmpSec"); if(s&&!s.hidden) s.scrollIntoView({behavior:"smooth",block:"start"}); },150);
+  goCmp();
   return true;
 }
 $("cmpLink").addEventListener("click",async()=>{
