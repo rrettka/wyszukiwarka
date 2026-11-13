@@ -256,6 +256,7 @@ td.model .tag{border-radius:8px}
 td.model .mname{overflow-wrap:anywhere}
 #tbl tr.row>td{max-width:170px}
 #tbl .hdb,#tbl .matte{white-space:normal}
+#tbl .hdb{background:transparent !important;border:0 !important;border-radius:0;padding:0;display:inline;font-weight:600}
 #tbl .matte{display:inline-flex;align-items:flex-start}#tbl .matte .dot{flex:none;margin-top:3px}
 .sticky{position:sticky;left:0;background:var(--surface);z-index:1}
 thead .sticky{background:var(--surface-2);z-index:2}
@@ -673,7 +674,7 @@ const vesaN=d=>{const v=X0(d).vesa; return v?parseInt(v):null;};
 /* Banding = płynność przejść tonalnych z testu wybierz.tv (0–10): pasy/schodki/posteryzacja w gradientach */
 const bdLbl=v=>v==null?"":v>=9?"bez pasów":v>=8?"drobne":v>=7?"widoczne w ciemnych":"wyraźne";
 const bdColor=v=>v==null?"var(--line)":v>=9?"var(--good)":v>=8?"var(--accent)":v>=7?"var(--warn)":"var(--bad)";
-function bdCell(d){ const x=X0(d); if(x.bd==null) return `<span class="na">—</span>`; return `<span class="matte bdc" title="${esc((x.bdt||"")+(x.bdf?" Ustawienie: "+x.bdf:""))}"><span class="dot" style="background:${bdColor(x.bd)}"></span><span class="num">${x.bd.toFixed(1).replace(".",",")}</span><span class="muted sm bdl">${esc(bdLbl(x.bd)).replace(/^(widoczne) /,"$1<br>").replace(/^(bez) /,"$1<br>").replace("w ciemnych","w\u00a0ciemnych")}</span></span>`; }
+function bdCell(d){ const x=X0(d); if(x.bd==null) return `<span class="na">—</span>`; return `<span class="matte bdc" title="${esc((x.bdt||"")+(x.bdf?" Ustawienie: "+x.bdf:""))}"><span class="num">${x.bd.toFixed(1).replace(".",",")}</span><span class="muted sm bdl">${esc(bdLbl(x.bd)).replace(/^(widoczne) /,"$1<br>").replace(/^(bez) /,"$1<br>").replace("w ciemnych","w\u00a0ciemnych")}</span></span>`; }
 function bdDetail(d){ const x=X0(d); if(x.bd==null) return null; const src=(x.bdu||[]).map(([n,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)} ↗</a>`).join(" · "); return `<b>${x.bd.toFixed(1).replace(".",",")} / 10</b> – ${esc(bdLbl(x.bd))}. ${esc(x.bdt||"")}${x.bdf?`<br><span class="muted">Ustawienie: ${esc(x.bdf)}</span>`:""}${src?`<br><span class="muted">Źródła: ${src}</span>`:""}`; }
 /* ===== Wiarygodność danych (Etap 2) =====
    A – pomiar tego rozmiaru (test egzemplarza o tej przekątnej)
@@ -2018,6 +2019,16 @@ window.addEventListener("hashchange",()=>{const h=location.hash.slice(1); if(["t
 let _svT=null;
 function saveView(){ try{ const q=new URLSearchParams(shareURL().split("#")[1]||""); ["cmp","otw","q"].forEach(k=>q.delete(k)); localStorage.setItem("tvview",q.toString()); }catch(e){} }
 {const _ra=renderAll; renderAll=function(){ _ra.apply(this,arguments); clearTimeout(_svT); _svT=setTimeout(saveView,400); };}
+/* pozycja przewinięcia (strona + tabela poziomo) – po F5 wraca w to samo miejsce */
+try{ if("scrollRestoration" in history) history.scrollRestoration="manual"; }catch(e){}
+let _scT=null; const _tb=document.querySelector(".tablebox");
+function savePos(){ try{ localStorage.setItem("tvpos",JSON.stringify({y:Math.round(window.scrollY),x:_tb?Math.round(_tb.scrollLeft):0})); }catch(e){} }
+function schedPos(){ clearTimeout(_scT); _scT=setTimeout(savePos,300); }
+window.addEventListener("scroll",schedPos,{passive:true}); if(_tb) _tb.addEventListener("scroll",schedPos,{passive:true});
+function restorePos(){ if(location.hash.length>1) return; let v=null; try{v=JSON.parse(localStorage.getItem("tvpos")||"null");}catch(e){} if(!v) return;
+  let n=0; const go=()=>{ if(_tb) _tb.scrollLeft=v.x||0; window.scrollTo(0,v.y||0); if(++n<8&&((_tb&&Math.abs(_tb.scrollLeft-(v.x||0))>2)||Math.abs(window.scrollY-(v.y||0))>2)) setTimeout(go,150); };
+  setTimeout(go,100); }
+window.addEventListener("load",restorePos);
 ["input","change","click","keyup"].forEach(ev=>document.addEventListener(ev,()=>{ clearTimeout(_svT); _svT=setTimeout(saveView,600); }));
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-resetview]"); if(!b) return; try{localStorage.removeItem("tvview");}catch(_){} location.href=location.pathname+location.search; location.reload(); });
 renderWeights(); renderChips(); renderCols(); renderEx();
