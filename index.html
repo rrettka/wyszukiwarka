@@ -365,7 +365,7 @@ th.cmpover{outline:2px dashed var(--accent,#3b6fd8);outline-offset:-3px}
   td,th button{padding-left:8px!important;padding-right:8px!important}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
-#tbl td.bdtd{min-width:92px;width:92px;white-space:normal}.bdc{display:block;text-align:right;line-height:1.25;white-space:normal}.bdl{display:block;white-space:normal;word-break:normal;overflow-wrap:normal}
+#tbl td.bdtd{min-width:84px;width:84px;white-space:normal}.matte.bdc{display:block !important;text-align:right;line-height:1.25;white-space:normal}.bdc>.num{display:inline}.bdc .bdl{display:block;text-align:right;white-space:normal;word-break:normal;overflow-wrap:normal}
 </style>
 <style id="colW"></style>
 </head>
@@ -673,7 +673,7 @@ const vesaN=d=>{const v=X0(d).vesa; return v?parseInt(v):null;};
 /* Banding = płynność przejść tonalnych z testu wybierz.tv (0–10): pasy/schodki/posteryzacja w gradientach */
 const bdLbl=v=>v==null?"":v>=9?"bez pasów":v>=8?"drobne":v>=7?"widoczne w ciemnych":"wyraźne";
 const bdColor=v=>v==null?"var(--line)":v>=9?"var(--good)":v>=8?"var(--accent)":v>=7?"var(--warn)":"var(--bad)";
-function bdCell(d){ const x=X0(d); if(x.bd==null) return `<span class="na">—</span>`; return `<span class="matte bdc" title="${esc((x.bdt||"")+(x.bdf?" Ustawienie: "+x.bdf:""))}"><span class="dot" style="background:${bdColor(x.bd)}"></span><span class="num">${x.bd.toFixed(1).replace(".",",")}</span><span class="muted sm bdl">${esc(bdLbl(x.bd))}</span></span>`; }
+function bdCell(d){ const x=X0(d); if(x.bd==null) return `<span class="na">—</span>`; return `<span class="matte bdc" title="${esc((x.bdt||"")+(x.bdf?" Ustawienie: "+x.bdf:""))}"><span class="dot" style="background:${bdColor(x.bd)}"></span><span class="num">${x.bd.toFixed(1).replace(".",",")}</span><span class="muted sm bdl">${esc(bdLbl(x.bd)).replace(/^(widoczne) /,"$1<br>").replace(/^(bez) /,"$1<br>").replace("w ciemnych","w\u00a0ciemnych")}</span></span>`; }
 function bdDetail(d){ const x=X0(d); if(x.bd==null) return null; const src=(x.bdu||[]).map(([n,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(n)} ↗</a>`).join(" · "); return `<b>${x.bd.toFixed(1).replace(".",",")} / 10</b> – ${esc(bdLbl(x.bd))}. ${esc(x.bdt||"")}${x.bdf?`<br><span class="muted">Ustawienie: ${esc(x.bdf)}</span>`:""}${src?`<br><span class="muted">Źródła: ${src}</span>`:""}`; }
 /* ===== Wiarygodność danych (Etap 2) =====
    A – pomiar tego rozmiaru (test egzemplarza o tej przekątnej)
