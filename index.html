@@ -1108,12 +1108,12 @@ const COLS=[
   {k:"mv",l:"Filmy",r:true},
   {k:"br",l:"Jasny pokój",r:true},
   {k:"sd",l:"Dźwięk",r:true},
-  {k:"h4",l:"4K natywnie",r:true,g:"pc"},
-  {k:"h14",l:"PC 1440p",r:true,g:"pc"},
-  {k:"h10",l:"PC 1080p",r:true,g:"pc"},
-  {k:"c4",l:"Konsola 4K",r:true,g:"con"},
-  {k:"c14",l:"Konsola 1440p",r:true,g:"con"},
-  {k:"c10",l:"Konsola 1080p",r:true,g:"con"},
+  {k:"h4",l:"4K natywnie Hz",r:true,g:"pc"},
+  {k:"h14",l:"PC 1440p Hz",r:true,g:"pc"},
+  {k:"h10",l:"PC 1080p Hz",r:true,g:"pc"},
+  {k:"c4",l:"Konsola 4K Hz",r:true,g:"con"},
+  {k:"c14",l:"Konsola 1440p Hz",r:true,g:"con"},
+  {k:"c10",l:"Konsola 1080p Hz",r:true,g:"con"},
   {k:"hd",l:"HDMI",ns:true},
   {k:"cr",l:"Kontrast",r:true},
   {k:"bl",l:"Blooming"},
@@ -1130,6 +1130,7 @@ const COLS=[
 ];
 
 /* Układ kolumn: kolejność, widoczność, szerokość – zapamiętywane w tej przeglądarce */
+const COLTIP={"cmp": "Zaznacz, żeby porównać do 5 modeli obok siebie.", "rank": "Pozycja modelu na liście przy bieżących filtrach i sortowaniu.", "name": "Model, przekątna, technologia matrycy i rok modelowy.", "p": "Najniższa znaleziona cena nowego egzemplarza w Polsce (zł) wraz ze sklepami i statusem ceny (ok, promocja, z listingu, nieaktualna).", "ca": "Cena w Kanadzie w dolarach kanadyjskich (bez podatku). Nie jest porównywana z cenami w zł.", "us": "Cena w USA w dolarach (bez podatku sprzedaży). Nie jest porównywana z cenami w zł.", "uk": "Cena w Wielkiej Brytanii w funtach (z VAT). Nie jest porównywana z cenami w zł.", "score": "Wynik (profil): średnia ważona kryteriów w skali 0–10, według wybranego profilu i wag. Kryterium bez danych jest pomijane, a nie liczone jako zero.", "obr": "Obraz: stały wynik pomocniczy jakości obrazu. Składa się z ocen filmów (50), TV (10), sportu (10), jasności (15), matowości (15) i bandingu (5).", "uzy": "Użytkowość: stały wynik pomocniczy wygody użytkowania. Składa się z ocen gier (35), PC (10), funkcji (25) i dźwięku (30).", "q": "Pewność danych: skąd pochodzą oceny. A – pomiar tego rozmiaru, B – producent lub test innego wariantu, C – szacunek.", "wz": "Pełny test laboratoryjny w serwisie wybierz.tv (link).", "hv": "Test i rekomendacja HDTVPolska.", "ot": "Inne recenzje i testy: FlatpanelsHD, RTINGS, What Hi-Fi? i inne.", "wsp": "Ocena do oglądania sportu z testu wybierz.tv (0–10).", "wgr": "Ocena do grania na konsoli z testu wybierz.tv (0–10).", "value": "Opłacalność: wynik w stosunku do ceny, liczona względem innych modeli tej samej klasy rozmiaru.", "vmv": "Opłacalność obrazu: jakość obrazu (filmy) w stosunku do ceny.", "pf": "Jasność HDR w scenach filmowych (nit): realistyczna jasność w typowym obrazie, nie szczyt na małym oknie.", "pp": "Szczytowa jasność HDR z pomiaru laboratoryjnego (nit): maksimum na małym fragmencie ekranu.", "sdr": "Jasność SDR (nit): jasność w zwykłym obrazie bez HDR, ważna w jasnym pokoju.", "m": "Ekran: powłoka matrycy (matowa, półmatowa, błyszcząca) i skuteczność tłumienia odbić.", "bd": "Banding: płynność przejść tonalnych (0–10). Wyższa ocena = gradienty (niebo, cienie) bez pasów i schodków.", "mv": "Filmy: ocena oglądania filmów z testu wybierz.tv (0–10).", "br": "Jasny pokój: ocena oglądania w dobrze oświetlonym pomieszczeniu (jasność i radzenie sobie z odbiciami) z testu wybierz.tv (0–10).", "sd": "Dźwięk: ocena wbudowanych głośników z testu wybierz.tv (0–10).", "h4": "Maksymalne odświeżanie przy 4K natywnie, w Hz (PC). Gwiazdka oznacza tryb DLG / Game Accelerator.", "h14": "Maksymalne odświeżanie przy 1440p, w Hz (PC).", "h10": "Maksymalne odświeżanie przy 1080p, w Hz (PC).", "c4": "Maksymalne odświeżanie przy 4K na konsoli (PS5 / Xbox), w Hz.", "c14": "Maksymalne odświeżanie przy 1440p na konsoli (PS5 / Xbox), w Hz.", "c10": "Maksymalne odświeżanie przy 1080p na konsoli (PS5 / Xbox), w Hz.", "hd": "Złącza HDMI: liczba i wersja (2.1 = 4K 120 Hz).", "cr": "Kontrast: stosunek jasności bieli do czerni. W OLED czerń jest idealna, więc kontrast jest nieskończony (∞ : 1).", "bl": "Blooming: poświata wokół jasnych obiektów na ciemnym tle (w Mini LED; OLED jej nie ma).", "p3": "Pokrycie przestrzeni barw DCI-P3 w procentach (im więcej, tym bogatsze kolory).", "de": "Wierność barw: ocena odwzorowania kolorów, fabrycznie i po kalibracji.", "il": "Input lag: opóźnienie między sygnałem a obrazem, w ms. Niższy = lepiej do gier.", "vrr": "Obsługa zmiennego odświeżania (VRR) i automatycznego trybu gry (ALLM).", "zl": "Złącza i porty telewizora.", "au": "Moc wbudowanych głośników (W).", "dims": "Wymiary i waga telewizora (z podstawą i bez).", "stand": "Szerokość podstawy: ile miejsca na szafce wymaga telewizor.", "vesa": "Standard montażu na ścianie VESA (rozstaw otworów).", "en": "Pobór mocy telewizora."};
 const COLK=COLS.map(c=>c.k), CM=Object.fromEntries(COLS.map(c=>[c.k,c]));
 let ORD=null,HID=null,CW=null;
 let SEEN=null;
@@ -1155,10 +1156,10 @@ function renderHead(){
   $("thead").innerHTML=VIS().map(k=>{ const c=CM[k];
     const cls=[c.r?"r":"",c.sticky?"sticky":"",c.g==="con"?"gcon":""].join(" ").trim();
     const rz=`<span class="rz" data-rz="${k}" title="Przeciągnij: szerokość · dwuklik: domyślna"></span>`;
-    if(c.ns) return `<th class="${cls}" scope="col" draggable="true" data-col="${k}"><button type="button" tabindex="-1" style="cursor:inherit" title="Przeciągnij, żeby przenieść kolumnę">${c.l}</button>${rz}</th>`;
+    if(c.ns) return `<th class="${cls}" scope="col" draggable="true" data-col="${k}"><button type="button" tabindex="-1" style="cursor:inherit" title="${esc((COLTIP[c.k]?COLTIP[c.k]+"\n\n":"")+"Przeciągnij, żeby przenieść kolumnę")}">${c.l}</button>${rz}</th>`;
     const pos=st.sorts.findIndex(o=>o.k===c.k), o=st.sorts[pos], act=pos>=0;
     const arrow=act?`<span class="sbadge">${o.dir<0?"↓":"↑"}${st.sorts.length>1?pos+1:""}</span>`:"";
-    return `<th class="${cls}" scope="col" draggable="true" data-col="${k}" aria-sort="${pos===0?(o.dir<0?"descending":"ascending"):"none"}"><button type="button" data-sort="${c.k}" data-active="${act}" title="Klik: sortuj po tej kolumnie · Shift/Ctrl+klik: dodaj jako kolejne kryterium (maks. 3) · przeciągnij: przenieś kolumnę">${c.l}${arrow}</button>${rz}</th>`;
+    return `<th class="${cls}" scope="col" draggable="true" data-col="${k}" aria-sort="${pos===0?(o.dir<0?"descending":"ascending"):"none"}"><button type="button" data-sort="${c.k}" data-active="${act}" title="${esc((COLTIP[c.k]?COLTIP[c.k]+"\n\n":"")+"Klik: sortuj po tej kolumnie · Shift/Ctrl+klik: dodaj jako kolejne kryterium (maks. 3) · przeciągnij: przenieś kolumnę")}">${c.l}${arrow}</button>${rz}</th>`;
   }).join("");
   applyW(); if(typeof FH==="function") FH();
 }
@@ -1193,7 +1194,7 @@ function sdrCell(d){
 function hzCell(v,base){
   if(v==null) return `<span class="na">—</span>`;
   const boosted=base&&v>base;
-  return `<span class="num"${boosted?' title="Tryb DLG / Game Accelerator"':""}>${v}${boosted?"*":""}</span>`;
+  return `<span class="num"${boosted?' title="Tryb DLG / Game Accelerator"':""}>${v}${boosted?"*":""} Hz</span>`;
 }
 
 function wzCell(d){
@@ -1657,6 +1658,7 @@ $("cmpLink").addEventListener("click",async()=>{
   catch(e){ window.prompt("Skopiuj link do porównania:",u); }
 });
 
+const ROWTIP={"Cena": "Najniższa znaleziona cena nowego egzemplarza w Polsce (zł) wraz ze sklepami i statusem ceny (ok, promocja, z listingu, nieaktualna).", "Wynik (profil)": "Wynik (profil): średnia ważona kryteriów w skali 0–10, według wybranego profilu i wag. Kryterium bez danych jest pomijane, a nie liczone jako zero.", "Obraz": "Obraz: stały wynik pomocniczy jakości obrazu. Składa się z ocen filmów (50), TV (10), sportu (10), jasności (15), matowości (15) i bandingu (5).", "Użytkowość": "Użytkowość: stały wynik pomocniczy wygody użytkowania. Składa się z ocen gier (35), PC (10), funkcji (25) i dźwięku (30).", "Pewność danych": "Pewność danych: skąd pochodzą oceny. A – pomiar tego rozmiaru, B – producent lub test innego wariantu, C – szacunek.", "Opłacalność": "Opłacalność: wynik w stosunku do ceny, liczona względem innych modeli tej samej klasy rozmiaru.", "HDR w filmach": "Jasność HDR w scenach filmowych (nit): realistyczna jasność w typowym obrazie, nie szczyt na małym oknie.", "HDR wzorzec": "Szczytowa jasność HDR z pomiaru laboratoryjnego (nit): maksimum na małym fragmencie ekranu.", "Jasność SDR": "Jasność SDR (nit): jasność w zwykłym obrazie bez HDR, ważna w jasnym pokoju.", "Matowość": "Ekran: powłoka matrycy (matowa, półmatowa, błyszcząca) i skuteczność tłumienia odbić.", "Filmy UHD": "Filmy: ocena oglądania filmów z testu wybierz.tv (0–10).", "Jasny pokój": "Jasny pokój: ocena oglądania w dobrze oświetlonym pomieszczeniu (jasność i radzenie sobie z odbiciami) z testu wybierz.tv (0–10).", "Dźwięk": "Dźwięk: ocena wbudowanych głośników z testu wybierz.tv (0–10).", "Odświeżanie 4K Hz": "Maksymalne odświeżanie przy 4K natywnie, w Hz (PC). Gwiazdka oznacza tryb DLG / Game Accelerator.", "1440p Hz": "Maksymalne odświeżanie przy 1440p, w Hz (PC).", "1080p Hz": "Maksymalne odświeżanie przy 1080p, w Hz (PC).", "Kontrast": "Kontrast: stosunek jasności bieli do czerni. W OLED czerń jest idealna, więc kontrast jest nieskończony (∞ : 1).", "Banding (gradienty)": "Banding: płynność przejść tonalnych (0–10). Wyższa ocena = gradienty (niebo, cienie) bez pasów i schodków.", "DCI-P3": "Pokrycie przestrzeni barw DCI-P3 w procentach (im więcej, tym bogatsze kolory).", "Wierność barw (fabrycznie)": "Wierność barw: ocena odwzorowania kolorów, fabrycznie i po kalibracji.", "VRR / ALLM": "Obsługa zmiennego odświeżania (VRR) i automatycznego trybu gry (ALLM).", "Złącza": "Złącza i porty telewizora.", "Głośniki": "Moc wbudowanych głośników (W).", "Wymiary / waga": "Wymiary i waga telewizora (z podstawą i bez).", "Podstawa": "Szerokość podstawy: ile miejsca na szafce wymaga telewizor.", "VESA": "Standard montażu na ścianie VESA (rozstaw otworów).", "Pobór mocy": "Pobór mocy telewizora.", "HDMI": "Złącza HDMI: liczba i wersja (2.1 = 4K 120 Hz).", "Rok modelowy": "Rok modelowy: rok, w którym model trafił na rynek (z nazwy serii).", "Input lag": "Input lag: opóźnienie między sygnałem a obrazem, w ms. Niższy = lepiej do gier.", "HDR": "Obsługiwane formaty HDR (Dolby Vision, HDR10+, HLG).", "System": "System operacyjny smart TV.", "Strefy": "Liczba stref lokalnego wygaszania (podświetlenie Mini LED).", "Powłoka": "Opis powłoki ekranu i tłumienia odbić.", "Dopłata do najtańszego z wybranych": "Ile dopłacasz względem najtańszego z porównywanych modeli i ile punktów wyniku to daje.", "Mocne strony (na tle wybranych)": "Kryteria, w których model wyraźnie (o 0,3 pkt lub więcej) wyprzedza pozostałe porównywane modele."};
 function renderCmp(){
   const lg=$("cmpLeg"); if(lg) lg.textContent=`Zaznacz „Porównaj” przy 2–${cmpMax()} modelach`;
   const ids=[...st.cmp].slice(0,cmpMax()), sec=$("cmpSec");
@@ -1664,10 +1666,10 @@ function renderCmp(){
   sec.hidden=false;
   const ds=ids.map(id=>TV.find(d=>d.id===id));
   const rows=[
-    ["Cena",d=>d.p,v=>fmtP(v),"min"],["Wynik (profil)",d=>score(d),v=>f2(v),"max"],["Obraz",d=>scoreQ(d),v=>f2(v),"max"],["Użytkowość",d=>scoreU(d),v=>f2(v),"max"],["Pewność danych",d=>{const q=prov(d); return (q.conf?LVR[q.conf]*10:0)+q.have;},(v,d)=>qCell(d),"max"],["Opłacalność",d=>val(d),(v,d)=>valTxt(d),"max"],
-    ["HDR w filmach",d=>d.pf,v=>v?v+" nit":"brak","max"],["HDR wzorzec",d=>d.pp,v=>v?v+" nit":"brak","max"],
+    ["Cena",d=>d.p,v=>fmtP(v),"min"],["Rok modelowy",d=>((String(d.tl||"").match(/\b(20\d\d)\b/)||[])[1]||null),v=>v?esc(v):"—",null],["Wynik (profil)",d=>score(d),v=>f2(v),"max"],["Obraz",d=>scoreQ(d),v=>f2(v),"max"],["Użytkowość",d=>scoreU(d),v=>f2(v),"max"],["Pewność danych",d=>{const q=prov(d); return (q.conf?LVR[q.conf]*10:0)+q.have;},(v,d)=>qCell(d),"max"],["Opłacalność",d=>val(d),(v,d)=>valTxt(d),"max"],
+    ["HDR w filmach",d=>d.pf,v=>v?v+" nit":"brak","max"],["HDR wzorzec",d=>d.pp,v=>v?v+" nit":"brak","max"],["Jasność SDR",d=>d.sdr,v=>v?v+" nit":"brak","max"],
     ["Matowość",d=>d.m,v=>v==null?"brak danych":v+" / 10","max"],["Filmy UHD",d=>d.mv,v=>f1(v),"max"],["Jasny pokój",d=>d.br,v=>f1(v),"max"],
-    ["Dźwięk",d=>d.sd,v=>f1(v),"max"],["Odświeżanie 4K",d=>d.h4,v=>v+" Hz","max"],["1440p",d=>d.h14,v=>v?v+" Hz":"—","max"],["1080p",d=>d.h10,v=>v?v+" Hz":"—","max"],
+    ["Dźwięk",d=>d.sd,v=>f1(v),"max"],["Odświeżanie 4K Hz",d=>d.h4,v=>v+" Hz","max"],["1440p Hz",d=>d.h14,v=>v?v+" Hz":"—","max"],["1080p Hz",d=>d.h10,v=>v?v+" Hz":"—","max"],
     ["Kontrast",d=>crN(d),(v,d)=>crTxt(d)||"—","max"],["Banding (gradienty)",d=>X0(d).bd??null,v=>v==null?"—":v.toFixed(1).replace(".",",")+" / 10","max"],["DCI-P3",d=>p3Of(d),v=>v==null?"—":String(v).replace(".",",")+" %","max"],["Wierność barw (fabrycznie)",d=>X0(d).den??null,(v,d)=>colCell(d)||"—","max"],["Input lag",d=>X0(d).il??null,(v,d)=>ilTxt(d)||"—","min"],
     ["VRR / ALLM",d=>vrrTxt(d),v=>v||"—",null],["Złącza",d=>zlTxt(d),v=>v||"—",null],["Głośniki",d=>X0(d).rms??null,(v,d)=>auTxt(d)||"—","max"],
     ["Wymiary / waga",d=>dimTxt(d),v=>v||"—",null],["Podstawa",d=>stTxt(d),v=>v||"—",null],["VESA",d=>X0(d).vesa||null,v=>v?esc(v):"—",null],["Pobór mocy",d=>X0(d).pw??null,(v,d)=>enTxt(d)||"—","min"],
@@ -1686,7 +1688,7 @@ function renderCmp(){
       const vals=ds.map(g); let bestV=null;
       if(mode){const nums=vals.filter(v=>v!=null); if(nums.length) bestV=mode==="max"?Math.max(...nums):Math.min(...nums);}
       if(vals.every(v=>v==null||v==="")) return "";
-      return `<tr><th scope="row">${l}</th>${vals.map((v,i)=>`<td class="${mode&&v!=null&&v===bestV&&ds.length>1?"best":""} ${typeof v==="number"?"num":""}">${f(v,ds[i])}</td>`).join("")}</tr>`;
+      return `<tr><th scope="row"${ROWTIP[l]?` title="${esc(ROWTIP[l])}"`:""}>${l}</th>${vals.map((v,i)=>`<td class="${mode&&v!=null&&v===bestV&&ds.length>1?"best":""} ${typeof v==="number"?"num":""}">${f(v,ds[i])}</td>`).join("")}</tr>`;
     }).join("")+`</tbody>`;
 }
 
